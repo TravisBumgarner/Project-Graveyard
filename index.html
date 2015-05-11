@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+     <title>Travis Bumgarner: Projects</title>
+
+     <!-- Bootstrap -->
+     <link href="css/bootstrap.min.css" rel="stylesheet">
+     <link href="css/custom.css" rel="stylesheet">
+     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+     <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+     <![endif]-->
+</head>
+<body>
+
+
+
+	<form id="target">
+	     <p><textarea name="html-input" id="htmlInput" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
+	     <p>
+	     	<input type="button" id="removeQuotes" value="Remove Quotes">
+	     	<input type="button" id="cleanArray" value="Clean Array">
+	     	<input type="button" id="removeQuotesCleanArray" value="Clean Array & Remove Quotes">
+	     </p>
+	     <p><textarea name="htmlOutput" id="htmlOutput" cols="90" rows="15"placeholder="Processed HTML here." ></textarea></p>
+	</form>
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="js/jquery-1.11.3.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+
+
+
+     <script type="text/javascript">
+     
+     var removeQuotes = function(htmlInput){
+     	//var htmlInput = $('#htmlInput').val();    	
+     	
+     	while(htmlInput.indexOf("'") > -1 || htmlInput.indexOf('"') > -1){
+     		//console.log("index of double " + htmlInput.indexOf('"') + "index of single " + htmlInput.indexOf("'"))
+     		var singleQuote0 = htmlInput.indexOf("'");
+     		var doubleQuote0 = htmlInput.indexOf('"');
+
+     		if(singleQuote0>doubleQuote0){
+     			var htmlInputSlice = htmlInput.slice(singleQuote0+1,htmlInput.length);
+     			//Accounts for loc of singleQuote1 in htmlInput since the original string was sliced.
+     			var singleQuote1 = htmlInputSlice.indexOf("'") + singleQuote0 + 1; 
+     			var beforeQuote = htmlInput.slice(0,singleQuote0);
+     			var afterQuote = htmlInput.slice(singleQuote1+1,htmlInput.length);
+     			htmlInput = beforeQuote + afterQuote;
+     		}
+
+     		else if(singleQuote0<doubleQuote0){
+     			var htmlInputSlice = htmlInput.slice(doubleQuote0+1,htmlInput.length);
+     			//Accounts for loc of doubleQuote1 in htmlInput since the original string was sliced.
+     			var doubleQuote1 = htmlInputSlice.indexOf('"') + doubleQuote0 + 1; 
+     			var beforeQuote = htmlInput.slice(0,doubleQuote0);
+     			var afterQuote = htmlInput.slice(doubleQuote1+1,htmlInput.length);
+     			htmlInput = beforeQuote + afterQuote;
+     		}
+     	}
+		//$('textarea#htmlOutput').val(htmlInput); //Output Text to Second Text Box
+		return htmlInput;
+	}
+
+ 	var htmlToArray = function(htmlInput){
+     	//var htmlInput = $('#htmlInput').val(); //Input Text from First Text Box
+     	var htmlInputSplit = htmlInput.split('<');
+     	var cleanArray=[];
+     	for(var i=0; i<htmlInputSplit.length;i++){
+     		var dirtyString = htmlInputSplit[i];
+     		var spaceLoc = dirtyString.search(" ");
+     		var bracketLoc = dirtyString.search(">"); 
+     		var closeTagLoc = dirtyString.search("/"); //Special Case for close tags
+     		var commentLoc = dirtyString.search("!"); //Speacial Case for Comments
+     		var scriptLoc = dirtyString.search("script ") //Special Case for other languages
+
+     		if(closeTagLoc===0){}
+     		else if(commentLoc===0){		cleanArray.push('!--Comment--')	}
+     		else if(scriptLoc===0){		cleanArray.push('script')	}
+     		
+     		else if(spaceLoc<bracketLoc){
+     			cleanArray.push($.trim(dirtyString.slice(0,spaceLoc)));
+     		}
+     		
+     		else if(spaceLoc>bracketLoc){
+     			cleanArray.push($.trim(dirtyString.slice(0,bracketLoc)));
+     		}
+     		else{
+     			cleanArray.push($.trim(dirtyString));
+     		}
+
+     		//$('textarea#htmlOutput').val(cleanArray); //Output Text to Second Text Box
+     	}
+     	return cleanArray;
+     }
+
+
+
+
+
+//START WITH A STANDALONE FUNCTION, Fix for arrays and go from there.
+ //    var dupRemoval = function(dupArray){
+ //         var cleanArray = new Array(dupArray[1]);
+ //         for(var i=2; dupArray.length; i++){
+ //              if(cleanArray[cleanArray.length] !== dupArray[i])
+ //              {
+ //                   cleanArray.push(dupArray[i]);
+ //              }
+ //         }
+ //         return cleanArray;
+ //    }
+
+
+     $("#cleanArray").click(function(event){
+		var htmlInput = $('#htmlInput').val();
+     	var htmlArray = htmlToArray(htmlInput);
+     	console.log(htmlArray)
+     	$('textarea#htmlOutput').val("").val(htmlArray);
+     })
+
+   $("#removeQuotes").click(function(event){
+		var htmlInput = $('#htmlInput').val();
+		var htmlWithoutQuotes = removeQuotes(htmlInput);
+		console.log(htmlWithoutQuotes);
+		var htmlArray = htmlToArray(htmlWithoutQuotes);
+     	console.log(htmlArray)
+     	$('textarea#htmlOutput').val("").val(htmlArray);
+     })
+      $("#removeQuotesCleanArray").click(function(event){
+		var htmlInput = $('#htmlInput').val();
+		var htmlWithoutQuotes = removeQuotes(htmlInput);
+		//console.log(htmlWithoutQuotes);
+		var htmlArray = htmlToArray(htmlWithoutQuotes);
+		htmlArray = htmlArray.sort();
+          noDupsHtmlArray = dupRemoval(htmlArray)
+     	$('textarea#htmlOutput').val("").val(noDupsHtmlArray); //Output Text to Second Text Box
+     })
+      $("#sort").click(function(event){
+
+      })
+
+    </script>
+
+ </body>
+</html>
