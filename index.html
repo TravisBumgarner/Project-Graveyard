@@ -19,9 +19,6 @@
      <![endif]-->
 </head>
 <body>
-
-
-
 	<form id="target">
 	     <p><textarea name="html-input" id="htmlInput" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
 	     <p>
@@ -81,13 +78,15 @@
      		var spaceLoc = dirtyString.search(" ");
      		var bracketLoc = dirtyString.search(">"); 
      		var closeTagLoc = dirtyString.search("/"); //Special Case for close tags
-     		var commentLoc = dirtyString.search("!"); //Speacial Case for Comments
+     		var commentLoc = dirtyString.search("!-"); //Speacial Case for Comments
+               var doctypeLoc = dirtyString.search("!d"); //Speacial Case for Doctype
      		var scriptLoc = dirtyString.search("script ") //Special Case for other languages
 
      		if(closeTagLoc===0){}
-     		else if(commentLoc===0){		cleanArray.push('!--Comment--')	}
+     		else if(commentLoc===0){		cleanArray.push('comment')	}
      		else if(scriptLoc===0){		cleanArray.push('script')	}
-     		
+               else if(doctypeLoc===0){       cleanArray.push('doctype')     }
+
      		else if(spaceLoc<bracketLoc){
      			cleanArray.push($.trim(dirtyString.slice(0,spaceLoc)));
      		}
@@ -104,21 +103,17 @@
      	return cleanArray;
      }
 
+     var dupRemovalAndClean = function(dupArray){
+          var cleanArray = [dupArray[0]];
+          dupArray = dupArray.sort();
+          for(var i=1; i<dupArray.length; i++){
+               if(cleanArray[cleanArray.length-1] !== dupArray[i]){
+                    cleanArray.push(dupArray[i])
+               }
+          }
+          return cleanArray;
+     }
 
-
-
-
-//START WITH A STANDALONE FUNCTION, Fix for arrays and go from there.
- //    var dupRemoval = function(dupArray){
- //         var cleanArray = new Array(dupArray[1]);
- //         for(var i=2; dupArray.length; i++){
- //              if(cleanArray[cleanArray.length] !== dupArray[i])
- //              {
- //                   cleanArray.push(dupArray[i]);
- //              }
- //         }
- //         return cleanArray;
- //    }
 
 
      $("#cleanArray").click(function(event){
@@ -139,11 +134,10 @@
       $("#removeQuotesCleanArray").click(function(event){
 		var htmlInput = $('#htmlInput').val();
 		var htmlWithoutQuotes = removeQuotes(htmlInput);
-		//console.log(htmlWithoutQuotes);
 		var htmlArray = htmlToArray(htmlWithoutQuotes);
-		htmlArray = htmlArray.sort();
-          noDupsHtmlArray = dupRemoval(htmlArray)
-     	$('textarea#htmlOutput').val("").val(noDupsHtmlArray); //Output Text to Second Text Box
+          htmlArray = dupRemovalAndClean(htmlArray);
+     	console.log(htmlArray);
+     	$('textarea#htmlOutput').val("").val(htmlArray); //Output Text to Second Text Box
      })
       $("#sort").click(function(event){
 
