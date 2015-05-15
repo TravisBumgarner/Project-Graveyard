@@ -34,6 +34,7 @@
 #nav-row{
      border-bottom:5px #337AB7 solid;
      padding:5px;
+     height: 10vh;
 }
 #nav-row li {
      padding-right: 5px;
@@ -52,14 +53,18 @@
      background-color: #337AB7;
 }
 #dictionary-terms{
-     height: 480px;
+     height: 530px;
      overflow-y:auto;
+     border-bottom:5px #337AB7 solid;
 }
 #search-content{
      width:70%;
 }
 #search-button{
      width:30%;
+}
+iframe{
+     border-bottom:5px #337AB7 solid;
 }
 
 </style>
@@ -87,7 +92,7 @@
 
 
 
-     <div class="library container-fluid">
+     <div class="container-fluid" id="library">
           <div class="row">
                <div class="remove-margins-padding col-xs-2" id="search-col">
                     <form>
@@ -124,7 +129,7 @@
                     </form>
                </div><!-- col-xs-2 -->
                <div class="remove-margins-padding col-xs-10">
-                    <iframe height="500px"  src="http://www.w3schools.com/html/html_colornames.asp" frameborder="0" width="100%">
+                    <iframe height="566px"  src="http://www.w3schools.com/html/html_colornames.asp" frameborder="0" width="100%">
                </div><!-- col-xs-10 -->
                
           </div><!-- row -->
