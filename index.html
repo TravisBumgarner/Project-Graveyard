@@ -38,15 +38,14 @@
 
 
 
-     <script type="text/javascript">
-           $("#removeQuotesCleanArray").click(function(event){
-          var elements = {}; 
-          Array.prototype.forEach.call(document.querySelectorAll('*'), function (elem) {
-               elements[elem.tagName] = elements[elem.tagName]+1 || 1;
-          });
-          console.log(elements);
-          })
-    </script>
 
+    <script type="text/javascript">
+           $("#removeQuotesCleanArray").click(function(event){
+               var htmlInput = $('#htmlInput').val();
+               var myArray = htmlInput.match(/[<][!a-zA-z]+/g);
+               console.log(myArray);
+          });
+    </script>
  </body>
 </html>
+
