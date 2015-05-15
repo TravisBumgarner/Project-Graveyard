@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,158 +13,39 @@
      <link href="css/custom.css" rel="stylesheet">
      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+     <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+     <![endif]-->
 </head>
 <body>
-	<form id="target">
-	     <p><textarea name="html-input" id="htmlInput" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
-	     <p>
-	     	<input type="button" id="removeQuotes" value="Remove Quotes">
-	     	<input type="button" id="cleanArray" value="Clean Array">
-	     	<input type="button" id="removeQuotesCleanArray" value="Clean Array & Remove Quotes">
-	     </p>
-	     <p><textarea name="htmlOutput" id="htmlOutput" cols="90" rows="15"placeholder="Processed HTML here." ></textarea></p>
-	</form>
 
 
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="js/jquery-1.11.3.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="js/bootstrap.min.js"></script>
+
+     <form id="target">
+          <p><textarea name="html-input" id="htmlInput" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
+          <p>
+               <input type="button" id="removeQuotesCleanArray" value="Clean Array & Remove Quotes">
+          </p>
+          <p><textarea name="htmlOutput" id="htmlOutput" cols="90" rows="15"placeholder="Processed HTML here." ></textarea></p>
+     </form>
+
+
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <script src="js/jquery-1.11.3.js"></script>
+     <!-- Include all compiled plugins (below), or include individual files as needed -->
+     <script src="js/bootstrap.min.js"></script>
 
 
 
      <script type="text/javascript">
-     
-     var removeQuotes = function(htmlInput){
-     	//var htmlInput = $('#htmlInput').val();    	
-     	
-     	while(htmlInput.indexOf("'") > -1 || htmlInput.indexOf('"') > -1){
-     		//console.log("index of double " + htmlInput.indexOf('"') + "index of single " + htmlInput.indexOf("'"))
-     		var singleQuote0 = htmlInput.indexOf("'");
-     		var doubleQuote0 = htmlInput.indexOf('"');
-               var doubleDash0 = htmlInput.indexOf('--');
-               //var comment0 = htmlInput.indexOf("--[")+2;//+2 is to deal with the extra length of the string.
-               var counter = 0;
-     		if(singleQuote0>-1){
-     			var htmlInputSlice = htmlInput.slice(singleQuote0+1,htmlInput.length);
-     			//Accounts for loc of singleQuote1 in htmlInput since the original string was sliced.
-     			var singleQuote1 = htmlInputSlice.indexOf("'") + singleQuote0 + 1; 
-     			var beforeQuote = htmlInput.slice(0,singleQuote0);
-     			var afterQuote = htmlInput.slice(singleQuote1+1,htmlInput.length);
-     			htmlInput = beforeQuote + afterQuote;
-     		}
-
-     		else if(doubleQuote0>-1){
-     			var htmlInputSlice = htmlInput.slice(doubleQuote0+1,htmlInput.length);
-     			//Accounts for loc of doubleQuote1 in htmlInput since the original string was sliced.
-     			var doubleQuote1 = htmlInputSlice.indexOf('"') + doubleQuote0 + 1; 
-     			var beforeQuote = htmlInput.slice(0,doubleQuote0);
-     			var afterQuote = htmlInput.slice(doubleQuote1+1,htmlInput.length);
-     			htmlInput = beforeQuote + afterQuote;
-     		}
-
-               else if(doubleDash0>-1){
-                    var htmlInputSlice = htmlInput.slice(doubleDash0+1,htmlInput.length);
-                    //Accounts for loc of doubleQuote1 in htmlInput since the original string was sliced.
-                    var doubleDash1 = htmlInputSlice.indexOf('--') + doubleDash0 + 1; 
-                    var beforeQuote = htmlInput.slice(0,doubleDash0);
-                    var afterQuote = htmlInput.slice(doubleDash1+1,htmlInput.length);
-                    htmlInput = beforeQuote + afterQuote;
-                    counter+=1;
-                    if(counter>10){return}
-               }
-
-               if(comment0>-1){
-                    var htmlInputSlice = htmlInput.slice(comment0+1,htmlInput.length);
-                    //Accounts for loc of doubleQuote1 in htmlInput since the original string was sliced.
-                    var comment1 = htmlInputSlice.indexOf('if]--') + comment0 + 1; 
-                    console.log('comment1 loc is' + comment1);
-                    var beforeQuote = htmlInput.slice(0,comment0);
-                    var afterQuote = htmlInput.slice(comment1+3,htmlInput.length);
-                    htmlInput = beforeQuote + afterQuote;
-                    console.log('htmlinput is' + htmlInput);
-                    counter+=1;
-                    if(counter>5){return}
-
-               }
-
-     	}
-		//$('textarea#htmlOutput').val(htmlInput); //Output Text to Second Text Box
-		return htmlInput;
-	}
-
- 	var htmlToArray = function(htmlInput){
-     	//var htmlInput = $('#htmlInput').val(); //Input Text from First Text Box
-     	var htmlInputSplit = htmlInput.split('<');
-     	var cleanArray=[];
-     	for(var i=0; i<htmlInputSplit.length;i++){
-     		var dirtyString = htmlInputSplit[i];
-     		var spaceLoc = dirtyString.indexOf(" ");
-     		var bracketLoc = dirtyString.indexOf(">");
-               if(spaceLoc===-1){spaceLoc = dirtyString.length+1};  //This deals with the issue of comparing position later on to find if a bracket or space comes first. If either one doesn't exist, they get value -1 and come first creating an error. 
-               if(bracketLoc===-1){bracketLoc = dirtyString.length+1}; 
-     		var closeTagLoc = dirtyString.indexOf("/"); //Special Case for close tags
-     		var commentLoc = dirtyString.indexOf("!-"); //Speacial Case for Comments
-               var doctypeLoc = dirtyString.indexOf("!d"); //Speacial Case for Doctype
-     		var scriptLoc = dirtyString.indexOf("script ") //Special Case for other languages
-
-     		if(closeTagLoc===0){}
-     		else if(commentLoc===0){		cleanArray.push('--comment--')	}
-     		else if(scriptLoc===0){		cleanArray.push('script')	}
-               else if(doctypeLoc===0){       cleanArray.push('!doctype')     }
-
-     		else if(spaceLoc<bracketLoc){
-     			cleanArray.push($.trim(dirtyString.slice(0,spaceLoc)));
-     		}
-     		
-     		else if(bracketLoc<spaceLoc){
-     			cleanArray.push($.trim(dirtyString.slice(0,bracketLoc)));
-     		}
-     		//else{
-     		//	cleanArray.push($.trim(dirtyString));
-     		//}
-//
-     		//$('textarea#htmlOutput').val(cleanArray); //Output Text to Second Text Box
-     	}
-     	return cleanArray;
-     }
-
-     var dupRemovalAndClean = function(dupArray){
-          var cleanArray = [dupArray[0]];
-          var dupArraySort = dupArray.sort();
-          for(var i=1; i<dupArraySort.length; i++){
-               if(cleanArray[cleanArray.length-1] !== dupArray[i]){
-                    cleanArray.push(dupArray[i])
-               }
-          }
-          return cleanArray;
-     }
-
-
-
-     $("#cleanArray").click(function(event){
-		var htmlInput = $('#htmlInput').val();
-     	var htmlArray = dupRemovalAndClean(htmlInput);
-     	$('textarea#htmlOutput').val("").val(htmlArray);
-     })
-
-   $("#removeQuotes").click(function(event){
-		var htmlInput = $('#htmlInput').val();
-		var htmlWithoutQuotes = removeQuotes(htmlInput);
-     	$('textarea#htmlOutput').val("").val(htmlWithoutQuotes);
-     })
-      $("#removeQuotesCleanArray").click(function(event){
-		var htmlInput = $('#htmlInput').val();
-		var htmlWithoutQuotes = removeQuotes(htmlInput);
-		var htmlArray = htmlToArray(htmlWithoutQuotes);
-          htmlArray = dupRemovalAndClean(htmlArray);
-     	console.log(htmlArray);
-     	$('textarea#htmlOutput').val("").val(htmlArray); //Output Text to Second Text Box
-     })
-      $("#sort").click(function(event){
-
-      })
-
+           $("#removeQuotesCleanArray").click(function(event){
+          var elements = {}; 
+          Array.prototype.forEach.call(document.querySelectorAll('*'), function (elem) {
+               elements[elem.tagName] = elements[elem.tagName]+1 || 1;
+          });
+          console.log(elements);
+          })
     </script>
 
  </body>
