@@ -11,7 +11,6 @@ var findElements = function(htmlString){
   return myElements;
 };
 
-
 // Find Duplicates Function //
 // Goal: Search through an array containing HTML elements or attributes and removes duplicates;
 
@@ -37,8 +36,7 @@ var findDuplicates = function(arrayWithDuplicates){
     console.log(arrayWithoutDuplicates);
     console.log(qtyOfElements);
     
-    return [
-    	arrayWithoutDuplicates,
+    return [ arrayWithoutDuplicates,
     	qtyOfElements
     	];
 };

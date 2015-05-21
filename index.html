@@ -38,9 +38,9 @@
           <div class="row">
                <div class="col-xs-12">
                     <form id="target">
-                         <p><textarea name="html-input" id="html-input" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
+                         <p><textarea name="html-input" id="html-input" cols="180" rows="8" placeholder="Paste HTML here."></textarea></p>
                          <p><input type="button" id="process-html" value="Process HTML"></p>
-                         <p><textarea name="htmlOutput" id="html-output" cols="90" rows="15"placeholder="Processed HTML here." ></textarea></p>
+                         <p><textarea name="htmlOutput" id="html-output" cols="180" rows="22"placeholder="Processed HTML here." ></textarea></p>
                     </form>                 
                </div><!-- col-xs-12 -->
           </div><!-- row -->
@@ -90,7 +90,11 @@
      <script src="js/custom.js"></script>
 
     <script type="text/javascript">
-           $("#library-button").click(function(event){
+          $(document).ready(function(){
+               $("#progress").hide();
+               $("#library").hide();              
+          })
+          $("#library-button").click(function(event){
                $("#library").show();
                $("#progress").hide();
                $("#import").hide();
@@ -109,6 +113,10 @@
           });
 
            $("#process-html").click(function(event){
+               var htmlInput = $("#html-input").val();
+               var results1 = findElements(htmlInput);
+               var results2 = findDuplicates(results1);
+               $('#html-output').val("").val("All Elements: " + results1 + "\nNon Duplicated Elements: " + results2[0] + "\nInstances of each element: " + results2[1]);
 
           });
 
