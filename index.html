@@ -18,81 +18,40 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
      <![endif]-->
 
-<style type="text/css">
-.remove-margins-padding{
-     padding:0px;
-     margin:0px;
-}
-.custom-container{
-     padding:0px 10px;
-}
-
-#search-col{
-     border-right: 5px #337AB7 solid;
-
-}
-#nav-row{
-     border-bottom:5px #337AB7 solid;
-     padding:5px;
-     height: 10vh;
-}
-#nav-row li {
-     padding-right: 5px;
-}
-#nav-row ul {
-     border-radius: 5px;
-}
-.nav-pills>li>a{
-     border-radius: 0px;
-     background-color: #FFF;
-}
-.nav-pills>li.active>a{
-     background-color: #337AB7;
-}
-.nav-pills>li.active>a:hover{
-     background-color: #337AB7;
-}
-#dictionary-terms{
-     height: 530px;
-     overflow-y:auto;
-     border-bottom:5px #337AB7 solid;
-}
-#search-content{
-     width:70%;
-}
-#search-button{
-     width:30%;
-}
-iframe{
-     border-bottom:5px #337AB7 solid;
-}
-
-</style>
 </head>
+
 <body>
-     
+
      <nav id="nav-row">
-          <ul class="nav nav-pills nav-justified">
-               <li role="presentation"><a href="#">Import</a></li>
-               <li role="presentation" class="active"><a href="#">Library</a></li>
-               <li role="presentation"><a href="#">Progress</a></li>
+          <ul class="nav nav-pills">
+               <li role="presentation"><input type="button" id="import-button" value="Import"></li>
+               <li role="presentation"><input type="button" id="library-button" value="Library"></li>
+               <li role="presentation"><input type="button" id="progress-button" value="Progress"></li>
           </ul>
      </nav>
 
+     <!-- ############################## ###### ###############################-->
+     <!-- ############################## Import ###############################-->
+     <!-- ############################## ###### ###############################-->
 
-     <div class="import">
+     <div id="import">
           <div class="row">
-               
-
+               <div class="col-xs-12">
+                    <form id="target">
+                         <p><textarea name="html-input" id="html-input" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
+                         <p><input type="button" id="process-html" value="Process HTML"></p>
+                         <p><textarea name="htmlOutput" id="html-output" cols="90" rows="15"placeholder="Processed HTML here." ></textarea></p>
+                    </form>                 
+               </div><!-- col-xs-12 -->
           </div><!-- row -->
+     </div><!-- import -->
+
+     <!-- ############################## ####### ###############################-->
+     <!-- ############################## Library ###############################-->
+     <!-- ############################## ####### ###############################-->
 
 
-     </div>
-
-
-
-
-     <div class="container-fluid" id="library">
+     <div id="library">
           <div class="row">
                <div class="remove-margins-padding col-xs-2" id="search-col">
                     <form>
@@ -101,87 +60,64 @@ iframe{
                               <a href="#" class="">element</a><br>
                               <a href="#" class="">element</a><br>
                               <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
-                              <a href="#" class="">element</a><br>
                          </div>
                     </form>
                </div><!-- col-xs-2 -->
                <div class="remove-margins-padding col-xs-10">
-                    <iframe height="566px"  src="http://www.w3schools.com/html/html_colornames.asp" frameborder="0" width="100%">
-               </div><!-- col-xs-10 -->
-               
+                    <h1>iFrame Goes Here</h1>
+               </div><!-- col-xs-10 -->  
           </div><!-- row -->
-
-
-     </div>
+     </div><!-- library -->
 
 
 
-     <div class="progress">
+     <!-- ############################## ######## ###############################-->
+     <!-- ############################## Progress ###############################-->
+     <!-- ############################## ######## ###############################-->
+
+
+     <div id="progress">
           
+          <h1>Progress Here</h1>
 
-
-     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     <form id="target">
-          <p><textarea name="html-input" id="htmlInput" cols="90" rows="5" placeholder="Paste HTML here."></textarea></p>
-          <p>
-               <input type="button" id="removeQuotesCleanArray" value="Clean Array & Remove Quotes">
-          </p>
-          <p><textarea name="htmlOutput" id="htmlOutput" cols="90" rows="15"placeholder="Processed HTML here." ></textarea></p>
-     </form>
+     </div><!-- progress -->
 
 
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
      <script src="js/jquery-1.11.3.js"></script>
      <!-- Include all compiled plugins (below), or include individual files as needed -->
      <script src="js/bootstrap.min.js"></script>
-
-
-
+     <script src="js/custom.js"></script>
 
     <script type="text/javascript">
-           $("#removeQuotesCleanArray").click(function(event){
+           $("#library-button").click(function(event){
+               $("#library").show();
+               $("#progress").hide();
+               $("#import").hide();
+          });
+
+           $("#progress-button").click(function(event){
+               $("#progress").show();
+               $("#library").hide();
+               $("#import").hide();
+          });
+
+           $("#import-button").click(function(event){
+               $("#import").show();
+               $("#progress").hide();
+               $("#library").hide();
+          });
+
+           $("#process-html").click(function(event){
+
+          });
+
+
+ /*          $("#library-butto").click(function(event){
                var htmlInput = $('#htmlInput').val();
                var myArray = htmlInput.match(/[<][!a-zA-z-]+/g);
                console.log(myArray);
-          });
+          });*/
     </script>
  </body>
 </html>

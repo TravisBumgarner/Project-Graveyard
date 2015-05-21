@@ -1,35 +1,44 @@
- //				Working
- //				
- //
- //
- //
+//  Find Elements Function  
+//  Goal: Search string containing all the content
+//   of an HTML page and returns an array of elements on that page. 
 
-     	$("#submit").click(function(event){
-	     	var htmlInput = $('#htmlInput').val(); //Input Text from First Text Box
+var findElements = function(htmlString){
+  var myElements = htmlString.match(/<[a-zA-Z0-9!]+/g).sort();
+    for(var i in myElements){
+      myElements[i] = myElements[i].slice(1);
+    }
+  console.log(myElements);
+  return myElements;
+};
 
-	     	var htmlInputSplit = htmlInput.split('<');
-	     	var cleanArray=[];
 
-	     	for(var i=0; i<htmlInputSplit.length;i++){
-	     		var dirtyString = htmlInputSplit[i];
-	     		var spaceLoc = dirtyString.search(" ");
-	     		var bracketLoc = dirtyString.search(">"); 
-	     		var closeTagLoc = dirtyString.search("/"); //Special Case for close tags
-	     		var commentLoc = dirtyString.search("!"); //Speacial Case for Comments
-	     		var scriptLoc = dirtyString.search("script ") //Special Case for other languages
+// Find Duplicates Function //
+// Goal: Search through an array containing HTML elements or attributes and removes duplicates;
 
-	     		if(closeTagLoc===0){}
-	     		else if(commentLoc===0){		cleanArray.push('!--Comment--')	}
-	     		else if(scriptLoc===0){		cleanArray.push('script')	}
-	     		
-	     		else if(spaceLoc<bracketLoc){
-	     			cleanArray.push($.trim(dirtyString.slice(0,spaceLoc)));
-	     		}
-	     		
-	     		else if(spaceLoc>bracketLoc){
-	     			cleanArray.push($.trim(dirtyString.slice(0,bracketLoc)));
-	     		}
-	     		else{
-	     			cleanArray.push($.trim(dirtyString));
-	     		}
-	     	}
+var findDuplicates = function(arrayWithDuplicates){
+	var arrayWithoutDuplicates = [];
+	var qtyOfElements = [];
+    var totalElements = 0; //Keeps track of how many elements total are in the array.
+	for(var i in arrayWithDuplicates){
+        var counter = 0;
+		if(arrayWithoutDuplicates.indexOf(arrayWithDuplicates[i]) === -1){ //If element isn't found in arrayWithoutDuplicates, add to the array.
+			arrayWithoutDuplicates.push(arrayWithDuplicates[i]);
+            qtyOfElements[totalElements] = 1;
+            totalElements ++;
+            //console.log(arrayWithoutDuplicates);
+            //console.log(qtyOfElements);
+		}
+        else{           
+             qtyOfElements[totalElements-1] = qtyOfElements[totalElements-1] + 1; //The -1 is to account for the fact that the totalElements is increased in the previous part of the if statement. Could flip the else and if statements around to remove this but I prefer this order.
+        }
+        counter ++; //Counter keeps track of amount of duplicates. 
+    
+	}
+    console.log(arrayWithoutDuplicates);
+    console.log(qtyOfElements);
+    
+    return [
+    	arrayWithoutDuplicates,
+    	qtyOfElements
+    	];
+};
