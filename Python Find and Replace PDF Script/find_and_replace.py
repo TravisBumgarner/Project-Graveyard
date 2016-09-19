@@ -71,15 +71,28 @@ def replace_files():
 				filenames_current_length = len(filenames_current)
 				file_counter = 0
 				for filename_current in filenames_current:
+					print("Checking %s to %s" % (filename_new, filename_current))
 					if (filename_new == filename_current):
-						print("Match!")
+						print('Moving "%s" to "./uploads"...' % (filename_new),end="")
+						filename_new_path = os.path.join(pdf_folder_new,filename_new)
+						filename_current_path = os.path.join(foldername_current,filename_current)	
+						shutil.move(filename_new_path, filename_current_path)
+						print('done')
 						break
 					if(file_counter == filenames_current_length): 
 						print("No Match! for %s" % filename_new)
 					file_counter += 1
 					#print("checking %s of %s" % (file_counter, len(filenames_current)))
 					#If all files have been searched through without returning printing break
+				continue
 
 remove_spaces()
 replace_files()
 
+"""
+
+pdf_folder_new = os.path.abspath('./pdf_new')
+for path, subdirs, files in os.walk(pdf_folder_new):
+    for name in files:
+        print (os.path.join(path, name))
+        """
