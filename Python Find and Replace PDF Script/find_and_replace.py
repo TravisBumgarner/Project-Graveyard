@@ -83,7 +83,7 @@ def replace_files():
 					print("Checking %s to %s" % (filename_new, filename_current))
 					if (filename_new == filename_current):
 						file_found = True #This line is needed to break out of the larger for loop.
-						print('Moving "%s" to "./uploads"...' % (filename_new),end="")
+						print('Moving "%s" to "%s"...' % (filename_new, foldername_current),end="")
 						filename_new_path = os.path.join(pdf_folder_new,filename_new)
 						filename_current_path = os.path.join(foldername_current,filename_current)	
 						shutil.move(filename_new_path, filename_current_path)
