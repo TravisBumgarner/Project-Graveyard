@@ -89,7 +89,7 @@ def launch_computer_painter(paint_brush_radius, window_width, window_height, pai
 		if e.type == pygame.MOUSEBUTTONDOWN:
 			if e.pos[1] < (window_height - paint_brush_radius):
 				pygame.draw.circle(screen,current_paint_color, e.pos, paint_brush_radius)
-				current_paint_path.append(e.pos)
+				current_paint_path.append((e.pos[0], window_height - e.pos[1])) #Window height is added here because the top left corner of the window is (0,0) instead of the bottom left corner. This flips that
 				draw_enabled = True
 			else:
 				current_paint_color = change_color(current_paint_color, paint_palette, e)
@@ -103,7 +103,7 @@ def launch_computer_painter(paint_brush_radius, window_width, window_height, pai
 				pygame.draw.circle(screen,current_paint_color, e.pos, paint_brush_radius)
 				paint_line(screen, current_paint_color, e.pos, last_pointer_position, paint_brush_radius)
 				#print(e.pos)
-				current_paint_path.append(e.pos)
+				current_paint_path.append((e.pos[0], window_height - e.pos[1]))
 			last_pointer_position = e.pos
 		pygame.display.flip()
 
