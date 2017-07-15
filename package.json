@@ -15,6 +15,7 @@
   "author": "tbum",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.2",
     "bootstrap": "^3.3.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"

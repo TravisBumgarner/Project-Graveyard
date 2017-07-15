@@ -11,16 +11,14 @@ class App extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			images: []
+			photos: []
 		}
 	}
 
-	buildFlickrUrl(api_method, api_key,  api_arguments){
+	buildFlickrUrl(api_method, api_arguments){
 		var api_url = "https://api.flickr.com/services/rest/?method=" + api_method;
-		api_url += Object.entries(api_arguments).map(([key,value]) => {
-			return(
-				"&" + key + "=" + value
-			);
+		Object.entries(api_arguments).map(([key,value]) => {
+			api_url += "&" + key + "=" + value;
 		})
 		console.log(api_url);
 		return api_url;
@@ -31,52 +29,35 @@ class App extends React.Component {
 		nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the 
 		network request. Setting state in this method will trigger a re-rendering.*/}
 
-		var api_method = "flickr.photos.getPopular";
+		var flickr_method = "flickr.photos.getPopular";
 		var flickr_secret = "60f11289eebaf65c";
 		var flickr_arguments = {
 			"api_key" : "0ebb6cf43cd6ccab59f2ffaf1b63f0c5",
 			"per_page" : 9,
 			"user_id" : "126568985@N04",
-			"format" : "json"
+			"format" : "json",
+			"nojsoncallback": 1 // Good lord was this confusing. USE THIS. 
 		}
-		var flickr_url = this.buildFlickrUrl(api_method, flickr_key, api_arguments);
-	}
+		var flickr_url = this.buildFlickrUrl(flickr_method, flickr_arguments);
 
+		axios.get(flickr_url)
+			 .then(data => {
+			 	var photos = data.data.photos.photo;
+		 		this.setState({photos}); {/* {photos} is shorthand for {photos: photos} */}
+			 });
+
+	}
+	
 	render(){ 
-		{
+		if (this.state.photos.length > 0){
+			let photo = this.state.photos[0].id;
+			console.log("ehllo");
+			console.log(photo);		
+		}
+
 		return (
 			<div className = "container">
 				<div className = "row">
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
-				</div>
-
-				<div className = "row">
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
-					<div className = "col-xs-4">
-						<CenterTile/>
-					</div>
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
-				</div>
-
-				<div className = "row">
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
-					<div className = "col-xs-4">
-						<DirectionalTile/>
-					</div>
 					<div className = "col-xs-4">
 						<DirectionalTile/>
 					</div>
