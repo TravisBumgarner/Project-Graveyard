@@ -15,20 +15,8 @@ class App extends React.Component {
 		}
 	}
 
-	buildFlickrUrl(api_method, api_arguments){
-		var api_url = "https://api.flickr.com/services/rest/?method=" + api_method;
-		Object.entries(api_arguments).map(([key,value]) => {
-			api_url += "&" + key + "=" + value;
-		})
-		console.log(api_url);
-		return api_url;
-	}
-
-	componentDidMount(){
-		{/* componentDidMount() is invoked immediately after a component is mounted. Initialization that requires DOM 
-		nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the 
-		network request. Setting state in this method will trigger a re-rendering.*/}
-
+	getFlickrPhotos(){
+		var photos = [];
 		var flickr_method = "flickr.photos.getPopular";
 		var flickr_secret = "60f11289eebaf65c";
 		var flickr_arguments = {
@@ -38,28 +26,38 @@ class App extends React.Component {
 			"format" : "json",
 			"nojsoncallback": 1 // Good lord was this confusing. USE THIS. 
 		}
-		var flickr_url = this.buildFlickrUrl(flickr_method, flickr_arguments);
+		var flickr_url = "https://api.flickr.com/services/rest/?method=" + flickr_method;
+		Object.entries(flickr_arguments).map(([key,value]) => {
+			flickr_url += "&" + key + "=" + value;
+		})
 
 		axios.get(flickr_url)
 			 .then(data => {
 			 	var photos = data.data.photos.photo;
-		 		this.setState({photos}); {/* {photos} is shorthand for {photos: photos} */}
+	 			this.setState({ photos })
 			 });
 
+
+	}
+
+	componentWillMount(){
+
+	}
+
+	componentDidMount(){
+		{/* componentDidMount() is invoked immediately after a component is mounted. Initialization that requires DOM 
+		nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the 
+		network request. Setting state in this method will trigger a re-rendering.*/}
+
+		this.getFlickrPhotos();
 	}
 	
 	render(){ 
-		if (this.state.photos.length > 0){
-			let photo = this.state.photos[0].id;
-			console.log("ehllo");
-			console.log(photo);		
-		}
-
 		return (
 			<div className = "container">
 				<div className = "row">
 					<div className = "col-xs-4">
-						<DirectionalTile/>
+						<DirectionalTile photo = { "Photo here one day" } />
 					</div>
 				</div>
 			</div>
