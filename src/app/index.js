@@ -11,7 +11,6 @@ class App extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			photos: []
 		}
 	}
 
@@ -34,14 +33,14 @@ class App extends React.Component {
 		axios.get(flickr_url)
 			 .then(data => {
 			 	var photos = data.data.photos.photo;
-	 			this.setState({ photos })
+	 			this.setState({ "photos": photos, show: true });
+	 			console.log(this.state);
 			 });
 
 
 	}
 
 	componentWillMount(){
-
 	}
 
 	componentDidMount(){
@@ -53,11 +52,42 @@ class App extends React.Component {
 	}
 	
 	render(){ 
+		const containerStyle = {
+			margin: "0px auto",
+			width: "100vh"
+		}
+
+		const googleMapsStyle = {
+		  height: "100vh", 
+		  width: "100vw",
+		  position: "absolute", 
+		  top: "0", 
+		  left: "0",
+		  zIndex: "-1",
+		  backgroundColor: "black"
+		}
+
+		const imgRow = {
+			width: "100vh"
+		}
 		return (
-			<div className = "container">
-				<div className = "row">
-					<div className = "col-xs-4">
-						<DirectionalTile photo = { "Photo here one day" } />
+			<div className = "index">
+				<div id="googlemaps" style={ googleMapsStyle }></div>
+				<div className = "container" style = {containerStyle}>
+					<div className = "img-row" style={imgRow}>
+						<DirectionalTile />
+						<DirectionalTile />
+						<DirectionalTile />							
+					</div>
+					<div className = "img-row" style={imgRow}>
+						<DirectionalTile />
+						<CenterTile />
+						<DirectionalTile />							
+					</div>
+					<div className = "img-row" style={imgRow}>
+						<DirectionalTile />
+						<DirectionalTile />
+						<DirectionalTile />							
 					</div>
 				</div>
 			</div>
