@@ -11,6 +11,8 @@ class App extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
+			"freshLoad": true,
+			"location" : ""
 		}
 	}
 
@@ -40,6 +42,15 @@ class App extends React.Component {
 
 	}
 
+	welcomePromptSubmit = (e) => {
+	    if (e.key === 'Enter') {
+      		this.setState({
+      			freshLoad: false,
+      			location: e.target.value
+      		})
+	    }
+	}
+
 	componentWillMount(){
 	}
 
@@ -52,44 +63,74 @@ class App extends React.Component {
 	}
 	
 	render(){ 
-		const containerStyle = {
+		const leftContainerStyle = {
+			width: "80vw",
+			float: "left"
+		}
+		const rightContainerStyle = {
+			width: "20vw",
+			float: "right"
+		}
+		const imgsContainerStyle = {
 			margin: "0px auto",
 			width: "100vh"
 		}
-
-		const googleMapsStyle = {
-		  height: "100vh", 
-		  width: "100vw",
-		  position: "absolute", 
-		  top: "0", 
-		  left: "0",
-		  zIndex: "-1",
-		  backgroundColor: "black"
+		const helloWindowStyle = {
+			width: "250px",
+			border: "2px solid #4286f4",
+			borderRadius: "5px",
+			backgroundColor: "#adccff",
+			margin: "40vh auto 0px",
+			padding: "10px",
+			textAlign: "center",
+			color: "#fff"
 		}
+
+		const inputStyle = {
+			"backgroundColor":"rgb(66, 134, 244)",
+			"border":"0px",
+			"borderRadius":"5px",
+			"padding":"5px",
+			"textAlign":"center"}
 
 		const imgRow = {
 			width: "100vh"
 		}
+
 		return (
 			<div className = "index">
-				<div id="googlemaps" style={ googleMapsStyle }></div>
-				<div className = "container" style = {containerStyle}>
-					<div className = "img-row" style={imgRow}>
-						<DirectionalTile />
-						<DirectionalTile />
-						<DirectionalTile />							
+				{!this.state.freshLoad &&
+					<div>
+						<div className = "leftContainer" style = {leftContainerStyle}>
+							<div className = "imgsContainer" style = {imgsContainerStyle}>
+								<div className = "img-row" style={imgRow}>
+									<DirectionalTile />
+									<DirectionalTile />
+									<DirectionalTile />							
+								</div>
+								<div className = "img-row" style={imgRow}>
+									<DirectionalTile />
+									<CenterTile />
+									<DirectionalTile />							
+								</div>
+								<div className = "img-row" style={imgRow}>
+									<DirectionalTile />
+									<DirectionalTile />
+									<DirectionalTile />							
+								</div>
+							</div>
+						</div>
+						<div className = "rightContainer" style = {rightContainerStyle}>
+							<h1>{this.state.location}</h1>
+						</div>
 					</div>
-					<div className = "img-row" style={imgRow}>
-						<DirectionalTile />
-						<CenterTile />
-						<DirectionalTile />							
+				} 
+				{ this.state.freshLoad &&
+					<div className = "helloWindow" style = {helloWindowStyle}>
+						<label>Where would you like to go?</label><br />
+						<input name = "welcomePrompt" id="welcomePrompt" style = {inputStyle} onKeyUp={this.welcomePromptSubmit}/>
 					</div>
-					<div className = "img-row" style={imgRow}>
-						<DirectionalTile />
-						<DirectionalTile />
-						<DirectionalTile />							
-					</div>
-				</div>
+				}
 			</div>
 		);
 	} 
