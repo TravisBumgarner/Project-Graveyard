@@ -1,13 +1,13 @@
 var webpack = require("webpack");
 var path = require("path");
 
-var DIST_DIR = path.resolve(__dirname, "dist"); // Where code is going
+var DIST_DIR = path.resolve(__dirname); // Where code is going
 var SRC_DIR = path.resolve(__dirname, "src"); // Where code comes from
-
+console.log(DIST_DIR);
 var config = {
 	entry: SRC_DIR + "/app/index.js", // first file to start transpiling, which file to bootstrap project
 	output: {
-		path: DIST_DIR + "/app",
+		path: DIST_DIR + "/app/static/js",
 		filename: "bundle.js",
 		publicPath: "/app/" // For webpack dev server
 	},

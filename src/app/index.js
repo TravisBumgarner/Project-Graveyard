@@ -15,6 +15,10 @@ class App extends React.Component {
 			"freshLoad": true,
 			"location" : ""
 		}
+		axios.get('/test')
+	 			.then(data => {
+	 			console.log(data);
+			 });
 	}
 
 	setLocation(location){
