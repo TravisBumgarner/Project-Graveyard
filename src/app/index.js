@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { CenterTile } from "./components/CenterTile"
 import { DirectionalTile } from "./components/DirectionalTile"
+import { Search }  from "./components/Search"
 
 class App extends React.Component {
 	// render() returns what needs to be rendered
@@ -14,6 +15,15 @@ class App extends React.Component {
 			"freshLoad": true,
 			"location" : ""
 		}
+	}
+
+	setLocation(location){
+		console.log("setLocation called");
+		this.setState( {
+			"location": location,
+			"freshLoad": false
+		});
+
 	}
 
 	getFlickrPhotos(){
@@ -38,29 +48,9 @@ class App extends React.Component {
 	 			this.setState({ "photos": photos, show: true });
 	 			console.log(this.state);
 			 });
-
-
 	}
 
-	welcomePromptSubmit = (e) => {
-	    if (e.key === 'Enter') {
-      		this.setState({
-      			freshLoad: false,
-      			location: e.target.value
-      		})
-	    }
-	}
 
-	componentWillMount(){
-	}
-
-	componentDidMount(){
-		{/* componentDidMount() is invoked immediately after a component is mounted. Initialization that requires DOM 
-		nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the 
-		network request. Setting state in this method will trigger a re-rendering.*/}
-
-		this.getFlickrPhotos();
-	}
 	
 	render(){ 
 		const leftContainerStyle = {
@@ -75,23 +65,7 @@ class App extends React.Component {
 			margin: "0px auto",
 			width: "100vh"
 		}
-		const helloWindowStyle = {
-			width: "250px",
-			border: "2px solid #4286f4",
-			borderRadius: "5px",
-			backgroundColor: "#adccff",
-			margin: "40vh auto 0px",
-			padding: "10px",
-			textAlign: "center",
-			color: "#fff"
-		}
 
-		const inputStyle = {
-			"backgroundColor":"rgb(66, 134, 244)",
-			"border":"0px",
-			"borderRadius":"5px",
-			"padding":"5px",
-			"textAlign":"center"}
 
 		const imgRow = {
 			width: "100vh"
@@ -126,14 +100,11 @@ class App extends React.Component {
 					</div>
 				} 
 				{ this.state.freshLoad &&
-					<div className = "helloWindow" style = {helloWindowStyle}>
-						<label>Where would you like to go?</label><br />
-						<input name = "welcomePrompt" id="welcomePrompt" style = {inputStyle} onKeyUp={this.welcomePromptSubmit}/>
-					</div>
+					<Search setLocation = {this.setLocation.bind(this) } hello = {"Hello"}/>
 				}
 			</div>
 		);
 	} 
 }
 
-render(<App/>, window.document.getElementById("app")); // How it should be rendered
+render(<App />, window.document.getElementById("app")); // How it should be rendered
