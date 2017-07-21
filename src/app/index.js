@@ -5,6 +5,8 @@ import axios from 'axios';
 import { CenterTile } from "./components/CenterTile"
 import { DirectionalTile } from "./components/DirectionalTile"
 import { Search }  from "./components/Search"
+import { Menu } from "./components/Menu"
+
 
 class App extends React.Component {
 	// render() returns what needs to be rendered
@@ -13,12 +15,9 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			"freshLoad": true,
-			"location" : ""
+			"location" : "",
+			"photosArray": flickrJsonData.photos.photo
 		}
-		axios.get('/test')
-	 			.then(data => {
-	 			console.log(data);
-			 });
 	}
 
 	setLocation(location){
@@ -31,16 +30,16 @@ class App extends React.Component {
 	}
 
 	getFlickrPhotos(){
-		var photos = [];
-		var flickr_method = "flickr.photos.getPopular";
-		var flickr_secret = "60f11289eebaf65c";
-		var flickr_arguments = {
-			"api_key" : "0ebb6cf43cd6ccab59f2ffaf1b63f0c5",
-			"per_page" : 9,
-			"user_id" : "126568985@N04",
-			"format" : "json",
-			"nojsoncallback": 1 // Good lord was this confusing. USE THIS. 
-		}
+		// var photos = [];
+		// var flickr_method = "flickr.photos.getPopular";
+		// var flickr_secret = "";
+		// var flickr_arguments = {
+		// 	"api_key" : "",
+		// 	"per_page" : 9,
+		// 	"user_id" : "126568985@N04",
+		// 	"format" : "json",
+		// 	"nojsoncallback": 1 // Good lord was this confusing. USE THIS. 
+		// }
 		var flickr_url = "https://api.flickr.com/services/rest/?method=" + flickr_method;
 		Object.entries(flickr_arguments).map(([key,value]) => {
 			flickr_url += "&" + key + "=" + value;
@@ -82,24 +81,25 @@ class App extends React.Component {
 						<div className = "leftContainer" style = {leftContainerStyle}>
 							<div className = "imgsContainer" style = {imgsContainerStyle}>
 								<div className = "img-row" style={imgRow}>
-									<DirectionalTile />
-									<DirectionalTile />
-									<DirectionalTile />							
+									{console.log(this.state.photosArray[0].farm)}
+									<DirectionalTile farmId = {this.state.photosArray[0].farm} serverId = {this.state.photosArray[0].server} id = {this.state.photosArray[0].id} secret = {this.state.photosArray[0].secret} />
+									<DirectionalTile farmId = {this.state.photosArray[1].farm} serverId = {this.state.photosArray[1].server} id = {this.state.photosArray[1].id} secret = {this.state.photosArray[1].secret} />
+									<DirectionalTile farmId = {this.state.photosArray[2].farm} serverId = {this.state.photosArray[2].server} id = {this.state.photosArray[2].id} secret = {this.state.photosArray[2].secret} />							
 								</div>
 								<div className = "img-row" style={imgRow}>
-									<DirectionalTile />
+									<DirectionalTile farmId = {this.state.photosArray[3].farm} serverId = {this.state.photosArray[3].server} id = {this.state.photosArray[3].id} secret = {this.state.photosArray[3].secret} />
 									<CenterTile />
-									<DirectionalTile />							
+									<DirectionalTile farmId = {this.state.photosArray[4].farm} serverId = {this.state.photosArray[4].server} id = {this.state.photosArray[4].id} secret = {this.state.photosArray[4].secret} />							
 								</div>
 								<div className = "img-row" style={imgRow}>
-									<DirectionalTile />
-									<DirectionalTile />
-									<DirectionalTile />							
+									<DirectionalTile farmId = {this.state.photosArray[5].farm} serverId = {this.state.photosArray[5].server} id = {this.state.photosArray[5].id} secret = {this.state.photosArray[5].secret} />
+									<DirectionalTile farmId = {this.state.photosArray[6].farm} serverId = {this.state.photosArray[6].server} id = {this.state.photosArray[6].id} secret = {this.state.photosArray[6].secret} />
+									<DirectionalTile farmId = {this.state.photosArray[7].farm} serverId = {this.state.photosArray[7].server} id = {this.state.photosArray[7].id} secret = {this.state.photosArray[7].secret} />							
 								</div>
 							</div>
 						</div>
 						<div className = "rightContainer" style = {rightContainerStyle}>
-							<h1>{this.state.location}</h1>
+							<Menu location = {this.state.location} />
 						</div>
 					</div>
 				} 

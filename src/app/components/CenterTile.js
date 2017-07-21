@@ -5,10 +5,12 @@ export class CenterTile extends React.Component {
     	const tileStyle = {
     		float: "left",
     		width: '30vh',
+            height: '30vh',
     		margin: '1vh'
     	}
     	const imgStyle = {
-    		maxWidth: "100%"
+    		maxWidth: "100%",
+            maxHeight: "100%"
     	}
         return(
             <div className="center-tile" style={tileStyle}>

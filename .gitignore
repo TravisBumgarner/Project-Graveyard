@@ -2,3 +2,5 @@
 /dist
 /.idea
 /npm-debug.log
+/pn_venv
+app/__pycache__/
