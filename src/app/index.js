@@ -15,18 +15,23 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			"freshLoad": true,
-			"location" : "",
+			"address" : "",
 			"photosArray": flickrJsonData.photos.photo
 		}
 	}
 
-	setLocation(location){
+	setLocation(address){
 		console.log("setLocation called");
 		this.setState( {
-			"location": location,
-			"freshLoad": false
+			"address": address,
+			"freshLoad": true  // todo change this back to false when dome implementing ajax
 		});
-
+        axios.post('/imagesLookup', {
+                address
+            })
+			 .then(data => {
+			     console.log(data);
+			 });
 	}
 
 	getFlickrPhotos(){
@@ -54,7 +59,7 @@ class App extends React.Component {
 	}
 
 
-	
+
 	render(){ 
 		const leftContainerStyle = {
 			width: "80vw",
@@ -99,12 +104,12 @@ class App extends React.Component {
 							</div>
 						</div>
 						<div className = "rightContainer" style = {rightContainerStyle}>
-							<Menu location = {this.state.location} />
+							<Menu address = {this.state.address} />
 						</div>
 					</div>
 				} 
 				{ this.state.freshLoad &&
-					<Search setLocation = {this.setLocation.bind(this) } hello = {"Hello"}/>
+					<Search setLocation = {this.setLocation.bind(this) }/>
 				}
 			</div>
 		);
