@@ -13,12 +13,17 @@ def index():
 @app.route('/imagesLookup', methods = ['GET', 'POST'])
 def imageLookup():
     address = request.json['address']
-    latAndLong = getLatLongFromAddress(address)
+    lat, lng = getLatLongFromAddress(address)
+    # flickrRequest(lat, lng)
 
     result = {
         'success': 1,
-        'latLong': latAndLong
+        'lat': lat,
+        'lng': lng
+
     }
     return jsonify(result)
+
+
 
 

@@ -1,7 +1,8 @@
 from flask import request
 import json
 import requests
-from .config import config 
+from .config import config
+
 
 def flickrRequest(lat=None, long=None):
     """
@@ -12,11 +13,11 @@ def flickrRequest(lat=None, long=None):
         &format=json
         &nojsoncallback=1
     """
-    # Todo: WILL NOT TAKE LAT/LONG Greater than 4 decimals
+
     print(config)
     flickrConfig = {
         "api_key" : config["FLICKR_API_KEY"],
-        "per_page" : 9,
+        "per_page" : 1,
         "user_id" : "126568985@N04",
         "format" : "json",
         "nojsoncallback": 1
