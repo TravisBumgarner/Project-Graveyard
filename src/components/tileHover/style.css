@@ -1,0 +1,24 @@
+.tile {
+    flex: 1 0 auto;
+    width: 30vw;
+    height: 30vw;
+    background-color: gray;
+    margin: 5px;
+}
+.tile:before {
+    content:'';
+    float:left;
+    padding-top:100%;
+}
+
+.centerTile {
+    background-color: rebeccapurple;
+}
+
+.peripheralTile{
+
+}
+
+.activeTile{
+    background-color: yellow;
+}
