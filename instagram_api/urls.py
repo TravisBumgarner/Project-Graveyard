@@ -1,7 +1,9 @@
 from django.conf.urls import url, include
 from django.contrib import admin
+from . import views
 
 urlpatterns = [
-    url(r'^api/', include('instagram_api.urls')),
+    url(r'^hello$', views.hello),
+    url(r'^hello_response$', views.hello_response),
     url(r'^admin/', admin.site.urls),
 ]
