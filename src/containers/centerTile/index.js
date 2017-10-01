@@ -39,7 +39,6 @@ CenterTile.propTypes = {
 };
 
 function mapStateToProps(state, ownProps){
-    console.log(state);
     return {
         tiles: state.tiles,
         centerTile: state.centerTile
