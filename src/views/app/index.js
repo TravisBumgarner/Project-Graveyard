@@ -4,31 +4,46 @@ import Tile from '../../containers/tile/index';
 import CenterTile from '../../containers/centerTile/index';
 import PropTypes from 'prop-types'
 import axios from 'axios';
+import { getSurroundingCoords } from '../../utils/helper_functions'
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            center_img: ""
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      centerImgSrc: "",
+      textInputLat: "",
+      textInputLong: "",
+      textInputDistance: "",
+    };
+  }
 
-    getData = () =>{
-        axios.get('http://127.0.0.1:8000/api/get_images')
-            .then(response => {
+  getData = () =>{
+    const surroundingCords = getSurroundingCoords(this.state.textInputLat, this.state.textInputLong, this.state.textInputDistance);
+    console.log(surroundingCords);
+    axios.get('http://127.0.0.1:8000/api/get_images')
+      .then(response => {
+        let images = response.data.data;
+        console.log(images);
+        this.setState({
+        centerImgSrc: images[0]["images"]["thumbnail"]["url"]
+      })
+    })
+  };
 
-                let images = response.data.data;
-                console.log(images);
-                this.setState({
-                center_img_src: images[0]["images"]["thumbnail"]["url"]
-                })
-            })
-    }
+  handleInputChange = (e) => {
+    this.setState({[e.target.name]: e.target.value});
+  };
 
   render() {
     return (
       <div className="App">
         <a href="https://api.instagram.com/oauth/authorize/?client_id=b34a768ac36a4f5c877eb9bdd8bae1be&redirect_uri=http://127.0.0.1:8000/api/hello_response&response_type=code&scope=public_content">Enable IG</a>
+
+
+        <input type="text" name = "textInputLat" value={this.props.textInputLat} onChange={this.handleInputChange}/>
+        <input type="text" name = "textInputLong" value={this.props.textInputLong} onChange={this.handleInputChange} />
+        <input type="text" name = "textInputDistance" value={this.props.textInputLat} onChange={this.handleInputChange}/>
+
         <button onClick={this.getData}>Get Images</button>
         <div id="tile-wrapper-all">
           <div id ="tile-wrapper-row">
@@ -38,7 +53,7 @@ class App extends Component {
           </div>
           <div id ="tile-wrapper-row">
             <Tile numVal={4}>  </Tile>
-            <CenterTile src={this.state.center_img_src}>  </CenterTile>
+            <CenterTile src={this.state.centerImgSrc}>  </CenterTile>
             <Tile numVal={6}>  </Tile>
           </div>
           <div id ="tile-wrapper-row">

@@ -22,7 +22,6 @@ class Tile extends Component {
 
     updateCenterTile = () =>{
         this.props.dispatch(tileActions.moveTileToCenter(this.props.numVal));
-        console.log("propsval ", this.props.numVal);
     };
 
 
