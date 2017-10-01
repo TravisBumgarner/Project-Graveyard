@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'instagram_api'
+    'instagram_api',
+    'flickr_api',
 ]
 
 MIDDLEWARE = [
