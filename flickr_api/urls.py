@@ -3,7 +3,6 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    # url(r'^hello$', views.hello),
-    url(r'^hello_response$', views.hello_response),
-    url(r'^get_images$', views.load_images),
+    url(r'^request_token$', views.request_token),
+    url(r'^access_token$', views.access_token),
 ]

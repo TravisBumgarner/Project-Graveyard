@@ -1,17 +1,11 @@
 from django.shortcuts import redirect
-from .functions import get_access_token, get_images
+from .functions import get_request_token, get_access_token
 
 
-# def hello(request):
-#     response = authorize_user_url()
-#     return response
-
-
-def hello_response(request):
-    response = get_access_token(request)
+def request_token(request):
+    response = get_request_token()
     return response
 
-
-def load_images(request):
-    response = get_images(request)
+def access_token(request):
+    response = get_access_token(request)
     return response
