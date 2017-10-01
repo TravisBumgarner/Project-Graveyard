@@ -1,18 +1,18 @@
 import requests
 import json
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 
-from.api_config import KEY, SECRET, INTERMEDIATE_REDIRECT_URI, FINAL_REDIRECT_URI
+from.api_config import KEY, SECRET, INTERMEDIATE_REDIRECT_URI, FINAL_REDIRECT_URI, USER_ACCESS_TOKEN
 
-def authorize_user_url():
-    INSTAGRAM_URI= 'https://api.instagram.com/oauth/authorize/?client_id={}&redirect_uri={}&response_type=code&scope=public_content'\
-        .format(
-            KEY,
-            INTERMEDIATE_REDIRECT_URI
-        )
-    return redirect(INSTAGRAM_URI)
+# def authorize_user_url():
+#     INSTAGRAM_URI= 'https://api.instagram.com/oauth/authorize/?client_id={}&redirect_uri={}&response_type=code&scope=public_content'\
+#         .format(
+#             KEY,
+#             INTERMEDIATE_REDIRECT_URI
+#         )
+#     return redirect(INSTAGRAM_URI)
 
 
 def get_access_token(request):
@@ -25,14 +25,15 @@ def get_access_token(request):
             'client_id': KEY,
             'client_secret': SECRET,
             'grant_type': 'authorization_code',
-            'redirect_uri': FINAL_REDIRECT_URI,
+            'redirect_uri': INTERMEDIATE_REDIRECT_URI,
             'code': code
         }
         r_serialized = requests.post(ACCESS_TOKEN_URL, data=post_data)
         r_dict = json.loads(r_serialized.text)
 
+        print("Here would be code to store access_token {} for user X in db.".format(r_dict['access_token']))
         # Todo - User information is returned from request_access_token, can use name, etc. See below.
-        # response = redirect('https://api.instagram.com/v1/users/self/media/recent/?&access_token={}'.format(r_dict['access_token']))
+
         response = redirect('http://127.0.0.1:3000/')
     else:
         er = request.GET['error_reason']
@@ -42,6 +43,13 @@ def get_access_token(request):
 
     return response
 
+
+def get_images(request):
+    url = 'https://api.instagram.com/v1/users/self/media/recent/?&access_token={}'.format(USER_ACCESS_TOKEN)
+    r_serialized = requests.get(url)
+    r_dict = json.loads(r_serialized.text)
+
+    return JsonResponse(r_dict)
 
 """
 Response text: 
