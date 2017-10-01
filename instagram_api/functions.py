@@ -4,18 +4,20 @@ import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 
-from.api_config import KEY, SECRET, REDIRECT_URI
+from.api_config import KEY, SECRET, INTERMEDIATE_REDIRECT_URI, FINAL_REDIRECT_URI
 
 def authorize_user_url():
     INSTAGRAM_URI= 'https://api.instagram.com/oauth/authorize/?client_id={}&redirect_uri={}&response_type=code&scope=public_content'\
         .format(
             KEY,
-            REDIRECT_URI
+            INTERMEDIATE_REDIRECT_URI
         )
     return redirect(INSTAGRAM_URI)
 
 
 def get_access_token(request):
+    # The access token will be stored in the request get as code
+    # If it doesn't exist there was an error.
     if request.GET.get('code', False):
         code = request.GET['code']
         ACCESS_TOKEN_URL = 'https://api.instagram.com/oauth/access_token'
@@ -23,15 +25,15 @@ def get_access_token(request):
             'client_id': KEY,
             'client_secret': SECRET,
             'grant_type': 'authorization_code',
-            'redirect_uri': REDIRECT_URI,
+            'redirect_uri': FINAL_REDIRECT_URI,
             'code': code
         }
         r_serialized = requests.post(ACCESS_TOKEN_URL, data=post_data)
         r_dict = json.loads(r_serialized.text)
 
         # Todo - User information is returned from request_access_token, can use name, etc. See below.
-        response = redirect('https://api.instagram.com/v1/users/self/media/recent/?&access_token={}'.format(r_dict['access_token']))
-
+        # response = redirect('https://api.instagram.com/v1/users/self/media/recent/?&access_token={}'.format(r_dict['access_token']))
+        response = redirect('http://127.0.0.1:3000/')
     else:
         er = request.GET['error_reason']
         e = request.GET['error']
