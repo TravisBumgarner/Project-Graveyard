@@ -30,6 +30,7 @@ class CenterTile extends Component {
                 onMouseLeave = {this.handleHover}
             >
                 <h1>{this.props.tiles.centerTile}</h1>
+                <img src={this.props.src} />
             </div>
         );
     }

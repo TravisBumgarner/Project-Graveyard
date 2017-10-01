@@ -6,13 +6,24 @@ import PropTypes from 'prop-types'
 import axios from 'axios';
 
 class App extends Component {
-  getData = () =>{
-    axios.get('http://127.0.0.1:8000/api/get_images')
-        .then(response => {
-          let images = response.data.data;
+    constructor(props) {
+        super(props);
+        this.state = {
+            center_img: ""
+        };
+    }
 
-        })
-  }
+    getData = () =>{
+        axios.get('http://127.0.0.1:8000/api/get_images')
+            .then(response => {
+
+                let images = response.data.data;
+                console.log(images);
+                this.setState({
+                center_img_src: images[0]["images"]["thumbnail"]["url"]
+                })
+            })
+    }
 
   render() {
     return (
@@ -27,7 +38,7 @@ class App extends Component {
           </div>
           <div id ="tile-wrapper-row">
             <Tile numVal={4}>  </Tile>
-            <CenterTile>  </CenterTile>
+            <CenterTile src={this.state.center_img_src}>  </CenterTile>
             <Tile numVal={6}>  </Tile>
           </div>
           <div id ="tile-wrapper-row">
