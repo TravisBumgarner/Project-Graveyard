@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <div className="App">
         <a href="https://api.instagram.com/oauth/authorize/?client_id=b34a768ac36a4f5c877eb9bdd8bae1be&redirect_uri=http://127.0.0.1:8000/instagram_api/hello_response&response_type=code&scope=public_content">Enable IG</a>
-        <a href="">Enable Flickr</a>
+        <a href="http://127.0.0.1:8000/flickr_api/request_token">Enable Flickr</a>
 
 
         <input type="text" name = "textInputLat" value={this.props.textInputLat} onChange={this.handleInputChange}/>
