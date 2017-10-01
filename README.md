@@ -1036,7 +1036,7 @@ You may also specify any configuration value [`http-proxy-middleware`](https://g
 {
   // ...
   "proxy": {
-    "/api": {
+    instagram_api: {
       "target": "<url>",
       "ws": true
       // ...
