@@ -52,3 +52,22 @@ def get_access_token(request):
     resource_owner_secret = oauth_tokens.get('oauth_token_secret')
 
     return HttpResponse("yay?")
+
+
+def get_images(request):
+    GET_params = request.GET
+    params = {
+        'lat': GET_params['lat'],
+        'lon': GET_params['lon'],
+        'rad': GET_params['rad'],
+        'api_key': KEY,
+        'format': 'json',
+        'nojsoncallback': 1,
+        'method': 'flickr.photos.search',
+    }
+    url = 'https://api.flickr.com/services/rest'
+
+    r = requests.get(url, params)
+    print(r.url)
+    print(r.text)
+    return HttpResponse(r)
