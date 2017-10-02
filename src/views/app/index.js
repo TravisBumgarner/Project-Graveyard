@@ -17,18 +17,49 @@ class App extends Component {
     };
   }
 
-  getInstagramData = () =>{
-    const surroundingCords = getSurroundingCoords(this.state.textInputLat, this.state.textInputLong, this.state.textInputDistance);
-    console.log(surroundingCords);
-    axios.get('http://127.0.0.1:8000/instagram_api/get_images')
-      .then(response => {
-        let images = response.data.data;
-        console.log(images);
-        this.setState({
-        centerImgSrc: images[0]["images"]["thumbnail"]["url"]
+  getImgUrlFromFlickrRequest(flickrObj){
+    const i = flickrObj;
+    return `https://farm${i.farm}.staticflickr.com/${i.server}/${i.id}_${i.secret}.jpg`;
+  }
+
+  getFlickrDataByLatLong = (lat, lon) =>{
+    axios.get('http://127.0.0.1:8000/flickr_api/get_images',
+      {
+        params: {
+          lat,
+          lon,
+          rad: this.state.textInputDistance
+        }
       })
+      .then(response => {
+        const images = response.data.photos.photo;
+        const i = images[0];
+        // This should be optimized
+        const imgUrl = this.getImgUrlFromFlickrRequest(i);
+        console.log(`${lat} and ${lon} give ${imgUrl}`);
+        return imgUrl;
+      })
+  };
+
+  getFlickrData = () => {
+    let surroundingCoords = getSurroundingCoords(this.state.textInputLat, this.state.textInputLong, this.state.textInputDistance);
+    // console.log(surroundingCoords);
+    // console.log(surroundingCoords.N);
+    // const lat = surroundingCoords.N.LAT;
+    // const lon = surroundingCoords.N.LON;
+    // console.log(lat);
+    // surroundingCoords.N.imgUrl = this.getFlickrDataByLatLong(lat, lon);
+    // console.log(surroundingCoords);
+
+
+    Object.keys(surroundingCoords).map((key, index) => {
+      let lat = surroundingCoords[key]["LAT"];
+      let lon = surroundingCoords[key]["LON"];
+      surroundingCoords[key]["imgUrl"] = this.getFlickrDataByLatLong(lat, lon);
+      console.log(surroundingCoords[key]["imgUrl"]);
     })
   };
+
 
   handleInputChange = (e) => {
     this.setState({[e.target.name]: e.target.value});
@@ -37,15 +68,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a href="https://api.instagram.com/oauth/authorize/?client_id=b34a768ac36a4f5c877eb9bdd8bae1be&redirect_uri=http://127.0.0.1:8000/instagram_api/hello_response&response_type=code&scope=public_content">Enable IG</a>
-        <a href="http://127.0.0.1:8000/flickr_api/request_token">Enable Flickr</a>
+        <button onClick={this.getFlickrData}>Get Flickr Data</button>
 
 
         <input type="text" name = "textInputLat" value={this.props.textInputLat} onChange={this.handleInputChange}/>
         <input type="text" name = "textInputLong" value={this.props.textInputLong} onChange={this.handleInputChange} />
         <input type="text" name = "textInputDistance" value={this.props.textInputLat} onChange={this.handleInputChange}/>
-
-        <button onClick={this.getInstagramData}>Get Images</button>
         <div id="tile-wrapper-all">
           <div id ="tile-wrapper-row">
             <Tile numVal={1}>  </Tile>

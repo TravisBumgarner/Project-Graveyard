@@ -1,37 +1,37 @@
-export function getSurroundingCoords(lat, long, distance){
-  lat = Number(lat); long = Number(long); distance = Number(distance);
+export function getSurroundingCoords(lat, lon, distance){
+  lat = Number(lat); lon = Number(lon); distance = Number(distance);
   return {
     "NW": {
       "LAT": lat - distance,
-      "LONG": long + distance
+      "LON": lon + distance
     },
     "N": {
       "LAT": lat + distance,
-      "LONG": long
+      "LON": lon
     },
     "NE": {
       "LAT": lat + distance,
-      "LONG": long + distance
+      "LON": lon + distance
     },
     "W": {
       "LAT": lat,
-      "LONG": long - distance
+      "LON": lon - distance
     },
     "E": {
       "LAT": lat,
-      "LONG": long + distance
+      "LON": lon + distance
     },
     "SW": {
       "LAT": lat - distance,
-      "LONG": long - distance
+      "LON": lon - distance
     },
     "S": {
       "LAT": lat - distance,
-      "LONG": long
+      "LON": lon
     },
     "SE": {
       "LAT": lat - distance,
-      "LONG": long + distance
+      "LON": lon + distance
     },
   }
 }
