@@ -4,62 +4,53 @@ import Tile from '../../containers/tile/index';
 import CenterTile from '../../containers/centerTile/index';
 import PropTypes from 'prop-types'
 import axios from 'axios';
-import { getSurroundingCoords } from '../../utils/helper_functions'
+import { getCoordsData } from '../../utils/helper_functions'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       centerImgSrc: "",
-      textInputLat: "",
-      textInputLong: "",
-      textInputDistance: "",
+      textInputLat: "42.3736",
+      textInputLon: "71.1097",
+      textInputRad: "0.0005",
+      coordsData: getCoordsData(),
     };
   }
 
-  getImgUrlFromFlickrRequest(flickrObj){
-    const i = flickrObj;
-    return `https://farm${i.farm}.staticflickr.com/${i.server}/${i.id}_${i.secret}.jpg`;
-  }
-
-  getFlickrDataByLatLong = (lat, lon) =>{
-    axios.get('http://127.0.0.1:8000/flickr_api/get_images',
-      {
-        params: {
-          lat,
-          lon,
-          rad: this.state.textInputDistance
-        }
-      })
-      .then(response => {
-        const images = response.data.photos.photo;
-        const i = images[0];
-        // This should be optimized
-        const imgUrl = this.getImgUrlFromFlickrRequest(i);
-        console.log(`${lat} and ${lon} give ${imgUrl}`);
-        return imgUrl;
-      })
-  };
 
   getFlickrData = () => {
-    let surroundingCoords = getSurroundingCoords(this.state.textInputLat, this.state.textInputLong, this.state.textInputDistance);
-    // console.log(surroundingCoords);
-    // console.log(surroundingCoords.N);
-    // const lat = surroundingCoords.N.LAT;
-    // const lon = surroundingCoords.N.LON;
-    // console.log(lat);
-    // surroundingCoords.N.imgUrl = this.getFlickrDataByLatLong(lat, lon);
-    // console.log(surroundingCoords);
+    const latCenter = parseFloat(this.state.textInputLat);
+    const lonCenter = parseFloat(this.state.textInputLon);
+    const rad = parseFloat(this.state.textInputRad);
 
+    let coordsData = getCoordsData(latCenter, lonCenter, rad);
+    let promises = [];
 
-    Object.keys(surroundingCoords).map((key, index) => {
-      let lat = surroundingCoords[key]["LAT"];
-      let lon = surroundingCoords[key]["LON"];
-      surroundingCoords[key]["imgUrl"] = this.getFlickrDataByLatLong(lat, lon);
-      console.log(surroundingCoords[key]["imgUrl"]);
-    })
+    for (let coord in coordsData) {
+      console.log(coord);
+      promises.push(axios.get('http://127.0.0.1:8000/flickr_api/get_images',
+            {
+              params: {
+                lat: coordsData[coord].lat,
+                lon: coordsData[coord].lon,
+                rad
+              }
+            })
+            .then(response => {
+              const images = response.data.photos.photo;
+              const i = images[0];
+              const imgUrl = `https://farm${i.farm}.staticflickr.com/${i.server}/${i.id}_${i.secret}.jpg`;
+              coordsData[coord]["imgUrl"] = imgUrl;
+            })
+      )
+    }
+    console.log(promises);
+    axios.all(promises).then((responses)=> {
+      this.setState({coordsData});
+      console.log(this.state.coordsData);
+    });
   };
-
 
   handleInputChange = (e) => {
     this.setState({[e.target.name]: e.target.value});
@@ -68,27 +59,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <input type="text" name = "textInputLat" value={this.state.textInputLat} onChange={this.handleInputChange}/>
+        <input type="text" name = "textInputLon" value={this.state.textInputLon} onChange={this.handleInputChange} />
+        <input type="text" name = "textInputDistance" value={this.state.textInputRad} onChange={this.handleInputChange}/>
         <button onClick={this.getFlickrData}>Get Flickr Data</button>
-
-
-        <input type="text" name = "textInputLat" value={this.props.textInputLat} onChange={this.handleInputChange}/>
-        <input type="text" name = "textInputLong" value={this.props.textInputLong} onChange={this.handleInputChange} />
-        <input type="text" name = "textInputDistance" value={this.props.textInputLat} onChange={this.handleInputChange}/>
         <div id="tile-wrapper-all">
           <div id ="tile-wrapper-row">
-            <Tile numVal={1}>  </Tile>
-            <Tile numVal={2}>  </Tile>
-            <Tile numVal={3}>  </Tile>
+            <Tile coordData={this.state.coordsData["NW"]}>  </Tile>
+            <Tile coordData={this.state.coordsData["N"]}>  </Tile>
+            <Tile coordData={this.state.coordsData["NE"]}>  </Tile>
           </div>
           <div id ="tile-wrapper-row">
-            <Tile numVal={4}>  </Tile>
-            <CenterTile src={this.state.centerImgSrc}>  </CenterTile>
-            <Tile numVal={6}>  </Tile>
+            <Tile coordData={this.state.coordsData["W"]}>  </Tile>
+            <CenterTile coordData={this.state.coordsData["C"]}>  </CenterTile>
+            <Tile coordData={this.state.coordsData["E"]}>  </Tile>
           </div>
           <div id ="tile-wrapper-row">
-            <Tile numVal={7}>  </Tile>
-            <Tile numVal={8}>  </Tile>
-            <Tile numVal={9}>  </Tile>
+            <Tile coordData={this.state.coordsData["SW"]}>  </Tile>
+            <Tile coordData={this.state.coordsData["S"]}>  </Tile>
+            <Tile coordData={this.state.coordsData["SE"]}>  </Tile>
           </div>
         </div>
       </div>

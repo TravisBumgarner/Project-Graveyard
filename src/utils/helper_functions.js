@@ -1,37 +1,40 @@
-export function getSurroundingCoords(lat, lon, distance){
-  lat = Number(lat); lon = Number(lon); distance = Number(distance);
+export function getCoordsData(lat=null, lon=null, rad=null){
   return {
+    "C": {
+      "lat": lat,
+      "lon": lon
+    },
     "NW": {
-      "LAT": lat - distance,
-      "LON": lon + distance
+      "lat": lat - rad,
+      "lon": lon + rad
     },
     "N": {
-      "LAT": lat + distance,
-      "LON": lon
+      "lat": lat + rad,
+      "lon": lon
     },
     "NE": {
-      "LAT": lat + distance,
-      "LON": lon + distance
+      "lat": lat + rad,
+      "lon": lon + rad
     },
     "W": {
-      "LAT": lat,
-      "LON": lon - distance
+      "lat": lat,
+      "lon": lon - rad
     },
     "E": {
-      "LAT": lat,
-      "LON": lon + distance
+      "lat": lat,
+      "lon": lon + rad
     },
     "SW": {
-      "LAT": lat - distance,
-      "LON": lon - distance
+      "lat": lat - rad,
+      "lon": lon - rad
     },
     "S": {
-      "LAT": lat - distance,
-      "LON": lon
+      "lat": lat - rad,
+      "lon": lon
     },
     "SE": {
-      "LAT": lat - distance,
-      "LON": lon + distance
+      "lat": lat - rad,
+      "lon": lon + rad
     },
   }
 }

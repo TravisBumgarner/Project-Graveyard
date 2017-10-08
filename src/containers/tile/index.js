@@ -26,7 +26,7 @@ class Tile extends Component {
 
 
     render() {
-
+        console.log(this.props.coordData);
         const tileFocus = this.state.isHovered ? "activeTile" : "";
 
         return (
