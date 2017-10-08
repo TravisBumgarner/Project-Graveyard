@@ -12,13 +12,12 @@ class App extends Component {
     this.state = {
       centerImgSrc: "",
       textInputLat: "42.3736",
-      textInputLon: "71.1097",
-      textInputRad: "0.0005",
+      textInputLon: "-71.1097",
+      textInputRad: "0.5",
       coordsData: getCoordsData(),
     };
   }
-
-
+  
   getFlickrData = () => {
     const latCenter = parseFloat(this.state.textInputLat);
     const lonCenter = parseFloat(this.state.textInputLon);
@@ -29,21 +28,31 @@ class App extends Component {
     let promises = [];
 
     for (let coord in coordsData) {
-      promises.push(axios.get('http://127.0.0.1:8000/flickr_api/get_images',
+      promises.push(axios.get('https://api.flickr.com/services/rest',
             {
               params: {
                 lat: coordsData[coord].lat,
                 lon: coordsData[coord].lon,
-                rad,
-                tags: "nature, wildlife, outdoors"
+                tags: "nature, wildlife, outdoors, travel, adventure, cityscape, landscape, city",
+                api_key: "0ebb6cf43cd6ccab59f2ffaf1b63f0c5",
+                format: "json",
+                nojsoncallback: 1,
+                method: "flickr.photos.search",
               }
             })
             .then(response => {
+              console.log(response);
               const images = response.data.photos.photo;
-              const i = images[0];
-              const imgUrl = `https://farm${i.farm}.staticflickr.com/${i.server}/${i.id}_${i.secret}.jpg`;
-              coordsData[coord]["imgUrl"] = imgUrl;
-              console.log(coord, imgUrl);
+
+              if (images.length){
+                const idx = Math.floor(Math.random() * images.length); // Grab random image index to display
+                const img = images[idx];
+                const imgUrl = `https://farm${img.farm}.staticflickr.com/${img.server}/${img.id}_${img.secret}.jpg`;
+                coordsData[coord]["imgUrl"] = imgUrl;
+              } else {
+                coordsData[coord]["imgUrl"] = "http://placehold.it/200x200"
+              }
+
             })
       )
     }
