@@ -25,16 +25,17 @@ class App extends Component {
     const rad = parseFloat(this.state.textInputRad);
 
     let coordsData = getCoordsData(latCenter, lonCenter, rad);
+    console.log(coordsData);
     let promises = [];
 
     for (let coord in coordsData) {
-      console.log(coord);
       promises.push(axios.get('http://127.0.0.1:8000/flickr_api/get_images',
             {
               params: {
                 lat: coordsData[coord].lat,
                 lon: coordsData[coord].lon,
-                rad
+                rad,
+                tags: "nature, wildlife, outdoors"
               }
             })
             .then(response => {
@@ -42,13 +43,12 @@ class App extends Component {
               const i = images[0];
               const imgUrl = `https://farm${i.farm}.staticflickr.com/${i.server}/${i.id}_${i.secret}.jpg`;
               coordsData[coord]["imgUrl"] = imgUrl;
+              console.log(coord, imgUrl);
             })
       )
     }
-    console.log(promises);
     axios.all(promises).then((responses)=> {
       this.setState({coordsData});
-      console.log(this.state.coordsData);
     });
   };
 
@@ -61,7 +61,7 @@ class App extends Component {
       <div className="App">
         <input type="text" name = "textInputLat" value={this.state.textInputLat} onChange={this.handleInputChange}/>
         <input type="text" name = "textInputLon" value={this.state.textInputLon} onChange={this.handleInputChange} />
-        <input type="text" name = "textInputDistance" value={this.state.textInputRad} onChange={this.handleInputChange}/>
+        <input type="text" name = "textInputRad" value={this.state.textInputRad} onChange={this.handleInputChange}/>
         <button onClick={this.getFlickrData}>Get Flickr Data</button>
         <div id="tile-wrapper-all">
           <div id ="tile-wrapper-row">
@@ -71,7 +71,7 @@ class App extends Component {
           </div>
           <div id ="tile-wrapper-row">
             <Tile coordData={this.state.coordsData["W"]}>  </Tile>
-            <CenterTile coordData={this.state.coordsData["C"]}>  </CenterTile>
+            <Tile coordData={this.state.coordsData["C"]}  center = { true } >  </Tile>
             <Tile coordData={this.state.coordsData["E"]}>  </Tile>
           </div>
           <div id ="tile-wrapper-row">

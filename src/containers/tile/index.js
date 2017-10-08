@@ -35,7 +35,7 @@ class Tile extends Component {
                 onMouseEnter = {this.handleHover}
                 onMouseLeave = {this.handleHover}
             >
-            {this.props.numVal}
+            <img src = {this.props.coordData.imgUrl} className = "tileImage"/>
             {tileFocus?
                 <TileHover
                     title = 'France'
