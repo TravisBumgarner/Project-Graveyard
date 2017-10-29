@@ -1,67 +1,58 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types'
-import * as tileActions from '../../store/actions/tileActions'
-
+import axios from 'axios';
 import './style.css';
-import TileHover from '../../components/tileHover/index';
 
 class Tile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isHovered: false
+            imgSrc: "",
         };
     }
 
-    handleHover = () =>{
+    componentWillReceiveProps(){
+      const {lat, lon} = this.props.coordData;
+      this.getImgSrc(lat, lon);
+    }
+
+    getImgSrc = (lat, lon) => {
+        console.log("latlon", lat, lon);
+        let imgSrc = "";
+        axios.get('https://api.flickr.com/services/rest',
+            {
+              params: {
+                lat,
+                lon,
+                api_key: "0ebb6cf43cd6ccab59f2ffaf1b63f0c5",
+                format: "json",
+                nojsoncallback: 1,
+                method: "flickr.photos.search",
+              }
+            })
+            .then(response => {
+              console.log("res", response);
+              const images = response.data.photos.photo;
+              console.log("imgs", images);
+              if (images.length){
+                const idx = Math.floor(Math.random() * images.length); // Grab random image index to display
+                const img = images[idx];
+                imgSrc = `https://farm${img.farm}.staticflickr.com/${img.server}/${img.id}_${img.secret}.jpg`;
+              } else {
+                imgSrc = "http://placehold.it/200x200";
+              }
+            });
         this.setState({
-            isHovered: !this.state.isHovered
-        });
+          imgSrc
+        })
     };
-
-    updateCenterTile = () =>{
-        this.props.dispatch(tileActions.moveTileToCenter(this.props.numVal));
-    };
-
 
     render() {
-        console.log(this.props.coordData);
-        const tileFocus = this.state.isHovered ? "activeTile" : "";
-
         return (
-            <div
-                className ={"tile peripheralTile " + tileFocus}
-                onMouseEnter = {this.handleHover}
-                onMouseLeave = {this.handleHover}
-            >
-            <img src = {this.props.coordData.imgUrl} className = "tileImage"/>
-            {tileFocus?
-                <TileHover
-                    title = 'France'
-                    url='https://flickr.com'
-                    updateCenterTile={this.updateCenterTile}
-                /> :
-                null
-            }
+            <div className ={"tile peripheralTile"}>
+                <img src = {this.state.imgSrc} className = "tileImage"/>
             </div>
         );
     }
 }
 
-Tile.propTypes = {
-};
-
-function mapStateToProps(state, ownProps){
-    return {
-        tiles: state.tiles
-    }
-}
-
-// Used for deciding what actions to expose on component
-// Can be passed as second parameter to connect
-function mapDispatchToProps(){
-
-}
-
-export default connect(mapStateToProps)(Tile);
+export default Tile;
