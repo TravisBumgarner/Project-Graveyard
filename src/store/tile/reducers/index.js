@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-// import centerTile from './centerTile';
+import meta from './meta';
 import allTiles from './allTiles';
 
 export default combineReducers({
-  // centerTile,
+  meta,
   allTiles,
 });

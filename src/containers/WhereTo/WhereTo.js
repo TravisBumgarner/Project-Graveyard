@@ -23,12 +23,16 @@ export class WhereTo extends Component {
   };
 
   handleClose = () => {
-    const { setCenterTile } = this.props;
+    const {
+      setCenterTile,
+      setMetaData,
+    } = this.props;
     const { whereTo } = this.state;
     console.log(`Setting location as ${this.state.whereTo}`);
     // TODO function to handle whereTo -> Lat Long conversion.
     const whereTo2 = {lat: 5, lon: 5, src: whereTo};
     setCenterTile(whereTo2);
+    setMetaData(5);
     this.setState({ open: false });
   };
 
@@ -74,4 +78,5 @@ export class WhereTo extends Component {
 export default connect(state => ({
 }), {
   setCenterTile: tileActions.setCenterTile,
+  setMetaData: tileActions.setMetaData,
 })(WhereTo);

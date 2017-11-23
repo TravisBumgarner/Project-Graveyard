@@ -5,6 +5,7 @@ let defaultData = DIRECTIONS.reduce((obj, direction) => {
     lat: '',
     lon: '',
     src: '',
+    isLoading: false,
   };
   return obj;
 }, {});

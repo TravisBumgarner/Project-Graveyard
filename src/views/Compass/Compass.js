@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
-import DirectionTile from '../../components/GridTile/GridTile';
+import DirectionTile from '../../containers/GridTile/GridTile';
 import WhereTo from '../../containers/WhereTo'
 
 export class Compass extends Component {

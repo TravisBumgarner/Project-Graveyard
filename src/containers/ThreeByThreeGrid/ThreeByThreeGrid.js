@@ -6,9 +6,9 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 import { DIRECTIONS } from '../../utilities/constants';
-import GridTile from '../../components/GridTile';
+import GridTile from '../GridTile';
 
-const divStyle = {
+const style = {
   width: '400px',
   height: '400px',
   background: 'black',
@@ -38,7 +38,7 @@ export class ThreeByThreeGrid extends Component {
     });
 
     return (
-      <div className="ThreeByThreeGrid" style={divStyle}>
+      <div className="ThreeByThreeGrid" style={style}>
         { grid }
       </div>
     );
