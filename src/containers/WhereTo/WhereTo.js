@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import tileActions from '../../store/tile/actions';
 // import axiosRequestActions from '../../store/axiosRequest/actions';
 
+import { getPhoto } from '../../utilities/functions';
 
 export class WhereTo extends Component {
   constructor(props) {
@@ -35,7 +36,8 @@ export class WhereTo extends Component {
       lon,
       rad,
     } = this.state;
-
+    const src = getPhoto(lat, lon);
+    console.log(src);
     setCenterTile({lat, lon});
     setMetaData(rad);
     this.setState({ open: false });

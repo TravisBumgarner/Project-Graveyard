@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import tileActions from '../../store/tile/actions/index';
 
 import { CENTER_DIRECTION } from '../../utilities/constants';
-import { getTileCoords } from '../../utilities/functions';
+import { getTileCoords, getPhoto } from '../../utilities/functions';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
@@ -29,13 +29,25 @@ export class gridTile extends Component {
     }
   };
 
-  getNewImage = () => {
+  getPhoto = () => {
     const {
       direction,
-    } = this.props
+      centerTileDetails,
+      radius,
+    } = this.props;
 
-    getTileCoords(direction)
+    const coords = getTileCoords(direction, centerTileDetails.lat, centerTileDetails.lon, radius);
+    const src = getPhoto(coords.lat, coords.lon);
+
+    // TODO wire this up once I've figured out a way to get an image for center tile.
   }
+
+  // componentWillReceiveProps(nextProps){
+  //   // Check if centerTileDetails has an image and this tile's image has been deleted..
+  //   if (nextProps.centerTileDetails.src.length && nextProps.tileDetails.src == '')
+  //     this.getPhoto();
+  //   // TODO wire this up once I've figured out a way to get an image for center tile.
+  // }
 
   render() {
     const {
@@ -68,6 +80,8 @@ export class gridTile extends Component {
 
 export default connect((state, ownProps) => ({
   tileDetails: state.tile.allTiles[ownProps.direction],
+  centerTileDetails: state.tile.allTiles[CENTER_DIRECTION],
+  radius: state.tile.meta.radius,
 }), {
   setCenterTile: tileActions.setCenterTile,
 })(gridTile);

@@ -15,6 +15,6 @@ const logger = createLogger({
 
 // logger must be the last middleware in chain, otherwise
 // it will log thunk and promise, not actual actions
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk, logger));
+const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(ReduxThunk, logger));
 
 export default store;
