@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import tileActions from '../../store/tile/actions';
 
+import { CENTER_DIRECTION } from '../../utilities/constants';
+
+
 const divStyle = {
   width: '30%',
   height: '30%',
@@ -25,7 +28,15 @@ export class gridTile extends Component {
       tileDetails,
     } = this.props;
     return (
-      <div className="gridTile" style={divStyle} onClick={ () => setCenterTile(tileDetails) }>
+      <div
+        className="gridTile"
+        style={divStyle}
+        onClick={
+          direction !== CENTER_DIRECTION
+            ? () => setCenterTile(tileDetails)
+            : null
+          }
+        >
         <h1>{ direction } { tileDetails.foo }</h1>
       </div>
     );
