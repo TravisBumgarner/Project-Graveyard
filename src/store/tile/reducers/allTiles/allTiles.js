@@ -4,7 +4,8 @@ var defaultData = DIRECTIONS.reduce((obj, direction) => {
   obj[direction] = {
     lat: '',
     lon: '',
-    src: ''
+    src: '',
+    foo: Math.random().toFixed(2),
   };
   return obj;
 }, {});

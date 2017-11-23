@@ -8,6 +8,18 @@ import TextField from 'material-ui/TextField';
 import { DIRECTIONS } from '../../utilities/constants';
 import GridTile from '../../components/GridTile';
 
+const divStyle = {
+  width: '400px',
+  height: '400px',
+  background: 'black',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+  flexDirection: 'row',
+  flexFlow: 'row wrap',
+};
+
+
 export class ThreeByThreeGrid extends Component {
   constructor(props) {
     super(props);
@@ -16,11 +28,18 @@ export class ThreeByThreeGrid extends Component {
   };
 
   render() {
+    const grid = DIRECTIONS.map(direction => {
+      return (
+        <GridTile
+          key={direction}
+          direction={direction}
+        />
+      );
+    });
+
     return (
-      <div className="ThreeByThreeGrid">
-        <GridTile />
-        <GridTile />
-        <GridTile />
+      <div className="ThreeByThreeGrid" style={divStyle}>
+        { grid }
       </div>
     );
   }
