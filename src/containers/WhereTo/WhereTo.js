@@ -14,7 +14,9 @@ export class WhereTo extends Component {
     super(props);
     this.state = {
       open: true,
-      whereTo: '',
+      lat: 0,
+      lon: 0,
+      rad: 0,
     }
   };
 
@@ -27,18 +29,21 @@ export class WhereTo extends Component {
       setCenterTile,
       setMetaData,
     } = this.props;
-    const { whereTo } = this.state;
-    console.log(`Setting location as ${this.state.whereTo}`);
-    // TODO function to handle whereTo -> Lat Long conversion.
-    const whereTo2 = {lat: 5, lon: 5, src: whereTo};
-    setCenterTile(whereTo2);
-    setMetaData(5);
+
+    const {
+      lat,
+      lon,
+      rad,
+    } = this.state;
+
+    setCenterTile({lat, lon});
+    setMetaData(rad);
     this.setState({ open: false });
   };
 
-  setWhereTo = (whereTo) => {
-    this.setState({ whereTo });
-  };
+  // setWhereTo = (whereTo) => {
+  //   this.setState({ whereTo });
+  // };
 
   render() {
     const actions = [
@@ -65,9 +70,17 @@ export class WhereTo extends Component {
           onRequestClose={this.handleClose}
         >
           <TextField
-            floatingLabelText="Ex: (lat, lon) or (city, state)"
-            onChange={ (event, newValue) => this.setWhereTo(newValue) }
-          /><br />
+            floatingLabelText="Latitude"
+            onChange={ (event, newValue) => this.setState({lat: newValue}) }
+          />
+          <TextField
+            floatingLabelText="Longitude"
+            onChange={ (event, newValue) => this.setState({lon: newValue}) }
+          />
+          <TextField
+            floatingLabelText="Radius"
+            onChange={ (event, newValue) => this.setState({rad: newValue}) }
+          />
         </Dialog>
       </div>
 
