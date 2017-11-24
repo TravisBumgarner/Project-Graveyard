@@ -20,6 +20,10 @@ const style = {
     display: 'inline-block',
     position: 'relative',
   },
+  image: {
+    maxWidth: '120px',
+    maxHeight: '120px',
+  }
 };
 
 export class gridTile extends Component {
@@ -33,11 +37,12 @@ export class gridTile extends Component {
     const {
       direction,
       centerTileDetails,
+      tileDetails,
       radius,
     } = this.props;
 
     const coords = getTileCoords(direction, centerTileDetails.lat, centerTileDetails.lon, radius);
-    const src = getPhoto(coords.lat, coords.lon);
+    getPhoto(direction, coords.lat, coords.lon);
 
     // TODO wire this up once I've figured out a way to get an image for center tile.
   }
@@ -55,6 +60,7 @@ export class gridTile extends Component {
       setCenterTile,
       tileDetails,
     } = this.props;
+    console.log("loading", tileDetails.isLoading);
     return (
       <div
         className="gridTile"
@@ -70,7 +76,9 @@ export class gridTile extends Component {
               style={style.refresh}
               status="loading"
             />
-          : <h1>{direction}</h1>
+          : tileDetails.src.length
+            ? <img src={tileDetails.src} style={style.image}/>
+            : <h1>{direction}</h1>
          }
       </div>
     );

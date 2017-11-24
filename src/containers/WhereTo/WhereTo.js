@@ -6,9 +6,9 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 import tileActions from '../../store/tile/actions';
-// import axiosRequestActions from '../../store/axiosRequest/actions';
+import requestActions from '../../store/requests/actions';
 
-import { getPhoto } from '../../utilities/functions';
+import {CENTER_DIRECTION } from "../../utilities/constants";
 
 export class WhereTo extends Component {
   constructor(props) {
@@ -27,8 +27,9 @@ export class WhereTo extends Component {
 
   handleClose = () => {
     const {
-      setCenterTile,
+      setTile,
       setMetaData,
+      flickrRequest,
     } = this.props;
 
     const {
@@ -36,23 +37,19 @@ export class WhereTo extends Component {
       lon,
       rad,
     } = this.state;
-    const src = getPhoto(lat, lon);
-    console.log(src);
-    setCenterTile({lat, lon});
+    flickrRequest(CENTER_DIRECTION, lat, lon);
+
+    setTile(CENTER_DIRECTION, lat, lon);
     setMetaData(rad);
     this.setState({ open: false });
   };
-
-  // setWhereTo = (whereTo) => {
-  //   this.setState({ whereTo });
-  // };
 
   render() {
     const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleCancel}
       />,
       <FlatButton
         label="Submit"
@@ -92,6 +89,7 @@ export class WhereTo extends Component {
 
 export default connect(state => ({
 }), {
-  setCenterTile: tileActions.setCenterTile,
+  setTile: tileActions.setTile,
   setMetaData: tileActions.setMetaData,
+  flickrRequest: requestActions.flickrRequest,
 })(WhereTo);
