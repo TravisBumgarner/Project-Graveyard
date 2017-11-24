@@ -39,7 +39,7 @@ export class gridTile extends Component {
       setCenterTile,
       tileDetails,
     } = this.props;
-    console.log("loading", tileDetails.isLoading);
+    console.log("tileDetails", tileDetails);
     return (
       <div
         className="gridTile"

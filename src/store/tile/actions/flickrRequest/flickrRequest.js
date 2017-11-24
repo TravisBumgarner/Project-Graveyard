@@ -13,14 +13,14 @@ export const flickrRequestStart = (direction) => ({
 export const flickrRequestSuccess = (direction, lat, lon, src) => ({
   type: FLICKR_REQUEST_SUCCESS,
   direction,
-  tileData: {lat, lon, src, isLoading: false},
+  tileDetails: {lat, lon, src, isLoading: false},
 });
 
 export const flickrRequestFailure = (direction, error) => ({
   type: FLICKR_REQUEST_FAILURE,
   error,
   direction,
-  tileData: {isLoading: false},
+  tileDetails: {isLoading: false},
 });
 
 export const flickrRequest = (direction, lat, lon) => (dispatch) => {

@@ -6,9 +6,9 @@ export const setCenterTileStart = () => ({
   type: SET_CENTER_TILE_START,
 });
 
-export const setCenterTileSuccess = tile => ({
+export const setCenterTileSuccess = tileDetails => ({
   type: SET_CENTER_TILE_SUCCESS,
-  tileData,
+  tileDetails,
 });
 
 export const setCenterTileFailure = error => ({
@@ -16,6 +16,6 @@ export const setCenterTileFailure = error => ({
   error,
 });
 
-export const setCenterTile = tileData => (dispatch) => {
-  dispatch(setTileSuccess(tileData));
+export const setCenterTile = tileDetails => (dispatch) => {
+  dispatch(setCenterTileSuccess(tileDetails));
 };

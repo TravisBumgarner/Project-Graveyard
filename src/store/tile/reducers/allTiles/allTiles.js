@@ -17,7 +17,7 @@ const allTiles = (state = defaultData, action) => {
         ...defaultData,
         [CENTER_DIRECTION]: {
           ...state[CENTER_DIRECTION],
-          ...action.tileData
+          ...action.tileDetails
         }
       };
 
@@ -28,7 +28,7 @@ const allTiles = (state = defaultData, action) => {
         ...state,
         [action.direction]: {
           ...defaultData[action.direction],
-          ...action.tileData
+          ...action.tileDetails
         }
       };
 
