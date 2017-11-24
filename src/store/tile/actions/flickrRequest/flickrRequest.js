@@ -44,7 +44,7 @@ export const flickrRequest = (direction, lat, lon) => (dispatch) => {
     if (photos && photos.length) {
       const idx = Math.floor(Math.random() * photos.length); // Grab random image index to display
       const photo = photos[idx];
-      src = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
+      src = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`;
       console.log(src);
       dispatch(flickrRequestSuccess(direction, lat, lon, src));
     }

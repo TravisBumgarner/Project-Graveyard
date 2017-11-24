@@ -5,6 +5,7 @@ import tileActions from '../../store/tile/actions/index';
 import requestActions from '../../store/requests/actions';
 
 import { CENTER_DIRECTION } from '../../utilities/constants';
+import { getTileCoords } from '../../utilities/functions';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
@@ -33,6 +34,33 @@ export class gridTile extends Component {
     }
   };
 
+  componentWillReceiveProps(nextProps){
+    const {
+      centerTileDetails,
+      tileDetails,
+      direction,
+      flickrRequest,
+      radius,
+    } = this.props;
+
+    // Get new image if current will be removed.
+
+    if (direction === "N"){
+      console.log("NORTH: ", !!tileDetails.src, !!tileDetails.src.length, !nextProps.tileDetails.src.length);
+    }
+
+    if(
+      tileDetails.src &&
+      tileDetails.src.length &&
+      !nextProps.tileDetails.src.length
+    ){
+      console.log("this fires");
+      const coords = getTileCoords(direction, centerTileDetails.lat, centerTileDetails.lon, radius);
+      flickrRequest(direction, coords.lat, coords.lon);
+    }
+
+  }
+
   render() {
     const {
       direction,
@@ -47,7 +75,7 @@ export class gridTile extends Component {
         onClick={ direction !== CENTER_DIRECTION ? () => setCenterTile(tileDetails) : null }
       >
         {
-          tileDetails.isLoading
+          !tileDetails.src
           ? <RefreshIndicator
               size={40}
               left={10}

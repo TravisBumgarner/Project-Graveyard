@@ -18,7 +18,7 @@ export class WhereTo extends Component {
       open: true,
       centerLat: 42.3736,
       centerLon: -71.1097,
-      rad: 0.1,
+      radius: 0.1,
     }
   };
 
@@ -36,17 +36,17 @@ export class WhereTo extends Component {
     const {
       centerLat,
       centerLon,
-      rad,
+      radius,
     } = this.state;
     flickrRequest(CENTER_DIRECTION, centerLat, centerLon);
 
     RADIAL_DRECTIONS.forEach( direction => {
-      const coords = getTileCoords(direction, centerLat, centerLon, rad);
+      const coords = getTileCoords(direction, centerLat, centerLon, radius);
       flickrRequest(direction, coords.lat, coords.lon);
     });
 
     //setTile(CENTER_DIRECTION, lat, lon);
-    setMetaData(rad);
+    setMetaData(radius);
     this.setState({ open: false });
   };
 
@@ -54,7 +54,7 @@ export class WhereTo extends Component {
     const {
       centerLat,
       centerLon,
-      rad,
+      radius,
     } = this.state
 
     const actions = [
@@ -91,9 +91,9 @@ export class WhereTo extends Component {
             onChange={ (event, newValue) => this.setState({centerLon: newValue}) }
           />
           <TextField
-            value = {rad}
+            value = {radius}
             floatingLabelText="Radius"
-            onChange={ (event, newValue) => this.setState({rad: newValue}) }
+            onChange={ (event, newValue) => this.setState({radius: newValue}) }
           />
         </Dialog>
       </div>
