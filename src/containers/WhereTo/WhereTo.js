@@ -8,16 +8,17 @@ import TextField from 'material-ui/TextField';
 import tileActions from '../../store/tile/actions';
 import requestActions from '../../store/requests/actions';
 
-import {CENTER_DIRECTION } from "../../utilities/constants";
+import { getTileCoords } from '../../utilities/functions';
+import {CENTER_DIRECTION, RADIAL_DRECTIONS } from "../../utilities/constants";
 
 export class WhereTo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: true,
-      lat: 0,
-      lon: 0,
-      rad: 0,
+      centerLat: 42.3736,
+      centerLon: -71.1097,
+      rad: 0.1,
     }
   };
 
@@ -33,18 +34,29 @@ export class WhereTo extends Component {
     } = this.props;
 
     const {
-      lat,
-      lon,
+      centerLat,
+      centerLon,
       rad,
     } = this.state;
-    flickrRequest(CENTER_DIRECTION, lat, lon);
+    flickrRequest(CENTER_DIRECTION, centerLat, centerLon);
 
-    setTile(CENTER_DIRECTION, lat, lon);
+    RADIAL_DRECTIONS.forEach( direction => {
+      const coords = getTileCoords(direction, centerLat, centerLon, rad);
+      flickrRequest(direction, coords.lat, coords.lon);
+    });
+
+    //setTile(CENTER_DIRECTION, lat, lon);
     setMetaData(rad);
     this.setState({ open: false });
   };
 
   render() {
+    const {
+      centerLat,
+      centerLon,
+      rad,
+    } = this.state
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -69,14 +81,17 @@ export class WhereTo extends Component {
           onRequestClose={this.handleClose}
         >
           <TextField
+            value = {centerLat}
             floatingLabelText="Latitude"
-            onChange={ (event, newValue) => this.setState({lat: newValue}) }
+            onChange={ (event, newValue) => this.setState({centerLat: newValue}) }
           />
           <TextField
+            value = {centerLon}
             floatingLabelText="Longitude"
-            onChange={ (event, newValue) => this.setState({lon: newValue}) }
+            onChange={ (event, newValue) => this.setState({centerLon: newValue}) }
           />
           <TextField
+            value = {rad}
             floatingLabelText="Radius"
             onChange={ (event, newValue) => this.setState({rad: newValue}) }
           />

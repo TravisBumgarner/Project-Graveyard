@@ -15,14 +15,17 @@ const allTiles = (state = defaultData, action) => {
     case 'SET_CENTER_TILE_SUCCESS':
       return {
         ...defaultData,
-        [CENTER_DIRECTION]: action.centerTile,
+        [CENTER_DIRECTION]: {
+          ...state[CENTER_DIRECTION],
+          ...action.tileData
+        }
       };
 
     case 'FLICKR_REQUEST_START':
     case 'FLICKR_REQUEST_SUCCESS':
-    case 'FLICKR_REQUEST_FAIL':
+    case 'FLICKR_REQUEST_FAILURE':
       return {
-        ...defaultData, //TODO replace this with state.
+        ...state,
         [action.direction]: {
           ...defaultData[action.direction],
           ...action.tileData

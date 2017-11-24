@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import tileActions from '../../store/tile/actions/index';
+import requestActions from '../../store/requests/actions';
 
 import { CENTER_DIRECTION } from '../../utilities/constants';
-import { getTileCoords, getPhoto } from '../../utilities/functions';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
@@ -32,27 +32,6 @@ export class gridTile extends Component {
     this.state = {
     }
   };
-
-  getPhoto = () => {
-    const {
-      direction,
-      centerTileDetails,
-      tileDetails,
-      radius,
-    } = this.props;
-
-    const coords = getTileCoords(direction, centerTileDetails.lat, centerTileDetails.lon, radius);
-    getPhoto(direction, coords.lat, coords.lon);
-
-    // TODO wire this up once I've figured out a way to get an image for center tile.
-  }
-
-  // componentWillReceiveProps(nextProps){
-  //   // Check if centerTileDetails has an image and this tile's image has been deleted..
-  //   if (nextProps.centerTileDetails.src.length && nextProps.tileDetails.src == '')
-  //     this.getPhoto();
-  //   // TODO wire this up once I've figured out a way to get an image for center tile.
-  // }
 
   render() {
     const {
@@ -91,5 +70,6 @@ export default connect((state, ownProps) => ({
   centerTileDetails: state.tile.allTiles[CENTER_DIRECTION],
   radius: state.tile.meta.radius,
 }), {
+  flickrRequest: requestActions.flickrRequest,
   setCenterTile: tileActions.setCenterTile,
 })(gridTile);

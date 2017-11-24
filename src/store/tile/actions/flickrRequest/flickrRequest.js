@@ -24,9 +24,8 @@ export const flickrRequestFailure = (direction, error) => ({
 });
 
 export const flickrRequest = (direction, lat, lon) => (dispatch) => {
-  dispatch(flickrRequestStart(direction));
-
   console.log(direction, lat, lon);
+  dispatch(flickrRequestStart(direction));
 
   const baseUrl = 'https://api.flickr.com/services/rest';
   const params = {
