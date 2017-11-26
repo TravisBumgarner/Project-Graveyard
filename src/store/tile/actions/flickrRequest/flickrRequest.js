@@ -24,7 +24,6 @@ export const flickrRequestFailure = (direction, error) => ({
 });
 
 export const flickrRequest = (direction, lat, lon) => (dispatch) => {
-  console.log(direction, lat, lon);
   dispatch(flickrRequestStart(direction));
 
   const baseUrl = 'https://api.flickr.com/services/rest';
@@ -39,17 +38,14 @@ export const flickrRequest = (direction, lat, lon) => (dispatch) => {
 
   let src;
   axios.get(baseUrl, {params}).then(response => {
-    console.log("response", response);
     const photos = response.data.photos.photo;
     if (photos && photos.length) {
       const idx = Math.floor(Math.random() * photos.length); // Grab random image index to display
       const photo = photos[idx];
       src = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`;
-      console.log(src);
       dispatch(flickrRequestSuccess(direction, lat, lon, src));
     }
   }).catch( (error)=> {
-    console.log(error);
     dispatch(flickrRequestFailure(direction, error));
   });
 };

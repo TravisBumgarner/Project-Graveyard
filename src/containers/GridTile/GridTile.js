@@ -44,17 +44,11 @@ export class gridTile extends Component {
     } = this.props;
 
     // Get new image if current will be removed.
-
-    if (direction === "N"){
-      console.log("NORTH: ", !!tileDetails.src, !!tileDetails.src.length, !nextProps.tileDetails.src.length);
-    }
-
     if(
       tileDetails.src &&
       tileDetails.src.length &&
       !nextProps.tileDetails.src.length
     ){
-      console.log("this fires");
       const coords = getTileCoords(direction, centerTileDetails.lat, centerTileDetails.lon, radius);
       flickrRequest(direction, coords.lat, coords.lon);
     }
@@ -67,7 +61,6 @@ export class gridTile extends Component {
       setCenterTile,
       tileDetails,
     } = this.props;
-    console.log("tileDetails", tileDetails);
     return (
       <div
         className="gridTile"

@@ -4,10 +4,17 @@ import { connect } from 'react-redux';
 import Drawer from 'material-ui/Drawer';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
 
+import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
+import Clear from 'material-ui/svg-icons/content/clear';
+
+import requestActions from '../../store/requests/actions';
 import uiActions from '../../store/ui/actions';
+import tileActions from '../../store/tile/actions';
 
-import { CENTER_DIRECTION } from '../../utilities/constants';
+import { CENTER_DIRECTION, RADIAL_DRECTIONS } from '../../utilities/constants';
+import { getTileCoords } from '../../utilities/functions';
 
 export class SideMenu extends Component {
 
@@ -21,8 +28,52 @@ export class SideMenu extends Component {
     };
   }
 
+
+  componentWillReceiveProps(nextProps){
+    const { dataLoaded } = this.state;
+
+    if (!dataLoaded){
+      const {
+        centerTileDetails: {
+          lat,
+          lon
+        },
+        radius
+      } = nextProps;
+      this.setState({
+        centerLat: lat,
+        centerLon: lon,
+        radius,
+      });
+
+    }
+  }
+
   handleToggle = () => {
     const { toggleSideMenu } = this.props;
+    toggleSideMenu();
+  };
+
+  takeOff = () => {
+    const {
+      centerLat,
+      centerLon,
+      radius,
+    } = this.state;
+
+    const {
+      setMetaData,
+      flickrRequest,
+      toggleSideMenu,
+    } = this.props;
+
+    flickrRequest(CENTER_DIRECTION, centerLat, centerLon);
+
+    RADIAL_DRECTIONS.forEach( direction => {
+      const coords = getTileCoords(direction, centerLat, centerLon, radius);
+      flickrRequest(direction, coords.lat, coords.lon);
+    });
+    setMetaData(radius);
     toggleSideMenu();
   };
 
@@ -63,6 +114,16 @@ export class SideMenu extends Component {
             floatingLabelText="Radius"
             onChange={ (event, newValue) => this.setState({radius: newValue}) }
           />
+          <RaisedButton
+            label="Take Off"
+            labelPosition="before"
+            primary={true}
+            icon={<ActionFlightTakeoff />}
+            onClick={ this.takeOff }
+          />
+          <IconButton tooltip="Font Icon">
+            <Clear />
+          </IconButton>
         </Drawer>
       </div>
     );
@@ -75,4 +136,6 @@ export default connect(state => ({
   radius: state.tile.meta.radius,
 }), {
   toggleSideMenu: uiActions.toggleSideMenu,
+  flickrRequest: requestActions.flickrRequest,
+  setMetaData: tileActions.setMetaData,
 })(SideMenu);

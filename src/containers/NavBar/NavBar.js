@@ -21,8 +21,6 @@ class NavBar extends Component {
     </div>
   );
 
-
-
     return (
         <AppBar
           title="PhotoVentures"

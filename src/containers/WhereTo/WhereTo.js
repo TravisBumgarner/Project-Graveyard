@@ -44,8 +44,6 @@ export class WhereTo extends Component {
       const coords = getTileCoords(direction, centerLat, centerLon, radius);
       flickrRequest(direction, coords.lat, coords.lon);
     });
-
-    //setTile(CENTER_DIRECTION, lat, lon);
     setMetaData(radius);
     this.setState({ open: false });
   };
