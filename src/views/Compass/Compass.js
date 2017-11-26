@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
+import NavBar from '../../containers/NavBar';
 
 export class Compass extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export class Compass extends Component {
 
     return (
       <div className="Compass">
+        <NavBar />
         <WhereTo />
         <SideMenu />
         <ThreeByThreeGrid />

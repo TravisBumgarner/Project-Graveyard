@@ -3,9 +3,11 @@ import { createLogger } from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
 
 import tile from './tile/reducers';
+import ui from './ui/reducers';
 
 const rootReducer = combineReducers({
   tile,
+  ui,
 });
 
 const logger = createLogger({

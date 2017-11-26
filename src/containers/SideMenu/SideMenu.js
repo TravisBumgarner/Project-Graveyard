@@ -5,32 +5,34 @@ import Drawer from 'material-ui/Drawer';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
+import uiActions from '../../store/ui/actions';
 
 export class SideMenu extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
     };
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
-
-  handleClose = () => this.setState({open: false});
+  handleToggle = () => {
+    const { toggleSideMenu } = this.props;
+    toggleSideMenu();
+  };
 
   render() {
+    const {
+      sideMenuOpen,
+      toggleSideMenu,
+    } = this.props;
+
     return (
       <div>
-        <RaisedButton
-          label="Open Drawer"
-          onClick={this.handleToggle}
-        />
         <Drawer
           docked={false}
           width={200}
-          open={this.state.open}
-          onRequestChange={(open) => this.setState({open})}
+          open={sideMenuOpen}
+          onRequestChange={toggleSideMenu}
         >
           <TextField
             value = {5}
@@ -54,5 +56,7 @@ export class SideMenu extends Component {
 }
 
 export default connect(state => ({
+  sideMenuOpen: state.ui.meta.sideMenuOpen,
 }), {
+  toggleSideMenu: uiActions.toggleSideMenu,
 })(SideMenu);
