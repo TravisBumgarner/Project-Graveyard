@@ -11,13 +11,10 @@ export class Compass extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     }
   };
 
   render() {
-
-
     return (
       <div className="Compass">
         <NavBar />
@@ -25,7 +22,6 @@ export class Compass extends Component {
         <SideMenu />
         <ThreeByThreeGrid />
       </div>
-
     );
   }
 }

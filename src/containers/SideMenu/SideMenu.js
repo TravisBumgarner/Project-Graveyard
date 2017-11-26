@@ -7,11 +7,17 @@ import TextField from 'material-ui/TextField';
 
 import uiActions from '../../store/ui/actions';
 
+import { CENTER_DIRECTION } from '../../utilities/constants';
+
 export class SideMenu extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      dataLoaded: false,
+      centerLat: 0,
+      centerLon: 0,
+      radius: 0,
     };
   }
 
@@ -21,10 +27,18 @@ export class SideMenu extends Component {
   };
 
   render() {
+    console.log("state", this.state);
+
     const {
       sideMenuOpen,
       toggleSideMenu,
     } = this.props;
+
+    const {
+      centerLat,
+      centerLon,
+      radius,
+    } = this.state;
 
     return (
       <div>
@@ -35,17 +49,17 @@ export class SideMenu extends Component {
           onRequestChange={toggleSideMenu}
         >
           <TextField
-            value = {5}
+            value = {centerLat}
             floatingLabelText="Latitude"
             onChange={ (event, newValue) => this.setState({centerLat: newValue}) }
           />
           <TextField
-            value = {6}
+            value = {centerLon}
             floatingLabelText="Longitude"
             onChange={ (event, newValue) => this.setState({centerLon: newValue}) }
           />
           <TextField
-            value = {7}
+            value = {radius}
             floatingLabelText="Radius"
             onChange={ (event, newValue) => this.setState({radius: newValue}) }
           />
@@ -57,6 +71,8 @@ export class SideMenu extends Component {
 
 export default connect(state => ({
   sideMenuOpen: state.ui.meta.sideMenuOpen,
+  centerTileDetails: state.tile.allTiles[CENTER_DIRECTION],
+  radius: state.tile.meta.radius,
 }), {
   toggleSideMenu: uiActions.toggleSideMenu,
 })(SideMenu);
