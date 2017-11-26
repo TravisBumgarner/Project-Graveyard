@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
-import DirectionTile from '../../containers/GridTile/GridTile';
-import WhereTo from '../../containers/WhereTo'
+import WhereTo from '../../containers/WhereTo';
+import SideMenu from '../../containers/SideMenu';
 
 export class Compass extends Component {
   constructor(props) {
     super(props);
     this.state = {
+
     }
   };
 
@@ -19,6 +20,7 @@ export class Compass extends Component {
     return (
       <div className="Compass">
         <WhereTo />
+        <SideMenu />
         <ThreeByThreeGrid />
       </div>
 
