@@ -77,8 +77,6 @@ export class SideMenu extends Component {
   };
 
   render() {
-    console.log("state", this.state);
-
     const {
       sideMenuOpen,
       toggleSideMenu,

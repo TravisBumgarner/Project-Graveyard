@@ -22,7 +22,6 @@ const allTiles = (state = defaultData, action) => {
       };
 
     case 'SET_RADIAL_TILE_SUCCESS':
-      console.log("direction reducer action.tileDetails", action.direction, action.tileDetails);
       return {
         ...state,
         [action.direction]: {

@@ -12,7 +12,6 @@ export const flickrRequest = (lat, lon) => {
       method: "flickr.photos.search",
     };
     return axios.get(baseUrl, {params}).then(response => {
-      console.log(response.data);
       const photos = response.data.photos.photo;
       if (photos && photos.length) {
         const idx = Math.floor(Math.random() * photos.length); // Grab random image index to display
