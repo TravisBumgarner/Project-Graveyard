@@ -5,7 +5,6 @@ import Drawer from 'material-ui/Drawer';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-
 import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import Clear from 'material-ui/svg-icons/content/clear';
 
@@ -121,8 +120,8 @@ export class SideMenu extends Component {
             icon={<ActionFlightTakeoff />}
             onClick={ this.takeOff }
           />
-          <IconButton tooltip="Font Icon">
-            <Clear />
+          <IconButton tooltip="Close Menu">
+            <Clear onClick={toggleSideMenu} />
           </IconButton>
         </Drawer>
       </div>

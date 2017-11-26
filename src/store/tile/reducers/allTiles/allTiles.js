@@ -21,13 +21,23 @@ const allTiles = (state = defaultData, action) => {
         }
       };
 
+    case 'SET_RADIAL_TILE_SUCCESS':
+      console.log("direction reducer action.tileDetails", action.direction, action.tileDetails);
+      return {
+        ...state,
+        [action.direction]: {
+          ...state[action.direction],
+          ...action.tileDetails
+        }
+      };
+
     case 'FLICKR_REQUEST_START':
     case 'FLICKR_REQUEST_SUCCESS':
     case 'FLICKR_REQUEST_FAILURE':
       return {
         ...state,
         [action.direction]: {
-          ...defaultData[action.direction],
+          ...state[action.direction],
           ...action.tileDetails
         }
       };

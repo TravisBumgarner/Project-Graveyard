@@ -4,16 +4,18 @@ export const FLICKR_REQUEST_START = 'FLICKR_REQUEST_START';
 export const FLICKR_REQUEST_SUCCESS = 'FLICKR_REQUEST_SUCCESS';
 export const FLICKR_REQUEST_FAILURE = 'FLICKR_REQUEST_FAILURE';
 
-export const flickrRequestStart = (direction) => ({
+export const flickrRequestStart = (direction, lat, lon) => ({
   type: FLICKR_REQUEST_START,
   direction,
+  lat,
+  lon,
   tileData: {isLoading: true},
 });
 
-export const flickrRequestSuccess = (direction, lat, lon, src) => ({
+export const flickrRequestSuccess = (direction, src) => ({
   type: FLICKR_REQUEST_SUCCESS,
   direction,
-  tileDetails: {lat, lon, src, isLoading: false},
+  tileDetails: {src, isLoading: false},
 });
 
 export const flickrRequestFailure = (direction, error) => ({
@@ -24,7 +26,8 @@ export const flickrRequestFailure = (direction, error) => ({
 });
 
 export const flickrRequest = (direction, lat, lon) => (dispatch) => {
-  dispatch(flickrRequestStart(direction));
+  dispatch(flickrRequestStart(direction, lat, lon));
+
 
   const baseUrl = 'https://api.flickr.com/services/rest';
   const params = {
@@ -35,7 +38,6 @@ export const flickrRequest = (direction, lat, lon) => (dispatch) => {
     nojsoncallback: 1,
     method: "flickr.photos.search",
   };
-
   let src;
   axios.get(baseUrl, {params}).then(response => {
     const photos = response.data.photos.photo;
@@ -43,7 +45,7 @@ export const flickrRequest = (direction, lat, lon) => (dispatch) => {
       const idx = Math.floor(Math.random() * photos.length); // Grab random image index to display
       const photo = photos[idx];
       src = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`;
-      dispatch(flickrRequestSuccess(direction, lat, lon, src));
+      dispatch(flickrRequestSuccess(direction, src));
     }
   }).catch( (error)=> {
     dispatch(flickrRequestFailure(direction, error));

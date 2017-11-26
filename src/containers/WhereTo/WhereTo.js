@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
+import Clear from 'material-ui/svg-icons/content/clear';
+import IconButton from 'material-ui/IconButton';
 
 import tileActions from '../../store/tile/actions';
 import requestActions from '../../store/requests/actions';
@@ -16,9 +19,9 @@ export class WhereTo extends Component {
     super(props);
     this.state = {
       open: true,
-      centerLat: 42.3736,
-      centerLon: -71.1097,
-      radius: 0.1,
+      centerLat: '',
+      centerLon: '',
+      radius: '',
     }
   };
 
@@ -28,20 +31,29 @@ export class WhereTo extends Component {
 
   handleClose = () => {
     const {
-      setTile,
+      setCenterTile,
       setMetaData,
       flickrRequest,
+      setRadialTile,
     } = this.props;
 
-    const {
+    let {
       centerLat,
       centerLon,
       radius,
     } = this.state;
+
+    centerLat = parseFloat(centerLat);
+    centerLon = parseFloat(centerLon);
+    radius = parseFloat(radius);
+
     flickrRequest(CENTER_DIRECTION, centerLat, centerLon);
 
     RADIAL_DRECTIONS.forEach( direction => {
+
       const coords = getTileCoords(direction, centerLat, centerLon, radius);
+      setCenterTile(centerLat, centerLon);
+      setRadialTile(direction, coords.lat, coords.lon);
       flickrRequest(direction, coords.lat, coords.lon);
     });
     setMetaData(radius);
@@ -56,17 +68,16 @@ export class WhereTo extends Component {
     } = this.state
 
     const actions = [
-      <FlatButton
-        label="Cancel"
+      <RaisedButton
+        label="Take Off"
+        labelPosition="before"
         primary={true}
-        onClick={this.handleCancel}
+        icon={<ActionFlightTakeoff />}
+        onClick={ this.handleClose }
       />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleClose}
-      />,
+      <IconButton tooltip="Close Menu">
+        <Clear />
+      </IconButton>
     ];
 
     return (
@@ -81,14 +92,17 @@ export class WhereTo extends Component {
           <TextField
             value = {centerLat}
             floatingLabelText="Latitude"
+            type="number"
             onChange={ (event, newValue) => this.setState({centerLat: newValue}) }
           />
           <TextField
+            type="number"
             value = {centerLon}
             floatingLabelText="Longitude"
             onChange={ (event, newValue) => this.setState({centerLon: newValue}) }
           />
           <TextField
+            type="number"
             value = {radius}
             floatingLabelText="Radius"
             onChange={ (event, newValue) => this.setState({radius: newValue}) }
@@ -102,7 +116,8 @@ export class WhereTo extends Component {
 
 export default connect(state => ({
 }), {
-  setTile: tileActions.setTile,
+  setCenterTile: tileActions.setCenterTile,
+  setRadialTile: tileActions.setRadialTile,
   setMetaData: tileActions.setMetaData,
   flickrRequest: requestActions.flickrRequest,
 })(WhereTo);
