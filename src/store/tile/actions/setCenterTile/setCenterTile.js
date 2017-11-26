@@ -2,6 +2,8 @@ export const SET_CENTER_TILE_START = 'SET_CENTER_TILE_START';
 export const SET_CENTER_TILE_SUCCESS = 'SET_CENTER_TILE_SUCCESS';
 export const SET_CENTER_TILE_FAILURE = 'SET_CENTER_TILE_FAILURE';
 
+import { flickrRequest } from '../flickrRequest';
+
 export const setCenterTileStart = () => ({
   type: SET_CENTER_TILE_START,
 });
@@ -17,5 +19,8 @@ export const setCenterTileFailure = error => ({
 });
 
 export const setCenterTile = tileDetails => (dispatch) => {
-  dispatch(setCenterTileSuccess(tileDetails));
+  return dispatch(flickrRequest("N", 39, -72)).then(data => {
+    dispatch(setCenterTileSuccess())
+  });
+
 };
