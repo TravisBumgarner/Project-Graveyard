@@ -14,7 +14,7 @@ const allTiles = (state = defaultData, action) => {
   switch (action.type) {
     case 'SET_CENTER_TILE_SUCCESS':
       return {
-        ...defaultData,
+        ...state,
         [CENTER_DIRECTION]: {
           ...state[CENTER_DIRECTION],
           ...action.tileDetails

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const flickrRequest = (direction, lat, lon) => {
-  return (dispatch) => {
+export const flickrRequest = (lat, lon) => {
+  return dispatch => {
     const baseUrl = 'https://api.flickr.com/services/rest';
     const params = {
       lat,
@@ -12,6 +12,7 @@ export const flickrRequest = (direction, lat, lon) => {
       method: "flickr.photos.search",
     };
     return axios.get(baseUrl, {params}).then(response => {
+      console.log(response.data);
       const photos = response.data.photos.photo;
       if (photos && photos.length) {
         const idx = Math.floor(Math.random() * photos.length); // Grab random image index to display

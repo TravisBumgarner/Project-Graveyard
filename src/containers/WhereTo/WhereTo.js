@@ -47,15 +47,8 @@ export class WhereTo extends Component {
     centerLon = parseFloat(centerLon);
     radius = parseFloat(radius);
 
-    flickrRequest(CENTER_DIRECTION, centerLat, centerLon);
+    setCenterTile(centerLat, centerLon, radius);
 
-    RADIAL_DRECTIONS.forEach( direction => {
-
-      const coords = getTileCoords(direction, centerLat, centerLon, radius);
-      setCenterTile(centerLat, centerLon);
-      setRadialTile(direction, coords.lat, coords.lon);
-      flickrRequest(direction, coords.lat, coords.lon);
-    });
     setMetaData(radius);
     this.setState({ open: false });
   };
@@ -65,7 +58,7 @@ export class WhereTo extends Component {
       centerLat,
       centerLon,
       radius,
-    } = this.state
+    } = this.state;
 
     const actions = [
       <RaisedButton
