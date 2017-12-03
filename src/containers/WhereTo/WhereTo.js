@@ -19,9 +19,9 @@ export class WhereTo extends Component {
     super(props);
     this.state = {
       open: true,
-      centerLat: '',
-      centerLon: '',
-      radius: '',
+      centerLat: '40.7128',
+      centerLon: '-74.0060',
+      radius: '0.001',
     }
   };
 
@@ -47,7 +47,8 @@ export class WhereTo extends Component {
     centerLon = parseFloat(centerLon);
     radius = parseFloat(radius);
 
-    setCenterTile(centerLat, centerLon, radius);
+    const tileDetails = {centerLat, centerLon};
+    setCenterTile(tileDetails, radius);
 
     setMetaData(radius);
     this.setState({ open: false });

@@ -12,6 +12,11 @@ let defaultData = DIRECTIONS.reduce((obj, direction) => {
 
 const allTiles = (state = defaultData, action) => {
   switch (action.type) {
+    case 'SET_CENTER_TILE_START':
+      return {
+        ...defaultData
+      };
+
     case 'SET_CENTER_TILE_SUCCESS':
       return {
         ...state,

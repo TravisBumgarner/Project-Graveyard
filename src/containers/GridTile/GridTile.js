@@ -39,20 +39,21 @@ export class gridTile extends Component {
       direction,
       setCenterTile,
       radius,
-      tileDetails: {
-        lat,
-        lon,
-        src,
-      },
+      tileDetails,
     } = this.props;
+
+    //If Called for setCenterTile(), pass in these values.
+    const { lat: centerLat, lon: centerLon, src: centerSrc} = tileDetails;
+    const centerTileDetails = {centerLat, centerLon, centerSrc };
+
     return (
       <div
         className="gridTile"
         style={style.gridTile}
-        onClick={ direction !== CENTER_DIRECTION ? () => setCenterTile(lat, lon, radius) : null }
+        onClick={ direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null }
       >
         {
-          !src
+          !tileDetails.src
           ? <RefreshIndicator
               size={40}
               left={10}
@@ -60,8 +61,8 @@ export class gridTile extends Component {
               style={style.refresh}
               status="loading"
             />
-          : src.length
-            ? <img src={src} style={style.image}/>
+          : tileDetails.src.length
+            ? <img src={tileDetails.src} style={style.image}/>
             : <h1>{direction}</h1>
          }
       </div>
