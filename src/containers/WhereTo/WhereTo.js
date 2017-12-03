@@ -107,7 +107,7 @@ export class WhereTo extends Component {
     );
   }
 }
-
+//export default muiThemeable()(DeepDownTheTree);
 export default connect(state => ({
 }), {
   setCenterTile: tileActions.setCenterTile,

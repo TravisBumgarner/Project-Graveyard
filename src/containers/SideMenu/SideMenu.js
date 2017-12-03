@@ -12,8 +12,7 @@ import requestActions from '../../store/requests/actions';
 import uiActions from '../../store/ui/actions';
 import tileActions from '../../store/tile/actions';
 
-import { CENTER_DIRECTION, RADIAL_DRECTIONS } from '../../utilities/constants';
-import { getTileCoords } from '../../utilities/functions';
+import { CENTER_DIRECTION } from '../../utilities/constants';
 
 export class SideMenu extends Component {
 
@@ -27,7 +26,6 @@ export class SideMenu extends Component {
     };
   }
 
-
   componentWillReceiveProps(nextProps){
     const { dataLoaded } = this.state;
 
@@ -39,20 +37,14 @@ export class SideMenu extends Component {
         },
         radius
       } = nextProps;
-      
+
       this.setState({
         centerLat: lat,
         centerLon: lon,
         radius,
       });
-
     }
   }
-
-  handleToggle = () => {
-    const { toggleSideMenu } = this.props;
-    toggleSideMenu();
-  };
 
   takeOff = () => {
     let {
@@ -94,9 +86,10 @@ export class SideMenu extends Component {
       <div>
         <Drawer
           docked={false}
-          width={200}
+          width={250}
           open={sideMenuOpen}
           onRequestChange={toggleSideMenu}
+          openSecondary={true}
         >
           <TextField
             value = {centerLat}

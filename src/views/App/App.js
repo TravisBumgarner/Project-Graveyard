@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import Theme from '../../theme'
+
 import Compass from '../Compass';
 
 import store from '../../store';
@@ -17,7 +19,7 @@ export class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={Theme}>
           <Compass />
         </MuiThemeProvider>
       </Provider>
