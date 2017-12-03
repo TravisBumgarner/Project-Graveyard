@@ -39,6 +39,7 @@ export class SideMenu extends Component {
         },
         radius
       } = nextProps;
+      
       this.setState({
         centerLat: lat,
         centerLon: lon,
@@ -54,7 +55,7 @@ export class SideMenu extends Component {
   };
 
   takeOff = () => {
-    const {
+    let {
       centerLat,
       centerLon,
       radius,
@@ -62,16 +63,17 @@ export class SideMenu extends Component {
 
     const {
       setMetaData,
-      flickrRequest,
+      setCenterTile,
       toggleSideMenu,
     } = this.props;
 
-    flickrRequest(CENTER_DIRECTION, centerLat, centerLon);
+    centerLat = parseFloat(centerLat);
+    centerLon = parseFloat(centerLon);
+    radius = parseFloat(radius);
 
-    RADIAL_DRECTIONS.forEach( direction => {
-      const coords = getTileCoords(direction, centerLat, centerLon, radius);
-      flickrRequest(direction, coords.lat, coords.lon);
-    });
+    const tileDetails = {centerLat, centerLon};
+    setCenterTile(tileDetails, radius);
+
     setMetaData(radius);
     toggleSideMenu();
   };
@@ -135,4 +137,5 @@ export default connect(state => ({
   toggleSideMenu: uiActions.toggleSideMenu,
   flickrRequest: requestActions.flickrRequest,
   setMetaData: tileActions.setMetaData,
+  setCenterTile: tileActions.setCenterTile,
 })(SideMenu);
