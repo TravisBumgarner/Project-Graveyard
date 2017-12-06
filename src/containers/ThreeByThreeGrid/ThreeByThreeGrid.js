@@ -4,30 +4,61 @@ import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import styled from 'styled-components';
 
 import { DIRECTIONS } from '../../utilities/constants';
 import GridTile from '../GridTile';
 
-const style = {
-  width: '400px',
-  height: '400px',
-  background: 'black',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-around',
-  flexDirection: 'row',
-  flexFlow: 'row wrap',
-};
+// const style = (width, height) => ({
+//   width: '80vw',
+//   height: '80vw',
+//   margin: '0px auto',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'space-around',
+//   flexDirection: 'row',
+//   flexFlow: 'row wrap',
+// });
 
+const MyGrid = styled.div`
+  width: ${props => props.gridSideLength};
+  height: ${props => props.gridSideLength};
+  max-width: ${props => props.gridSideLength};
+  max-height: ${props => props.gridSideLength};
+  margin: 0px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-flow: row wrap;
+`;
 
 export class ThreeByThreeGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    }
+      width: 0,
+      height: 0,
+    };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   };
 
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
   render() {
+    let { width, height } = this.state;
+
     const grid = DIRECTIONS.map(direction => {
       return (
         <GridTile
@@ -37,10 +68,14 @@ export class ThreeByThreeGrid extends Component {
       );
     });
 
+    const gridSideLength = height >= width + 50 // 50px for app bar height
+      ? "100vw"
+      : `${height - 50}px`;
+
     return (
-      <div className="ThreeByThreeGrid" style={style}>
+      <MyGrid gridSideLength={gridSideLength}>
         { grid }
-      </div>
+      </MyGrid>
     );
   }
 }
