@@ -16,14 +16,19 @@ const style = {
     width: '30%',
     height: '30%',
     backgroundColor: 'turquoise',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   refresh: {
     display: 'inline-block',
     position: 'relative',
+
   },
   image: {
-    maxWidth: '120px',
-    maxHeight: '120px',
+    width: '100%',
+    height: '100%',
   }
 };
 
@@ -56,7 +61,7 @@ export class gridTile extends Component {
           !tileDetails.src
           ? <RefreshIndicator
               size={40}
-              left={10}
+              left={0}
               top={0}
               style={style.refresh}
               status="loading"
