@@ -1,24 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
 
 import { DIRECTIONS } from '../../utilities/constants';
 import GridTile from '../GridTile';
-
-// const style = (width, height) => ({
-//   width: '80vw',
-//   height: '80vw',
-//   margin: '0px auto',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'space-around',
-//   flexDirection: 'row',
-//   flexFlow: 'row wrap',
-// });
 
 const MyGrid = styled.div`
   width: ${props => props.gridSideLength};

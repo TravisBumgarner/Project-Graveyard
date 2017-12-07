@@ -36,7 +36,6 @@ export class Compass extends Component {
         <SideMenu />
         <div style={style.contentWrapper}>
           <ThreeByThreeGrid />
-          <RecentHistory />
         </div>
       </div>
     );
