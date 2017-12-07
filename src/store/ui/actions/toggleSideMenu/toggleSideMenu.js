@@ -6,7 +6,7 @@ export const toggleSideMenuStart = () => ({
   type: TOGGLE_SIDE_MENU_START,
 });
 
-export const toggleSideMenuSuccess = open => ({
+export const toggleSideMenuSuccess = () => ({
   type: TOGGLE_SIDE_MENU_SUCCESS,
 });
 

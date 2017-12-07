@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
 import NavBar from '../../containers/NavBar';
-import RecentHistory from '../../containers/RecentHistory';
 
 const style = {
   compass: {
@@ -19,18 +17,13 @@ const style = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-  }
+  },
 };
 
 export class Compass extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
-  };
-
-  static propTypes = {
-  };
+  }
 
   render() {
     return (

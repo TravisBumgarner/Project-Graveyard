@@ -3,8 +3,8 @@ const defaultData = {
   window: {
     width: 0,
     height: 0,
-  }
-}
+  },
+};
 
 const meta = (state = defaultData, action) => {
   switch (action.type) {
@@ -19,8 +19,8 @@ const meta = (state = defaultData, action) => {
         window: {
           width: action.width,
           height: action.height,
-        }
-      }
+        },
+      };
     default:
       return state;
   }

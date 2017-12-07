@@ -10,7 +10,7 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-  };
+  }
 
   static propTypes = {
     setWindowSize: PropTypes.func,

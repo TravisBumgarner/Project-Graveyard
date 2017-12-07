@@ -29,15 +29,15 @@ const style = {
   image: {
     width: '100%',
     height: '100%',
-  }
+  },
 };
 
 export class gridTile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    }
-  };
+    };
+  }
 
   static propTypes = {
     tileDetails: PropTypes.object,
@@ -55,27 +55,27 @@ export class gridTile extends Component {
       tileDetails,
     } = this.props;
 
-    //If Called for setCenterTile(), pass in these values.
-    const { lat: centerLat, lon: centerLon, src: centerSrc} = tileDetails;
-    const centerTileDetails = {centerLat, centerLon, centerSrc };
+    // If Called for setCenterTile(), pass in these values.
+    const { lat: centerLat, lon: centerLon, src: centerSrc } = tileDetails;
+    const centerTileDetails = { centerLat, centerLon, centerSrc };
 
     return (
       <div
         className="gridTile"
         style={style.gridTile}
-        onClick={ direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null }
+        onClick={direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null}
       >
         {
           !tileDetails.src
           ? <RefreshIndicator
-              size={40}
-              left={0}
-              top={0}
-              style={style.refresh}
-              status="loading"
-            />
+            size={40}
+            left={0}
+            top={0}
+            style={style.refresh}
+            status="loading"
+          />
           : tileDetails.src.length
-            ? <img src={tileDetails.src} style={style.image}/>
+            ? <img src={tileDetails.src} style={style.image} />
             : <h1>{direction}</h1>
          }
       </div>

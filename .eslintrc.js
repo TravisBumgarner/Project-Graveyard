@@ -8,5 +8,6 @@ module.exports = {
         config: path.resolve(__dirname, 'webpack.config.js'),
       }
     }
-  }
+  },
+  parser: "babel-eslint",
 };

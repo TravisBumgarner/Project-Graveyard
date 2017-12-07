@@ -1,7 +1,7 @@
 import { DIRECTIONS, CENTER_DIRECTION } from '../../../../utilities/constants';
 
-let defaultData = DIRECTIONS.reduce((obj, direction) => {
-  obj[direction] = {
+const defaultData = DIRECTIONS.reduce((obj, direction) => {
+  obj[direction] = { //eslint-disable-line
     lat: '',
     lon: '',
     src: '',
@@ -14,7 +14,7 @@ const allTiles = (state = defaultData, action) => {
   switch (action.type) {
     case 'SET_CENTER_TILE_START':
       return {
-        ...defaultData
+        ...defaultData,
       };
 
     case 'SET_CENTER_TILE_SUCCESS':
@@ -22,8 +22,8 @@ const allTiles = (state = defaultData, action) => {
         ...state,
         [CENTER_DIRECTION]: {
           ...state[CENTER_DIRECTION],
-          ...action.tileDetails
-        }
+          ...action.tileDetails,
+        },
       };
 
     case 'SET_RADIAL_TILE_SUCCESS':
@@ -31,8 +31,8 @@ const allTiles = (state = defaultData, action) => {
         ...state,
         [action.direction]: {
           ...state[action.direction],
-          ...action.tileDetails
-        }
+          ...action.tileDetails,
+        },
       };
 
     case 'FLICKR_REQUEST_START':
@@ -42,8 +42,8 @@ const allTiles = (state = defaultData, action) => {
         ...state,
         [action.direction]: {
           ...state[action.direction],
-          ...action.tileDetails
-        }
+          ...action.tileDetails,
+        },
       };
 
     default:
