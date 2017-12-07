@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import PropTypes from 'prop-types';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Theme from '../../theme'
+import { connect } from 'react-redux';
 
 import Compass from '../Compass';
 
-import store from '../../store';
+import uiActions from '../../store/ui/actions';
 
 export class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  };
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    const { setWindowSize } = this.props;
+    setWindowSize(window.innerWidth, window.innerHeight);
   }
 
   render() {
     return (
-      <Provider store={store}>
-        <MuiThemeProvider muiTheme={Theme}>
-          <Compass />
-        </MuiThemeProvider>
-      </Provider>
+      <Compass />
     );
   }
 }
 
-const mapStateToProps = state => ({ items: state.items });
-
-export default App;
+export default connect(state => ({
+}), {
+  setWindowSize: uiActions.setWindowSize,
+})(App);

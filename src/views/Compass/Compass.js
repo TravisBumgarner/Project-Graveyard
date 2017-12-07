@@ -6,11 +6,19 @@ import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
 import NavBar from '../../containers/NavBar';
-
+import RecentHistory from '../../containers/RecentHistory';
 const style = {
-  width: '100vw',
-  maxWidth: '1200px',
-  margin: '0px auto',
+  compass: {
+    width: '100vw',
+    maxWidth: '1200px',
+    margin: '0px auto',
+    display: 'relative',
+  },
+  contentWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  }
 };
 
 export class Compass extends Component {
@@ -22,11 +30,14 @@ export class Compass extends Component {
 
   render() {
     return (
-      <div className="Compass" style={style}>
+      <div className="Compass" style={style.compass}>
         <NavBar />
         <WhereTo />
         <SideMenu />
-        <ThreeByThreeGrid />
+        <div style={style.contentWrapper}>
+          <ThreeByThreeGrid />
+          <RecentHistory />
+        </div>
       </div>
     );
   }

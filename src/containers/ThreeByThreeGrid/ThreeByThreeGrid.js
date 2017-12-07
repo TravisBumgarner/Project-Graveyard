@@ -25,7 +25,6 @@ const MyGrid = styled.div`
   height: ${props => props.gridSideLength};
   max-width: ${props => props.gridSideLength};
   max-height: ${props => props.gridSideLength};
-  margin: 0px auto;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -36,28 +35,10 @@ const MyGrid = styled.div`
 export class ThreeByThreeGrid extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      width: 0,
-      height: 0,
-    };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   };
 
-  componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
-  }
-
-  updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
-  }
-
   render() {
-    let { width, height } = this.state;
+    let { width, height } = this.props;
 
     const grid = DIRECTIONS.map(direction => {
       return (
@@ -81,6 +62,8 @@ export class ThreeByThreeGrid extends Component {
 }
 
 export default connect(state => ({
+  width: state.ui.meta.window.width,
+  height: state.ui.meta.window.height,
 }), {
 
 })(ThreeByThreeGrid);
