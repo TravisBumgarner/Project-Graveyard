@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
@@ -25,8 +26,11 @@ export class WhereTo extends Component {
     }
   };
 
-  handleOpen = () => {
-    this.setState({ open: true });
+  static propTypes = {
+    setCenterTile: PropTypes.func,
+    setRadialTile: PropTypes.func,
+    setMetaData: PropTypes.func,
+    flickrRequest: PropTypes.func,
   };
 
   handleClose = () => {

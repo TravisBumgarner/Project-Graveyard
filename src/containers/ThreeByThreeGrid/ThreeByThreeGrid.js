@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
@@ -22,6 +23,12 @@ export class ThreeByThreeGrid extends Component {
   constructor(props) {
     super(props);
   };
+
+  static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+  };
+
 
   render() {
     let { width, height } = this.props;

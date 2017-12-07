@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Compass from '../Compass';
@@ -11,6 +11,11 @@ export class App extends Component {
     super(props);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   };
+
+  static propTypes = {
+    setWindowSize: PropTypes.func,
+  };
+
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Drawer from 'material-ui/Drawer';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -15,7 +16,6 @@ import tileActions from '../../store/tile/actions';
 import { CENTER_DIRECTION } from '../../utilities/constants';
 
 export class SideMenu extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +25,15 @@ export class SideMenu extends Component {
       radius: 0,
     };
   }
+
+  static propTypes = {
+    sideMenuOpen: PropTypes.bool,
+    centerTileDetails: PropTypes.object,
+    radius: PropTypes.number,
+    toggleSideMenu: PropTypes.func,
+    setMetaData: PropTypes.func,
+    setCenterTile: PropTypes.func
+  };
 
   componentWillReceiveProps(nextProps){
     const { dataLoaded } = this.state;
@@ -128,7 +137,6 @@ export default connect(state => ({
   radius: state.tile.meta.radius,
 }), {
   toggleSideMenu: uiActions.toggleSideMenu,
-  flickrRequest: requestActions.flickrRequest,
   setMetaData: tileActions.setMetaData,
   setCenterTile: tileActions.setCenterTile,
 })(SideMenu);

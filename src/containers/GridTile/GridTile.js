@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import tileActions from '../../store/tile/actions/index';
 import requestActions from '../../store/requests/actions';
 
 import { CENTER_DIRECTION } from '../../utilities/constants';
-import { getTileCoords } from '../../utilities/functions';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
@@ -37,6 +37,14 @@ export class gridTile extends Component {
     super(props);
     this.state = {
     }
+  };
+
+  static propTypes = {
+    tileDetails: PropTypes.object,
+    centerTileDetails: PropTypes.object,
+    radius: PropTypes.number,
+    flickrRequest: PropTypes.func,
+    setCenterTile: PropTypes.func,
   };
 
   render() {

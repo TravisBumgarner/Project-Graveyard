@@ -7,6 +7,7 @@ import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
 import NavBar from '../../containers/NavBar';
 import RecentHistory from '../../containers/RecentHistory';
+
 const style = {
   compass: {
     width: '100vw',
@@ -26,6 +27,9 @@ export class Compass extends Component {
     super(props);
     this.state = {
     }
+  };
+
+  static propTypes = {
   };
 
   render() {
