@@ -10,7 +10,8 @@ const icon = (fillOpacity) => {
     path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
     fillColor: 'rgb(64, 224, 208)',
     fillOpacity,
-    strokeWeight: 0,
+    strokeWeight: 2,
+    strokeColor: 'rgb(64, 224, 208)',
     scale: 0.3
   }
 }
@@ -26,10 +27,11 @@ const MyMapComponent = compose(
   withGoogleMap
 )((props) =>
   <GoogleMap
-    defaultZoom={8}
+    defaultZoom={14}
     defaultCenter={{ lat: props.lat, lng: props.lon }}
+    center={{ lat: props.lat, lng: props.lon }}
+    disableDefaultUI={true}
   >
-    <Marker position={{ lat: props.lat, lng: props.lon }} />
     { props.markers }
   </GoogleMap>
 )

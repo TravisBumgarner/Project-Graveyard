@@ -2,8 +2,8 @@ import { RADIAL_DRECTIONS, CENTER_DIRECTION } from '../../../../utilities/consta
 
 let defaultData = RADIAL_DRECTIONS.reduce((obj, direction) => {
   obj[direction] = {
-    lat: null,
-    lon: null,
+    lat: '',
+    lon: '',
     src: '',
     isLoading: false,
   };
