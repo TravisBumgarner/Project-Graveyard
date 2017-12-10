@@ -35,8 +35,8 @@ export class App extends Component {
     // TODO fix browsing urls.
     return (
       <Switch>
-        <Route exact path='/' component={History}/>
-        <Route path='/history' component={Compass}/>
+        <Route exact path='/' component={Compass}/>
+        <Route path='/history' component={History}/>
       </Switch>
     );
   }

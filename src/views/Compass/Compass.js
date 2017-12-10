@@ -29,9 +29,6 @@ export class Compass extends Component {
     }
   };
 
-  static propTypes = {
-  };
-
   render() {
     return (
       <div className="Compass" style={style.compass}>
@@ -40,11 +37,16 @@ export class Compass extends Component {
         <SideMenu />
         <div style={style.contentWrapper}>
           <ThreeByThreeGrid />
+          <RecentHistory />
         </div>
+
       </div>
     );
   }
 }
+
+// Compass.propTypes = {
+// };
 
 export default connect(state => ({
 
