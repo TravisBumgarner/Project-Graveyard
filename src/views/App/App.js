@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom'
 
 import Compass from '../Compass';
-
+import History from '../../containers/RecentHistory'
 import uiActions from '../../store/ui/actions';
 
 export class App extends Component {
@@ -31,8 +32,12 @@ export class App extends Component {
   }
 
   render() {
+    // TODO fix browsing urls.
     return (
-      <Compass />
+      <Switch>
+        <Route exact path='/' component={History}/>
+        <Route path='/history' component={Compass}/>
+      </Switch>
     );
   }
 }
