@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
 import Compass from '../Compass';
-import History from '../../containers/RecentHistory'
+import RecentHistory from '../../containers/RecentHistory'
+import NavBar from '../../containers/NavBar';
+
 import uiActions from '../../store/ui/actions';
 
 export class App extends Component {
@@ -34,15 +36,18 @@ export class App extends Component {
   render() {
     // TODO fix browsing urls.
     return (
-      <Switch>
-        <Route exact path='/' component={Compass}/>
-        <Route path='/history' component={History}/>
-      </Switch>
+      <div>
+        <NavBar />
+        <Switch>
+          <Route exact path='/' component={Compass}/>
+          <Route path='/history' component={RecentHistory}/>
+        </Switch>
+      </div>
     );
   }
 }
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
 }), {
   setWindowSize: uiActions.setWindowSize,
-})(App);
+})(App));
