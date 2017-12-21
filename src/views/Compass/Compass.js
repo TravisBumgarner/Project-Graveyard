@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
-import NavBar from '../../containers/NavBar';
 import RecentHistory from '../../containers/RecentHistory';
 
 const style = {
@@ -29,22 +28,22 @@ export class Compass extends Component {
     }
   };
 
-  static propTypes = {
-  };
-
   render() {
     return (
       <div className="Compass" style={style.compass}>
-        <NavBar />
         <WhereTo />
         <SideMenu />
         <div style={style.contentWrapper}>
           <ThreeByThreeGrid />
+          <RecentHistory />
         </div>
       </div>
     );
   }
 }
+
+// Compass.propTypes = {
+// };
 
 export default connect(state => ({
 

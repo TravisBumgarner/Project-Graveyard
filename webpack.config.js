@@ -8,7 +8,8 @@ var config = {
   entry: APP_DIR + '/index.jsx',
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   module : {
     rules : [
@@ -23,6 +24,7 @@ var config = {
     publicPath: "/",
     contentBase: "./dest",
     port: 3000,
+    historyApiFallback: true
   },
 };
 
