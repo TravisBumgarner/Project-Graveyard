@@ -1,6 +1,6 @@
 import { RADIAL_DRECTIONS, CENTER_DIRECTION } from '../../../../utilities/constants';
 
-let defaultData = RADIAL_DRECTIONS.reduce((obj, direction) => {
+const defaultData = RADIAL_DRECTIONS.reduce((obj, direction) => {
   obj[direction] = { //eslint-disable-line
     lat: '',
     lon: '',

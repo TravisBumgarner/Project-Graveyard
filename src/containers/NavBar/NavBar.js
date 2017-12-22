@@ -20,22 +20,21 @@ class NavBar extends Component {
 
     const RightMenu = () => (
       <div>
-        <Link to='/'>Home</Link>
-        <Link to='/history'>History</Link>
-        <IconButton onClick={ toggleSideMenu }><ActionFlightTakeoff /></IconButton>
+        <Link to="/">Home</Link>
+        <Link to="/history">History</Link>
+        <IconButton onClick={toggleSideMenu}><ActionFlightTakeoff /></IconButton>
 
       </div>
     );
 
-      return (
-          <AppBar
-            title="PhotoVentures"
-            iconElementRight={ <RightMenu /> }
-            showMenuIconButton={false}
-          >
-          </AppBar>
-      );
-    }
+    return (
+      <AppBar
+        title="PhotoVentures"
+        iconElementRight={<RightMenu />}
+        showMenuIconButton={false}
+      />
+    );
+  }
 }
 
 export default connect(() => ({

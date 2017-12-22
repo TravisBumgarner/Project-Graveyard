@@ -1,10 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
-import NavBar from '../../containers/NavBar';
 import RecentHistory from '../../containers/RecentHistory';
 
 const style = {
@@ -22,11 +21,6 @@ const style = {
 };
 
 export class Compass extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  };
   render() {
     return (
       <div className="Compass" style={style.compass}>
@@ -41,7 +35,7 @@ export class Compass extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 
 }), {
 
