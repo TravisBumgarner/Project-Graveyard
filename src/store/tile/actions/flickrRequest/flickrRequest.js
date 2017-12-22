@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const flickrRequest = (lat, lon) => (dispatch) => {
+export const flickrRequest = (lat, lon) => () => {
   const baseUrl = 'https://api.flickr.com/services/rest';
   const params = {
     lat,
@@ -24,3 +24,6 @@ export const flickrRequest = (lat, lon) => (dispatch) => {
   });
 };
 
+export default {
+  flickrRequest,
+};

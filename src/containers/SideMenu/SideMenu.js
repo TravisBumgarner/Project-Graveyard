@@ -9,13 +9,21 @@ import IconButton from 'material-ui/IconButton';
 import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import Clear from 'material-ui/svg-icons/content/clear';
 
-import requestActions from '../../store/requests/actions';
 import uiActions from '../../store/ui/actions';
 import tileActions from '../../store/tile/actions';
 
 import { CENTER_DIRECTION } from '../../utilities/constants';
 
 export class SideMenu extends Component {
+  static propTypes = {
+    sideMenuOpen: PropTypes.bool.isRequired,
+    centerTileDetails: PropTypes.object.isRequired,
+    radius: PropTypes.number.isRequired,
+    toggleSideMenu: PropTypes.func.isRequired,
+    setMetaData: PropTypes.func.isRequired,
+    setCenterTile: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -25,15 +33,6 @@ export class SideMenu extends Component {
       radius: 0,
     };
   }
-
-  static propTypes = {
-    sideMenuOpen: PropTypes.bool,
-    centerTileDetails: PropTypes.object,
-    radius: PropTypes.number,
-    toggleSideMenu: PropTypes.func,
-    setMetaData: PropTypes.func,
-    setCenterTile: PropTypes.func,
-  };
 
   componentWillReceiveProps(nextProps) {
     const { dataLoaded } = this.state;

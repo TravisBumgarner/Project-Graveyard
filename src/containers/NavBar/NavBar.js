@@ -10,20 +10,14 @@ import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import uiActions from '../../store/ui/actions';
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   static propTypes = {
-    toggleSideMenu: PropTypes.func,
+    toggleSideMenu: PropTypes.func.isRequired,
   };
 
   render() {
     const { toggleSideMenu } = this.props;
 
-    const RightMenu = props => (
+    const RightMenu = () => (
       <div>
         <IconButton onClick={toggleSideMenu}><ActionFlightTakeoff /></IconButton>
       </div>
@@ -38,7 +32,7 @@ class NavBar extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 }), {
   toggleSideMenu: uiActions.toggleSideMenu,
 })(NavBar);

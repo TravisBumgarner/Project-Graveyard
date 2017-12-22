@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
@@ -20,11 +20,7 @@ const style = {
   },
 };
 
-export class Compass extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+export class Compass extends PureComponent {
   render() {
     return (
       <div className="Compass" style={style.compass}>
@@ -39,7 +35,7 @@ export class Compass extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 
 }), {
 

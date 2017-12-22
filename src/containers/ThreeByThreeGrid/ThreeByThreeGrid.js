@@ -20,15 +20,10 @@ const MyGrid = styled.div`
 `;
 
 export class ThreeByThreeGrid extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
-
 
   render() {
     const { width, height } = this.props;

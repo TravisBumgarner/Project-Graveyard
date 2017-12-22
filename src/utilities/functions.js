@@ -15,3 +15,7 @@ export function getTileCoords(direction, lat, lon, rad) {
   }
   return coords;
 }
+
+export default {
+  getTileCoords,
+};

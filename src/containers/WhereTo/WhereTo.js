@@ -10,9 +10,13 @@ import Clear from 'material-ui/svg-icons/content/clear';
 import IconButton from 'material-ui/IconButton';
 
 import tileActions from '../../store/tile/actions';
-import requestActions from '../../store/requests/actions';
 
 export class WhereTo extends Component {
+  static propTypes = {
+    setCenterTile: PropTypes.func.isRequired,
+    setMetaData: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -22,13 +26,6 @@ export class WhereTo extends Component {
       radius: '0.001',
     };
   }
-
-  static propTypes = {
-    setCenterTile: PropTypes.func,
-    setRadialTile: PropTypes.func,
-    setMetaData: PropTypes.func,
-    flickrRequest: PropTypes.func,
-  };
 
   handleClose = () => {
     const {
@@ -107,10 +104,8 @@ export class WhereTo extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 }), {
   setCenterTile: tileActions.setCenterTile,
-  setRadialTile: tileActions.setRadialTile,
   setMetaData: tileActions.setMetaData,
-  flickrRequest: requestActions.flickrRequest,
 })(WhereTo);

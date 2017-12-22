@@ -7,14 +7,14 @@ import Compass from '../Compass';
 import uiActions from '../../store/ui/actions';
 
 export class App extends Component {
+  static propTypes = {
+    setWindowSize: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
-
-  static propTypes = {
-    setWindowSize: PropTypes.func,
-  };
 
   componentDidMount() {
     this.updateWindowDimensions();
@@ -37,7 +37,7 @@ export class App extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 }), {
   setWindowSize: uiActions.setWindowSize,
 })(App);
