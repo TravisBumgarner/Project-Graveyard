@@ -9,13 +9,21 @@ import IconButton from 'material-ui/IconButton';
 import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import Clear from 'material-ui/svg-icons/content/clear';
 
-import requestActions from '../../store/requests/actions';
 import uiActions from '../../store/ui/actions';
 import tileActions from '../../store/tile/actions';
 
 import { CENTER_DIRECTION } from '../../utilities/constants';
 
 export class SideMenu extends Component {
+  static propTypes = {
+    sideMenuOpen: PropTypes.bool.isRequired,
+    centerTileDetails: PropTypes.object.isRequired,
+    radius: PropTypes.number.isRequired,
+    toggleSideMenu: PropTypes.func.isRequired,
+    setMetaData: PropTypes.func.isRequired,
+    setCenterTile: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -26,25 +34,16 @@ export class SideMenu extends Component {
     };
   }
 
-  static propTypes = {
-    sideMenuOpen: PropTypes.bool,
-    centerTileDetails: PropTypes.object,
-    radius: PropTypes.number,
-    toggleSideMenu: PropTypes.func,
-    setMetaData: PropTypes.func,
-    setCenterTile: PropTypes.func
-  };
-
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const { dataLoaded } = this.state;
 
-    if (!dataLoaded){
+    if (!dataLoaded) {
       const {
         centerTileDetails: {
           lat,
-          lon
+          lon,
         },
-        radius
+        radius,
       } = nextProps;
 
       this.setState({
@@ -72,7 +71,7 @@ export class SideMenu extends Component {
     centerLon = parseFloat(centerLon);
     radius = parseFloat(radius);
 
-    const tileDetails = {centerLat, centerLon};
+    const tileDetails = { centerLat, centerLon };
     setCenterTile(tileDetails, radius);
 
     setMetaData(radius);
@@ -98,29 +97,29 @@ export class SideMenu extends Component {
           width={250}
           open={sideMenuOpen}
           onRequestChange={toggleSideMenu}
-          openSecondary={true}
+          openSecondary
         >
           <TextField
-            value = {centerLat}
+            value={centerLat}
             floatingLabelText="Latitude"
-            onChange={ (event, newValue) => this.setState({centerLat: newValue}) }
+            onChange={(event, newValue) => this.setState({ centerLat: newValue })}
           />
           <TextField
-            value = {centerLon}
+            value={centerLon}
             floatingLabelText="Longitude"
-            onChange={ (event, newValue) => this.setState({centerLon: newValue}) }
+            onChange={(event, newValue) => this.setState({ centerLon: newValue })}
           />
           <TextField
-            value = {radius}
+            value={radius}
             floatingLabelText="Radius"
-            onChange={ (event, newValue) => this.setState({radius: newValue}) }
+            onChange={(event, newValue) => this.setState({ radius: newValue })}
           />
           <RaisedButton
             label="Take Off"
             labelPosition="before"
-            primary={true}
+            primary
             icon={<ActionFlightTakeoff />}
-            onClick={ this.takeOff }
+            onClick={this.takeOff}
           />
           <IconButton tooltip="Close Menu">
             <Clear onClick={toggleSideMenu} />

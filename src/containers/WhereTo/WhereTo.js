@@ -10,12 +10,13 @@ import Clear from 'material-ui/svg-icons/content/clear';
 import IconButton from 'material-ui/IconButton';
 
 import tileActions from '../../store/tile/actions';
-import requestActions from '../../store/requests/actions';
-
-import { getTileCoords } from '../../utilities/functions';
-import {CENTER_DIRECTION, RADIAL_DRECTIONS } from "../../utilities/constants";
 
 export class WhereTo extends Component {
+  static propTypes = {
+    setCenterTile: PropTypes.func.isRequired,
+    setMetaData: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,22 +24,13 @@ export class WhereTo extends Component {
       centerLat: '40.7128',
       centerLon: '-74.0060',
       radius: '0.001',
-    }
-  };
-
-  static propTypes = {
-    setCenterTile: PropTypes.func,
-    setRadialTile: PropTypes.func,
-    setMetaData: PropTypes.func,
-    flickrRequest: PropTypes.func,
-  };
+    };
+  }
 
   handleClose = () => {
     const {
       setCenterTile,
       setMetaData,
-      flickrRequest,
-      setRadialTile,
     } = this.props;
 
     let {
@@ -51,7 +43,7 @@ export class WhereTo extends Component {
     centerLon = parseFloat(centerLon);
     radius = parseFloat(radius);
 
-    const tileDetails = {centerLat, centerLon};
+    const tileDetails = { centerLat, centerLon };
     setCenterTile(tileDetails, radius);
 
     setMetaData(radius);
@@ -69,13 +61,13 @@ export class WhereTo extends Component {
       <RaisedButton
         label="Take Off"
         labelPosition="before"
-        primary={true}
+        primary
         icon={<ActionFlightTakeoff />}
-        onClick={ this.handleClose }
+        onClick={this.handleClose}
       />,
       <IconButton tooltip="Close Menu">
         <Clear />
-      </IconButton>
+      </IconButton>,
     ];
 
     return (
@@ -88,22 +80,22 @@ export class WhereTo extends Component {
           onRequestClose={this.handleClose}
         >
           <TextField
-            value = {centerLat}
+            value={centerLat}
             floatingLabelText="Latitude"
             type="number"
-            onChange={ (event, newValue) => this.setState({centerLat: newValue}) }
+            onChange={(event, newValue) => this.setState({ centerLat: newValue })}
           />
           <TextField
             type="number"
-            value = {centerLon}
+            value={centerLon}
             floatingLabelText="Longitude"
-            onChange={ (event, newValue) => this.setState({centerLon: newValue}) }
+            onChange={(event, newValue) => this.setState({ centerLon: newValue })}
           />
           <TextField
             type="number"
-            value = {radius}
+            value={radius}
             floatingLabelText="Radius"
-            onChange={ (event, newValue) => this.setState({radius: newValue}) }
+            onChange={(event, newValue) => this.setState({ radius: newValue })}
           />
         </Dialog>
       </div>
@@ -111,11 +103,9 @@ export class WhereTo extends Component {
     );
   }
 }
-//export default muiThemeable()(DeepDownTheTree);
-export default connect(state => ({
+
+export default connect(() => ({
 }), {
   setCenterTile: tileActions.setCenterTile,
-  setRadialTile: tileActions.setRadialTile,
   setMetaData: tileActions.setMetaData,
-  flickrRequest: requestActions.flickrRequest,
 })(WhereTo);

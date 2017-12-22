@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import tileActions from '../../store/tile/actions/index';
-import requestActions from '../../store/requests/actions';
-
-import { CENTER_DIRECTION } from '../../utilities/constants';
-
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
+import tileActions from '../../store/tile/actions/index';
+
+import { CENTER_DIRECTION } from '../../utilities/constants';
 
 const style = {
   gridTile: {
@@ -29,22 +27,15 @@ const style = {
   image: {
     width: '100%',
     height: '100%',
-  }
+  },
 };
 
 export class gridTile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  };
-
   static propTypes = {
-    tileDetails: PropTypes.object,
-    centerTileDetails: PropTypes.object,
-    radius: PropTypes.number,
-    flickrRequest: PropTypes.func,
-    setCenterTile: PropTypes.func,
+    tileDetails: PropTypes.object.isRequired,
+    radius: PropTypes.number.isRequired,
+    setCenterTile: PropTypes.func.isRequired,
+    direction: PropTypes.string.isRequired,
   };
 
   render() {
@@ -55,27 +46,31 @@ export class gridTile extends Component {
       tileDetails,
     } = this.props;
 
-    //If Called for setCenterTile(), pass in these values.
-    const { lat: centerLat, lon: centerLon, src: centerSrc} = tileDetails;
-    const centerTileDetails = {centerLat, centerLon, centerSrc };
+    // If Called for setCenterTile(), pass in these values.
+    const { lat: centerLat, lon: centerLon, src: centerSrc } = tileDetails;
+    const centerTileDetails = { centerLat, centerLon, centerSrc };
 
     return (
       <div
         className="gridTile"
         style={style.gridTile}
-        onClick={ direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null }
       >
         {
           !tileDetails.src
           ? <RefreshIndicator
-              size={40}
-              left={0}
-              top={0}
-              style={style.refresh}
-              status="loading"
-            />
+            size={40}
+            left={0}
+            top={0}
+            style={style.refresh}
+            status="loading"
+          />
           : tileDetails.src.length
-            ? <img src={tileDetails.src} style={style.image}/>
+            ? <img
+              src={tileDetails.src}
+              style={style.image}
+              alt=""
+              onClick={direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null}
+            />
             : <h1>{direction}</h1>
          }
       </div>
@@ -86,9 +81,7 @@ export class gridTile extends Component {
 
 export default connect((state, ownProps) => ({
   tileDetails: state.tile.allTiles[ownProps.direction],
-  centerTileDetails: state.tile.allTiles[CENTER_DIRECTION],
   radius: state.tile.meta.radius,
 }), {
-  flickrRequest: requestActions.flickrRequest,
   setCenterTile: tileActions.setCenterTile,
 })(gridTile);

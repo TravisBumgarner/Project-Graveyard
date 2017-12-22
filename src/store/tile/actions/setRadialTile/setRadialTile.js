@@ -11,8 +11,8 @@ export const setRadialTileSuccess = (direction, lat, lon) => ({
   direction,
   tileDetails: {
     lat,
-    lon
-  }
+    lon,
+  },
 });
 
 export const setRadialTileFailure = error => ({
@@ -21,6 +21,5 @@ export const setRadialTileFailure = error => ({
 });
 
 export const setRadialTile = (direction, lat, lon) => (dispatch) => {
-  console.log("setting radial tile", direction, lat, lon);
   dispatch(setRadialTileSuccess(direction, lat, lon));
 };

@@ -10,14 +10,14 @@ import NavBar from '../../containers/NavBar';
 import uiActions from '../../store/ui/actions';
 
 export class App extends Component {
+  static propTypes = {
+    setWindowSize: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-  };
-
-  static propTypes = {
-    setWindowSize: PropTypes.func,
-  };
+  }
 
   componentDidMount() {
     this.updateWindowDimensions();

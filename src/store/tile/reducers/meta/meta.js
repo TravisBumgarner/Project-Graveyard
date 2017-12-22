@@ -1,6 +1,6 @@
-let defaultData = {
-  radius: 1 // meters
-}
+const defaultData = {
+  radius: 1, // meters
+};
 
 const meta = (state = defaultData, action) => {
   switch (action.type) {

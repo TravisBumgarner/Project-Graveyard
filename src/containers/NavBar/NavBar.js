@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -11,20 +11,14 @@ import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import uiActions from '../../store/ui/actions';
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  };
-
   static propTypes = {
-    toggleSideMenu: PropTypes.func,
+    toggleSideMenu: PropTypes.func.isRequired,
   };
 
   render() {
-    const {toggleSideMenu} = this.props;
+    const { toggleSideMenu } = this.props;
 
-    const RightMenu = (props) => (
+    const RightMenu = () => (
       <div>
         <Link to='/'>Home</Link>
         <Link to='/history'>History</Link>
@@ -44,7 +38,7 @@ class NavBar extends Component {
     }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 }), {
   toggleSideMenu: uiActions.toggleSideMenu,
 })(NavBar);

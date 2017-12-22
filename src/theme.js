@@ -1,23 +1,22 @@
-import React from 'react';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
-  cyan500, cyan700,
+  cyan500,
   pinkA200,
-  grey100, grey300, grey400, grey500,
+  grey100, grey300, grey500,
   white, darkBlack, fullBlack,
 } from 'material-ui/styles/colors';
-import {fade} from 'material-ui/utils/colorManipulator';
+import { fade } from 'material-ui/utils/colorManipulator';
 
 const Theme = getMuiTheme({
   palette: {
-    primary1Color: "#40E0D0",
-    primary2Color: "#4de06a",
-    primary3Color: "#e0dc41",
+    primary1Color: '#40E0D0',
+    primary2Color: '#4de06a',
+    primary3Color: '#e0dc41',
     accent1Color: pinkA200,
     accent2Color: grey100,
     accent3Color: grey500,
-    textColor: "#919191",
-    alternateTextColor: "#000000",
+    textColor: '#919191',
+    alternateTextColor: '#000000',
     canvasColor: white,
     borderColor: grey300,
     disabledColor: fade(darkBlack, 0.3),

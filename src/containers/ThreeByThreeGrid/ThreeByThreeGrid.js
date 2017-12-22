@@ -20,30 +20,23 @@ const MyGrid = styled.div`
 `;
 
 export class ThreeByThreeGrid extends Component {
-  constructor(props) {
-    super(props);
-  };
-
   static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
-
 
   render() {
-    let { width, height } = this.props;
+    const { width, height } = this.props;
 
-    const grid = DIRECTIONS.map(direction => {
-      return (
-        <GridTile
-          key={direction}
-          direction={direction}
-        />
-      );
-    });
+    const grid = DIRECTIONS.map(direction => (
+      <GridTile
+        key={direction}
+        direction={direction}
+      />
+    ));
 
     const gridSideLength = height >= width + 50 // 50px for app bar height
-      ? "100vw"
+      ? '100vw'
       : `${height - 50}px`;
 
     return (
