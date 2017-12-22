@@ -16,7 +16,7 @@ import { CENTER_DIRECTION } from '../../utilities/constants';
 
 export class SideMenu extends Component {
   static propTypes = {
-    sideMenuOpen: PropTypes.bool.isRequired,
+    isSideMenuOpen: PropTypes.bool.isRequired,
     centerTileDetails: PropTypes.object.isRequired,
     radius: PropTypes.number.isRequired,
     toggleSideMenu: PropTypes.func.isRequired,
@@ -80,7 +80,7 @@ export class SideMenu extends Component {
 
   render() {
     const {
-      sideMenuOpen,
+      isSideMenuOpen,
       toggleSideMenu,
     } = this.props;
 
@@ -95,7 +95,7 @@ export class SideMenu extends Component {
         <Drawer
           docked={false}
           width={250}
-          open={sideMenuOpen}
+          open={isSideMenuOpen}
           onRequestChange={toggleSideMenu}
           openSecondary
         >
@@ -131,7 +131,7 @@ export class SideMenu extends Component {
 }
 
 export default connect(state => ({
-  sideMenuOpen: state.ui.meta.sideMenuOpen,
+  isSideMenuOpen: state.ui.meta.isSideMenuOpen,
   centerTileDetails: state.tile.allTiles[CENTER_DIRECTION],
   radius: state.tile.meta.radius,
 }), {

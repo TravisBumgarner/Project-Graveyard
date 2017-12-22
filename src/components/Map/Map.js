@@ -46,7 +46,7 @@ class Map extends Component {
       return (
         <Marker
           position={{ lat: item.lat, lng: item.lon }}
-          key={ 'lat:${item.lat},lon:${item.lon}' }
+          key={ fillOpacity }
           icon={icon(fillOpacity)}
         />
       )
@@ -59,8 +59,6 @@ class Map extends Component {
     const markers = this.createMarkers();
     return (
       <MyMapComponent
-        isMarkerShown={this.state.isMarkerShown}
-        onMarkerClick={this.handleMarkerClick}
         lat={lat}
         lon={lon}
         markers={markers}

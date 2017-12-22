@@ -1,5 +1,6 @@
 const defaultData = {
-  sideMenuOpen: false,
+  isSideMenuOpen: false,
+  isWhereToOpen: true,
   window: {
     width: 0,
     height: 0,
@@ -11,7 +12,12 @@ const meta = (state = defaultData, action) => {
     case 'TOGGLE_SIDE_MENU_SUCCESS':
       return {
         ...state,
-        sideMenuOpen: !state.sideMenuOpen,
+        isSideMenuOpen: !state.isSideMenuOpen,
+      };
+    case 'TOGGLE_WHERE_TO_SUCCESS':
+      return {
+        ...state,
+        isWhereToOpen: !state.isWhereToOpen,
       };
     case 'SET_WINDOW_SIZE_SUCCESS':
       return {
