@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -19,17 +20,22 @@ class NavBar extends Component {
 
     const RightMenu = () => (
       <div>
-        <IconButton onClick={toggleSideMenu}><ActionFlightTakeoff /></IconButton>
+        <Link to='/'>Home</Link>
+        <Link to='/history'>History</Link>
+        <IconButton onClick={ toggleSideMenu }><ActionFlightTakeoff /></IconButton>
+
       </div>
     );
 
-    return (
-      <AppBar
-        title="PhotoVentures"
-        iconElementRight={<RightMenu />}
-      />
-    );
-  }
+      return (
+          <AppBar
+            title="PhotoVentures"
+            iconElementRight={ <RightMenu /> }
+            showMenuIconButton={false}
+          >
+          </AppBar>
+      );
+    }
 }
 
 export default connect(() => ({

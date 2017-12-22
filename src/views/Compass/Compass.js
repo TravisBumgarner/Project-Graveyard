@@ -5,6 +5,7 @@ import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
 import NavBar from '../../containers/NavBar';
+import RecentHistory from '../../containers/RecentHistory';
 
 const style = {
   compass: {
@@ -20,22 +21,27 @@ const style = {
   },
 };
 
-export class Compass extends PureComponent {
+export class Compass extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  };
   render() {
     return (
       <div className="Compass" style={style.compass}>
-        <NavBar />
         <WhereTo />
         <SideMenu />
         <div style={style.contentWrapper}>
           <ThreeByThreeGrid />
+          <RecentHistory />
         </div>
       </div>
     );
   }
 }
 
-export default connect(() => ({
+export default connect(state => ({
 
 }), {
 

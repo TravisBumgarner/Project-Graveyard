@@ -1,6 +1,6 @@
-import { DIRECTIONS, CENTER_DIRECTION } from '../../../../utilities/constants';
+import { RADIAL_DRECTIONS, CENTER_DIRECTION } from '../../../../utilities/constants';
 
-const defaultData = DIRECTIONS.reduce((obj, direction) => {
+let defaultData = RADIAL_DRECTIONS.reduce((obj, direction) => {
   obj[direction] = { //eslint-disable-line
     lat: '',
     lon: '',
@@ -9,6 +9,14 @@ const defaultData = DIRECTIONS.reduce((obj, direction) => {
   };
   return obj;
 }, {});
+
+defaultData[CENTER_DIRECTION] = {
+  lat: 42.3736,
+  lon: -71.1097,
+  src: '',
+  isLoading: false,
+};
+
 
 const allTiles = (state = defaultData, action) => {
   switch (action.type) {

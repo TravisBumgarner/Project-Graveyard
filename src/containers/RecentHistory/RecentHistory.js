@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Map from '../../components/Map';
 
 class RecentHistory extends Component {
   constructor(props) {
@@ -15,11 +16,8 @@ class RecentHistory extends Component {
 
   render() {
     const { } = this.props;
-
     return (
-      <div>
-        Hi
-      </div>
+      <Map />
     );
   }
 }
