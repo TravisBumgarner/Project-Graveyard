@@ -9,13 +9,13 @@ import { fade } from 'material-ui/utils/colorManipulator';
 
 const Theme = getMuiTheme({
   palette: {
-    primary1Color: '#40E0D0',
+    primary1Color: '#e01f58',
     primary2Color: '#4de06a',
     primary3Color: '#e0dc41',
     accent1Color: pinkA200,
     accent2Color: grey100,
     accent3Color: grey500,
-    textColor: '#919191',
+    textColor: '#000000',
     alternateTextColor: '#000000',
     canvasColor: white,
     borderColor: grey300,

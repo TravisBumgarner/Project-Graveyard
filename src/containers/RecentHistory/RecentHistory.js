@@ -9,7 +9,6 @@ class RecentHistory extends Component {
     };
   }
 
-
   render() {
     return (
       <Map />

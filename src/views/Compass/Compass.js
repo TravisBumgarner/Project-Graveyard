@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import ThreeByThreeGrid from '../../containers/ThreeByThreeGrid';
 import WhereTo from '../../containers/WhereTo';
 import SideMenu from '../../containers/SideMenu';
-import RecentHistory from '../../containers/RecentHistory';
+import Map from '../../components/Map';
+
+const MapWrapper = styled.div`
+  width: 200px;
+  height: 200px;
+`;
 
 const style = {
   compass: {
@@ -28,7 +34,9 @@ export class Compass extends Component {
         <SideMenu />
         <div style={style.contentWrapper}>
           <ThreeByThreeGrid />
-          <RecentHistory />
+          <MapWrapper >
+            <Map />
+          </MapWrapper>
         </div>
       </div>
     );

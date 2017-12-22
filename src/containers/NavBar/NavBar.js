@@ -7,6 +7,8 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 
 import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
+import ActionHistory from 'material-ui/svg-icons/action/history';
+import ActionHome from 'material-ui/svg-icons/action/home';
 
 import uiActions from '../../store/ui/actions';
 
@@ -20,8 +22,16 @@ class NavBar extends Component {
 
     const RightMenu = () => (
       <div>
-        <Link to="/">Home</Link>
-        <Link to="/history">History</Link>
+        <Link to="/">
+          <IconButton>
+            <ActionHome />
+          </IconButton>
+        </Link>
+        <Link to="/history">
+          <IconButton>
+            <ActionHistory />
+          </IconButton>
+        </Link>
         <IconButton onClick={toggleSideMenu}><ActionFlightTakeoff /></IconButton>
 
       </div>

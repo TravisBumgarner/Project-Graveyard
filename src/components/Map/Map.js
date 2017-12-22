@@ -22,7 +22,7 @@ const MyMapComponent = compose(
   withProps({
     googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGM37DlAcV8oLUNewkPs3e8XSBDQVXOQM&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: '100%' }} />,
-    containerElement: <div style={{ height: '94%', width: '200px', padding: '10px' }} />, // TODO this shoudl live elsewhere
+    containerElement: <div style={{ height: '100%', width: '100%', padding: '10px' }} />, // TODO this shoudl live elsewhere
     mapElement: <div style={{ height: '100%' }} />,
   }),
   withScriptjs,
@@ -39,6 +39,10 @@ const MyMapComponent = compose(
 )
 
 class Map extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   createMarkers = () => {
     const { history } = this.props;
     const markers = history.map((item, idx) => {
@@ -55,13 +59,15 @@ class Map extends Component {
   };
 
   render() {
-    const { centerTile: { lat, lon } } = this.props;
+    const { centerTile: { lat, lon }, width, height } = this.props;
     const markers = this.createMarkers();
     return (
       <MyMapComponent
         lat={lat}
         lon={lon}
         markers={markers}
+        width={width}
+        height={height}
       />
     )
   }
