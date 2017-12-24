@@ -31,7 +31,6 @@ const style = {
     width: '30%',
     height: '30%',
     backgroundColor: 'turquoise',
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
 

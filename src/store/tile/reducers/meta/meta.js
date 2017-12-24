@@ -1,5 +1,5 @@
 const defaultData = {
-  radius: 1, // meters
+  radius: 0.001, // meters
 };
 
 const meta = (state = defaultData, action) => {

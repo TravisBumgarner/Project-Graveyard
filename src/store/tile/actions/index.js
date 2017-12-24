@@ -3,7 +3,7 @@ import * as setTile from './setTile';
 import * as setMetaData from './setMetaData';
 import * as flickrRequest from './flickrRequest';
 import * as setRadialTile from './setRadialTile';
-
+import * as googleMapsRequest from './googleMapsRequest';
 
 export default {
   ...setCenterTile,
@@ -11,4 +11,5 @@ export default {
   ...setMetaData,
   ...flickrRequest,
   ...setRadialTile,
+  ...googleMapsRequest,
 };

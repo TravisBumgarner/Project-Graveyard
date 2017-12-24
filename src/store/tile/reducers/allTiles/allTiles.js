@@ -11,8 +11,8 @@ const defaultData = RADIAL_DRECTIONS.reduce((obj, direction) => {
 }, {});
 
 defaultData[CENTER_DIRECTION] = {
-  lat: 42.3736,
-  lon: -71.1097,
+  lat: '',
+  lon: '',
   src: '',
   isLoading: false,
 };

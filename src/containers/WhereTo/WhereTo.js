@@ -6,8 +6,6 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
-import Clear from 'material-ui/svg-icons/content/clear';
-import IconButton from 'material-ui/IconButton';
 
 import tileActions from '../../store/tile/actions';
 import uiActions from '../../store/ui/actions';
@@ -18,14 +16,16 @@ export class WhereTo extends Component {
     setMetaData: PropTypes.func.isRequired,
     toggleWhereTo: PropTypes.func.isRequired,
     isWhereToOpen: PropTypes.bool.isRequired,
+    googleMapsRequest: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      centerLat: '40.7128',
-      centerLon: '-74.0060',
+      centerLat: '',
+      centerLon: '',
       radius: '0.001',
+      address: '',
     };
   }
 
@@ -34,6 +34,7 @@ export class WhereTo extends Component {
       setCenterTile,
       setMetaData,
       toggleWhereTo,
+      googleMapsRequest,
     } = this.props;
 
     let {
@@ -42,22 +43,33 @@ export class WhereTo extends Component {
       radius,
     } = this.state;
 
-    centerLat = parseFloat(centerLat);
-    centerLon = parseFloat(centerLon);
-    radius = parseFloat(radius);
+    const {
+      address,
+    } = this.state;
 
-    const tileDetails = { centerLat, centerLon };
-    setCenterTile(tileDetails, radius);
+    if (centerLat && centerLon && !address) {
+      centerLat = parseFloat(centerLat);
+      centerLon = parseFloat(centerLon);
+      radius = parseFloat(radius);
 
-    setMetaData(radius);
-    toggleWhereTo();
+      const tileDetails = { centerLat, centerLon };
+      setCenterTile(tileDetails, radius);
+
+      setMetaData(radius);
+      toggleWhereTo();
+    } else if (!centerLat && !centerLon && address) {
+      googleMapsRequest(address);
+      toggleWhereTo();
+    } else {
+      alert('You must enter either an address or a latitude and longitude. (Not both.)');
+    }
   };
 
   render() {
     const {
       centerLat,
       centerLon,
-      radius,
+      address,
     } = this.state;
 
     const {
@@ -72,9 +84,6 @@ export class WhereTo extends Component {
         icon={<ActionFlightTakeoff />}
         onClick={this.handleClose}
       />,
-      <IconButton tooltip="Close Menu">
-        <Clear />
-      </IconButton>,
     ];
     return (
       <div className="WhereTo">
@@ -85,6 +94,14 @@ export class WhereTo extends Component {
           open={isWhereToOpen}
           onRequestClose={this.handleClose}
         >
+          <p>Enter an address:</p>
+          <TextField
+            value={address}
+            floatingLabelText="Address"
+            type="string"
+            onChange={(event, newValue) => this.setState({ address: newValue })}
+          />
+          <p>Or a latitude and longitude:</p>
           <TextField
             value={centerLat}
             floatingLabelText="Latitude"
@@ -96,12 +113,6 @@ export class WhereTo extends Component {
             value={centerLon}
             floatingLabelText="Longitude"
             onChange={(event, newValue) => this.setState({ centerLon: newValue })}
-          />
-          <TextField
-            type="number"
-            value={radius}
-            floatingLabelText="Radius"
-            onChange={(event, newValue) => this.setState({ radius: newValue })}
           />
         </Dialog>
       </div>
@@ -116,4 +127,5 @@ export default connect(state => ({
   setCenterTile: tileActions.setCenterTile,
   setMetaData: tileActions.setMetaData,
   toggleWhereTo: uiActions.toggleWhereTo,
+  googleMapsRequest: tileActions.googleMapsRequest,
 })(WhereTo);

@@ -39,8 +39,11 @@ const getAndSetRadialTiles = (dispatch, centerLat, centerLon, radius) => {
 };
 
 export const setCenterTile = (newCenterTileDetails, radius) => (dispatch) => {
+  console.log(newCenterTileDetails, radius);
   dispatch(setCenterTileStart());
   const { centerLat, centerLon, centerSrc } = newCenterTileDetails;
+
+  console.log('getting for', centerLat, centerLon, centerSrc, radius);
 
   if (typeof centerSrc !== 'undefined') { // If an image is already loaded for a clicked radial tile, don't get a new image.
     dispatch(setCenterTileSuccess({ lat: centerLat, lon: centerLon, src: centerSrc }));
