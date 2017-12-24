@@ -25,7 +25,7 @@ export class WhereTo extends Component {
       centerLat: '',
       centerLon: '',
       radius: '0.001',
-      address: '',
+      address: 'Manahawkin, NJ',
     };
   }
 

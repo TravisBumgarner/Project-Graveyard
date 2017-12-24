@@ -1,29 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
+import TileHover from '../../components/TileHover';
+
 import tileActions from '../../store/tile/actions/index';
 
-import { CENTER_DIRECTION } from '../../utilities/constants';
-
-const Test = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(255,255,255,0.8);
-  text-align: center;
-  opacity: 0;
-  
-  &:hover{
-    background-color: #fff;
-    opacity: 0.6;
-  }
-`;
+import CENTER_DIRECTION from '../../utilities/constants';
 
 const style = {
   gridTile: {
@@ -49,9 +34,9 @@ const style = {
 export class gridTile extends Component {
   static propTypes = {
     tileDetails: PropTypes.object.isRequired,
+    direction: PropTypes.string.isRequired,
     radius: PropTypes.number.isRequired,
     setCenterTile: PropTypes.func.isRequired,
-    direction: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -63,13 +48,12 @@ export class gridTile extends Component {
 
   render() {
     const {
+      tileDetails,
       direction,
       setCenterTile,
       radius,
-      tileDetails,
     } = this.props;
 
-    // If Called for setCenterTile(), pass in these values.
     const { lat: centerLat, lon: centerLon, src: centerSrc } = tileDetails;
     const centerTileDetails = { centerLat, centerLon, centerSrc };
 
@@ -90,11 +74,10 @@ export class gridTile extends Component {
             />
           ) : (
             <div>
-              <Test
+              <TileHover
+                direction={direction}
                 onClick={direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null}
-              >
-                {direction}
-              </Test>
+              />
               <img
                 src={tileDetails.src}
                 style={style.image}
