@@ -1,0 +1,5 @@
+#!/bin/sh
+/sbin/pidof /home/tbumgarner/webapps/foofoo/bin/node > /dev/null 2>&1 && exit 0
+mkdir -p /home/tbumgarner/webapps/foofoo/run
+nohup /home/tbumgarner/webapps/foofoo/bin/node /home/tbumgarner/webapps/foofoo/server.js > /dev/null 2>&1 &
+/sbin/pidof /home/tbumgarner/webapps/foofoo/bin/node > /home/tbumgarner/webapps/foofoo/run/node.pid
