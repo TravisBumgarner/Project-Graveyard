@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const flickrRequest = (lat, lon) => () => {
   const baseUrl = 'https://api.flickr.com/services/rest';
+  // https://www.flickr.com/services/api/flickr.photos.search.html
   const params = {
     lat,
     lon,
@@ -9,6 +10,11 @@ export const flickrRequest = (lat, lon) => () => {
     format: 'json',
     nojsoncallback: 1,
     method: 'flickr.photos.search',
+    sort: 'interestingness-desc',
+    accuracy: 16,
+    safe_search: 3,
+    content_type: 1,
+    radius: 0.5,
   };
   return axios.get(baseUrl, { params }).then((response) => {
     const photos = response.data.photos.photo;
