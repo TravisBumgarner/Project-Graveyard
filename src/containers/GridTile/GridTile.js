@@ -54,7 +54,12 @@ export class gridTile extends Component {
       radius,
     } = this.props;
 
-    const { lat: centerLat, lon: centerLon, src: centerSrc } = tileDetails;
+    const {
+      lat: centerLat,
+      lon: centerLon,
+      src: centerSrc,
+      flickrPage,
+    } = tileDetails;
     const centerTileDetails = { centerLat, centerLon, centerSrc };
 
     return (
@@ -76,6 +81,7 @@ export class gridTile extends Component {
             <div>
               <TileHover
                 direction={direction}
+                flickrPage={flickrPage}
                 onClick={direction !== CENTER_DIRECTION ? () => setCenterTile(centerTileDetails, radius) : null}
               />
               <img

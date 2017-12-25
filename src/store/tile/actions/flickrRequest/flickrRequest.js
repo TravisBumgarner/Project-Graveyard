@@ -18,15 +18,18 @@ export const flickrRequest = (lat, lon) => () => {
   };
   return axios.get(baseUrl, { params }).then((response) => {
     const photos = response.data.photos.photo;
-    let src;
+    let result;
     if (photos && photos.length) {
       const idx = Math.floor(Math.random() * photos.length); // Grab random image index to display
       const photo = photos[idx];
-      src = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`;
+      result = {
+        src: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`,
+        flickrPage: `https://www.flickr.com/photos/${photo.owner}/${photo.id}`,
+      };
     } else {
-      src = false;
+      result = false;
     }
-    return src;
+    return result;
   });
 };
 

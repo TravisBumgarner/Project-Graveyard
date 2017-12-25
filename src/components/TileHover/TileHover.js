@@ -29,18 +29,21 @@ export class TileHover extends Component {
   static propTypes = {
     direction: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    flickrPage: PropTypes.string.isRequired,
   };
 
+
   render() {
-    const { direction, onClick } = this.props;
+    const { direction, onClick, flickrPage } = this.props;
     return (
       <GridHover>
         <h1 >{direction}</h1>
         <MdFlightTakeoff size={ICON_SIZE} onClick={onClick} />
-        <Favorite
-          size={ICON_SIZE}
-          onClick={() => { alert('Marked as favorite'); }}
-        />
+        <a target="_blank" href={flickrPage}>
+          <Favorite
+            size={ICON_SIZE}
+          />
+        </a>
         <FaArrowsAlt size={ICON_SIZE} />
       </GridHover>
     );
