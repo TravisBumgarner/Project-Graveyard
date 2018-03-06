@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from bitfoo.utils import strip_weird_chars
 
-from twitter_scraper.settings import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET
+from twitter_scraper.settings import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET, BASE_URL
 from twitter_scraper.models import Hashtag, Tweet, User
 
 # NOTES
@@ -37,7 +37,7 @@ Description: Specifies what type of search results you would prefer to receive.
         * recent : return only the most recent results in the response
         * popular : return only the most popular results in the response.
 '''
-params['result_type'] = 'popular'
+params['result_type'] = 'recent'
 
 '''
 Name: count
@@ -51,7 +51,7 @@ Description: Returns tweets created before the given date. Date should be format
     Keep in mind that the search index has a 7-day limit. In other words, no tweets will be found 
     for a date older than one week.
 '''
-params['until'] = '2018-02-28'
+params['until'] = '2018-03-05'
 
 '''
 Name: since_id
@@ -99,19 +99,23 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if self.should_get_started():
             raw_query = urllib.urlencode(params)
+            print('[+]     Raw Query: {}'.format(BASE_URL + raw_query))
             results = self.api.GetSearch(raw_query=raw_query)
 
-            for r in results:
+            print('\n')
+            print('[+] Results: {}'.format(len(results)))
+
+            for idx, r in enumerate(results):
                 try:
                     t = Tweet.objects.get(tweet_id = r.id)
-                    if r.favorite_count != t.favorite_count:
-                        print('new', r.favorite_count, 'old', t.favorite_count)
+                    print('[-]     {0:>5d}:{1:>5d} Already Exists: {2}'.format(idx, len(results), strip_weird_chars(r.text[0:30])))
 
                 except Tweet.DoesNotExist:
+                    print('[+]     {0:5d}:{1:5d} New tweet made: {2}'.format(idx, len(results), strip_weird_chars(r.text[0:30])))
                     u, u_is_new_row = User.objects.get_or_create(twitter_id = r.user.id)
                     if u_is_new_row:
-                        u.name                        = r.user.name
-                        u.screen_name                 = r.user.screen_name
+                        u.name                        = strip_weird_chars(r.user.name)
+                        u.screen_name                 = strip_weird_chars(r.user.screen_name)
                         u.location                    = r.user.location
                         u.created_at                  = r.user.created_at
                         u.description                 = r.user.description
