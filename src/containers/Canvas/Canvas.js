@@ -104,7 +104,7 @@ export default class Canvas extends React.Component {
     this.clearCanvas(this.ctx);
 
     this.drawTowns();
-    this.calculateDistancesToTowns(this.ctx); // this.ctx here for debugging only
+    this.calculateDistancesToTowns();
     this.drawLine(x1, y1, x2, y2, 'black')
   };
 
@@ -138,8 +138,6 @@ export default class Canvas extends React.Component {
   };
 
   render() {
-
-
     return(
       <div>
         <canvas ref="canvas" width={CANVAS.WIDTH} height={CANVAS.HEIGHT} />
