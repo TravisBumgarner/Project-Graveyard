@@ -6,14 +6,17 @@ const TOWNS = {
     "loot_lake": {
       x: 200,
       y: 200,
+      distance: -1,
     },
     "dusty_divot": {
       x: 50,
       y: 250,
+      distance: -1,
     },
     "wailing_woods": {
       x: 25,
       y: 100,
+      distance: -1,
     },
 }
 
@@ -44,6 +47,7 @@ export default class Canvas extends React.Component {
         y2: e.clientY
       });
       this.drawLine();
+      this.calculateDistances();
       this.drawTowns();
     }, false);
   }
@@ -89,23 +93,66 @@ export default class Canvas extends React.Component {
     ctx.stroke();
   };
 
-  getLine = () => {
-    const {
-      x1,
-      x2,
-      y1,
-      y2,
-    } = this.state;
+  // calculateLine = () => {
+  //   const {
+  //     x1,
+  //     x2,
+  //     y1,
+  //     y2,
+  //   } = this.state;
+  //
+  //   const m = (y2 - y1) / (x2 - x1);
+  //   const b = y1 - m * x1;
+  //
+  //   this.setState({m ,b});
+  // };
 
-    const m = (y2 - y1) / (x2 - x1);
-    const b = y1 - m * x1;
+  calculateDistanceTownToFlightPath = (x, y) => {
+    // https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
+      const { x1, x2, y1, y2 } = this.state;
 
-    console.log(x1, x2, y1, y2, m, b)
+      const A = x - x1;
+      const B = y - y1;
+      const C = x2 - x1;
+      const D = y2 - y1;
 
+      const dot = A * C + B * D;
+      const len_sq = C * C + D * D;
+      let param = -1;
+      if (len_sq != 0) { //in case of 0 length line
+        param = dot / len_sq;
+      }
+
+      let xx, yy;
+
+      if (param < 0) {
+        xx = x1;
+        yy = y1;
+      }
+      else if (param > 1) {
+        xx = x2;
+        yy = y2;
+      }
+      else {
+        xx = x1 + param * C;
+        yy = y1 + param * D;
+      }
+
+      const dx = x - xx;
+      const dy = y - yy;
+      return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  calculateDistances = () => {
+      // For now returns shortest distance to flight path.
+      Object.keys(TOWNS).map((t)=> {
+        const {x, y} = TOWNS[t];
+        TOWNS[t].distance = this.calculateDistanceTownToFlightPath(x, y);
+      });
+      console.log(TOWNS);
   };
 
   render() {
-    this.getLine();
 
     return(
       <div>
