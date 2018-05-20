@@ -49,9 +49,10 @@ export default class Canvas extends React.Component {
         x2: e.clientX,
         y2: e.clientY
       });
-      this.drawLine();
-      this.calculateDistances();
-      this.drawTowns();
+      // this.drawLine();
+      // this.calculateDistances();
+      // this.drawTowns();
+      this.updateCanvas();
     }, false);
   }
 
@@ -63,7 +64,7 @@ export default class Canvas extends React.Component {
 
     TOWNS.map((t)=> {
 
-        ctx.fillText(t.name, t.x + 8, t.y + 8);
+        ctx.fillText(`${t.name}`, t.x + 8, t.y + 8);
 
         ctx.beginPath();
         ctx.arc(t.x, t.y, 5, 0, 2*Math.PI);
@@ -71,7 +72,28 @@ export default class Canvas extends React.Component {
     });
   }
 
-  drawLine = () => {
+  drawLine = (ctx, x1, y1, x2, y2, color) => {
+    ctx.fillStyle= color;
+    ctx.strokeStyle = color;
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+
+    ctx.fillText(`${parseInt(x1, 10)} ${parseInt(y1, 10)}`, x1, y1);
+    ctx.fillText(`${parseInt(x2, 10)} ${parseInt(y2, 10)}`, x2, y2);
+  };
+
+  clearCanvas = (ctx) => {
+    ctx.beginPath();
+    ctx.rect(0, 0, CANVAS.WIDTH, CANVAS.HEIGHT);
+    ctx.fillStyle="white";
+    ctx.fill();
+  };
+
+  updateCanvas = () => {
     const {
       x1,
       x2,
@@ -82,18 +104,14 @@ export default class Canvas extends React.Component {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext("2d");
 
-    ctx.beginPath();
-    ctx.rect(0, 0, CANVAS.WIDTH, CANVAS.HEIGHT);
-    ctx.fillStyle="white";
-    ctx.fill();
+    this.clearCanvas(ctx);
 
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
+    this.drawTowns();
+    this.calculateDistancesToTowns(ctx); // ctx here for debugging only
+    this.drawLine(ctx, x1, y1, x2, y2, 'black')
   };
 
-  calculateDistanceTownToFlightPath = (x, y) => {
+  calculateDistanceTownToFlightPath = (x, y, ctx) => {
       const { x1, x2, y1, y2 } = this.state;
       const mFlightPath = (y2 - y1) / (x2 - x1);
       const bFlightPath = y1 - mFlightPath * x1;
@@ -110,13 +128,14 @@ export default class Canvas extends React.Component {
 
       const distance = flightStartToInterceptDistance + townToFlightPathDistance;
 
+      this.drawLine(ctx, xIntercept, yIntercept, x, y, 'red');
+
       return distance;
   }
 
-  calculateDistances = () => {
-      // For now returns shortest distance to flight path.
+  calculateDistancesToTowns = (ctx) => {
       TOWNS.map((t)=> {
-        t.distance = this.calculateDistanceTownToFlightPath(t.x, t.y);
+        t.distance = this.calculateDistanceTownToFlightPath(t.x, t.y, ctx);
       });
       console.log(TOWNS);
   };
