@@ -35,62 +35,60 @@ export default class Canvas extends React.Component {
   }
 
   componentDidMount() {
-    const canvas = this.refs.canvas;
+      this.canvas = this.refs.canvas;
+      this.ctx = this.canvas.getContext("2d");
 
-    canvas.addEventListener('mousedown', (e) => {
+    this.canvas.addEventListener('mousedown', (e) => {
       this.setState({
         x1: e.clientX,
         y1: e.clientY,
       });
     }, false);
 
-    canvas.addEventListener('mouseup', (e) => {
+    this.canvas.addEventListener('mouseup', (e) => {
       this.setState({
         x2: e.clientX,
         y2: e.clientY
       });
-      // this.drawLine();
-      // this.calculateDistances();
-      // this.drawTowns();
       this.updateCanvas();
     }, false);
   }
 
   drawTowns = () => {
-    const canvas = this.refs.canvas;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle="black";
-    ctx.font = "10px Arial";
+    // const canvas = this.refs.canvas;
+    // const this.ctx = canvas.getContext("2d");
+    this.ctx.fillStyle="black";
+    this.ctx.font = "10px Arial";
 
     TOWNS.map((t)=> {
 
-        ctx.fillText(`${t.name}`, t.x + 8, t.y + 8);
+        this.ctx.fillText(`${t.name}`, t.x + 8, t.y + 8);
 
-        ctx.beginPath();
-        ctx.arc(t.x, t.y, 5, 0, 2*Math.PI);
-        ctx.stroke();
+        this.ctx.beginPath();
+        this.ctx.arc(t.x, t.y, 5, 0, 2*Math.PI);
+        this.ctx.stroke();
     });
   }
 
-  drawLine = (ctx, x1, y1, x2, y2, color) => {
-    ctx.fillStyle= color;
-    ctx.strokeStyle = color;
+  drawLine = (x1, y1, x2, y2, color) => {
+    this.ctx.fillStyle = color;
+    this.ctx.strokeStyle = color;
 
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
+    this.ctx.beginPath();
+    this.ctx.moveTo(x1, y1);
+    this.ctx.lineTo(x2, y2);
+    this.ctx.stroke();
 
 
-    ctx.fillText(`${parseInt(x1, 10)} ${parseInt(y1, 10)}`, x1, y1);
-    ctx.fillText(`${parseInt(x2, 10)} ${parseInt(y2, 10)}`, x2, y2);
+    this.ctx.fillText(`${parseInt(x1, 10)} ${parseInt(y1, 10)}`, x1, y1);
+    this.ctx.fillText(`${parseInt(x2, 10)} ${parseInt(y2, 10)}`, x2, y2);
   };
 
-  clearCanvas = (ctx) => {
-    ctx.beginPath();
-    ctx.rect(0, 0, CANVAS.WIDTH, CANVAS.HEIGHT);
-    ctx.fillStyle="white";
-    ctx.fill();
+  clearCanvas = () => {
+    this.ctx.beginPath();
+    this.ctx.rect(0, 0, CANVAS.WIDTH, CANVAS.HEIGHT);
+    this.ctx.fillStyle="white";
+    this.ctx.fill();
   };
 
   updateCanvas = () => {
@@ -101,17 +99,16 @@ export default class Canvas extends React.Component {
       y2,
     } = this.state;
 
-    const canvas = this.refs.canvas;
-    const ctx = canvas.getContext("2d");
 
-    this.clearCanvas(ctx);
+
+    this.clearCanvas(this.ctx);
 
     this.drawTowns();
-    this.calculateDistancesToTowns(ctx); // ctx here for debugging only
-    this.drawLine(ctx, x1, y1, x2, y2, 'black')
+    this.calculateDistancesToTowns(this.ctx); // this.ctx here for debugging only
+    this.drawLine(x1, y1, x2, y2, 'black')
   };
 
-  calculateDistanceTownToFlightPath = (x, y, ctx) => {
+  calculateDistanceTownToFlightPath = (x, y) => {
       const { x1, x2, y1, y2 } = this.state;
       const mFlightPath = (y2 - y1) / (x2 - x1);
       const bFlightPath = y1 - mFlightPath * x1;
@@ -128,14 +125,14 @@ export default class Canvas extends React.Component {
 
       const distance = flightStartToInterceptDistance + townToFlightPathDistance;
 
-      this.drawLine(ctx, xIntercept, yIntercept, x, y, 'red');
+      this.drawLine(xIntercept, yIntercept, x, y, 'red');
 
       return distance;
   }
 
-  calculateDistancesToTowns = (ctx) => {
+  calculateDistancesToTowns = () => {
       TOWNS.map((t)=> {
-        t.distance = this.calculateDistanceTownToFlightPath(t.x, t.y, ctx);
+        t.distance = this.calculateDistanceTownToFlightPath(t.x, t.y, this.ctx);
       });
       console.log(TOWNS);
   };
