@@ -2,23 +2,26 @@ import React, { Component } from 'react';
 
 const CANVAS = {WIDTH: 500, HEIGHT: 500};
 
-const TOWNS = {
-    "loot_lake": {
-      x: 200,
-      y: 200,
-      distance: -1,
-    },
-    "dusty_divot": {
+const TOWNS = [
+   {
+       name: "loot_lake",
+       x: 200,
+       y: 200,
+       distance: -1,
+   },
+   {
+      name: "dusty_divot",
       x: 50,
       y: 250,
       distance: -1,
-    },
-    "wailing_woods": {
+   },
+   {
+      name: "wailing_woods",
       x: 25,
       y: 100,
       distance: -1,
     },
-}
+];
 
 export default class Canvas extends React.Component {
   constructor(props){
@@ -58,17 +61,14 @@ export default class Canvas extends React.Component {
     ctx.fillStyle="black";
     ctx.font = "10px Arial";
 
-    Object.keys(TOWNS).map((t)=> {
-        const {x, y} = TOWNS[t];
+    TOWNS.map((t)=> {
 
-        ctx.fillText(t, x + 8, y + 8);
+        ctx.fillText(t.name, t.x + 8, t.y + 8);
 
         ctx.beginPath();
-        ctx.arc(x,y, 5, 0, 2*Math.PI);
+        ctx.arc(t.x, t.y, 5, 0, 2*Math.PI);
         ctx.stroke();
     });
-
-
   }
 
   drawLine = () => {
@@ -93,66 +93,36 @@ export default class Canvas extends React.Component {
     ctx.stroke();
   };
 
-  // calculateLine = () => {
-  //   const {
-  //     x1,
-  //     x2,
-  //     y1,
-  //     y2,
-  //   } = this.state;
-  //
-  //   const m = (y2 - y1) / (x2 - x1);
-  //   const b = y1 - m * x1;
-  //
-  //   this.setState({m ,b});
-  // };
-
   calculateDistanceTownToFlightPath = (x, y) => {
-    // https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
       const { x1, x2, y1, y2 } = this.state;
+      const mFlightPath = (y2 - y1) / (x2 - x1);
+      const bFlightPath = y1 - mFlightPath * x1;
 
-      const A = x - x1;
-      const B = y - y1;
-      const C = x2 - x1;
-      const D = y2 - y1;
+      const mTownToFlightPath = -1 / mFlightPath;
+      const bTownToFlightPath = y - mTownToFlightPath * x;
 
-      const dot = A * C + B * D;
-      const len_sq = C * C + D * D;
-      let param = -1;
-      if (len_sq != 0) { //in case of 0 length line
-        param = dot / len_sq;
-      }
+      const xIntercept = (bTownToFlightPath - bFlightPath) / (mFlightPath - mTownToFlightPath);
+      const yIntercept = mTownToFlightPath * xIntercept + bTownToFlightPath;
 
-      let xx, yy;
+      const townToFlightPathDistance = Math.sqrt((x - xIntercept)**2 + (y - yIntercept)**2);
 
-      if (param < 0) {
-        xx = x1;
-        yy = y1;
-      }
-      else if (param > 1) {
-        xx = x2;
-        yy = y2;
-      }
-      else {
-        xx = x1 + param * C;
-        yy = y1 + param * D;
-      }
+      const flightStartToInterceptDistance = Math.sqrt((x1 - xIntercept)**2 + (y1 - yIntercept)**2);
 
-      const dx = x - xx;
-      const dy = y - yy;
-      return Math.sqrt(dx * dx + dy * dy);
+      const distance = flightStartToInterceptDistance + townToFlightPathDistance;
+
+      return distance;
   }
 
   calculateDistances = () => {
       // For now returns shortest distance to flight path.
-      Object.keys(TOWNS).map((t)=> {
-        const {x, y} = TOWNS[t];
-        TOWNS[t].distance = this.calculateDistanceTownToFlightPath(x, y);
+      TOWNS.map((t)=> {
+        t.distance = this.calculateDistanceTownToFlightPath(t.x, t.y);
       });
       console.log(TOWNS);
   };
 
   render() {
+
 
     return(
       <div>
