@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
-import { DefaultView } from "../../theme";
+import {
+  DEFAULT_VIEW,
+  COLORS,
+} from "../../theme";
 
-const HomeView = DefaultView.extend`
+const HomeView = DEFAULT_VIEW.extend`
+  background-color: ${ COLORS.PRIMARY };
 `;
 
 export {

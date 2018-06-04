@@ -10,6 +10,10 @@ import {
 } from "./Home.styles";
 
 export default class Home extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
+
   render() {
     return (
       <HomeView>

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { DefaultView } from "../../theme";
+import { DEFAULT_VIEW } from "../../theme";
 
-const LoginView = DefaultView.extend`
+const LoginView = DEFAULT_VIEW.extend`
 `;
 
 export {
