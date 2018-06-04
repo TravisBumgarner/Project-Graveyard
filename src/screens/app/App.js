@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 
-import {
-  Header,
-  AppView
-} from "./App.styles";
+import Home from '../Home';
+import Login from '../Login';
 
-type Props = {};
-export default class App extends Component<Props> {
+const RootStack = createStackNavigator(
+  {
+    Home,
+    Login,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+
+export default class App extends Component {
   render() {
-    return (
-      <AppView>
-        <Header>
-          Sup.
-        </Header>
-      </AppView>
-    );
+    return <RootStack />;
   }
 }

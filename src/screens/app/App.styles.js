@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 const Header = styled(Text)`
-  background-color: papayawhip;
   color: palevioletred;
 `;
 
@@ -14,6 +13,7 @@ const AppView = styled(View)`
   flex: 1;
   justify-content: center;
   align-items: center;
+  background-color: papayawhip;
 `;
 
 export {
