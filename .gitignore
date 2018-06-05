@@ -1,0 +1,5 @@
+./mindme_be/keys.py
+.idea/
+*.pyc
+keys.py
+static/
