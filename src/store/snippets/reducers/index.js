@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import all from './all';
-import meta from './meta';
+import byId from './byId';
 
 export default combineReducers({
+  byId,
   all,
-  meta,
 });

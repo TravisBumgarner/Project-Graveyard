@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 
-
 const AppWrapper = styled.div`
   justify-content: center;
   flex-direction: column;
@@ -10,6 +9,4 @@ const AppWrapper = styled.div`
   height: 100vh;
 `;
 
-export {
-  AppWrapper,
-}
+export { AppWrapper };

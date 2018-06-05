@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 
 const SiteLink = styled(NavLink)`
   text-decoration: none;
@@ -33,4 +33,4 @@ export {
   SiteLink,
   SiteLinkItem,
   SiteLinkList,
-}
+};

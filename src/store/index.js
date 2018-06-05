@@ -1,21 +1,14 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
-import axios from 'axios';
 
-import measurements from './measurements/reducers';
+import snippets from './snippets/reducers';
 
 const rootReducer = combineReducers({
-  measurements,
+  snippets,
 });
 
-const client = axios.create({ //all axios can be used, shown in axios documentation
-  baseURL:'http://localhost:8000',
-  responseType: 'json'
-});
-
-
-let middleware = [
+const middleware = [
   ReduxThunk,
 ];
 
@@ -24,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
     collapsed: true,
     duration: true,
   });
-  middleware.push(logger)
+  middleware.push(logger);
 }
 
 // logger must be the last middleware in chain, otherwise
@@ -32,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
 const store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(...middleware)
+  applyMiddleware(...middleware),
 );
 
 export default store;

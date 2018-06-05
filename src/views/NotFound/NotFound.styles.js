@@ -1,13 +1,7 @@
-import styled from 'styled-components';
-
-import {
-  DefaultCard
-} from "../../theme";
+import { DefaultCard } from '../../theme';
 
 const NotFoundCard = DefaultCard.extend`
 `;
 
-export {
-  NotFoundCard,
-}
+export { NotFoundCard };
 

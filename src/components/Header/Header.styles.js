@@ -6,6 +6,4 @@ const HeaderWrapper = styled.h2`
   font-weight: normal;
 `;
 
-export {
-  HeaderWrapper
-}
+export { HeaderWrapper };

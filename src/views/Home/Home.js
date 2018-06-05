@@ -4,28 +4,22 @@ import { connect } from 'react-redux';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 
-import {
-  HomeCard
-} from "./Home.styles";
+import { HomeCard } from './Home.styles';
 
 export class Home extends Component {
-  render(){
-
+  render() {
     return (
       <HomeCard>
         <CardHeader
-           title="Welcome!"
+          title="Welcome!"
         />
-        <CardContent>
-
-        </CardContent>
+        <CardContent />
       </HomeCard>
-    )
-
+    );
   }
 }
 
-export default connect((state) => ({
+export default connect(state => ({
 
 }), {
 
