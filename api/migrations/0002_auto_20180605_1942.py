@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name='snippet',
+            model_name='SnippetFoo',
             name='author',
             field=models.ManyToManyField(to='api.Author'),
         ),

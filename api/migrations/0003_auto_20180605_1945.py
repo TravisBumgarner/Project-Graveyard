@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='snippet',
+            model_name='SnippetFoo',
             name='author',
         ),
         migrations.AddField(
-            model_name='snippet',
+            model_name='SnippetFoo',
             name='author',
             field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='api.Author'),
         ),

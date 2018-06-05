@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name='snippet',
+            model_name='SnippetFoo',
             name='source',
             field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='api.Source'),
         ),

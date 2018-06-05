@@ -38,6 +38,6 @@ class Snippet(models.Model):
     source = models.ForeignKey(Source, default=None, on_delete=models.CASCADE, null=True, blank=True)
 
     def __unicode__(self):
-        MAX_PREVIEW_LENGTH = 100
-        return self.text if len(self.text) <= MAX_PREVIEW_LENGTH else '{}...'.format(self.text[0:(MAX_PREVIEW_LENGTH - 3)])
+        max_preview_length = 100
+        return self.text if len(self.text) <= max_preview_length else '{}...'.format(self.text[0:(max_preview_length - 3)])
 
