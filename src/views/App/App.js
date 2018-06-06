@@ -5,6 +5,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import Home from '../Home';
 import NotFound from '../NotFound';
 import Categories from '../Categories';
+import Snippets from '../Snippets';
 
 import Nav from '../../containers/Nav';
 
@@ -29,7 +30,8 @@ export class App extends Component {
         <Nav />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/categories" component={Categories} />
+          <Route path="/categories" component={Categories} />
+          <Route path="/snippets" component={Snippets} />
           <Route component={NotFound} />
         </Switch>
       </AppWrapper>

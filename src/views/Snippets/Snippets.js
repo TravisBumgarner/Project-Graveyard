@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { SnippetsWrapper } from './Snippetes.styles';
+import snippetSelectors from "../../store/snippets/selectors";
+
+import { SnippetsWrapper } from './Snippets.styles';
 
 export class Snippets extends Component {
   render() {
     const {
-      categories,
+      snippets,
     } = this.props;
 
-    const SnippetsListItems = categories.map((c) => {
-      return <div key={c.name}>{ c.name }</div>;
+    const SnippetsListItems = snippets.map((s) => {
+      return <div key={s.id}>{ s.text }</div>;
     });
 
     return (
@@ -22,7 +24,7 @@ export class Snippets extends Component {
 }
 
 export default connect(state => ({
-  categories: state.categories.all,
+  snippets: snippetSelectors.getSelectedSnippets(state),
 }), {
 
-})(Snippetes);
+})(Snippets);
