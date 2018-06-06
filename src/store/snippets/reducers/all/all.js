@@ -10,6 +10,11 @@ const all = (state = [], action) => {
         ...state,
         action.data,
       ];
+    case 'PUT_CATEGORIES_SUCCESS':
+      return [
+        ...state.filter(c => c.id !== action.data.id),
+        action.data,
+      ];
     default:
       return state;
   }

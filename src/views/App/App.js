@@ -38,10 +38,15 @@ export class App extends Component {
           <Nav />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/categories" component={Categories} />
+
+            <Route path="/categories" component={Categories} exact />
             <Route path="/categories/create" component={CreateEditCategory} />
-            <Route exact path="/snippets" component={Snippets} />
+            <Route path="/categories/edit/:id" component={CreateEditCategory} />
+
+            <Route path="/snippets" component={Snippets} exact />
             <Route path="/snippets/create" component={CreateEditSnippet} />
+            <Route path="/snippets/edit/:id" component={CreateEditSnippet} />
+
             <Route component={NotFound} />
           </Switch>
         </AppWrapper>

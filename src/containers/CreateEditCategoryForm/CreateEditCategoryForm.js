@@ -11,9 +11,15 @@ import requestActions from '../../store/requests/actions';
 export class CreateEditCategoryForm extends Component {
   constructor(props) {
     super(props);
+
+    const {
+      categoryData,
+    } = this.props;
+
     this.state = {
       name: '',
       description: '',
+      ...categoryData,
     };
   }
 
@@ -27,7 +33,10 @@ export class CreateEditCategoryForm extends Component {
 
   handleSubmit = () => {
     const {
+      putRequest,
       postRequest,
+      isEditMode,
+      idToEdit,
       history: { push },
     } = this.props;
 
@@ -41,7 +50,10 @@ export class CreateEditCategoryForm extends Component {
       description,
     };
 
-    postRequest('categories/', postData);
+    const submit = isEditMode ? putRequest : postRequest;
+    const url = isEditMode ? `categories/${idToEdit}/` : 'categories/';
+    submit(url, postData);
+
     push('/categories/');
   };
 
@@ -56,7 +68,7 @@ export class CreateEditCategoryForm extends Component {
 
     return (
       <Fragment>
-        {isEditMode ? 'Edit' : 'new'}
+        {isEditMode ? 'Edit' : 'New'}
         <TextField
           fullWidth
           id="name"
@@ -93,12 +105,18 @@ export class CreateEditCategoryForm extends Component {
 }
 
 CreateEditCategoryForm.propTypes = {
+  idToEdit: PropTypes.number,
   isEditMode: PropTypes.bool,
   history: PropTypes.object.isRequired,
+  putRequest: PropTypes.func.isRequired,
   postRequest: PropTypes.func.isRequired,
+  categoryData: PropTypes.object,
 };
 
-export default withRouter(connect(() => ({
+export default withRouter(connect((state, props) => ({
+  categoryData: state.categories.all.filter(c => c.id === props.idToEdit)[0], // TODO Write this better?
+  c: state.categories.all,
 }), {
+  putRequest: requestActions.putRequest,
   postRequest: requestActions.postRequest,
 })(CreateEditCategoryForm));
