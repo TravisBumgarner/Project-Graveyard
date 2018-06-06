@@ -12,7 +12,7 @@ export class CreateEditCategoryForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
+      name: '',
       description: '',
     };
   }
@@ -22,15 +22,27 @@ export class CreateEditCategoryForm extends Component {
       history: { push },
     } = this.props;
 
-    push('categories/');
+    push('/categories/');
   };
 
   handleSubmit = () => {
     const {
       postRequest,
+      history: { push },
     } = this.props;
 
-    postRequest('categories/', { name: 'hello', description: 'foo' });
+    const {
+      name,
+      description,
+    } = this.state;
+
+    const postData = {
+      name,
+      description,
+    };
+
+    postRequest('categories/', postData);
+    push('/categories/');
   };
 
   handleChange = (event) => {
@@ -47,9 +59,9 @@ export class CreateEditCategoryForm extends Component {
         {isEditMode ? 'Edit' : 'new'}
         <TextField
           fullWidth
-          id="title"
+          id="name"
           label="Title"
-          value={this.state.title}
+          value={this.state.name}
           onChange={this.handleChange}
           margin="normal"
         />
