@@ -5,7 +5,9 @@ from .viewsets import *
 
 router = routers.DefaultRouter()
 
-router.register(r'Snippet', SnippetViewSet)
+router.register(r'snippets', SnippetViewSet)
+router.register(r'authors', AuthorViewSet)
+router.register(r'categories', CategoryViewSet)
 
 
 urlpatterns = [
