@@ -17,6 +17,8 @@ export class App extends Component {
     } = this.props;
 
     getRequest('snippets/');
+    getRequest('authors/');
+    getRequest('categories/');
 
     return (
       <AppWrapper>

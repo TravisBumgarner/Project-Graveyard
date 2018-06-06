@@ -1,6 +1,6 @@
 const all = (state = [], action) => {
   switch (action.type) {
-    case "GET_SNIPPETS_SUCCESS":
+    case "GET_AUTHORS_SUCCESS":
       return {
         ...state,
         ...action.data,
@@ -11,4 +11,3 @@ const all = (state = [], action) => {
 };
 
 export default all;
-

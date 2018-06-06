@@ -3,9 +3,13 @@ import { createLogger } from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
 
 import snippets from './snippets/reducers';
+import authors from './authors/reducers';
+import categories from './categories/reducers';
 
 const rootReducer = combineReducers({
   snippets,
+  authors,
+  categories,
 });
 
 const middleware = [
