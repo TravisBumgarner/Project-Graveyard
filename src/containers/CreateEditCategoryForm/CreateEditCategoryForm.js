@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import requestActions from '../../store/requests/actions';
 
 export class CreateEditCategoryForm extends Component {
   constructor(props) {
@@ -21,11 +22,15 @@ export class CreateEditCategoryForm extends Component {
       history: { push },
     } = this.props;
 
-    push('/categories');
+    push('categories/');
   };
 
   handleSubmit = () => {
+    const {
+      postRequest,
+    } = this.props;
 
+    postRequest('categories/', { name: 'hello', description: 'foo' });
   };
 
   handleChange = (event) => {
@@ -78,8 +83,10 @@ export class CreateEditCategoryForm extends Component {
 CreateEditCategoryForm.propTypes = {
   isEditMode: PropTypes.bool,
   history: PropTypes.object.isRequired,
+  postRequest: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect(() => ({
 }), {
+  postRequest: requestActions.postRequest,
 })(CreateEditCategoryForm));
