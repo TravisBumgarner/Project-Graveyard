@@ -7,13 +7,22 @@ import Button from '@material-ui/core/Button';
 
 
 export default class CategoryListItem extends Component {
-  onClick = () => {
+  handleView = () => {
     const {
       viewSnippetsForCategory,
       details: { id },
     } = this.props;
 
     viewSnippetsForCategory(id);
+  };
+
+  handleEdit = () => {
+    const {
+      handleCategoryEdit,
+      details: { id },
+    } = this.props;
+
+    handleCategoryEdit(id);
   };
 
   render() {
@@ -24,8 +33,9 @@ export default class CategoryListItem extends Component {
     return (
       <Card>
         <CardContent>
-          {details.name}
-          <Button onClick={this.onClick}>View</Button>
+          {details.name} - { details.id }
+          <Button onClick={this.handleView}>View</Button>
+          <Button onClick={this.handleEdit}>Edit</Button>
         </CardContent>
       </Card>
     );
@@ -35,4 +45,5 @@ export default class CategoryListItem extends Component {
 CategoryListItem.propTypes = {
   viewSnippetsForCategory: PropTypes.func.isRequired,
   details: PropTypes.object.isRequired,
+  handleCategoryEdit: PropTypes.func.isRequired,
 };

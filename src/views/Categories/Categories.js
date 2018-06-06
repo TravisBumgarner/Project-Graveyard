@@ -19,13 +19,28 @@ export class Categories extends Component {
     push('/snippets');
   };
 
+  handleCategoryEdit = (id) => {
+    const {
+      history: { push },
+    } = this.props;
+
+    push(`/categories/edit/${id}`);
+  };
+
   render() {
     const {
       categories,
     } = this.props;
 
     const CategoryListItems = categories.map((c) => {
-      return <CategoryListItem key={c.id} details={c} viewSnippetsForCategory={this.viewSnippetsForCategory} />;
+      return (
+        <CategoryListItem
+          key={c.id}
+          details={c}
+          viewSnippetsForCategory={this.viewSnippetsForCategory}
+          handleCategoryEdit={this.handleCategoryEdit}
+        />
+      );
     });
 
     return (
