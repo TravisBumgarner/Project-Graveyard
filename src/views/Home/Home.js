@@ -13,7 +13,7 @@ export class Home extends Component {
   }
 }
 
-export default connect(state => ({
+export default connect(() => ({
 
 }), {
 

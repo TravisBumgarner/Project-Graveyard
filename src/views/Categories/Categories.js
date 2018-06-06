@@ -1,23 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {  Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import categoryActions from '../../store/categories/actions';
+
+import CategoryListItem from '../../components/CategoryListItem';
 
 import { CategoriesWrapper } from './Categories.styles';
 
 export class Categories extends Component {
+  viewSnippetsForCategory = (id) => {
+    const {
+      setSelectedId,
+      history: { push },
+    } = this.props;
+
+    setSelectedId(id);
+    push('/snippets');
+  };
+
   render() {
     const {
       categories,
-      setSelectedId,
     } = this.props;
 
     const CategoryListItems = categories.map((c) => {
-      return <div key={c.id}><Link to={`/snippets?category=${c.id}`}>{ c.name }</Link></div>;
+      return <CategoryListItem key={c.id} details={c} viewSnippetsForCategory={this.viewSnippetsForCategory} />;
     });
-
-    setSelectedId(1);
 
     return (
       <CategoriesWrapper>
@@ -26,6 +35,12 @@ export class Categories extends Component {
     );
   }
 }
+
+Categories.propTypes = {
+  history: PropTypes.object.isRequired,
+  categories: PropTypes.object.isRequired,
+  setSelectedId: PropTypes.func.isRequired,
+};
 
 export default connect(state => ({
   categories: state.categories.all,

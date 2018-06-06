@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Home from '../Home';
 import NotFound from '../NotFound';
@@ -9,41 +12,51 @@ import Snippets from '../Snippets';
 
 import Nav from '../../containers/Nav';
 
-import requestActions from '../../store/requests/actions';
+import sessionActions from '../../store/session/actions';
 
 import { AppWrapper } from './App.styles';
 
 export class App extends Component {
   componentWillMount() {
     const {
-      getRequest,
+      loadSession,
     } = this.props;
 
-    getRequest('snippets/');
-    getRequest('authors/');
-    getRequest('categories/');
+    loadSession();
   }
 
   render() {
+    const {
+      loaded,
+    } = this.props;
+
     return (
-      <AppWrapper>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/categories" component={Categories} />
-          <Route path="/snippets" component={Snippets} />
-          <Route component={NotFound} />
-        </Switch>
-      </AppWrapper>
+      loaded ? (
+        <AppWrapper>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/categories" component={Categories} />
+            <Route exact path="/snippets" component={Snippets} />
+            <Route component={NotFound} />
+          </Switch>
+        </AppWrapper>
+      ) : (
+        <CircularProgress />
+      )
+
     );
   }
 }
 
 App.propTypes = {
+  loaded: PropTypes.bool.isRequired,
+  loadSession: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect(state => ({
+  loaded: state.session.meta.loaded,
 }), {
-  getRequest: requestActions.getRequest,
+  loadSession: sessionActions.loadSession,
 })(App));
 

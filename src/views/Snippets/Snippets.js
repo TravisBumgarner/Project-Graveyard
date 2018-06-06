@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import snippetSelectors from "../../store/snippets/selectors";
+import snippetSelectors from '../../store/snippets/selectors';
 
 import { SnippetsWrapper } from './Snippets.styles';
 
@@ -22,6 +23,10 @@ export class Snippets extends Component {
     );
   }
 }
+
+Snippets.propTypes = {
+  snippets: PropTypes.object.isRequired,
+};
 
 export default connect(state => ({
   snippets: snippetSelectors.getSelectedSnippets(state),

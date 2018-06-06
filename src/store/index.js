@@ -5,11 +5,13 @@ import ReduxThunk from 'redux-thunk';
 import snippets from './snippets/reducers';
 import authors from './authors/reducers';
 import categories from './categories/reducers';
+import session from './session/reducers';
 
 const rootReducer = combineReducers({
   snippets,
   authors,
   categories,
+  session,
 });
 
 const middleware = [
