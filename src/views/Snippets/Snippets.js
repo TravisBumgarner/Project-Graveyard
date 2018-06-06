@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CategoriesWrapper } from './Categories.styles';
+import { SnippetsWrapper } from './Snippetes.styles';
 
-export class Categories extends Component {
+export class Snippets extends Component {
   render() {
     const {
       categories,
     } = this.props;
 
-    const CategoryListItems = categories.map((c) => {
+    const SnippetsListItems = categories.map((c) => {
       return <div key={c.name}>{ c.name }</div>;
     });
 
     return (
-      <CategoriesWrapper>
-        { CategoryListItems }
-      </CategoriesWrapper>
+      <SnippetsWrapper>
+        { SnippetsListItems }
+      </SnippetsWrapper>
     );
   }
 }
@@ -25,4 +25,4 @@ export default connect(state => ({
   categories: state.categories.all,
 }), {
 
-})(Categories);
+})(Snippetes);

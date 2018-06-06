@@ -1,7 +1,7 @@
 import { DefaultPageWrapper } from '../../theme';
 
-const NotFoundCard = DefaultPageWrapper.extend`
+const NotFoundWrapper = DefaultPageWrapper.extend`
 `;
 
-export { NotFoundCard };
+export { NotFoundWrapper };
 
