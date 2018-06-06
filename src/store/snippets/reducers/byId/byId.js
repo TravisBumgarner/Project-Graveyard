@@ -1,11 +1,10 @@
 const byId = (state = [], action) => {
   switch (action.type) {
-    case "GET_SNIPPETS_SUCCESS":
-      const newIds = action.data.map(d => d.id);
+    case 'GET_SNIPPETS_SUCCESS':
 
       return {
         ...state,
-        ...newIds,
+        ...action.data.map(d => d.id),
       };
     default:
       return state;
