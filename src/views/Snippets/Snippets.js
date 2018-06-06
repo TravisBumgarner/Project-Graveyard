@@ -25,7 +25,7 @@ export class Snippets extends Component {
 }
 
 Snippets.propTypes = {
-  snippets: PropTypes.object.isRequired,
+  snippets: PropTypes.array.isRequired,
 };
 
 export default connect(state => ({

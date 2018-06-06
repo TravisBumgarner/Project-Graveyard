@@ -8,9 +8,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Home from '../Home';
 import NotFound from '../NotFound';
 import Categories from '../Categories';
+import CreateEditCategory from '../CreateEditCategory';
+
 import Snippets from '../Snippets';
 
-import Nav from '../../containers/Nav';
+import Nav from '../../components/Nav';
 
 import sessionActions from '../../store/session/actions';
 
@@ -37,6 +39,7 @@ export class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/categories" component={Categories} />
+            <Route path="/categories/create" component={CreateEditCategory} />
             <Route exact path="/snippets" component={Snippets} />
             <Route component={NotFound} />
           </Switch>

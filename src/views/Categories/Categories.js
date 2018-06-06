@@ -38,7 +38,7 @@ export class Categories extends Component {
 
 Categories.propTypes = {
   history: PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
   setSelectedId: PropTypes.func.isRequired,
 };
 
