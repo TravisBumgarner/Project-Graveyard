@@ -1,6 +1,6 @@
-import { DefaultCard } from '../../theme';
+import { DefaultPageWrapper } from '../../theme';
 
-const HomeCard = DefaultCard.extend`
+const HomeCard = DefaultPageWrapper.extend`
 `;
 
 export { HomeCard };

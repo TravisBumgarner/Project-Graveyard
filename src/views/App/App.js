@@ -13,7 +13,7 @@ import requestActions from '../../store/requests/actions';
 import { AppWrapper } from './App.styles';
 
 export class App extends Component {
-  render() {
+  componentWillMount() {
     const {
       getRequest,
     } = this.props;
@@ -21,6 +21,9 @@ export class App extends Component {
     getRequest('snippets/');
     getRequest('authors/');
     getRequest('categories/');
+  }
+
+  render() {
 
     return (
       <AppWrapper>

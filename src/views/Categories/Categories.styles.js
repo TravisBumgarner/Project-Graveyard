@@ -1,6 +1,6 @@
-import { DefaultCard } from '../../theme';
+import { DefaultPageWrapper } from '../../theme';
 
-const CategoriesCard = DefaultCard.extend`
+const CategoriesCard = DefaultPageWrapper.extend`
 `;
 
 export { CategoriesCard };
