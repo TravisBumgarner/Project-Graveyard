@@ -115,7 +115,6 @@ CreateEditCategoryForm.propTypes = {
 
 export default withRouter(connect((state, props) => ({
   categoryData: state.categories.all.filter(c => c.id === props.idToEdit)[0], // TODO Write this better?
-  c: state.categories.all,
 }), {
   putRequest: requestActions.putRequest,
   postRequest: requestActions.postRequest,

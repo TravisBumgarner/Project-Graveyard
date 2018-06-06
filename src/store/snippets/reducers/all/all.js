@@ -10,9 +10,9 @@ const all = (state = [], action) => {
         ...state,
         action.data,
       ];
-    case 'PUT_CATEGORIES_SUCCESS':
+    case 'PUT_SNIPPETS_SUCCESS':
       return [
-        ...state.filter(c => c.id !== action.data.id),
+        ...state.filter(s => s.id !== action.data.id),
         action.data,
       ];
     default:

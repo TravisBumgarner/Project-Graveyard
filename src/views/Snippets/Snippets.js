@@ -4,16 +4,26 @@ import { connect } from 'react-redux';
 
 import snippetSelectors from '../../store/snippets/selectors';
 
+import SnippetListItem from '../../components/SnippetListItem';
+
 import { SnippetsWrapper } from './Snippets.styles';
 
 export class Snippets extends Component {
+  handleSnippetEdit = (id) => {
+    const {
+      history: { push },
+    } = this.props;
+
+    push(`/snippets/edit/${id}`);
+  };
+
   render() {
     const {
       snippets,
     } = this.props;
 
     const SnippetsListItems = snippets.map((s) => {
-      return <div key={s.id}>{ s.text }</div>;
+      return <SnippetListItem handleSnippetEdit={this.handleSnippetEdit} details={s} key={s.id} />;
     });
 
     return (
@@ -26,6 +36,7 @@ export class Snippets extends Component {
 
 Snippets.propTypes = {
   snippets: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default connect(state => ({
