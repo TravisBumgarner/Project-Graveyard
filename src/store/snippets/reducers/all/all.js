@@ -5,6 +5,11 @@ const all = (state = [], action) => {
         ...state,
         ...action.data,
       ];
+    case 'POST_SNIPPETS_SUCCESS':
+      return [
+        ...state,
+        action.data,
+      ];
     default:
       return state;
   }

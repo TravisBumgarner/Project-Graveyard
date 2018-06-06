@@ -52,4 +52,3 @@ const article = new schema.Entity('articles', {
 
 const normalizedData = normalize(resp, article);
 
-console.log(normalizedData);

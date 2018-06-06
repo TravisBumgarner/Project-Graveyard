@@ -6,7 +6,6 @@ const all = (state = [], action) => {
         ...action.data,
       ];
     case 'POST_CATEGORIES_SUCCESS':
-      console.log(action);
       return [
         ...state,
         action.data,

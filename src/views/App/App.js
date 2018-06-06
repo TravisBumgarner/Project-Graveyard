@@ -9,7 +9,7 @@ import Home from '../Home';
 import NotFound from '../NotFound';
 import Categories from '../Categories';
 import CreateEditCategory from '../CreateEditCategory';
-
+import CreateEditSnippet from '../CreateEditSnippet';
 import Snippets from '../Snippets';
 
 import Nav from '../../components/Nav';
@@ -41,6 +41,7 @@ export class App extends Component {
             <Route exact path="/categories" component={Categories} />
             <Route path="/categories/create" component={CreateEditCategory} />
             <Route exact path="/snippets" component={Snippets} />
+            <Route path="/snippets/create" component={CreateEditSnippet} />
             <Route component={NotFound} />
           </Switch>
         </AppWrapper>
