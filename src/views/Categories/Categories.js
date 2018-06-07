@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import categoryActions from '../../store/categories/actions';
 
 import CategoryListItem from '../../components/CategoryListItem';
+
 
 import { CategoriesWrapper } from './Categories.styles';
 
@@ -45,6 +47,7 @@ export class Categories extends Component {
 
     return (
       <CategoriesWrapper>
+        <Link to="/categories/create/">Create new category </Link>
         { CategoryListItems }
       </CategoriesWrapper>
     );

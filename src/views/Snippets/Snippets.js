@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import snippetSelectors from '../../store/snippets/selectors';
 
@@ -28,6 +29,7 @@ export class Snippets extends Component {
 
     return (
       <SnippetsWrapper>
+        <Link to="/snippets/create/">Create Snippet</Link>
         { SnippetsListItems }
       </SnippetsWrapper>
     );

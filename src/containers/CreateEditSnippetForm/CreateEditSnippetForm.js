@@ -22,9 +22,9 @@ export class CreateEditSnippetForm extends Component {
 
     this.state = {
       text: '',
-      category: -1,
-      author: -1,
-      source: -1,
+      category: '',
+      author: '',
+      source: '',
       ...snippetData,
     };
   }
