@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 import requestActions from '../../store/requests/actions';
 
@@ -18,9 +22,9 @@ export class CreateEditSnippetForm extends Component {
 
     this.state = {
       text: '',
-      category: '',
-      author: '',
-      source: '',
+      category: -1,
+      author: -1,
+      source: -1,
       ...snippetData,
     };
   }
@@ -63,52 +67,75 @@ export class CreateEditSnippetForm extends Component {
     push('/snippets/');
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.id]: event.target.value });
+  handleNameChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   render() {
     const {
       isEditMode,
-      snippetData,
+      categories,
+      authors,
     } = this.props;
 
-    console.log(this.state);
-    console.log(snippetData);
+    const {
+      category,
+      text,
+      author,
+    } = this.state;
+
+
+    const CategoryDropdownOptions = categories.map(c => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>);
+    const AuthorsDropdownOptions = authors.map(a => <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>);
+
 
     return (
       <Fragment>
         {isEditMode ? 'Edit' : 'New'}
+
         <TextField
           fullWidth
-          id="text"
-          label="Quote"
-          value={this.state.text}
-          onChange={this.handleChange}
+          label="Text"
+          name="text"
+          value={text}
+          onChange={this.handleNameChange}
           margin="normal"
         />
+
+        <FormControl>
+          <InputLabel htmlFor="category">Select a Category</InputLabel>
+          <Select
+            name="category"
+            value={category}
+            onChange={this.handleNameChange}
+            inputProps={{
+              name: 'category',
+            }}
+          >
+            {CategoryDropdownOptions}
+          </Select>
+        </FormControl>
+
+        <FormControl>
+          <InputLabel htmlFor="author">Select an Author</InputLabel>
+          <Select
+            name="author"
+            value={author}
+            onChange={this.handleNameChange}
+            inputProps={{
+              name: 'author',
+            }}
+          >
+            {AuthorsDropdownOptions}
+          </Select>
+        </FormControl>
+
         <TextField
           fullWidth
-          id="category"
-          label="Category"
-          value={this.state.category}
-          onChange={this.handleChange}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          id="author"
-          label="Author"
-          value={this.state.author}
-          onChange={this.handleChange}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          id="source"
           label="Source"
+          name="source"
           value={this.state.source}
-          onChange={this.handleChange}
+          onChange={this.handleNameChange}
           margin="normal"
         />
         <Button
@@ -136,10 +163,14 @@ CreateEditSnippetForm.propTypes = {
   postRequest: PropTypes.func.isRequired,
   putRequest: PropTypes.func.isRequired,
   snippetData: PropTypes.object,
+  categories: PropTypes.array,
+  authors: PropTypes.array,
 };
 
 export default withRouter(connect((state, props) => ({
   snippetData: state.snippets.all.filter(s => s.id === props.idToEdit)[0], // TODO Write this better?
+  categories: state.categories.all,
+  authors: state.authors.all,
 }), {
   putRequest: requestActions.putRequest,
   postRequest: requestActions.postRequest,
