@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import MenuItem from '@material-ui/core/MenuItem';
+import Autocomplete from 'react-autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 import requestActions from '../../store/requests/actions';
 
@@ -67,7 +64,8 @@ export class CreateEditSnippetForm extends Component {
     push('/snippets/');
   };
 
-  handleNameChange = (event) => {
+  handleNameChange = (event, value) => {
+    console.log(value, event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -80,55 +78,50 @@ export class CreateEditSnippetForm extends Component {
 
     const {
       category,
-      text,
       author,
     } = this.state;
 
-
-    const CategoryDropdownOptions = categories.map(c => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>);
-    const AuthorsDropdownOptions = authors.map(a => <MenuItem key={a.id} value={a.id}>{a.name}</MenuItem>);
+    const CategoryDropdownOptions = categories.map(c => ({ id: c.id, label: c.name }));
+    const AuthorDropdownOptions = authors.map(a => ({ id: a.id, label: a.name }));
 
 
     return (
       <Fragment>
         {isEditMode ? 'Edit' : 'New'}
 
-        <TextField
-          fullWidth
-          label="Text"
-          name="text"
-          value={text}
-          onChange={this.handleNameChange}
-          margin="normal"
-        />
-
-        <FormControl>
-          <InputLabel htmlFor="category">Select a Category</InputLabel>
-          <Select
-            name="category"
+        <div>
+          Select a Category:
+          <Autocomplete
+            getItemValue={item => item.label}
+            items={CategoryDropdownOptions}
+            renderItem={(item, isHighlighted) => (
+              <div key={item.id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                {item.label}
+              </div>
+            )}
             value={category}
-            onChange={this.handleNameChange}
-            inputProps={{
-              name: 'category',
-            }}
-          >
-            {CategoryDropdownOptions}
-          </Select>
-        </FormControl>
+            shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+            onChange={e => this.setState({ category: e.target.value })}
+            onSelect={value => this.setState({ category: value })}
+          />
+        </div>
 
-        <FormControl>
-          <InputLabel htmlFor="author">Select an Author</InputLabel>
-          <Select
-            name="author"
+        <div>
+          Select an Author:
+          <Autocomplete
+            getItemValue={item => item.label}
+            items={AuthorDropdownOptions}
+            renderItem={(item, isHighlighted) => (
+              <div key={item.id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                {item.label}
+              </div>
+            )}
             value={author}
-            onChange={this.handleNameChange}
-            inputProps={{
-              name: 'author',
-            }}
-          >
-            {AuthorsDropdownOptions}
-          </Select>
-        </FormControl>
+            shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+            onChange={e => this.setState({ author: e.target.value })}
+            onSelect={value => this.setState({ author: value })}
+          />
+        </div>
 
         <TextField
           fullWidth
