@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import SnippetListItem from '../../components/SnippetListItem';
+import SortSnippets from '../../containers/SnippetSort';
 
 import { HomeWrapper } from './Home.styles';
 
@@ -13,21 +14,23 @@ export class Home extends Component {
       snippets,
       authors,
       categories,
+      snippetsById,
     } = this.props;
 
-    const Snippets = Object.values(snippets).map((s) => {
+    const Snippets = snippetsById.map((s) => {
       const snippetData = {
-        ...s,
-        author: authors[s.author].name,
-        category: categories[s.category].name,
+        ...snippets[s],
+        author: authors[snippets[s].author].name,
+        category: categories[snippets[s].category].name,
       };
       // TODO better way to do this?
-      return <SnippetListItem key={s.id} details={snippetData} />;
+      return <SnippetListItem key={s} details={snippetData} />;
     });
 
     return (
       <HomeWrapper>
         <Link to="/snippets/create">Create a snippet.</Link>
+        <SortSnippets />
         {Snippets}
       </HomeWrapper>
     );
@@ -36,12 +39,14 @@ export class Home extends Component {
 
 Home.propTypes = {
   snippets: PropTypes.object,
+  snippetsById: PropTypes.array,
   categories: PropTypes.object,
   authors: PropTypes.object,
 };
 
 export default connect(state => ({
   snippets: state.snippets.all,
+  snippetsById: state.snippets.byId,
   categories: state.categories.all,
   authors: state.authors.all,
 }), {
