@@ -12,6 +12,7 @@ class SnippetSerializer(serializers.ModelSerializer):
             'author',
             'source',
             'category',
+            'created_at',
         )
 
 

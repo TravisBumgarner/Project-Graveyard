@@ -36,6 +36,7 @@ class Snippet(models.Model):
     category = models.ForeignKey(Category, default=None, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, default=None, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, default=None, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         max_preview_length = 100
