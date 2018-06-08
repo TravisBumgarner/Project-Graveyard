@@ -3,19 +3,8 @@ import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-
 
 export default class SnippetListItem extends Component {
-  handleEdit = () => {
-    const {
-      handleSnippetEdit,
-      details: { id },
-    } = this.props;
-
-    handleSnippetEdit(id);
-  };
-
   render() {
     const {
       details,
@@ -24,8 +13,9 @@ export default class SnippetListItem extends Component {
     return (
       <Card>
         <CardContent>
-          {details.text} - { details.id }
-          <Button onClick={this.handleEdit}>Edit</Button>
+          Text: {details.text}<br />
+          Author: {details.author}<br />
+          Category: {details.category}
         </CardContent>
       </Card>
     );
@@ -34,5 +24,4 @@ export default class SnippetListItem extends Component {
 
 SnippetListItem.propTypes = {
   details: PropTypes.object.isRequired,
-  handleSnippetEdit: PropTypes.func.isRequired,
 };
