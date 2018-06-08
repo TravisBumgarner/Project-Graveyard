@@ -14,7 +14,7 @@ export class CreateEditCategory extends Component {
 
     return (
       <CreateEditCategoryWrapper>
-        <CreateEditCategoryForm isEditMode idToEdit={parseInt(params.id, 10)} />
+        <CreateEditCategoryForm idToEdit={parseInt(params.id, 10)} />
       </CreateEditCategoryWrapper>
     );
   }

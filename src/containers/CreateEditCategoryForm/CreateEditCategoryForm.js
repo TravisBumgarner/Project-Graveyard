@@ -35,7 +35,6 @@ export class CreateEditCategoryForm extends Component {
     const {
       putRequest,
       postRequest,
-      isEditMode,
       idToEdit,
       history: { push },
     } = this.props;
@@ -50,8 +49,8 @@ export class CreateEditCategoryForm extends Component {
       description,
     };
 
-    const submit = isEditMode ? putRequest : postRequest;
-    const url = isEditMode ? `categories/${idToEdit}/` : 'categories/';
+    const submit = idToEdit ? putRequest : postRequest;
+    const url = idToEdit ? `categories/${idToEdit}/` : 'categories/';
     submit(url, postData);
 
     push('/categories/');
@@ -63,12 +62,12 @@ export class CreateEditCategoryForm extends Component {
 
   render() {
     const {
-      isEditMode,
+      idToEdit,
     } = this.props;
 
     return (
       <Fragment>
-        {isEditMode ? 'Edit' : 'New'}
+        {idToEdit ? 'Edit' : 'New'}
         <TextField
           fullWidth
           id="name"
@@ -97,7 +96,7 @@ export class CreateEditCategoryForm extends Component {
           color="primary"
           variant="raised"
         >
-          { isEditMode ? 'Update' : 'Create' }
+          { idToEdit ? 'Update' : 'Create' }
         </Button>
       </Fragment>
     );
@@ -106,7 +105,6 @@ export class CreateEditCategoryForm extends Component {
 
 CreateEditCategoryForm.propTypes = {
   idToEdit: PropTypes.number,
-  isEditMode: PropTypes.bool,
   history: PropTypes.object.isRequired,
   putRequest: PropTypes.func.isRequired,
   postRequest: PropTypes.func.isRequired,
