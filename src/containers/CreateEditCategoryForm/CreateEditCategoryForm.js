@@ -114,7 +114,7 @@ CreateEditCategoryForm.propTypes = {
 };
 
 export default withRouter(connect((state, props) => ({
-  categoryData: state.categories.all[props.idToEdit],
+  categoryData: state.categories.all[props.idToEdit], // TODO FEEDBACK
 }), {
   putRequest: requestActions.putRequest,
   postRequest: requestActions.postRequest,

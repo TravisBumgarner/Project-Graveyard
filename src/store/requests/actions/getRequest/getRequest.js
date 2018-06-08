@@ -28,7 +28,7 @@ export const getRequest = (resource, params = {}) => {
         const normalizedData = requestNormalizers.flattenJSON(response.data);
         const all = normalizedData.entities.results;
         const byId = normalizedData.result;
-
+        // TODO FEEDBACK ABOVE
         dispatch(getRequestSuccess(resourceDisplayString, { all, byId }));
         resolve();
       }).catch((e) => {
