@@ -3,7 +3,7 @@ const byId = (state = [], action) => {
     case 'GET_SNIPPETS_SUCCESS':
       return {
         ...state,
-        ...action.data.map(d => d.id),
+        ...action.data.byId,
       };
     case 'POST_SNIPPETS_SUCCESS':
       return {

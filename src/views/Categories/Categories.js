@@ -34,7 +34,7 @@ export class Categories extends Component {
       categories,
     } = this.props;
 
-    const CategoryListItems = categories.map((c) => {
+    const CategoryListItems = Object.values(categories).map((c) => {
       return (
         <CategoryListItem
           key={c.id}
@@ -56,7 +56,7 @@ export class Categories extends Component {
 
 Categories.propTypes = {
   history: PropTypes.object.isRequired,
-  categories: PropTypes.array.isRequired,
+  categories: PropTypes.object.isRequired,
   setSelectedId: PropTypes.func.isRequired,
 };
 

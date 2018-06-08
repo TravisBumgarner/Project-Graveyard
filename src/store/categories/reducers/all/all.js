@@ -1,20 +1,20 @@
-const all = (state = [], action) => {
+const all = (state = {}, action) => {
   switch (action.type) {
     case 'GET_CATEGORIES_SUCCESS':
-      return [
+      return {
         ...state,
-        ...action.data,
-      ];
+        ...action.data.all,
+      };
     case 'POST_CATEGORIES_SUCCESS':
-      return [
+      return {
         ...state,
-        action.data,
-      ];
+        [action.data.id]: action.data,
+      };
     case 'PUT_CATEGORIES_SUCCESS':
-      return [
-        ...state.filter(c => c.id !== action.data.id),
-        action.data,
-      ];
+      return {
+        ...state,
+        [action.data.id]: action.data,
+      };
     default:
       return state;
   }

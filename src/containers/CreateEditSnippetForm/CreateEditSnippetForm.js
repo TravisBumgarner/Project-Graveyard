@@ -137,7 +137,7 @@ CreateEditSnippetForm.propTypes = {
 };
 
 export default withRouter(connect((state, props) => ({
-  snippetData: state.snippets.all.filter(s => s.id === props.idToEdit)[0], // TODO Write this better?
+  snippetData: state.snippets.all[props.idToEdit],
 }), {
   putRequest: requestActions.putRequest,
   postRequest: requestActions.postRequest,

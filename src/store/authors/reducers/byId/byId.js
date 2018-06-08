@@ -4,7 +4,7 @@ const byId = (state = [], action) => {
 
       return {
         ...state,
-        ...action.data.map(d => d.id),
+        ...action.data.byId,
       };
     default:
       return state;

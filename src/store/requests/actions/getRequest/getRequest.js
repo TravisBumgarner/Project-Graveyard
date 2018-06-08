@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import requestNormalizers from '../../normalizers';
+
 import { API_URL } from '../../../../constants';
 
 export const getRequestStart = resource => ({
@@ -23,7 +25,11 @@ export const getRequest = (resource, params = {}) => {
     dispatch(getRequestStart(resourceDisplayString));
     return new Promise((resolve, reject) => {
       axios.get(`${API_URL}${resource}`, params).then((response) => {
-        dispatch(getRequestSuccess(resourceDisplayString, response.data));
+        const normalizedData = requestNormalizers.flattenJSON(response.data);
+        const all = normalizedData.entities.results;
+        const byId = normalizedData.result;
+
+        dispatch(getRequestSuccess(resourceDisplayString, { all, byId }));
         resolve();
       }).catch((e) => {
         dispatch(getRequestFailure(resourceDisplayString, e));
