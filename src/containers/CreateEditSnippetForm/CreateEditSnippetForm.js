@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import Autocomplete from 'react-autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -64,73 +63,52 @@ export class CreateEditSnippetForm extends Component {
     push('/snippets/');
   };
 
-  handleNameChange = (event, value) => {
-    console.log(value, event.target.value);
+  handleNameChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   render() {
     const {
       isEditMode,
-      categories,
-      authors,
     } = this.props;
 
     const {
       category,
       author,
+      text,
     } = this.state;
-
-    const CategoryDropdownOptions = categories.map(c => ({ id: c.id, label: c.name }));
-    const AuthorDropdownOptions = authors.map(a => ({ id: a.id, label: a.name }));
-
 
     return (
       <Fragment>
         {isEditMode ? 'Edit' : 'New'}
 
-        <div>
-          Select a Category:
-          <Autocomplete
-            getItemValue={item => item.label}
-            items={CategoryDropdownOptions}
-            renderItem={(item, isHighlighted) => (
-              <div key={item.id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                {item.label}
-              </div>
-            )}
-            value={category}
-            shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-            onChange={e => this.setState({ category: e.target.value })}
-            onSelect={value => this.setState({ category: value })}
-          />
-        </div>
-
-        <div>
-          Select an Author:
-          <Autocomplete
-            getItemValue={item => item.label}
-            items={AuthorDropdownOptions}
-            renderItem={(item, isHighlighted) => (
-              <div key={item.id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                {item.label}
-              </div>
-            )}
-            value={author}
-            shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-            onChange={e => this.setState({ author: e.target.value })}
-            onSelect={value => this.setState({ author: value })}
-          />
-        </div>
-
         <TextField
           fullWidth
-          label="Source"
-          name="source"
-          value={this.state.source}
+          label="Text"
+          name="text"
+          value={text}
           onChange={this.handleNameChange}
           margin="normal"
         />
+
+        <TextField
+          fullWidth
+          label="Author"
+          name="author"
+          value={author}
+          onChange={this.handleNameChange}
+          margin="normal"
+        />
+
+        <TextField
+          fullWidth
+          label="Category"
+          name="category"
+          value={category}
+          onChange={this.handleNameChange}
+          margin="normal"
+        />
+
         <Button
           onClick={this.handleCancel}
           color="primary"
@@ -156,14 +134,10 @@ CreateEditSnippetForm.propTypes = {
   postRequest: PropTypes.func.isRequired,
   putRequest: PropTypes.func.isRequired,
   snippetData: PropTypes.object,
-  categories: PropTypes.array,
-  authors: PropTypes.array,
 };
 
 export default withRouter(connect((state, props) => ({
   snippetData: state.snippets.all.filter(s => s.id === props.idToEdit)[0], // TODO Write this better?
-  categories: state.categories.all,
-  authors: state.authors.all,
 }), {
   putRequest: requestActions.putRequest,
   postRequest: requestActions.postRequest,
