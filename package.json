@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=develop webpack-dev-server --open --hot --inline --config webpack.js"
   },
-  "author": "",
+  "authorID": "",
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^1.0.0",

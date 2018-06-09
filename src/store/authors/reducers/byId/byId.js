@@ -2,10 +2,10 @@ const byId = (state = [], action) => {
   switch (action.type) {
     case 'GET_AUTHORS_SUCCESS':
 
-      return {
+      return [
         ...state,
-        ...action.data.byId,
-      };
+        action.data.byId,
+      ];
     default:
       return state;
   }

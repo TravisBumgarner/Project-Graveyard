@@ -14,7 +14,7 @@ export default class SnippetListItem extends Component {
       <Card>
         <CardContent>
           Text: {details.text}<br />
-          Author: {details.author}<br />
+          Author: {details.authorID}<br />
           Category: {details.category}
         </CardContent>
       </Card>

@@ -32,7 +32,7 @@ const {
 //
 // // Define your article
 // const article = new schema.Entity('articles', {
-//   author: user,
+//   authorID: user,
 //   comments: [comment]
 // });
 //
@@ -46,7 +46,7 @@ const comment = new schema.Entity('comments', {
 })
 
 const article = new schema.Entity('articles', {
-  author: user,
+  authorID: user,
   comments: [comment],
 });
 

@@ -1,15 +1,15 @@
 const byId = (state = [], action) => {
   switch (action.type) {
     case 'GET_CATEGORIES_SUCCESS':
-      return {
+      return [
         ...state,
-        ...action.data.byId,
-      };
+        action.data.byId,
+      ];
     case 'POST_CATEGORIES_SUCCESS':
-      return {
+      return [
         ...state,
-        ...action.data.id,
-      };
+        action.data.id,
+      ];
     default:
       return state;
   }

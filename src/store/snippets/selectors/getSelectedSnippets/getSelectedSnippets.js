@@ -6,6 +6,6 @@ const getSnippets = state => state.snippets.all;
 export const getSelectedSnippets = createSelector(
   [getSelectedCategoryId, getSnippets],
   (selectedCategoryId, snippets) => {
-    return Object.values(snippets).filter(s => s.category === selectedCategoryId);
+    return Object.values(snippets).filter(s => s.categoryID === selectedCategoryId);
   },
 );

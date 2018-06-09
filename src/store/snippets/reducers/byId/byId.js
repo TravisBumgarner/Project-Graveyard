@@ -8,7 +8,7 @@ const byId = (state = [], action) => {
     case 'POST_SNIPPETS_SUCCESS':
       return [
         ...state,
-        ...action.data.id,
+        action.data.id,
       ];
     case 'CHANGE_SNIPPET_ORDERING_SUCCESS':
       return [
