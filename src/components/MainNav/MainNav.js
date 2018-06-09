@@ -5,36 +5,21 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import ListIcon from '@material-ui/icons/List';
+import Typography from '@material-ui/core/Typography';
 
-import SiteLink from '../../components/SiteLink';
+import Logo from '../Logo';
+import SiteLink from '../SiteLink';
+
+import { USER_LINKS, SNIPPET_LINKS, CATEGORY_LINKS } from '../../urls';
 
 // import {
 // } from './MainNav.styles';
 
-const SITE_LINKS = [
-  {
-    text: 'Home',
-    to: '/',
-    icon: <ListIcon />,
-  },
-  {
-    text: 'Create a Snippet',
-    to: '/snippets/create',
-    icon: <AddBoxIcon />,
-  },
-];
-
 export default class MainNav extends Component {
-  render() {
-    const {
-      isOpen,
-      toggleOpen,
-    } = this.props;
-
-    const Links = SITE_LINKS.map((s) => {
+  createLinks = (linkObj) => {
+    const Links = linkObj.map((s) => {
       return (
         <SiteLink to={s.to} key={s.text}>
           <ListItem button>
@@ -47,6 +32,20 @@ export default class MainNav extends Component {
       );
     });
 
+    return Links;
+  };
+
+
+  render() {
+    const {
+      isOpen,
+      toggleOpen,
+    } = this.props;
+
+    const CategoryLinks = this.createLinks(CATEGORY_LINKS.links);
+    const SnippetLinks = this.createLinks(SNIPPET_LINKS.links);
+    const UserLinks = this.createLinks(USER_LINKS.links);
+
     return (
       <Drawer open={isOpen} onClose={toggleOpen}>
         <div
@@ -55,8 +54,16 @@ export default class MainNav extends Component {
           onClick={toggleOpen}
           onKeyDown={toggleOpen}
         >
+          <Logo width="250px"/>
           <List component="nav">
-            {Links}
+            <Typography variant="subheading">{CATEGORY_LINKS.title}</Typography>
+            {CategoryLinks}
+            <Divider />
+            <Typography variant="subheading">{SNIPPET_LINKS.title}</Typography>
+            {SnippetLinks}
+            <Divider />
+            <Typography variant="subheading">{USER_LINKS.title}</Typography>
+            {UserLinks}
           </List>
         </div>
       </Drawer>

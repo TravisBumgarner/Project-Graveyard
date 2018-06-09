@@ -26,6 +26,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'eslint-loader'
+      },
+      {
+        test: /\.(jpg|png|gif|svg|pdf|ico)$/, // TODO replace this with cloudfront or whatever
+        loader: 'file-loader'
       }
     ]
   },
