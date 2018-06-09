@@ -11,6 +11,7 @@ import Categories from '../Categories';
 import CreateEditCategory from '../CreateEditCategory';
 import CreateEditSnippet from '../CreateEditSnippet';
 import Snippets from '../Snippets';
+import UserSettings from '../UserSettings';
 
 import MainNav from '../../components/MainNav';
 import Header from '../../components/Header';
@@ -63,6 +64,8 @@ export class App extends Component {
             <Route path="/snippets" component={Snippets} exact />
             <Route path="/snippets/create" component={CreateEditSnippet} />
             <Route path="/snippets/edit/:id" component={CreateEditSnippet} />
+
+            <Route path="/user/settings" component={UserSettings} exact />
 
             <Route component={NotFound} />
           </Switch>

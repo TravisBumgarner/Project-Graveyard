@@ -54,7 +54,7 @@ export default class MainNav extends Component {
           onClick={toggleOpen}
           onKeyDown={toggleOpen}
         >
-          <Logo width="250px"/>
+          <Logo width="250px" />
           <List component="nav">
             <Typography variant="subheading">{CATEGORY_LINKS.title}</Typography>
             {CategoryLinks}
