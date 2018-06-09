@@ -41,7 +41,7 @@ export class CreateEditSnippetForm extends Component {
       history: { push },
     } = this.props;
 
-    push('/snippets/');
+    push('/');
   };
 
   handleSubmit = () => {

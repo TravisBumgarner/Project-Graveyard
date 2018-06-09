@@ -28,7 +28,7 @@ export class CreateEditCategoryForm extends Component {
       history: { push },
     } = this.props;
 
-    push('/categories/');
+    push('/');
   };
 
   handleSubmit = () => {
@@ -53,7 +53,7 @@ export class CreateEditCategoryForm extends Component {
     const url = idToEdit ? `categories/${idToEdit}/` : 'categories/';
     submit(url, postData);
 
-    push('/categories/');
+    push('/');
   };
 
   handleChange = (event) => {

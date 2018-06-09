@@ -17,7 +17,7 @@ export default class Header extends Component {
 
   render() {
     return (
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton color="inherit" aria-label="Menu">
             <MenuIcon onClick={this.toggleMainNav} />

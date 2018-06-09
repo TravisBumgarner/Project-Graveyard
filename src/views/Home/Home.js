@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import SnippetListItem from '../../components/SnippetListItem';
-import SortSnippets from '../../containers/SnippetSort';
 
 import { HomeWrapper } from './Home.styles';
 
@@ -30,8 +28,6 @@ export class Home extends Component {
 
     return (
       <HomeWrapper>
-        <Link to="/snippets/create">Create a snippet.</Link>
-        <SortSnippets />
         {Snippets}
       </HomeWrapper>
     );
