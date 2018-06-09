@@ -6,7 +6,6 @@ const all = (state = {}, action) => {
         ...action.data.all,
       };
     case 'POST_SNIPPETS_SUCCESS':
-      console.log('hi');
       return {
         ...state,
         [action.data.id]: action.data,

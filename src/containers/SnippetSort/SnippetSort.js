@@ -43,12 +43,10 @@ export class SnippetSort extends Component {
     this.setState({ sortMethod: event.target.value });
 
     const newSortOrderById = Object.values(snippets).sort((a, b) => sortSnippets(sortMethod, a, b)).map(s => s.id);
-    console.log(sortMethod, newSortOrderById);
     changeSnippetOrdering(newSortOrderById);
   };
 
   render() {
-    console.log(this.state);
     return (
       <Select value={this.state.sortMethod} onChange={this.handleChange}>
         <MenuItem value={NEW_TO_OLD} key={0}>New to Old</MenuItem>
