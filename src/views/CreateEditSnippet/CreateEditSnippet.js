@@ -14,13 +14,7 @@ export class CreateEditSnippet extends Component {
 
     return (
       <CreateEditSnippetWrapper>
-        { // TODO this is ugly
-          params.id ? (
-            <CreateEditSnippetForm isEditMode idToEdit={parseInt(params.id, 10)} />
-          ) : (
-            <CreateEditSnippetForm />
-          )
-        }
+        <CreateEditSnippetForm idToEdit={parseInt(params.id, 10)} />
       </CreateEditSnippetWrapper>
     );
   }
