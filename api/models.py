@@ -2,17 +2,28 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
+import randomcolor
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
+    color = models.CharField(max_length=25, unique=True, editable=False)
 
     def __unicode__(self):
         return self.name
 
     class Meta:
         verbose_name_plural = 'Categories'
+
+
+@receiver(pre_save, sender=Category)
+def set_color(sender, instance, *args, **kwargs):
+    if instance.pk is None:
+        rc = randomcolor.RandomColor()
+        instance.color = rc.generate(hue="blue")[0]
 
 
 class Source(models.Model):

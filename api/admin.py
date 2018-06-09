@@ -8,7 +8,7 @@ from .models import *
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('color',)
 
 
 @admin.register(Snippet)
