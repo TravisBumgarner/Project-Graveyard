@@ -35,7 +35,7 @@ class Snippet(models.Model):
     text = models.TextField()
     category = models.ForeignKey(Category, default=None, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, default=None, on_delete=models.CASCADE)
-    source = models.ForeignKey(Source, default=None, on_delete=models.CASCADE, null=True, blank=True)
+    source = models.ForeignKey(Source, default=None, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

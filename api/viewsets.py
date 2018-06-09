@@ -17,3 +17,8 @@ class AuthorViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class SourceViewSet(viewsets.ModelViewSet):
+    queryset = Source.objects.all()
+    serializer_class = SourceSerializer

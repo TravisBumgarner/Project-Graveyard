@@ -19,3 +19,7 @@ class SnippetAdmin(admin.ModelAdmin):
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(Source)
+class SourceAdmin(admin.ModelAdmin):
+    pass
