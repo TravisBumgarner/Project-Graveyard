@@ -115,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://github.com/ottoyiu/django-cors-headers/
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
+    'localhost:3001'
 )
 
 # Internationalization

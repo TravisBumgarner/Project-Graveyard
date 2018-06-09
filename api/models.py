@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-import randomcolor
+from .utils import generate_color
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -22,8 +22,7 @@ class Category(models.Model):
 @receiver(pre_save, sender=Category)
 def set_color(sender, instance, *args, **kwargs):
     if instance.pk is None:
-        rc = randomcolor.RandomColor()
-        instance.color = rc.generate(hue="blue")[0]
+        instance.color = generate_color()
 
 
 class Source(models.Model):
