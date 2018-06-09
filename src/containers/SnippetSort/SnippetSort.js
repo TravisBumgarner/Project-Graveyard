@@ -14,9 +14,9 @@ const NEW_TO_OLD = 'NEW_TO_OLD';
 const sortSnippets = (sortMethod, a, b) => {
   let result;
   if (sortMethod === NEW_TO_OLD) {
-    result = b.id - a.id;
-  } else if (sortMethod === OLD_TO_NEW) {
     result = a.id - b.id;
+  } else if (sortMethod === OLD_TO_NEW) {
+    result = b.id - a.id;
   }
   return result;
 };
