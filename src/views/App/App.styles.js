@@ -7,6 +7,7 @@ const AppWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 100vh;
+  background-color: lightskyblue;
 `;
 
 export { AppWrapper };

@@ -12,13 +12,21 @@ import CreateEditCategory from '../CreateEditCategory';
 import CreateEditSnippet from '../CreateEditSnippet';
 import Snippets from '../Snippets';
 
-import Nav from '../../components/Nav';
+import MainNav from '../../components/MainNav';
+import Header from '../../components/Header';
 
 import sessionActions from '../../store/session/actions';
 
 import { AppWrapper } from './App.styles';
 
 export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMainNavOpen: false,
+    };
+  }
+
   componentWillMount() {
     const {
       loadSession,
@@ -27,15 +35,24 @@ export class App extends Component {
     loadSession();
   }
 
+  toggleMainNav = () => {
+    this.setState({ isMainNavOpen: !this.state.isMainNavOpen });
+  };
+
   render() {
     const {
       loaded,
     } = this.props;
 
+    const {
+      isMainNavOpen,
+    } = this.state;
+
     return (
       loaded ? (
         <AppWrapper>
-          <Nav />
+          <Header toggleMainNav={this.toggleMainNav} />
+          <MainNav isOpen={isMainNavOpen} toggleOpen={this.toggleMainNav} />
           <Switch>
             <Route exact path="/" component={Home} />
 

@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import { HeaderWrapper } from './Header.styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 export default class Header extends Component {
-  render() {
+  toggleMainNav = () => {
     const {
-      children,
+      toggleMainNav,
     } = this.props;
 
+    toggleMainNav();
+  };
+
+  render() {
     return (
-      <HeaderWrapper>{ children }</HeaderWrapper>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton color="inherit" aria-label="Menu">
+            <MenuIcon onClick={this.toggleMainNav} />
+          </IconButton>
+          <Typography>
+            re/Mind Me
+          </Typography>
+        </Toolbar>
+      </AppBar>
     );
   }
 }
 
 Header.propTypes = {
-  children: PropTypes.string.isRequired,
+  toggleMainNav: PropTypes.func.isRequired,
 };
