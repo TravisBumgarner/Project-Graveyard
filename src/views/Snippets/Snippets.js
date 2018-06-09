@@ -24,6 +24,7 @@ export class Snippets extends Component {
     } = this.props;
 
     const SnippetsListItems = snippets.map((s) => {
+      console.log(s);
       return <SnippetListItem handleSnippetEdit={this.handleSnippetEdit} details={s} key={s.id} />;
     });
 

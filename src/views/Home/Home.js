@@ -22,6 +22,7 @@ export class Home extends Component {
         ...snippets[s],
         author: authors[snippets[s].author].name,
         category: categories[snippets[s].category].name,
+        color: categories[snippets[s].category].color,
       };
       // TODO better way to do this?
       return <SnippetListItem key={s} details={snippetData} />;

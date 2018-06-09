@@ -12,7 +12,7 @@ export default class SnippetListItem extends Component {
     } = this.props;
 
     return (
-      <SnippetListItemCard>
+      <SnippetListItemCard color={details.color}>
         <CardContent>
           Text: {details.text}<br />
           Author: {details.author}<br />
