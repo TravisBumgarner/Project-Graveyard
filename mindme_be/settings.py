@@ -24,6 +24,7 @@ DEBUG = os.getenv('SITE','dev') == 'dev'
 
 ALLOWED_HOSTS = [
     'localhost',
+    'mindmeapi.travisbumgarner.com'
 ]
 
 
