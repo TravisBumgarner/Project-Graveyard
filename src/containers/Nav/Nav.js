@@ -13,7 +13,6 @@ export default class Nav extends Component {
     return (
       <SiteLinkList>
         <SiteLinkItem><SiteLink exact activeStyle={activeSiteLink} to="/">Home</SiteLink></SiteLinkItem>
-        <SiteLinkItem><SiteLink activeStyle={activeSiteLink} to="/admin">Admin</SiteLink></SiteLinkItem>
       </SiteLinkList>
     )
   }

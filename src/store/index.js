@@ -4,10 +4,10 @@ import ReduxThunk from 'redux-thunk';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 
-import measurements from './measurements/reducers';
+import people from './search/reducers';
 
 const rootReducer = combineReducers({
-  measurements,
+  people,
 });
 
 const client = axios.create({ //all axios can be used, shown in axios documentation
