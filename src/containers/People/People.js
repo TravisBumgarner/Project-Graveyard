@@ -20,7 +20,7 @@ export class People extends Component {
 }
 
 export default connect((state) => ({
-  people: state.people.all,
+  people: state.search.all,
 }), {
 })(People);
 

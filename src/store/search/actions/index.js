@@ -1,5 +1,7 @@
-import * as getSearch from './getSearch';
+import * as performNewSearch from './performNewSearch';
+import * as getMoreResults from './getMoreResults';
 
 export default {
-  ...getSearch,
+  ...performNewSearch,
+  ...getMoreResults,
 };

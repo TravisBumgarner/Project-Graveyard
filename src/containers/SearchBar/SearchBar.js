@@ -29,10 +29,9 @@ export class SearchBar extends Component {
     } = this.state;
 
     const {
-      getSearch,
+      performNewSearch,
     } = this.props;
-
-    getSearch();
+    performNewSearch(query);
 
   };
 
@@ -62,5 +61,5 @@ export class SearchBar extends Component {
 
 export default withRouter(connect((state) => ({
 }), {
-    getSearch: searchActions.getSearch,
+  performNewSearch: searchActions.performNewSearch,
 })(SearchBar));

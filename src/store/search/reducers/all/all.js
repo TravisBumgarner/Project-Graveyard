@@ -1,10 +1,13 @@
-import peopleActions from '../../actions';
+import searchActions from '../../actions';
 
 const all = (state = [], action) => {
   switch (action.type) {
-    case peopleActions.GET_SEARCH_SUCCESS:
+    case searchActions.PERFORM_NEW_SEARCH_SUCCESS:
       return [
-        ...state,
+        ...action.data.hits.hits,
+      ];
+    case searchActions.GET_MORE_RESULTS_SUCCESS:
+      return [
         ...action.data.hits.hits,
       ];
     default:

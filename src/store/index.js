@@ -4,13 +4,13 @@ import ReduxThunk from 'redux-thunk';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 
-import people from './search/reducers';
+import search from './search/reducers';
 
 const rootReducer = combineReducers({
-  people,
+  search,
 });
 
-const client = axios.create({ //all axios can be used, shown in axios documentation
+const client = axios.create({ //meta axios can be used, shown in axios documentation
   baseURL:'http://localhost:8000',
   responseType: 'json'
 });

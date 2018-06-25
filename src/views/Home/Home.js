@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import SearchBar from '../../containers/SearchBar';
 import People from '../../containers/People';
+import Pagination from '../../containers/Pagination';
 
 import {
   HomeCard
@@ -11,10 +12,14 @@ import {
 
 export class Home extends Component {
   render(){
+    const {
+      wasSearchPerformed,
+    } = this.props;
 
     return (
       <Fragment>
         <SearchBar />
+        { wasSearchPerformed && <Pagination /> }
         <People />
       </Fragment>
 
@@ -24,7 +29,7 @@ export class Home extends Component {
 }
 
 export default connect((state) => ({
-
+  wasSearchPerformed: state.search.meta.wasSearchPerformed,
 }), {
 
 })(Home);

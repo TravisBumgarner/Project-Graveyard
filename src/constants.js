@@ -1,7 +1,1 @@
-export const MEASUREMENTS_PROPERTIES_ORDERING = [
-  'year',
-  'month',
-  'kwh',
-  'bill',
-  'savings',
-];
+export const DEFAULT_PAGINATION = 5;
