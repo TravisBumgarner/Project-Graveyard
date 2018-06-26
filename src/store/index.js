@@ -5,12 +5,14 @@ import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 
 import search from './search/reducers';
+import session from './session/reducers';
 
 const rootReducer = combineReducers({
   search,
+  session,
 });
 
-const client = axios.create({ //meta axios can be used, shown in axios documentation
+const client = axios.create({ //stats axios can be used, shown in axios documentation
   baseURL:'http://localhost:8000',
   responseType: 'json'
 });

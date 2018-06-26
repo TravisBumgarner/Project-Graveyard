@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import { DEFAULT_PAGINATION } from "../../../../constants";
 
-const API_URL = 'http://localhost:5000/search/all';
-
 export const GET_MORE_RESULTS_START = 'GET_MORE_RESULTS_START';
 export const GET_MORE_RESULTS_FAILURE = 'GET_MORE_RESULTS_FAILURE';
 export const GET_MORE_RESULTS_SUCCESS = 'GET_MORE_RESULTS_SUCCESS';
@@ -27,10 +25,8 @@ export const getMoreResults = (query, page) => {
   return (dispatch) => {
     dispatch(getMoreResultsStart());
     return new Promise((resolve, reject) => {
-      axios.request({
-        method: 'GET',
-        url: `${API_URL}?start_from=${page * DEFAULT_PAGINATION}`,
-      }).then((response) => {
+      axios.get(`http://localhost:5000/search/all?start_from=${page * DEFAULT_PAGINATION}`, params
+      ).then((response) => {
         const { data } = response;
         if (data.is_submit_error){
           dispatch(getMoreResultsFailure(data));

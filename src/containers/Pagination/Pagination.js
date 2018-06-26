@@ -27,6 +27,12 @@ export class Pagination extends Component {
       query,
     } = this.props;
 
+    const requestBody = {
+      query,
+      number_of_beds: numberOfBeds,
+      min_square_feet: sqFt,
+    };
+
     const nextPage = currentPage + 1;
 
     if (nextPage <= totalPages) {

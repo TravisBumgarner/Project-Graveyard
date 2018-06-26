@@ -21,15 +21,15 @@ export const performNewFailure = data => ({
   data,
 });
 
-export const performNewSearch = (query) => {
+export const performNewSearch = (params) => {
   return (dispatch) => {
-    dispatch(performNewStart(query));
+    dispatch(performNewStart(params.query));
     return new Promise((resolve, reject) => {
-      axios.request({
-        method: 'GET',
-        url: `${API_URL}`,
-        data: {query},
-      }).then((response) => {
+      axios.get(`${API_URL}`,
+        {
+          params
+        }
+      ).then((response) => {
         const { data } = response;
         if (data.is_submit_error){
           dispatch(performNewFailure(data));

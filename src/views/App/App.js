@@ -7,22 +7,30 @@ import Home from '../Home';
 import NotFound from '../NotFound';
 import Nav from '../../containers/Nav';
 
-import searchActions from '../../store/search/actions';
+import sessionActions from '../../store/session/actions';
 
 import {
   AppWrapper,
 } from "./App.styles";
 
 export class App extends Component {
+  componentWillMount(){
+    const {
+      loadSession,
+    } = this.props;
+
+    loadSession();
+  }
+
 
   render() {
     const {
-      isLoading,
+      loaded,
 
     } = this.props;
 
     return (
-      !isLoading ? (
+      loaded ? (
         <AppWrapper>
           <Nav/>
           <Switch>
@@ -41,7 +49,9 @@ export class App extends Component {
 }
 
 export default withRouter(connect((state) => ({
+  loaded: state.session.meta.loaded,
 }), {
+  loadSession: sessionActions.loadSession,
 })(App));
 
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 
 import SearchBar from '../../containers/SearchBar';
-import People from '../../containers/People';
+import People from '../../containers/SearchResults';
 import Pagination from '../../containers/Pagination';
 
 import {

@@ -3,8 +3,8 @@ import searchActions from '../../actions';
 import { DEFAULT_PAGINATION } from "../../../../constants";
 
 const DEFAULT_STATE = {
-  currentPage: 0,
-  totalPages: 0,
+  currentPage: 1,
+  totalPages: 1,
   query: '',
   wasSearchPerformed: false,
 
@@ -20,7 +20,7 @@ const meta = (state = DEFAULT_STATE, action) => {
     case searchActions.PERFORM_NEW_SEARCH_SUCCESS:
       return {
         ...state,
-        currentPage: 0,
+        currentPage: 1,
         totalPages: Math.ceil(action.data.hits.total / DEFAULT_PAGINATION),
         wasSearchPerformed: true,
       };

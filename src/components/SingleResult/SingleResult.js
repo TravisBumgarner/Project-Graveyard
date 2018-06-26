@@ -3,11 +3,10 @@ import React, {Component} from 'react';
 import { DefaultCard } from "../../theme";
 import CardContent from '@material-ui/core/CardContent';
 
-export default class Person extends Component {
+export default class SingleResult extends Component {
     constructor(props){
         super(props);
         this.state={
-
         };
     }
 
@@ -15,11 +14,12 @@ export default class Person extends Component {
         const {
             details: {
                 _source: {
-                  first_name,
-                  last_name,
-                  phone1,
+                  street,
                   city,
+                  zip,
                   state,
+                  beds,
+                  sq__ft,
                 }
             },
         } = this.props;
@@ -27,9 +27,10 @@ export default class Person extends Component {
         return (
             <DefaultCard>
                 <CardContent>
-                  <h3>{first_name} {last_name}</h3>
-                  <b>Phone: </b> {phone1}<br />
-                  <b>Location: </b> {city}, {state}<br />
+                  <h3>{city}, {state}, {zip}</h3>
+                  <b>Street</b>: {street}<br />
+                  <b>Beds</b>: {beds}<br />
+                  <b>Square Feet</b>: {sq__ft}<br />
                 </CardContent>
             </DefaultCard>
         )

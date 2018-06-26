@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import { connect } from 'react-redux';
 
-import Person from '../../components/Person';
+import Person from '../../components/SingleResult';
 
-export class People extends Component {
+export class SearchResults extends Component {
   render() {
     const {
       people,
@@ -22,5 +22,5 @@ export class People extends Component {
 export default connect((state) => ({
   people: state.search.all,
 }), {
-})(People);
+})(SearchResults);
 
