@@ -21,22 +21,16 @@ export const getMoreResultsFailure = data => ({
   data,
 });
 
-export const getMoreResults = (query, page) => {
+export const getMoreResults = (params, nextPage) => {
   return (dispatch) => {
     dispatch(getMoreResultsStart());
     return new Promise((resolve, reject) => {
-      axios.get(`http://localhost:5000/search/all?start_from=${page * DEFAULT_PAGINATION}`, params
+      axios.get(`http://localhost:5000/search/all`, { params }
       ).then((response) => {
-        const { data } = response;
-        if (data.is_submit_error){
-          dispatch(getMoreResultsFailure(data));
-          reject();
-        } else {
-        dispatch(getMoreResultsSuccess(data, page));
+        dispatch(getMoreResultsSuccess(response.data, nextPage));
         resolve();
-        }
       }).catch((error) => {
-        dispatch(getMoreResultsFailure('There was an error, please try again later.'));
+        dispatch(getMoreResultsFailure(error));
         reject();
       });
     });

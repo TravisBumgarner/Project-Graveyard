@@ -11,11 +11,12 @@ import {withRouter} from "react-router-dom";
 import searchActions from "../../store/search/actions";
 import {connect} from "react-redux";
 
+import { DEFAULT_PAGINATION } from "../../constants";
+
 export class Pagination extends Component {
   constructor(props){
     super(props);
     this.state = {
-      query: "",
     };
   }
 
@@ -24,19 +25,24 @@ export class Pagination extends Component {
       getMoreResults,
       currentPage,
       totalPages,
-      query,
+      query: {
+        number_of_beds,
+        min_square_feet,
+        query,
+      },
     } = this.props;
-
-    const requestBody = {
-      query,
-      number_of_beds: numberOfBeds,
-      min_square_feet: sqFt,
-    };
 
     const nextPage = currentPage + 1;
 
     if (nextPage <= totalPages) {
-      getMoreResults(query, nextPage);
+      const requestBody = {
+        query,
+        number_of_beds,
+        min_square_feet,
+        from: nextPage * DEFAULT_PAGINATION,
+      };
+
+      getMoreResults(requestBody, nextPage);
     } else {
       alert('No more results');
     }
@@ -52,7 +58,15 @@ export class Pagination extends Component {
     const prevPage = currentPage - 1;
 
     if (prevPage >= 1) {
-      getMoreResults(query, prevPage);
+
+      // const requestBody = {
+      //   query,
+      //   number_of_beds: numberOfBeds,
+      //   min_square_feet: sqFt,
+      //   from: currentPage * DEFAULT_PAGINATION,
+      // };
+
+      getMoreResults(requestBody);
     } else {
       alert('No more results');
     }

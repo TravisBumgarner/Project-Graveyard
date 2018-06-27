@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/search/all';
-
 export const PERFORM_NEW_SEARCH_START = 'PERFORM_NEW_SEARCH_START';
 export const PERFORM_NEW_SEARCH_FAILURE = 'PERFORM_NEW_SEARCH_FAILURE';
 export const PERFORM_NEW_SEARCH_SUCCESS = 'PERFORM_NEW_SEARCH_SUCCESS';
@@ -23,23 +21,14 @@ export const performNewFailure = data => ({
 
 export const performNewSearch = (params) => {
   return (dispatch) => {
-    dispatch(performNewStart(params.query));
+    dispatch(performNewStart(params));
     return new Promise((resolve, reject) => {
-      axios.get(`${API_URL}`,
-        {
-          params
-        }
+      axios.get(`http://localhost:5000/search/all`, { params }
       ).then((response) => {
-        const { data } = response;
-        if (data.is_submit_error){
-          dispatch(performNewFailure(data));
-          reject();
-        } else {
-        dispatch(performNewSuccess(data));
+        dispatch(performNewSuccess(response.data));
         resolve();
-        }
       }).catch((error) => {
-        dispatch(performNewFailure('There was an error, please try again later.'));
+        dispatch(performNewFailure(error));
         reject();
       });
     });
