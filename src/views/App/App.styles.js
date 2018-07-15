@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 
 const AppWrapper = styled.div`
-`;
+`
 
-export { AppWrapper };
+export { AppWrapper }

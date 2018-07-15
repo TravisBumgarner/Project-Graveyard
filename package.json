@@ -5,7 +5,9 @@
   "main": "",
   "scripts": {
     "start": "NODE_ENV=develop webpack-dev-server --open --hot --inline --config webpack.dev.js",
-    "build": "NODE_ENV=production webpack --config webpack.prod.js"
+    "build": "NODE_ENV=production webpack --config webpack.prod.js",
+    "lint": "./node_modules/eslint/bin/eslint.js ./src",
+    "lint-fix": "./node_modules/eslint/bin/eslint.js ./src --fix"
   },
   "authorID": "",
   "license": "ISC",
@@ -41,7 +43,7 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.9.1",
+    "eslint-plugin-react": "^7.10.0",
     "file-loader": "^1.1.11",
     "webpack-dev-server": "^2.9.7"
   }

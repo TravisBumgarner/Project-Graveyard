@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
-export default class Header extends Component {
+export default class MainNav extends Component {
   render() {
     return (
       <p>Hi</p>
@@ -9,5 +9,6 @@ export default class Header extends Component {
   }
 }
 
-// Header.propTypes = {
+// MainNav.propTypes = {
 // }
+

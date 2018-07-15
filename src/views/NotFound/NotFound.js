@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import { NotFoundWrapper } from './NotFound.styles';
+import { NotFoundWrapper } from './NotFound.styles'
 
 export default class NotFound extends Component {
   render() {
@@ -8,6 +8,6 @@ export default class NotFound extends Component {
       <NotFoundWrapper>
         The page you were looking for was not found.
       </NotFoundWrapper>
-    );
+    )
   }
 }

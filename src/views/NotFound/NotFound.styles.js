@@ -1,7 +1,7 @@
-import { DefaultPageWrapper } from '../../theme';
+import { DefaultPageWrapper } from '../../theme'
 
 const NotFoundWrapper = DefaultPageWrapper.extend`
-`;
+`
 
-export { NotFoundWrapper };
+export { NotFoundWrapper }
 
