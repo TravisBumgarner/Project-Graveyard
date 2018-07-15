@@ -1,7 +1,7 @@
 import { DefaultPageWrapper } from '../../theme'
 
-const HomeWrapper = DefaultPageWrapper.extend`
+const ViewWrapper = DefaultPageWrapper.extend`
 `
 
-export { HomeWrapper }
+export { ViewWrapper }
 
