@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
+import Button from '../../components/Button'
+
 import { CreateWrapper } from './Create.styles'
 
 export default class Create extends Component {
@@ -8,6 +10,7 @@ export default class Create extends Component {
     return (
       <CreateWrapper>
         Create
+        <Button />
       </CreateWrapper>
     )
   }
