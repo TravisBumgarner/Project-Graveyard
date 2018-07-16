@@ -8,7 +8,9 @@
     "build": "NODE_ENV=production webpack --config webpack.prod.js",
     "lint": "./node_modules/eslint/bin/eslint.js ./src",
     "lint-fix": "./node_modules/eslint/bin/eslint.js ./src --fix",
-    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-register ./src/**/**spec.js"
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-register ./src/**/**spec.js",
+    "test-watch": "./node_modules/mocha/bin/mocha --watch --compilers js:babel-register ./src/**/**spec.js"
+
   },
   "authorID": "",
   "license": "ISC",

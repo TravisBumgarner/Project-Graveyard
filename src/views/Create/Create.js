@@ -10,7 +10,9 @@ export default class Create extends Component {
     return (
       <CreateWrapper>
         Create
-        <Button />
+        <Button onClick={() => alert('hi')}>
+          Click Me
+        </Button>
       </CreateWrapper>
     )
   }

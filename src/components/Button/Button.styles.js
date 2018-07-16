@@ -8,10 +8,6 @@ const PrimaryButton = Button.extend`
   
 `
 
-const SecondaryButton = Button.extend`
-`
-
 export {
-  PrimaryButton,
-  SecondaryButton,
+  PrimaryButton
 }

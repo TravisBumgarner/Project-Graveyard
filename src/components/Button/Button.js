@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import { 
-  PrimaryButton,
-  SecondaryButton
+  PrimaryButton
 } from './Button.styles'
 
 export default class Button extends Component {
@@ -10,7 +10,7 @@ export default class Button extends Component {
     const {
       onClick,
       children,
-    } = this.props;
+    } = this.props
 
     return (
       <PrimaryButton onClick={onClick}>
@@ -19,4 +19,9 @@ export default class Button extends Component {
     
     )
   }
+}
+
+Button.propTypes = {
+  children: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
