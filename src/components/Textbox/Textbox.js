@@ -7,11 +7,6 @@ import {
 
 export default class Textbox extends Component {
   render() {
-    const {
-      onClick,
-      children,
-    } = this.props
-
     return (
       <TextArea/>
     )

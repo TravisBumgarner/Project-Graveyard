@@ -3,11 +3,13 @@ import React, { Component } from 'react'
 
 import { ViewWrapper } from './View.styles'
 
+import { Textbox } from '../../components'
+
 export default class View extends Component {
   render() {
     return (
       <ViewWrapper>
-        View
+        <Textbox />
       </ViewWrapper>
     )
   }
