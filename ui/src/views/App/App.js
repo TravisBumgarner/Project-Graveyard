@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from '../Home';
-import NotFound from '../NotFound';
+import {
+  Search,
+  NotFound
+} from '../../views'
 
 import {
   AppWrapper,
@@ -14,7 +16,7 @@ export default class App extends Component {
     return (
       <AppWrapper>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Search} />
           <Route component={NotFound} />
         </Switch>
       </AppWrapper>

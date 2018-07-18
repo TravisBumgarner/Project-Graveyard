@@ -1,23 +1,29 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
-import CardContent from '@material-ui/core/CardContent';
-
-import { DefaultCard } from "../../theme";
 
 import {
   Input
 } from './SearchBar.styles';
 
 export default class SearchBar extends Component {
-  handleChange = (e) => {
+  onChange = (e) => {
+    const {
+      onChange
+    } = this.props;
+
   };
 
-  handleSubmit = () => {
-  };
 
   render() {
+    const {
+      searchInput,
+    } = this.state;
     return (
-      <Input />
+      <Input
+        name="userInput"
+        onChange={this.onChange}
+        value={searchInput}
+      />
     )
   }
-}
+} 
