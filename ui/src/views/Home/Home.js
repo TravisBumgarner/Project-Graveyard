@@ -1,21 +1,26 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 
-import SearchBar from '../../containers/SearchBar';
-import People from '../../containers/SearchResults';
-import Pagination from '../../containers/Pagination';
+import {
+  SearchBar,
+} from '../../containers';
 
 import {
   HomeCard
 } from "./Home.styles";
 
 export default class Home extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      results: [],
+    }
+  }
+
   render(){
     return (
-      <Fragment>
+      <HomeCard>
         <SearchBar />
-        <People />
-      </Fragment>
-
+      </HomeCard>
     )
 
   }
