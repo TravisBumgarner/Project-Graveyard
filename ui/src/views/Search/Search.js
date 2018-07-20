@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
-
-import searchData from '../../../data/simplemaps-worldcities-basic.json'
+import searchDataCities from '../../../data/simplemaps-worldcities-basic.json'
+import searchDataStackOverflow from '../../../data/StackOverflowTags.json'
 
 import {
   HomeCard,
@@ -25,21 +25,33 @@ function debounce(func, wait, immediate) {
 export default class Home extends Component {
   constructor(props){
     super(props)
+
+    let allTargetTerms = new Set()
+    searchDataStackOverflow.filter(each=> each.target !== null).map(each => allTargetTerms.add(each.target))
+
     this.state = {
       isSearching: false,
-      allCities: searchData.map(each => each.city),
+      allCities: searchDataCities.map(each => each.city),
+      allTargetTerms: [...allTargetTerms],
       selectedCities: [],
+      selectedTargetTerms: [],
       userInput: '',
+      searchedTerm: '',
     }
   }
   submit = debounce((searchedTerm) => {
     const {
       allCities,
+      allTargetTerms,
     } = this.state;
+
     const selectedCities = allCities.filter(c => c.toLowerCase().includes(searchedTerm.toLowerCase()));
+    const selectedTargetTerms = allTargetTerms.filter(c => c.toLowerCase().includes(searchedTerm.toLowerCase()))
+    
     this.setState({
       searchedTerm,
       selectedCities,
+      selectedTargetTerms,
     })
   }, 250)
 
@@ -65,13 +77,19 @@ export default class Home extends Component {
       userInput,
       searchedTerm,
       selectedCities,
+      selectedTargetTerms,
     } = this.state
-    
     const autocompleteSearch = (selectedCities.length && userInput.length) 
       ? this.formatAutocomplete(searchedTerm, selectedCities[0])
       : ""
 
-    const selectedCitiesListItems = selectedCities.map((e,i) => <li key={i}>{e}</li>)
+    const selectedCitiesListItems = searchedTerm.length > 3 
+      ? selectedCities.map((e,i) => <li key={i}>{e}</li>)
+      : <li>Enter a search term</li>
+
+    const selectedTargetTermsListItems = searchedTerm.length > 3 
+      ? selectedTargetTerms.map((e,i) => <li key={i}>{e}</li>)
+      : <li>Enter a search term</li>
 
     return (
       <Fragment>
@@ -97,6 +115,10 @@ export default class Home extends Component {
         <HomeCard>
           <h1>Serched Results</h1>
           <ul>{selectedCitiesListItems}</ul>
+        </HomeCard>
+        <HomeCard>
+          <h1>Serched Results</h1>
+          <ul>{selectedTargetTermsListItems}</ul>
         </HomeCard>
       </Fragment>
 
