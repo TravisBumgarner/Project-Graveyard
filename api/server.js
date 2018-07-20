@@ -16,7 +16,7 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
 const port = process.env.PORT || 8000;
 
-app.get('/', (req, res, next) => {
+app.get('/ok', (req, res, next) => {
     res.json({
         "msg": "ok"
     })
