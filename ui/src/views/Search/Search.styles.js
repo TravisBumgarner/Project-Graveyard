@@ -7,7 +7,12 @@ import {
 const HomeCard = DefaultCard.extend`
 `;
 
+const Input = styled.input`
+  flex: 1;
+`
+
 export {
   HomeCard,
+  Input,
 }
 
