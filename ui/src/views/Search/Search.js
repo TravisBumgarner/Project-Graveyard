@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react'
-import searchDataCities from '../../../../data/simplemaps-worldcities-basic.json'
 import searchDataStackOverflow from '../../../../data/StackOverflowTags.json'
 
 import {
@@ -31,9 +30,7 @@ export default class Home extends Component {
 
     this.state = {
       isSearching: false,
-      allCities: searchDataCities.map(each => each.city),
       allTargetTerms: [...allTargetTerms],
-      selectedCities: [],
       selectedTargetTerms: [],
       userInput: '',
       searchedTerm: '',
@@ -41,16 +38,13 @@ export default class Home extends Component {
   }
   submit = debounce((searchedTerm) => {
     const {
-      allCities,
       allTargetTerms,
     } = this.state;
 
-    const selectedCities = allCities.filter(c => c.toLowerCase().includes(searchedTerm.toLowerCase()));
     const selectedTargetTerms = allTargetTerms.filter(c => c.toLowerCase().includes(searchedTerm.toLowerCase()))
     
     this.setState({
       searchedTerm,
-      selectedCities,
       selectedTargetTerms,
     })
   }, 250)
@@ -69,23 +63,18 @@ export default class Home extends Component {
     } else {
       return <span><b>{term}</b>{suggestion.slice(termLength)}</span>
     }
-    
   }
 
   render(){
     const {
       userInput,
       searchedTerm,
-      selectedCities,
       selectedTargetTerms,
     } = this.state
-    const autocompleteSearch = (selectedCities.length && userInput.length) 
-      ? this.formatAutocomplete(searchedTerm, selectedCities[0])
-      : ""
 
-    const selectedCitiesListItems = searchedTerm.length > 3 
-      ? selectedCities.map((e,i) => <li key={i}>{e}</li>)
-      : <li>Enter a search term</li>
+    const autocompleteSearch = (selectedTargetTerms.length && userInput.length) 
+      ? this.formatAutocomplete(searchedTerm, selectedTargetTerms[0])
+      : ""
 
     const selectedTargetTermsListItems = searchedTerm.length > 3 
       ? selectedTargetTerms.map((e,i) => <li key={i}>{e}</li>)
@@ -102,7 +91,7 @@ export default class Home extends Component {
         </HomeCard>
         <HomeCard>
           <div>
-            <h1>Autocomplete</h1>
+            <h1>Autocomplete (UI-Regex)</h1>
             <p>{autocompleteSearch}</p>
           </div>
         </HomeCard>
@@ -113,11 +102,7 @@ export default class Home extends Component {
           </div>
         </HomeCard>
         <HomeCard>
-          <h1>Serched Results</h1>
-          <ul>{selectedCitiesListItems}</ul>
-        </HomeCard>
-        <HomeCard>
-          <h1>Serched Results</h1>
+          <h1>Serched Results (UI-Regex)</h1>
           <ul>{selectedTargetTermsListItems}</ul>
         </HomeCard>
       </Fragment>
