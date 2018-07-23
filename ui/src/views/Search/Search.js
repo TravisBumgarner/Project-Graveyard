@@ -1,4 +1,6 @@
 import React, {Component, Fragment} from 'react'
+import axios from 'axios'
+
 import searchDataStackOverflow from '../../../../data/StackOverflowTags.json'
 
 import {
@@ -31,23 +33,39 @@ export default class Home extends Component {
     this.state = {
       isSearching: false,
       allTargetTerms: [...allTargetTerms],
-      selectedTargetTerms: [],
+      uiData: [],
+      apiData: [],
       userInput: '',
       searchedTerm: '',
     }
   }
-  submit = debounce((searchedTerm) => {
+
+  submitUI = debounce(searchedTerm => {
     const {
       allTargetTerms,
     } = this.state;
 
-    const selectedTargetTerms = allTargetTerms.filter(c => c.toLowerCase().includes(searchedTerm.toLowerCase()))
+    const uiData = allTargetTerms.filter(c => c.toLowerCase().includes(searchedTerm.toLowerCase()))
     
     this.setState({
-      searchedTerm,
-      selectedTargetTerms,
+      uiData,
     })
-  }, 250)
+  }, 500)
+
+  submitAPI = debounce(searchedTerm => {
+    axios.get(`http://localhost:8000/search/searchasyoutype?searchedTerm=${searchedTerm}&slop=2`)
+      .then(resp => {
+        console.log(resp, typeof resp)
+        this.setState({apiData: resp.data})
+      })
+      .catch(err => alert(err))
+  }, 500)
+
+  submit = (searchedTerm) => {
+    this.setState({searchedTerm})
+    this.submitUI(searchedTerm)
+    this.submitAPI(searchedTerm)
+  }
 
   onChange = userInput => {
     this.setState({userInput})
@@ -69,15 +87,21 @@ export default class Home extends Component {
     const {
       userInput,
       searchedTerm,
-      selectedTargetTerms,
+      uiData,
+      apiData,
     } = this.state
 
-    const autocompleteSearch = (selectedTargetTerms.length && userInput.length) 
-      ? this.formatAutocomplete(searchedTerm, selectedTargetTerms[0])
+    const autocompleteSearch = (uiData.length && userInput.length) 
+      ? this.formatAutocomplete(searchedTerm, uiData[0])
       : ""
 
-    const selectedTargetTermsListItems = searchedTerm.length > 3 
-      ? selectedTargetTerms.map((e,i) => <li key={i}>{e}</li>)
+    const uiDataSubset = uiData.slice(0,10)
+    const uiDataListItems = searchedTerm.length > 3 
+      ? uiDataSubset.map((e,i) => <li key={i}>{e}</li>)
+      : <li>Enter a search term</li>
+
+      const apiDataListItems = searchedTerm.length > 3 
+      ? apiData.map((e,i) => <li key={i}>{e}</li>)
       : <li>Enter a search term</li>
 
     return (
@@ -103,7 +127,11 @@ export default class Home extends Component {
         </HomeCard>
         <HomeCard>
           <h1>Serched Results (UI-Regex)</h1>
-          <ul>{selectedTargetTermsListItems}</ul>
+          <ul>{uiDataListItems}</ul>
+        </HomeCard>
+        <HomeCard>
+          <h1>Serched Results (API-Search as you type)</h1>
+          <ul>{apiDataListItems}</ul>
         </HomeCard>
       </Fragment>
 

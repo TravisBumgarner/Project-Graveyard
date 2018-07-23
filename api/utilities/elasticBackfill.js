@@ -20,7 +20,7 @@ const bulkIndex = () => {
     })
 }
 
-const searchAsYouType = (query, slop) => {
+const searchAsYouType = (query, slop, callback) => {
     elasticClient.search({
         index: 'terms',
         body: {
@@ -35,7 +35,8 @@ const searchAsYouType = (query, slop) => {
         }
     }, (err, resp) => {
         const terms = resp.hits.hits.map(hit => hit._source.target)
-        return terms
+        console.log(terms)
+        callback(terms)
     })
 }
 

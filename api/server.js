@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import elasticClient from './elasticClient'
+import { searchAsYouType } from './utilities/elasticBackfill'
 
 const app = express()
 
@@ -42,7 +43,9 @@ app.get('/indices/create', (req, resNode, next) => {
 })
 
 app.get('/search/searchasyoutype', (req, resNode, next) => {
-  resNode.send('hellllllo')
+  console.log('full start')
+  searchAsYouType(req.query.searchedTerm, req.query.slop, (data) => resNode.send(data))
+  console.log('full stop')
 })
 
 app.listen(port, () => {
