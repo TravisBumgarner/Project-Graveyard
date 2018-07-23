@@ -10,4 +10,9 @@ const setupNGrams = async () => {
     await esUtils.createNGramsMapping()
     await console.log('done')
 }
-setupNGrams()
+// setupNGrams()
+
+const loadNGrams = () => {
+    esUtils.bulkIndexNGrams()
+}
+// loadNGrams()

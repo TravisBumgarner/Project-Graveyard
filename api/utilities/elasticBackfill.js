@@ -48,8 +48,6 @@ const openNGramsIndex = () => {
     })
 }
 
-
-
 const createNGramsMapping = () => {
     elasticClient.indices.putMapping({
         index: "terms_n_grams",
@@ -111,9 +109,11 @@ const bulkIndexNGrams = () => {
     const indexHeader = {
         'index' : {
             '_index' : 'terms_n_grams',
-            '_type' : '_doc',
+            '_type' : 'term',
         } 
     }
+
+    // const searchDataSubset = searchData.slice(0,10)
     searchData.map(indexTerm => body.push(indexHeader, indexTerm))
     
     elasticClient.bulk({body}, (err, resp) => {
@@ -141,6 +141,26 @@ const searchAsYouType = (query, slop, callback) => {
     })
 }
 
+const searchNGrams = (query, callback) => {
+    elasticClient.search({
+        index: 'terms_n_grams',
+        body: {
+            query: {
+                match: {
+                    target: {
+                        query,
+                        analyzer: "standard"
+                    }
+                }
+            }
+        }
+    }, (err, resp) => {
+        // const terms = resp.hits.hits.map(hit => hit._source.target)
+        console.log(resp)
+        callback(resp)
+    })
+}
+
 
 export {
     searchAsYouType,
@@ -152,4 +172,5 @@ export {
     deleteNGramsIndex,
     closeNGramsIndex,
     openNGramsIndex,
+    searchNGrams,
 }
