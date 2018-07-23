@@ -21,7 +21,6 @@ const bulkIndex = () => {
 }
 
 const searchAsYouType = (query, slop) => {
-    console.log('runs')
     elasticClient.search({
         index: 'terms',
         body: {

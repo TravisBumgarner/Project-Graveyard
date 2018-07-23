@@ -41,6 +41,10 @@ app.get('/indices/create', (req, resNode, next) => {
   })
 })
 
+app.get('/search/searchasyoutype', (req, resNode, next) => {
+  resNode.send('hellllllo')
+})
+
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
 })
