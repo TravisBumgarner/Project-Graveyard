@@ -34,9 +34,10 @@ export default class Home extends Component {
       isSearching: false,
       allTargetTerms: [...allTargetTerms],
       uiData: [],
-      apiData: [],
+      searchAsYouTypeData: [],
       userInput: '',
       searchedTerm: '',
+      slop: 1,
     }
   }
 
@@ -52,11 +53,15 @@ export default class Home extends Component {
     })
   }, 500)
 
-  submitAPI = debounce(searchedTerm => {
-    axios.get(`http://localhost:8000/search/searchasyoutype?searchedTerm=${searchedTerm}&slop=2`)
+  submitAPISearchAsYouType = debounce(searchedTerm => {
+    const {
+      slop
+    } = this.state
+
+    axios.get(`http://localhost:8000/search/searchasyoutype?searchedTerm=${searchedTerm}&slop=${slop}`)
       .then(resp => {
         console.log(resp, typeof resp)
-        this.setState({apiData: resp.data})
+        this.setState({searchAsYouTypeData: resp.data})
       })
       .catch(err => alert(err))
   }, 500)
@@ -64,7 +69,7 @@ export default class Home extends Component {
   submit = (searchedTerm) => {
     this.setState({searchedTerm})
     this.submitUI(searchedTerm)
-    this.submitAPI(searchedTerm)
+    this.submitAPISearchAsYouType(searchedTerm)
   }
 
   onChange = userInput => {
@@ -88,7 +93,8 @@ export default class Home extends Component {
       userInput,
       searchedTerm,
       uiData,
-      apiData,
+      searchAsYouTypeData,
+      slop,
     } = this.state
 
     const autocompleteSearch = (uiData.length && userInput.length) 
@@ -100,8 +106,8 @@ export default class Home extends Component {
       ? uiDataSubset.map((e,i) => <li key={i}>{e}</li>)
       : <li>Enter a search term</li>
 
-      const apiDataListItems = searchedTerm.length > 3 
-      ? apiData.map((e,i) => <li key={i}>{e}</li>)
+      const searchAsYouTypeDataListItems = searchedTerm.length > 3 
+      ? searchAsYouTypeData.map((e,i) => <li key={i}>{e}</li>)
       : <li>Enter a search term</li>
 
     return (
@@ -111,6 +117,11 @@ export default class Home extends Component {
               name="userInput"
               onChange={e => this.onChange(e.target.value)}
               value={userInput}
+            />
+            <Input
+              name="slop"
+              onChange={e => this.setState({'slop': e.target.value})}
+              value={slop}
             />
         </HomeCard>
         <HomeCard>
@@ -131,7 +142,7 @@ export default class Home extends Component {
         </HomeCard>
         <HomeCard>
           <h1>Serched Results (API-Search as you type)</h1>
-          <ul>{apiDataListItems}</ul>
+          <ul>{searchAsYouTypeDataListItems}</ul>
         </HomeCard>
       </Fragment>
 
