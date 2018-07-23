@@ -1,3 +1,5 @@
+
+
 const elasticsearch = require('elasticsearch')
 
  const elasticClient = new elasticsearch.Client({
@@ -5,4 +7,4 @@ const elasticsearch = require('elasticsearch')
   log: 'trace'
 })
 
-export default elasticClient
+module.exports = elasticClient

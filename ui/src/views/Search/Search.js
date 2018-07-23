@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
-import searchDataCities from '../../../data/simplemaps-worldcities-basic.json'
-import searchDataStackOverflow from '../../../data/StackOverflowTags.json'
+import searchDataCities from '../../../../data/simplemaps-worldcities-basic.json'
+import searchDataStackOverflow from '../../../../data/StackOverflowTags.json'
 
 import {
   HomeCard,
