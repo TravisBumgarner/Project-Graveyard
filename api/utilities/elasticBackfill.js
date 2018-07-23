@@ -20,23 +20,26 @@ const bulkIndex = () => {
     })
 }
 
-const searchAsYouType = () => {
+const searchAsYouType = (query, slop) => {
     console.log('runs')
     elasticClient.search({
         index: 'terms',
         body: {
             query: {
                 match_phrase_prefix: {
-                    title: {
-                        query: 'Boston',
-                        slop: 10
+                    source: {
+                        query,
+                        slop
                     }
                 }
             }
         }
     }, (err, resp) => {
-        console.log(resp)
+        const terms = resp.hits.hits.map(hit => hit._source.target)
+        return terms
     })
 }
 
-bulkIndex()
+export {
+    searchAsYouType,
+}
