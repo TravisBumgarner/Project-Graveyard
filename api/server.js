@@ -29,11 +29,11 @@ app.get('/indices', (req, resNode, next) => {
   })
 })
 
-// app.get('/indices/delete', (req, resNode, next) => {
-//   elasticClient.indices.delete({index: req.query.index}, function(err,resElastic,status) {  
-//     resNode.send(resElastic)
-//   })
-// })
+app.get('/indices/delete', (req, resNode, next) => {
+  elasticClient.indices.delete({index: req.query.index}, function(err,resElastic,status) {  
+    resNode.send(resElastic)
+  })
+})
 
 app.get('/indices/create', (req, resNode, next) => {
   elasticClient.indices.create({index: req.query.index}, function(err,resElastic,status) {  
