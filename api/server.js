@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import elasticClient from './elasticClient'
-import { searchAsYouType } from './utilities/elasticBackfill'
+import { searchAsYouType, searchNGrams } from './utilities/elasticBackfill'
 
 const app = express()
 
@@ -47,6 +47,13 @@ app.get('/search/searchasyoutype', (req, resNode, next) => {
   searchAsYouType(req.query.searchedTerm, req.query.slop, (data) => resNode.send(data))
   console.log('full stop')
 })
+
+app.get('/search/ngrams', (req, resNode, next) => {
+  console.log('full start')
+  searchNGrams("html", (data) => resNode.send(data))
+  console.log('full stop')
+})
+
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
