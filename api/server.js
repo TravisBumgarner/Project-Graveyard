@@ -50,7 +50,7 @@ app.get('/search/searchasyoutype', (req, resNode, next) => {
 
 app.get('/search/ngrams', (req, resNode, next) => {
   console.log('full start')
-  searchNGrams("html", (data) => resNode.send(data))
+  searchNGrams(req.query.searchedTerm, (data) => resNode.send(data))
   console.log('full stop')
 })
 

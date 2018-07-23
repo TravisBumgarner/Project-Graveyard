@@ -20,31 +20,31 @@ const bulkIndexSearchAsYouType = () => {
     })
 }
 
-const deleteNGramsIndex = () => {
+const deleteIndex = (index) => {
     elasticClient.indices.delete({
-        index: "terms_n_grams"
+        index
     }, (err,res) => {  
         console.log(err, res)
     })
 }
 
-const createNGramsIndex = () => {
+const createIndex = (index) => {
     elasticClient.indices.create({
-        index: "terms_n_grams"
+        index
     }, (err,res) => {  
         console.log(err, res)
     })
 }
 
-const closeNGramsIndex = () => {
+const closeIndex = (index) => {
     elasticClient.indices.close({
-        index: "terms_n_grams"
+        index
     })
 }
 
-const openNGramsIndex = () => {
+const openIndex = (index) => {
     elasticClient.indices.open({
-        index: "terms_n_grams"
+        index
     })
 }
 
@@ -155,9 +155,9 @@ const searchNGrams = (query, callback) => {
             }
         }
     }, (err, resp) => {
-        // const terms = resp.hits.hits.map(hit => hit._source.target)
-        console.log(resp)
-        callback(resp)
+        const terms = resp.hits.hits.map(hit => hit._source.target)
+        console.log(terms)
+        callback(terms)
     })
 }
 
@@ -167,10 +167,10 @@ export {
     bulkIndexNGrams,
     createNGramsSetting,
     createNGramsMapping,
-    createNGramsIndex,
+    createIndex,
     bulkIndexSearchAsYouType,
-    deleteNGramsIndex,
-    closeNGramsIndex,
-    openNGramsIndex,
+    deleteIndex,
+    closeIndex,
+    openIndex,
     searchNGrams,
 }

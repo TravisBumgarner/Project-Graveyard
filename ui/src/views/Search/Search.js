@@ -35,6 +35,7 @@ export default class Home extends Component {
       allTargetTerms: [...allTargetTerms],
       uiData: [],
       searchAsYouTypeData: [],
+      nGramsData: [],
       userInput: '',
       searchedTerm: '',
       slop: 1,
@@ -66,9 +67,22 @@ export default class Home extends Component {
       .catch(err => alert(err))
   }, 500)
 
+  submitAPINGrams = debounce(searchedTerm => {
+    const {
+    } = this.state
+
+    axios.get(`http://localhost:8000/search/ngrams?searchedTerm=${searchedTerm}`)
+      .then(resp => {
+        console.log(resp, typeof resp)
+        this.setState({nGramsData: resp.data})
+      })
+      .catch(err => alert(err))
+  }, 500)
+
   submit = (searchedTerm) => {
     this.setState({searchedTerm})
     this.submitUI(searchedTerm)
+    this.submitAPINGrams(searchedTerm)
     this.submitAPISearchAsYouType(searchedTerm)
   }
 
@@ -95,6 +109,7 @@ export default class Home extends Component {
       uiData,
       searchAsYouTypeData,
       slop,
+      nGramsData,
     } = this.state
 
     const autocompleteSearch = (uiData.length && userInput.length) 
@@ -106,8 +121,12 @@ export default class Home extends Component {
       ? uiDataSubset.map((e,i) => <li key={i}>{e}</li>)
       : <li>Enter a search term</li>
 
-      const searchAsYouTypeDataListItems = searchedTerm.length > 3 
+    const searchAsYouTypeDataListItems = searchedTerm.length > 3 
       ? searchAsYouTypeData.map((e,i) => <li key={i}>{e}</li>)
+      : <li>Enter a search term</li>
+
+    const nGramsDataListItems = searchedTerm.length > 3 
+      ? nGramsData.map((e,i) => <li key={i}>{e}</li>)
       : <li>Enter a search term</li>
 
     return (
@@ -132,17 +151,21 @@ export default class Home extends Component {
         </HomeCard>
         <HomeCard>
           <div>
-            <h1>Serched Term</h1>
+            <h1>Searched Term</h1>
             <p>{searchedTerm}</p>
           </div>
         </HomeCard>
         <HomeCard>
-          <h1>Serched Results (UI-Regex)</h1>
+          <h1>Search Results (UI-Regex)</h1>
           <ul>{uiDataListItems}</ul>
         </HomeCard>
         <HomeCard>
-          <h1>Serched Results (API-Search as you type)</h1>
+          <h1>Search Results (API-Search as you type)</h1>
           <ul>{searchAsYouTypeDataListItems}</ul>
+        </HomeCard>
+        <HomeCard>
+          <h1>Search Results (API-NGrams)</h1>
+          <ul>{nGramsDataListItems}</ul>
         </HomeCard>
       </Fragment>
 
