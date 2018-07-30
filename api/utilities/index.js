@@ -1,4 +1,4 @@
-import * as esUtils from './elasticBackfill'
+import * as esUtils from './elasticHelper'
 
 
 // esUtils.deleteIndex("terms_n_grams")

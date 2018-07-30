@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import elasticClient from './elasticClient'
-import { searchAsYouType, searchNGrams } from './utilities/elasticBackfill'
+import { searchAsYouType, searchNGrams } from './utilities/elasticHelper'
 
 const app = express()
 
