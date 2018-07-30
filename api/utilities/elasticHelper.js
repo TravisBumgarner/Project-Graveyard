@@ -1,67 +1,66 @@
 import elasticClient from '../elasticClient'
-import searchData from '../../data/StackOverflowTags.json'
+import searchData from '../../data/imdb.json'
+
 // ES6-style module-loading may not function as expected
 // Due to technical limitations ES6-style module-loading is not fully supported in a babel-node REPL.
 
 class ElasticHelper {
-    constructor(index){
+    constructor(index, type){
+        this.type = type
         this.index = index
     }
     
-    async createIndex() {
-        try {
-            await elasticClient.indices.delete({
-                index: this.index,
-            })
-        } catch (e) {
-            console.log(e);
-        }
+    createIndex() {
+        return elasticClient.indices.create({
+            index: this.index,
+        })
     }
 
-    async createIndex() {
-        try {
-            await elasticClient.indices.create({
-                index: this.index,
-            })
-        } catch (e) {
-            console.log(e);
-        }
+    putMapping(params) {
+        return elasticClient.indices.putMapping({
+            index: this.index,
+            type: this.type,
+            ...params
+        })
     }
     
-    async putMapping(params) {
-        try {
-            await elasticClient.indices.putMapping({
-                index: this.index,
-                ...params
-            })
-        } catch (e) {
-            console.log(e);
-        }
+    deleteIndex() {
+        return elasticClient.indices.delete({
+            index: this.index,
+        })
+    }
+    
+    openIndex() {
+        return elasticClient.indices.open({
+            index: this.index,
+        })
+    }
+    
+    closeIndex() {
+        return elasticClient.indices.close({
+            index: this.index,
+        })
     }
 
-    async closeIndex() {
-        try {
-            await elasticClient.indices.close({
-                index: this.index,
-            })
-        } catch (e) {
-            console.log(e);
+
+    bulkAdd(documents) {
+        const body = []
+        const header = {
+            'index' : {
+                '_index': this.index,
+                '_type': this.type,
+            } 
         }
+        documents.map(doc => body.push(header, doc))
+
+            elasticClient.bulk({body})     
     }
 
-    async closeIndex() {
-        try {
-            await elasticClient.indices.open({
-                index: this.index,
-            })
-        } catch (e) {
-            console.log(e);
-        }
-    }
 }
-
+const index = 'imdb'
 const type = 'movie'
 const body = {
+    dynamic: "false", // Don't add values that weren't mapped
     properties: {
         "position": {
             type: "integer"
@@ -69,9 +68,9 @@ const body = {
         "const": {
             type: "keyword"
         },
-        "created": {
-            type: "date"
-        },
+        // "created": {
+        //     type: "date"
+        // },
         "Title": {
             type: "keyword"
         },
@@ -99,35 +98,24 @@ const body = {
         "Num Votes": {
             type: "integer"
         },
-        "Release Date (month/day/year)": {
-            type: "date"
-        },
         "URL": {
             type: "keyword"
         }
     }
   }
 
-const imdbElasticHelper = new ElasticHelper('imdb')
-imdbElasticHelper.createIndex()
-imdbElasticHelper.putMapping({type, body})
+async function doAllTheThings () {
+    const imdbElasticHelper = new ElasticHelper(index, type)
+    await imdbElasticHelper.deleteIndex()
+    await imdbElasticHelper.createIndex()
+    await imdbElasticHelper.putMapping({body})
 
-// imdbElasticHelper.createIndex()
+    await imdbElasticHelper.bulkAdd(searchData)
+}
 
-
-
+doAllTheThings()
 
 export {
-    // searchAsYouType,
-    // bulkIndexNGrams,
-    // createNGramsSetting,
-    // createNGramsMapping,
-    // createIndex,
-    // bulkIndex,
-    // deleteIndex,
-    // closeIndex,
-    // openIndex,
-    // searchNGrams,
     ElasticHelper
 }
 
