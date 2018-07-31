@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "start": "NODE_ENV=develop webpack-dev-server --open --hot --inline --config webpack.js",
-    "bundle": "rm -r ./dist; mkdir ./dist; NODE_ENV=production webpack --config webpack.js"
+    "bundle": "rm -r ./dist; mkdir ./dist; NODE_ENV=production webpack --config webpack.js",
+    "server": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "chartist": "^0.11.0",
+    "nodemon": "^1.18.3",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-chartist": "^0.13.1",
