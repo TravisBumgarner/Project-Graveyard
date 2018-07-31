@@ -4,7 +4,8 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start": "NODE_ENV=develop webpack-dev-server --open --hot --inline --config webpack.js"
+    "start": "NODE_ENV=develop webpack-dev-server --open --hot --inline --config webpack.js",
+    "bundle": "rm -r ./dist && NODE_ENV=production webpack --config webpack.js"
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +35,7 @@
     "webpack": "^3.10.0"
   },
   "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
     "webpack-dev-server": "^2.9.7"
   }
 }

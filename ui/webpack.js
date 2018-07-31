@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -25,7 +26,13 @@ module.exports = {
     ]
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].bundle-[hash].js',
     path: path.resolve(__dirname, 'dist')
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.template.ejs',
+      inject: 'body'
+    })
+  ]
 };
