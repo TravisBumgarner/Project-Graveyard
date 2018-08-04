@@ -1,7 +1,17 @@
+import styled from 'styled-components'
+
 import { DefaultPageWrapper } from '../../theme'
 
 const CreateSnippetWrapper = DefaultPageWrapper.extend`
 `
 
-export { CreateSnippetWrapper }
+const ControlsWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`
+
+export {
+    CreateSnippetWrapper,
+    ControlsWrapper,
+}
 

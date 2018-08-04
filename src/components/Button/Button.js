@@ -10,10 +10,14 @@ export default class Button extends Component {
         const {
             onClick,
             children,
+            disabled,
         } = this.props
 
         return (
-            <PrimaryButton onClick={onClick}>
+            <PrimaryButton
+                disabled={disabled}
+                onClick={onClick}
+            >
                 {children}
             </PrimaryButton>
         )
@@ -23,4 +27,5 @@ export default class Button extends Component {
 Button.propTypes = {
     children: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
 }
