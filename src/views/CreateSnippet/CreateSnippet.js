@@ -4,12 +4,12 @@ import React, { Component } from 'react'
 import {
     Textbox,
     Button,
-    Card
 } from '../../components'
 
 import {
     CreateSnippetWrapper,
     ControlsWrapper,
+    FullSizeCard,
 } from './CreateSnippet.styles'
 
 export default class CreateSnippet extends Component {
@@ -68,30 +68,30 @@ export default class CreateSnippet extends Component {
         } = this.state
 
         const AllCards = [
-            <Card key={0}>
+            <FullSizeCard key={0}>
                 <Textbox
                     label='Who?'
                     onChange={this.handleInputChange}
                     name="who"
                     value={who}
                 />
-            </Card>,
-            <Card key={1}>
+            </FullSizeCard>,
+            <FullSizeCard key={1}>
                 <Textbox
                     label='Said what?'
                     onChange={this.handleInputChange}
                     name="what"
                     value={what}
                 />
-            </Card>,
-            <Card key={2}>
+            </FullSizeCard>,
+            <FullSizeCard key={2}>
                 <Textbox
                     label='Where?'
                     onChange={this.handleInputChange}
                     name="where"
                     value={where}
                 />
-            </Card>
+            </FullSizeCard>
         ]
         const minCardIndex = 0
         const maxCardIndex = AllCards.length - 1
