@@ -106,9 +106,9 @@ export default class CreateSnippet extends Component {
                     <Button
                         disabled={activeCardIndex === minCardIndex}
                         onClick={this.handlePrevious}
-                        >
-                            Previous
-                        </Button>
+                    >
+                        Previous
+                    </Button>
                     <Button onClick={this.handleCancel} tabIndex={-1}>Cancel</Button> 
                     {activeCardIndex === maxCardIndex
                         ? <Button onClick={this.handleSubmit}>Submit</Button>
