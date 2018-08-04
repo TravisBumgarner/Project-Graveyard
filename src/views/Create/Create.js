@@ -4,11 +4,11 @@ import React, { Component } from 'react'
 import { CreateWrapper } from './Create.styles'
 
 export default class Create extends Component {
-  render() {
-    return (
-      <CreateWrapper>
+    render() {
+        return (
+            <CreateWrapper>
         Create
-      </CreateWrapper>
-    )
-  }
+            </CreateWrapper>
+        )
+    }
 }

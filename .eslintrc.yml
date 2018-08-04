@@ -1,9 +1,12 @@
 env:
   browser: true
   es6: true
+  mocha: true
 extends:
-  - 'eslint:recommended'
+  - eslint:recommended
   - plugin:react/recommended
+parser:
+  babel-eslint
 parserOptions:
   ecmaFeatures:
     experimentalObjectRestSpread: true
@@ -14,7 +17,7 @@ plugins:
 rules:
   indent:
     - error
-    - 2
+    - 4
   linebreak-style:
     - error
     - unix

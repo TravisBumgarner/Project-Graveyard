@@ -9,5 +9,5 @@ const PrimaryButton = Button.extend`
 `
 
 export {
-  PrimaryButton
+    PrimaryButton
 }

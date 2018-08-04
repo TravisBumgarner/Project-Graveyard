@@ -6,11 +6,11 @@ import { ViewWrapper } from './View.styles'
 import { Textbox } from '../../components'
 
 export default class View extends Component {
-  render() {
-    return (
-      <ViewWrapper>
-        <Textbox />
-      </ViewWrapper>
-    )
-  }
+    render() {
+        return (
+            <ViewWrapper>
+                <Textbox onChange = {() => {console.log('hi')}} />
+            </ViewWrapper>
+        )
+    }
 }

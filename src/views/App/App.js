@@ -9,19 +9,19 @@ import NotFound from '../NotFound'
 import { AppWrapper } from './App.styles'
 
 export default class App extends Component {
-  render() {
+    render() {
 
-    return (
-      <AppWrapper>
-        <Switch>
-          <Route exact path="/" component={View} />
-          <Route path="/create" component={Create} />
-          <Route path="/view" component={View} />
-          <Route component={NotFound} />
-        </Switch>
-      </AppWrapper>
-    )
-  }
+        return (
+            <AppWrapper>
+                <Switch>
+                    <Route exact path="/" component={View} />
+                    <Route path="/create" component={Create} />
+                    <Route path="/view" component={View} />
+                    <Route component={NotFound} />
+                </Switch>
+            </AppWrapper>
+        )
+    }
 }
 
 // App.propTypes = {

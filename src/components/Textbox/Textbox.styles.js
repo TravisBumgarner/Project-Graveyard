@@ -5,5 +5,5 @@ const TextArea = styled.textarea`
 `
 
 export {
-  TextArea
+    TextArea
 }
