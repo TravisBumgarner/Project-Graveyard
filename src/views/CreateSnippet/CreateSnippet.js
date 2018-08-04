@@ -74,6 +74,7 @@ export default class CreateSnippet extends Component {
                     onChange={this.handleInputChange}
                     name="who"
                     value={who}
+                    autoFocus
                 />
             </FullSizeCard>,
             <FullSizeCard key={1}>
@@ -82,6 +83,7 @@ export default class CreateSnippet extends Component {
                     onChange={this.handleInputChange}
                     name="what"
                     value={what}
+                    autoFocus
                 />
             </FullSizeCard>,
             <FullSizeCard key={2}>
@@ -90,6 +92,7 @@ export default class CreateSnippet extends Component {
                     onChange={this.handleInputChange}
                     name="where"
                     value={where}
+                    autoFocus
                 />
             </FullSizeCard>
         ]
@@ -100,8 +103,13 @@ export default class CreateSnippet extends Component {
             <CreateSnippetWrapper>
                 {AllCards[activeCardIndex]}
                 <ControlsWrapper>
-                    <Button disabled={activeCardIndex === minCardIndex} onClick={this.handlePrevious}>Previous</Button>
-                    <Button onClick={this.handleCancel}>Cancel</Button> 
+                    <Button
+                        disabled={activeCardIndex === minCardIndex}
+                        onClick={this.handlePrevious}
+                        >
+                            Previous
+                        </Button>
+                    <Button onClick={this.handleCancel} tabIndex={-1}>Cancel</Button> 
                     {activeCardIndex === maxCardIndex
                         ? <Button onClick={this.handleSubmit}>Submit</Button>
                         : <Button onClick={this.handleNext}>Next</Button>

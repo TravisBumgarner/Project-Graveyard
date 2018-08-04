@@ -22,6 +22,7 @@ export default class Textbox extends Component {
             value,
             label,
             name,
+            autoFocus,
         } = this.props
 
         return (
@@ -30,6 +31,7 @@ export default class Textbox extends Component {
                     {label}
                 </Label>
                 <TextArea
+                    autoFocus={autoFocus}
                     onChange={this.onChange}
                     value={value}
                     name={name}
@@ -43,5 +45,6 @@ Textbox.propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
     label: PropTypes.string,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    autoFocus: PropTypes.bool,
 }
