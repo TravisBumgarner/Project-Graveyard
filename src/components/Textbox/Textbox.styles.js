@@ -1,9 +1,16 @@
 import styled from 'styled-components'
 
+const TextBoxWrapper = styled.div`
+`
+
 const TextArea = styled.textarea`
-  flex: 1;
+`
+
+const Label = styled.label`
 `
 
 export {
-    TextArea
+    TextArea,
+    Label,
+    TextBoxWrapper,
 }

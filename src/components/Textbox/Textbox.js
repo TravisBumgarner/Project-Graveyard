@@ -2,31 +2,46 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { 
-    TextArea
+    TextArea,
+    Label,
+    TextBoxWrapper,
 } from './Textbox.styles'
 
+// REFACTOR - Look at how the function onChange is handled in other libraries
+
 export default class Textbox extends Component {
-  onChange = () => {
-      const {
-          onChange,
-      } = this.props
-      onChange()
-  }
+    onChange = (e) => {
+        const {
+            onChange,
+        } = this.props
+        onChange(e.target.name, e.target.value)
+    }
 
-  render() {
-      const {
-          input
-      } = this.props
+    render() {
+        const {
+            value,
+            label,
+            name,
+        } = this.props
 
-      return (
-          <TextArea onChange={this.onChange}>
-              {input}
-          </TextArea>
-      )
-  }
+        return (
+            <TextBoxWrapper>
+                <Label>
+                    {label}
+                </Label>
+                <TextArea
+                    onChange={this.onChange}
+                    value={value}
+                    name={name}
+                />
+            </TextBoxWrapper>
+        )
+    }
 }
 
 Textbox.propTypes = {
     onChange: PropTypes.func.isRequired,
-    input: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    name: PropTypes.string.isRequired
 }

@@ -16,7 +16,6 @@ export default class Button extends Component {
             <PrimaryButton onClick={onClick}>
                 {children}
             </PrimaryButton>
-    
         )
     }
 }
