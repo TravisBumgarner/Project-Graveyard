@@ -1,9 +1,9 @@
 import Button from './Button/Button'
-import Textbox from './Textbox/Textbox'
+import TextField from './TextField/TextField'
 import Card from './Card/Card'
 
 export {
     Button,
-    Textbox,
+    TextField,
     Card,
 }

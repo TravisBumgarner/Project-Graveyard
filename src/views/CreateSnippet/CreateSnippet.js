@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
 import {
-    Textbox,
+    TextField,
     Button,
 } from '../../components'
 
@@ -69,16 +69,17 @@ export default class CreateSnippet extends Component {
 
         const AllCards = [
             <FullSizeCard key={0}>
-                <Textbox
+                <TextField
                     label='Who?'
                     onChange={this.handleInputChange}
                     name="who"
                     value={who}
                     autoFocus
+                    multiline
                 />
             </FullSizeCard>,
             <FullSizeCard key={1}>
-                <Textbox
+                <TextField
                     label='Said what?'
                     onChange={this.handleInputChange}
                     name="what"
@@ -87,12 +88,13 @@ export default class CreateSnippet extends Component {
                 />
             </FullSizeCard>,
             <FullSizeCard key={2}>
-                <Textbox
+                <TextField
                     label='Where?'
                     onChange={this.handleInputChange}
                     name="where"
                     value={where}
                     autoFocus
+                    multiline
                 />
             </FullSizeCard>
         ]

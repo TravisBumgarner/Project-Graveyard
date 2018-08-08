@@ -1,10 +1,10 @@
-import React from 'react'
-import Enzyme, { shallow } from 'enzyme'
+import React from '../../../../../../Library/Caches/typescript/2.9/node_modules/@types/react'
+import Enzyme, { shallow } from '../../../../../../Library/Caches/typescript/2.9/node_modules/@types/enzyme'
 import { expect } from 'chai'
-import sinon from 'sinon'
-import Adapter from 'enzyme-adapter-react-16'
+import sinon from '../../../../../../Library/Caches/typescript/2.9/node_modules/@types/sinon'
+import Adapter from '../../../../../../Library/Caches/typescript/2.9/node_modules/@types/enzyme-adapter-react-16'
 
-import Textbox from './Textbox'
+import Textbox from './TextField'
 
 Enzyme.configure({ adapter: new Adapter() })
 
