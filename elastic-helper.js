@@ -4,11 +4,12 @@ class ElasticHelper {
     constructor(index, type){
         this.type = type
         this.index = index
-        this.elasticClient = undefined
+        this.elasticClient = this.connect()
     }
 
-    connect() {
-        return this.elasticClient = new elasticsearch.Client({
+    // REFACTOR - Code smell - Where could I put this?
+    async connect() {
+        this.elasticClient = await new elasticsearch.Client({
             host: 'localhost:9200',
             log: 'trace'
         })
@@ -46,6 +47,15 @@ class ElasticHelper {
         })
     }
 
+    singleAdd(document) {
+        return this.elasticClient.index({
+            index: this.index,
+            type: this.type,
+            body: {
+                ...document
+            }
+        })
+    }
 
     bulkAdd(documents) {
         const body = []
