@@ -27,9 +27,8 @@ export default class TextField extends Component {
 
         return (
             <TextFieldWrapper>
-                <Label>
-                    {label}
-                </Label>
+                {label && <Label>{label}</Label>}
+                
                 {multiline 
                     ? (
                         <TextArea

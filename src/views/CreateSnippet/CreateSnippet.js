@@ -4,12 +4,13 @@ import React, { Component } from 'react'
 import {
     TextField,
     Button,
+    Header,
 } from '../../components'
 
 import {
     CreateSnippetWrapper,
     ControlsWrapper,
-    FullSizeCard,
+    FormCard,
 } from './CreateSnippet.styles'
 
 export default class CreateSnippet extends Component {
@@ -68,35 +69,34 @@ export default class CreateSnippet extends Component {
         } = this.state
 
         const AllCards = [
-            <FullSizeCard key={0}>
+            <FormCard key={0}>
+                <Header text='Who?' type='h2' />
                 <TextField
-                    label='Who?'
                     onChange={this.handleInputChange}
                     name="who"
                     value={who}
                     autoFocus
-                    multiline
                 />
-            </FullSizeCard>,
-            <FullSizeCard key={1}>
+            </FormCard>,
+            <FormCard key={1}>
+                <Header text='Said What?' type='h2' />
                 <TextField
-                    label='Said what?'
                     onChange={this.handleInputChange}
                     name="what"
                     value={what}
                     autoFocus
+                    multiline
                 />
-            </FullSizeCard>,
-            <FullSizeCard key={2}>
+            </FormCard>,
+            <FormCard key={2}>
+                <Header text='Where?' type='h2' />
                 <TextField
-                    label='Where?'
                     onChange={this.handleInputChange}
                     name="where"
                     value={where}
                     autoFocus
-                    multiline
                 />
-            </FullSizeCard>
+            </FormCard>
         ]
         const minCardIndex = 0
         const maxCardIndex = AllCards.length - 1
