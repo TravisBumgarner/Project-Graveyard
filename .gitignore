@@ -1,0 +1,7 @@
+bin/
+run/
+dist/*.png
+dist/app.bundle.js
+.DS_Store
+.idea/
+node_modules/
