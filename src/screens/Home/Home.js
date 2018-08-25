@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Button
 } from 'react-native';
+
+import { ButtonRN } from '../../components/ReactNativeComponents';
 
 import {
   HomeView
@@ -18,7 +19,12 @@ export default class Home extends Component {
     return (
       <HomeView>
         <Text>Home Sfcreen</Text>
-        <Button
+        <ButtonRN
+          title="Go to Details"
+          onPress={() => this.props.navigation.navigate('Login')}
+        />
+        <ButtonRN
+          secondary
           title="Go to Details"
           onPress={() => this.props.navigation.navigate('Login')}
         />
