@@ -5,3 +5,8 @@ ui/dist/app.bundle.js
 .DS_Store
 .idea/
 **/node_modules/
+api_old/./mindme_be/keys.py
+api_old/.idea/
+*.pyc
+api_old/keys.py
+api_old/static/

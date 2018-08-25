@@ -1,0 +1,5 @@
+Django==1.11.13
+django-cors-headers==2.2.0
+djangorestframework==3.8.2
+pytz==2018.4
+randomcolor==0.4.4.5
