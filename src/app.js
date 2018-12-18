@@ -29,7 +29,6 @@ app.use(bodyParser.json())
 app.use(middleware.validateSlackRequest)
 
 app.post("/member", async (request, response, next) => {
-    return response.send({body: {challenge: request.body.challenge}})
     const { event } = request.body
 
     if (event.channel == YOUTH_CULTURE){
