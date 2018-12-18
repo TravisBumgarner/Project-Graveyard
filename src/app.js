@@ -3,25 +3,52 @@ import express from "express"
 import bodyParser from "body-parser"
 
 import * as middleware from "./middleware"
-import * as routes from "./routes"
 
 const app = express()
+
+const GREETINGS = [
+    "let's obtain this grain",
+    "let's land this loaf",
+    "let's bag this baguette",
+    "let's cop this crust",
+    "let's yeet this wheat",
+    "let's take this toast",
+    "let's get this scone",
+]
+
+const DEPARTURES = [
+    'bounced',
+    'is canceled'
+]
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use(middleware.validateSlackRequest)
 
-app.post("/", async (request, response, next) => {
-    let subCommand = request.body.text.split(" ")[0].toLowerCase()
-
-    logger({ request: request.body, type: logger.types.log, route: "/", message: "slash command" })
-    if (!VALID_SUB_COMMANDS.includes(subCommand)) {
-        subCommand = "help"
+app.post("/member", async (request, response, next) => {
+    console.log('-------n\n\n', request.body, '\n\n\n-------')
+    const YOUTH_CULTURE = 'CAER07ZBL'
+    const {event} = request.body
+    if (event.channel == YOUTH_CULTURE){
+        if(event.type == "member_left_channel"){
+            const randomDeparture = DEPARTURES[Math.floor(Math.random()*DEPARTURES.length)];
+            axios.post('https://hooks.slack.com/services/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', {
+                "text": `<@${event.user}>, ${randomDeparture}`
+            })
+        } else if(event.type == "member_joined_channel"){
+            const randomGreeting = GREETINGS[Math.floor(Math.random()*GREETINGS.length)];
+            axios.post('https://hooks.slack.com/services/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', {
+                "text": `Welcome <@${event.user}>, ${randomGreeting}`
+            })
+        }
     }
 
-    const responseBody = await routes[subCommand](request.body)
-    response.json(responseBody)
+    
+
+
+
+    return response.json({body: request.body.challenge})
 })
 
 app.get("/ok", (request, response, next) => response.send("Service is running"))
