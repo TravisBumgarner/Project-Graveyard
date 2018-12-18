@@ -29,13 +29,14 @@ app.use(bodyParser.json())
 app.use(middleware.validateSlackRequest)
 
 app.post("/member", async (request, response, next) => {
+    return response.send({body: {challenge: request.body.challenge}})
     const { event } = request.body
 
     if (event.channel == YOUTH_CULTURE){
         if(event.type == "member_left_channel"){
             const randomDeparture = DEPARTURES[Math.floor(Math.random()*DEPARTURES.length)];
             axios.post('https://hooks.slack.com/services/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', {
-                "text": `<@${event.user}>, ${randomDeparture}`
+                "text": `<@${event.user}> ${randomDeparture}`
             })
         } else if(event.type == "member_joined_channel"){
             const randomGreeting = GREETINGS[Math.floor(Math.random()*GREETINGS.length)];
