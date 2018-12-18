@@ -6,6 +6,8 @@ import * as middleware from "./middleware"
 
 const app = express()
 
+const YOUTH_CULTURE = 'CAER07ZBL'
+
 const GREETINGS = [
     "let's obtain this grain",
     "let's land this loaf",
@@ -27,9 +29,8 @@ app.use(bodyParser.json())
 app.use(middleware.validateSlackRequest)
 
 app.post("/member", async (request, response, next) => {
-    console.log('-------n\n\n', request.body, '\n\n\n-------')
-    const YOUTH_CULTURE = 'CAER07ZBL'
-    const {event} = request.body
+    const { event } = request.body
+
     if (event.channel == YOUTH_CULTURE){
         if(event.type == "member_left_channel"){
             const randomDeparture = DEPARTURES[Math.floor(Math.random()*DEPARTURES.length)];
@@ -43,12 +44,7 @@ app.post("/member", async (request, response, next) => {
             })
         }
     }
-
-    
-
-
-
-    return response.json({body: request.body.challenge})
+    return response.sendStatus(200)
 })
 
 app.get("/ok", (request, response, next) => response.send("Service is running"))
