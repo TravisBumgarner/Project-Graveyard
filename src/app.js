@@ -49,9 +49,4 @@ app.post("/member", async (request, response, next) => {
 
 app.get("/ok", (request, response, next) => response.send("Service is running"))
 
-if (process.env.NODE_ENV === "production") {
-    // The error handler must be before any other error middleware
-    app.use(Sentry.Handlers.errorHandler())
-}
-
 export default app
