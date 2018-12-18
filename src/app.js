@@ -47,6 +47,6 @@ app.post("/member", async (request, response, next) => {
     return response.sendStatus(200)
 })
 
-app.get("/ok", (request, response, next) => response.send("Service is running"))
+app.get("/ok", (request, response, next) => response.send(GREETINGS[Math.floor(Math.random()*GREETINGS.length)]))
 
 export default app
