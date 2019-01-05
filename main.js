@@ -1,13 +1,3 @@
-// ==UserScript==
-// @name         Custom Video Speeds
-// @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Add Custom Video Speeds to Video Players
-// @author       Travis Bumgarner
-// @include /.*/
-// @grant        none
-// ==/UserScript==
-
 // User Settings
 const DEFAULT_SPEED_INDEX = 3
 const SPEED_MULTIPLYERS = [0.5, 0.75, 1, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7, 8, 9, 10, 15] // Max multiplyer is 15x.
