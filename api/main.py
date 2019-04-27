@@ -36,7 +36,7 @@ def process():
     width = int(data["width"])
     height = int(data["height"])
     frame_rate = int(data["frame_rate"])
-    
+
     text_color = (0, 0, 0)
     background_color = (255, 255, 255)
     images = [
@@ -49,7 +49,7 @@ def process():
         )
         for frame in frames
     ]
-    params = {"duration": (1 / 2)}
+    params = {"duration": (1 / frame_rate)}
     filename = f"{uuid.uuid4().hex[:12].lower()}.gif"
     file_path = f"./images/{filename}"
     file_url = f"http://localhost:5000/images/{filename}"
