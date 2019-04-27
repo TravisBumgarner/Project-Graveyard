@@ -1,55 +1,54 @@
 import React, { useState } from 'react'
 
-const makeTextAreaState = (key, content = '') => ({
+const makeFrameState = (key, content = '') => ({
     key,
     content
 })
 
 const App = () => {
-    const [rows, setRows] = useState(10)
-    const [cols, setCols] = useState(30)
-    const [textAreas, setTextAreas] = useState([])
-    const [nextTextAreaKey, setNextTextAreaKey] = useState(1)
+    const [frameHeight, setFrameHeight] = useState(10)
+    const [frameWidth, setFrameWidth] = useState(30)
+    const [frames, setFrames] = useState([])
+    const [nextFrameKey, setNextFrameKey] = useState(1)
 
-    const createTextArea = () => {
-        setTextAreas([...textAreas, makeTextAreaState(nextTextAreaKey)])
-        setNextTextAreaKey(nextTextAreaKey + 1)
+    const createFrame = () => {
+        setFrames([...frames, makeFrameState(nextFrameKey)])
+        setNextFrameKey(nextFrameKey + 1)
     }
 
     const updateTextAreaContent = (key, content) => {
-        const modifiedTextAreaState = textAreas.map(textArea => {
-            if (textArea.key === key) {
-                return makeTextAreaState(key, content)
+        const modifiedFramesState = frames.map(frame => {
+            if (frame.key === key) {
+                return makeFrameState(key, content)
             } else {
-                return textArea
+                return frame
             }
         })
-        setTextAreas(modifiedTextAreaState)
+        setFrames(modifiedFramesState)
     }
 
-    const TextAreas = textAreas.map(({ content, key }) => (
+    const Frames = frames.map(({ content, key }) => (
         <textarea
             onChange={event => {
                 updateTextAreaContent(key, event.target.value)
             }}
             key
-            rows
-            cols
+            rows={frameHeight}
+            cols={frameWidth}
         >
             {content}
         </textarea>
     ))
-    console.log(textAreas)
     return (
         <div>
             <div>
-                Text Boxes: <button onClick={() => createTextArea()}>++</button>
-                Width <button onClick={() => setCols(cols + 1)}>++</button>
-                <button onClick={() => setCols(cols - 1)}>--</button>
-                Height <button onClick={() => setRows(rows + 1)}>++</button>
-                <button onClick={() => setRows(rows - 1)}>--</button>
+                Add Frame: <button onClick={() => createFrame()}>+</button>
+                Set Width: <button onClick={() => setFrameWidth(frameWidth + 1)}>+</button>
+                <button onClick={() => setFrameWidth(frameWidth - 1)}>-</button>
+                Set Height: <button onClick={() => setFrameHeight(frameHeight + 1)}>+</button>
+                <button onClick={() => setFrameHeight(frameHeight - 1)}>-</button>
             </div>
-            {TextAreas}
+            {Frames}
         </div>
     )
 }
