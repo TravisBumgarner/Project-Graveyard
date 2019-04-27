@@ -146,7 +146,31 @@ const App = () => {
         setFrameRate(event.target.value)
     }
 
+    const validateInputs = () => {
+        console.log(frameWidth, typeof frameWidth, frameHeight, frameRate)
+        if (
+            typeof frameWidth === 'number' &&
+            typeof frameHeight === 'number' &&
+            typeof frameRate === 'number' &&
+            frameWidth > 0 &&
+            frameHeight > 0 &&
+            frameRate > 0 &&
+            frames.length > 0
+        ) {
+            return true
+        }
+
+        return false
+    }
+
     const getGif = () => {
+        const isValid = validateInputs()
+
+        if (!isValid) {
+            alert('Your inputs are invalid.')
+            return
+        }
+
         axios
             .post('http://localhost:5000/process', {
                 frames: frames.map(frame => frame.content),
@@ -165,7 +189,7 @@ const App = () => {
                     <button onClick={() => createFrame()}>Add Frame</button>
                     <Label for="width">Width (in PX):</Label>
                     <NumberInput
-                        onChange={event => setFrameWidth(event.target.value)}
+                        onChange={event => typeof event.target.value === 'number' && setFrameWidth(event.target.value)}
                         min={10}
                         max={500}
                         step={10}
@@ -176,7 +200,7 @@ const App = () => {
                     <Label for="height">Height (in PX):</Label>
                     <NumberInput
                         id="height"
-                        onChange={event => setFrameHeight(event.target.value)}
+                        onChange={event => typeof event.target.value === 'number' && setFrameHeight(event.target.value)}
                         min={10}
                         max={500}
                         step={10}
@@ -193,7 +217,7 @@ const App = () => {
                         min={0.01}
                         max={200}
                         id="framerate"
-                        onChange={event => setFrameRate(event.target.value)}
+                        onChange={event => typeof event.target.value === 'number' && setFrameRate(event.target.value)}
                         value={frameRate}
                         type="number"
                     />
