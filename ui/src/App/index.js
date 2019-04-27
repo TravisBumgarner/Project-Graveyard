@@ -24,6 +24,7 @@ const App = () => {
     const [visibleFrameIndex, setVisibleFrameIndex] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
     const [intervalKey, setIntervalKey] = useState(0)
+    const [gifSrc, setGifSrc] = useState(null)
 
     const createFrame = () => {
         setFrames([...frames, makeFrameState(nextFrameKey)])
@@ -86,7 +87,7 @@ const App = () => {
                 height: frameHeight,
                 frame_rate: frameRate
             })
-            .then(r => console.log(r.data))
+            .then(r => setGifSrc(r.data.url))
     }
 
     return (
@@ -116,6 +117,7 @@ const App = () => {
                     </div>
                 ) : null}
                 <button onClick={getGif}>Get GIF</button>
+                {gifSrc ? <img src={gifSrc} /> : null}
             </div>
         </>
     )
