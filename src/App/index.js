@@ -1,6 +1,4 @@
-// TODO: Framerate will fail at 0
-
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const makeFrameState = (key, content = '') => ({
     key,
@@ -12,9 +10,10 @@ const App = () => {
     const [frameWidth, setFrameWidth] = useState(30)
     const [frames, setFrames] = useState([{ key: -1, content: 'hi' }])
     const [nextFrameKey, setNextFrameKey] = useState(1)
-    const [frameRate, setFrameRate] = useState(30)
+    const [frameRate, setFrameRate] = useState(1)
     const [visibleFrameIndex, setVisibleFrameIndex] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
+    const [intervalKey, setIntervalKey] = useState(0)
 
     const createFrame = () => {
         setFrames([...frames, makeFrameState(nextFrameKey)])
@@ -46,12 +45,27 @@ const App = () => {
     ))
 
     const animate = () => {
+        !isAnimating && setIsAnimating(true)
+
         let counter = 0
-        setIsAnimating(true)
-        setInterval(() => {
+        clearInterval(intervalKey)
+
+        const newIntervalKey = setInterval(() => {
             counter += 1
             setVisibleFrameIndex(counter)
-        }, 1 / frameRate)
+        }, (1 / frameRate) * 1000)
+
+        setIntervalKey(newIntervalKey)
+    }
+
+    useEffect(animate, [isAnimating, frameRate])
+
+    const handleFrameRateChange = event => {
+        if (event.target.value == 0) {
+            alert('Frame rate cannot be 0.')
+            return
+        }
+        setFrameRate(event.target.value)
     }
 
     return (
@@ -68,14 +82,11 @@ const App = () => {
             </div>
             <div>
                 <div>
-                    Frame Rate: {frameRate}
-                    Set Frame Rate: <button onClick={() => setFrameRate(frameRate + 1)}>+</button>
-                    <button onClick={() => setFrameRate(frameRate - 1)}>-</button>
+                    Set Frame Rate: <input onChange={handleFrameRateChange} value={frameRate} type="number" />
                     {frames.length ? <button onClick={animate}>Animate</button> : null}
                 </div>
                 {isAnimating && frames.length ? (
                     <div>
-                        {visibleFrameIndex}
                         <textarea
                             value={frames[visibleFrameIndex % frames.length].content}
                             rows={frameHeight}
