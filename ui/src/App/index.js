@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import styled from 'styled-components'
 
 const makeFrameState = (key, content = '') => ({
     key,
     content
 })
 
+const TextArea = styled.textarea`
+    resize: none;
+    width: ${props => {
+        return props.frameWidth
+    }}px;
+    height: ${props => props.frameHeight}px;
+`
+
 const App = () => {
-    const [frameHeight, setFrameHeight] = useState(10)
-    const [frameWidth, setFrameWidth] = useState(30)
+    const [frameHeight, setFrameHeight] = useState(100)
+    const [frameWidth, setFrameWidth] = useState(100)
     const [frames, setFrames] = useState([{ key: -1, content: 'hi' }])
     const [nextFrameKey, setNextFrameKey] = useState(1)
     const [frameRate, setFrameRate] = useState(1)
@@ -32,16 +42,16 @@ const App = () => {
     }
 
     const Frames = frames.map(({ content, key }) => (
-        <textarea
+        <TextArea
             onChange={event => {
                 updateTextAreaContent(key, event.target.value)
             }}
             key
-            rows={frameHeight}
-            cols={frameWidth}
+            frameHeight={frameHeight}
+            frameWidth={frameWidth}
         >
             {content}
-        </textarea>
+        </TextArea>
     ))
 
     const animate = () => {
@@ -68,6 +78,17 @@ const App = () => {
         setFrameRate(event.target.value)
     }
 
+    const getGif = () => {
+        axios
+            .post('http://localhost:5000/process', {
+                frames: frames.map(frame => frame.content),
+                width: frameWidth,
+                height: frameHeight,
+                frame_rate: frameRate
+            })
+            .then(r => console.log(r.data))
+    }
+
     return (
         <>
             <div>
@@ -87,13 +108,14 @@ const App = () => {
                 </div>
                 {isAnimating && frames.length ? (
                     <div>
-                        <textarea
+                        <TextArea
                             value={frames[visibleFrameIndex % frames.length].content}
-                            rows={frameHeight}
-                            cols={frameWidth}
+                            frameHeight={frameHeight}
+                            frameWidth={frameWidth}
                         />
                     </div>
                 ) : null}
+                <button onClick={getGif}>Get GIF</button>
             </div>
         </>
     )

@@ -1,10 +1,13 @@
 import uuid
 
-from flask import Flask, send_file
+from flask import Flask, send_file, request, jsonify, send_from_directory
 from PIL import Image, ImageDraw, ImageFont
 import imageio
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 
 def text_to_image(text, width, height, text_color, background_color):
@@ -20,24 +23,35 @@ def ok():
     return "Server is running!"
 
 
-@app.route("/process_frames")
-def process_frames():
-    texts = ["Thorn", "butts", "pain", "in", "my", "thorn", "butt"]
-    width = 100
-    height = 100
+@app.route("/images/<filename>")
+def images(filename):
+    return send_from_directory("images", filename)
+
+
+@app.route("/process", methods=["post", "get"])
+def process():
+    data = request.get_json()
+    print(data)
+    frames = data["frames"]
+    width = data["width"]
+    height = data["height"]
+    frame_rate = data["frame_rate"]
     text_color = (0, 0, 0)
     background_color = (255, 255, 255)
     images = [
         text_to_image(
-            text=text,
+            text=frame,
             width=width,
             height=height,
             text_color=text_color,
             background_color=background_color,
         )
-        for text in texts
+        for frame in frames
     ]
     params = {"duration": (1 / 2)}
-    filename = f"./{uuid.uuid4().hex[:12].lower()}.gif"
-    imageio.mimsave(filename, images, **params)
-    return send_file(filename)
+    filename = f"{uuid.uuid4().hex[:12].lower()}.gif"
+    file_path = f"./images/{filename}"
+    file_url = f"http://localhost:5000/images/{filename}"
+
+    imageio.mimsave(file_path, images, **params)
+    return jsonify({"url": file_url})
