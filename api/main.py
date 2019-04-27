@@ -33,9 +33,10 @@ def process():
     data = request.get_json()
     print(data)
     frames = data["frames"]
-    width = data["width"]
-    height = data["height"]
-    frame_rate = data["frame_rate"]
+    width = int(data["width"])
+    height = int(data["height"])
+    frame_rate = int(data["frame_rate"])
+    
     text_color = (0, 0, 0)
     background_color = (255, 255, 255)
     images = [
