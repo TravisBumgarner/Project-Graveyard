@@ -13,6 +13,9 @@ const TextArea = styled.textarea`
         return props.frameWidth
     }}px;
     height: ${props => props.frameHeight}px;
+    color: ${props => props.foregroundColor};
+    background-color: ${props => props.backgroundColor};
+    margin: 10px;
 `
 
 const FrameWrapper = styled.div`
@@ -24,6 +27,11 @@ const FramesWrapper = styled.div`
     overflow-x: scroll;
     width: 100%;
     white-space: nowrap;
+`
+
+const FrameSection = styled.div`
+    display: flex;
+    align-items: center;
 `
 
 const ControlsWrapper = styled.div`
@@ -47,7 +55,7 @@ const Label = styled.label`
     margin-left: 20px;
 `
 
-const NumberInput = styled.input`
+const Input = styled.input`
     width: 100px;
     margin-left: 20px;
     margin-right: 5px;
@@ -68,13 +76,15 @@ const SubTitle = styled.h2`
 const App = () => {
     const [frameHeight, setFrameHeight] = useState(100)
     const [frameWidth, setFrameWidth] = useState(100)
-    const [frames, setFrames] = useState([{ key: -1, content: 'hi' }])
+    const [frames, setFrames] = useState([{ key: 0, content: '' }])
     const [nextFrameKey, setNextFrameKey] = useState(1)
     const [frameRate, setFrameRate] = useState(1)
     const [visibleFrameIndex, setVisibleFrameIndex] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
     const [intervalKey, setIntervalKey] = useState(0)
     const [gifSrc, setGifSrc] = useState(null)
+    const [foregroundColor, setForegroundColor] = useState('#000000')
+    const [backgroundColor, setBackgroundColor] = useState('#ffffff')
 
     const createFrame = () => {
         setFrames([...frames, makeFrameState(nextFrameKey)])
@@ -93,34 +103,67 @@ const App = () => {
     }
 
     const removeFrame = key => {
-        if (frames.length === 1) {
-            alert('There must be one frame!')
-            return
-        } else {
-            const modifiedFramesState = frames.filter(frame => frame.key != key)
-            setFrames(modifiedFramesState)
-        }
+        const modifiedFramesState = frames.filter(frame => frame.key != key)
+        setFrames(modifiedFramesState)
     }
 
-    const Frames = frames.map(({ content, key }, index) => (
-        <FrameWrapper key>
-            <FrameTitleBar>
-                Frame: {index + 1}
-                <button tabIndex={-1} onClick={() => removeFrame(key)}>
-                    X
-                </button>
-            </FrameTitleBar>
-            <TextArea
-                onChange={event => {
-                    updateFrameText(key, event.target.value)
-                }}
-                frameHeight={frameHeight}
-                frameWidth={frameWidth}
-            >
-                {content}
-            </TextArea>
-        </FrameWrapper>
-    ))
+    const moveFrameRight = key => {
+        const frameIndex = frames.findIndex(frame => frame.key === key)
+
+        if (frameIndex === frames.length - 1) {
+            return
+        }
+        const modifiedFrames = [...frames]
+        const temp = modifiedFrames[frameIndex + 1]
+        modifiedFrames[frameIndex + 1] = modifiedFrames[frameIndex]
+        modifiedFrames[frameIndex] = temp
+        setFrames(modifiedFrames)
+    }
+
+    const moveFrameLeft = key => {
+        const frameIndex = frames.findIndex(frame => frame.key === key)
+
+        if (frameIndex === 0) {
+            return
+        }
+        const modifiedFrames = [...frames]
+        const temp = modifiedFrames[frameIndex - 1]
+        modifiedFrames[frameIndex - 1] = modifiedFrames[frameIndex]
+        modifiedFrames[frameIndex] = temp
+        setFrames(modifiedFrames)
+    }
+
+    const Frames = frames.map(({ content, key }, index) => {
+        return (
+            <FrameWrapper key={key}>
+                <FrameTitleBar>
+                    Frame: {index + 1}
+                    <button tabIndex={-1} disabled={frames.length === 1} onClick={() => removeFrame(key)}>
+                        X
+                    </button>
+                </FrameTitleBar>
+                <FrameSection>
+                    <button tabIndex={-1} disabled={index === 0} onClick={() => moveFrameLeft(key)}>
+                        {'<'}
+                    </button>
+                    <TextArea
+                        foregroundColor={foregroundColor}
+                        backgroundColor={backgroundColor}
+                        onChange={event => {
+                            updateFrameText(key, event.target.value)
+                        }}
+                        frameHeight={frameHeight}
+                        frameWidth={frameWidth}
+                    >
+                        {content}
+                    </TextArea>
+                    <button tabIndex={-1} disabled={index === frames.length - 1} onClick={() => moveFrameRight(key)}>
+                        {'>'}
+                    </button>
+                </FrameSection>
+            </FrameWrapper>
+        )
+    })
 
     const animate = () => {
         !isAnimating && setIsAnimating(true)
@@ -176,7 +219,9 @@ const App = () => {
                 frames: frames.map(frame => frame.content),
                 width: frameWidth,
                 height: frameHeight,
-                frame_rate: frameRate
+                frame_rate: frameRate,
+                foreground_color: foregroundColor,
+                background_color: backgroundColor
             })
             .then(r => setGifSrc(r.data.url))
     }
@@ -188,7 +233,7 @@ const App = () => {
                 <ControlsWrapper>
                     <button onClick={() => createFrame()}>Add Frame</button>
                     <Label for="width">Width (in PX):</Label>
-                    <NumberInput
+                    <Input
                         onChange={event => typeof event.target.value === 'number' && setFrameWidth(event.target.value)}
                         min={10}
                         max={500}
@@ -198,7 +243,7 @@ const App = () => {
                         id="width"
                     />
                     <Label for="height">Height (in PX):</Label>
-                    <NumberInput
+                    <Input
                         id="height"
                         onChange={event => typeof event.target.value === 'number' && setFrameHeight(event.target.value)}
                         min={10}
@@ -207,13 +252,27 @@ const App = () => {
                         type="number"
                         value={frameHeight}
                     />
+                    <Label for="foreground">Foreground Color:</Label>
+                    <Input
+                        type="color"
+                        value={foregroundColor}
+                        id="foreground"
+                        onChange={event => setForegroundColor(event.target.value)}
+                    />
+                    <Label for="background">Background Color:</Label>
+                    <Input
+                        type="color"
+                        value={backgroundColor}
+                        id="background"
+                        onChange={event => setBackgroundColor(event.target.value)}
+                    />
                 </ControlsWrapper>
                 <FramesWrapper>{Frames}</FramesWrapper>
             </div>
             <div>
                 <ControlsWrapper>
                     <Label for="framerate">Frame Rate (frames per second):</Label>
-                    <NumberInput
+                    <Input
                         min={0.01}
                         max={200}
                         id="framerate"
@@ -228,6 +287,8 @@ const App = () => {
                         value={frames[visibleFrameIndex % frames.length].content}
                         frameHeight={frameHeight}
                         frameWidth={frameWidth}
+                        foregroundColor={foregroundColor}
+                        backgroundColor={backgroundColor}
                     />
                 </ControlsWrapper>
                 <ControlsWrapper>
