@@ -1,6 +1,7 @@
+import uuid
+
 from flask import Flask, send_file
 from PIL import Image, ImageDraw, ImageFont
-
 import imageio
 
 app = Flask(__name__)
@@ -36,7 +37,7 @@ def process_frames():
         )
         for text in texts
     ]
-    kargs = {"duration": (1 / 2)}
-    imageio.mimsave("./movie.gif", images, **kargs)
-    return send_file("./movie.gif")
-     
+    params = {"duration": (1 / 2)}
+    filename = f"./{uuid.uuid4().hex[:12].lower()}.gif"
+    imageio.mimsave(filename, images, **params)
+    return send_file(filename)
