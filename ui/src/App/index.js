@@ -18,15 +18,41 @@ const TextArea = styled.textarea`
     margin: 10px;
 `
 
+const PlaceholderDiv = styled.div`
+    width: ${props => {
+        return props.frameWidth
+    }}px;
+    height: ${props => props.frameHeight}px;
+    margin: 10px;
+    border: 1px solid black;
+`
+
+const StyledGif = styled.img`
+    width: ${props => {
+        return props.frameWidth
+    }}px;
+    height: ${props => props.frameHeight}px;
+    margin: 10px;
+    border: 1px solid #f5f5f5;
+`
+
+const ConvertToGifWrapper = styled.div`
+    display: flex;
+    align-self: center;
+`
+
 const FrameWrapper = styled.div`
     margin: 10px;
     display: inline-block;
+    padding: 10px;
+    background-color: #f5f5f5;
 `
 
 const FramesWrapper = styled.div`
     overflow-x: scroll;
     width: 100%;
     white-space: nowrap;
+    background-color: #dddddd;
 `
 
 const FrameSection = styled.div`
@@ -45,6 +71,12 @@ const OutputWrapper = styled.div`
     justify-content: center;
     margin: 20px;
 `
+const PreviewAndOutputWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 0;
+`
 
 const FrameTitleBar = styled.div`
     display: flex;
@@ -56,7 +88,7 @@ const Label = styled.label`
 `
 
 const Input = styled.input`
-    width: 100px;
+    width: 50px;
     margin-left: 20px;
     margin-right: 5px;
 `
@@ -74,11 +106,11 @@ const SubTitle = styled.h2`
 `
 
 const App = () => {
-    const [frameHeight, setFrameHeight] = useState(100)
-    const [frameWidth, setFrameWidth] = useState(100)
-    const [frames, setFrames] = useState([{ key: 0, content: '' }])
-    const [nextFrameKey, setNextFrameKey] = useState(1)
-    const [frameRate, setFrameRate] = useState(1)
+    const [frameHeight, setFrameHeight] = useState(200)
+    const [frameWidth, setFrameWidth] = useState(200)
+    const [frames, setFrames] = useState([{ key: 0, content: 'Hello' }, { key: 1, content: '\nWorld' }])
+    const [nextFrameKey, setNextFrameKey] = useState(2)
+    const [frameRate, setFrameRate] = useState(10)
     const [visibleFrameIndex, setVisibleFrameIndex] = useState(0)
     const [isAnimating, setIsAnimating] = useState(false)
     const [intervalKey, setIntervalKey] = useState(0)
@@ -99,6 +131,15 @@ const App = () => {
                 return frame
             }
         })
+        setFrames(modifiedFramesState)
+    }
+
+    const duplicateFrame = key => {
+        const frameIndex = frames.findIndex(frame => frame.key === key)
+        const duplicateFrame = { key: nextFrameKey, content: frames[frameIndex].content }
+        setNextFrameKey(nextFrameKey + 1)
+
+        const modifiedFramesState = [...frames.slice(0, frameIndex), duplicateFrame, ...frames.slice(frameIndex)]
         setFrames(modifiedFramesState)
     }
 
@@ -161,6 +202,9 @@ const App = () => {
                         {'>'}
                     </button>
                 </FrameSection>
+                <button tabIndex={-1} onClick={() => duplicateFrame(key)}>
+                    Duplicate
+                </button>
             </FrameWrapper>
         )
     })
@@ -179,7 +223,7 @@ const App = () => {
         setIntervalKey(newIntervalKey)
     }
 
-    useEffect(animate, [isAnimating, frameRate])
+    useEffect(animate, [frameRate])
 
     const handleFrameRateChange = event => {
         if (event.target.value == 0) {
@@ -190,7 +234,6 @@ const App = () => {
     }
 
     const validateInputs = () => {
-        console.log(frameWidth, typeof frameWidth, frameHeight, frameRate)
         if (
             typeof frameWidth === 'number' &&
             typeof frameHeight === 'number' &&
@@ -225,7 +268,7 @@ const App = () => {
             })
             .then(r => setGifSrc(r.data.url))
     }
-
+    console.log(frames)
     return (
         <>
             <div>
@@ -234,7 +277,7 @@ const App = () => {
                     <button onClick={() => createFrame()}>Add Frame</button>
                     <Label for="width">Width (in PX):</Label>
                     <Input
-                        onChange={event => typeof event.target.value === 'number' && setFrameWidth(event.target.value)}
+                        onChange={event => setFrameWidth(parseFloat(event.target.value))}
                         min={10}
                         max={500}
                         step={10}
@@ -245,7 +288,9 @@ const App = () => {
                     <Label for="height">Height (in PX):</Label>
                     <Input
                         id="height"
-                        onChange={event => typeof event.target.value === 'number' && setFrameHeight(event.target.value)}
+                        onChange={event => {
+                            setFrameHeight(parseFloat(event.target.value))
+                        }}
                         min={10}
                         max={500}
                         step={10}
@@ -266,43 +311,47 @@ const App = () => {
                         id="background"
                         onChange={event => setBackgroundColor(event.target.value)}
                     />
-                </ControlsWrapper>
-                <FramesWrapper>{Frames}</FramesWrapper>
-            </div>
-            <div>
-                <ControlsWrapper>
-                    <Label for="framerate">Frame Rate (frames per second):</Label>
+                    <Label for="framerate">FPS:</Label>
                     <Input
                         min={0.01}
                         max={200}
                         id="framerate"
-                        onChange={event => typeof event.target.value === 'number' && setFrameRate(event.target.value)}
+                        onChange={event => setFrameRate(parseFloat(event.target.value))}
                         value={frameRate}
                         type="number"
                     />
                 </ControlsWrapper>
-                <SubTitle>Preview</SubTitle>
-                <ControlsWrapper>
-                    <TextArea
-                        value={frames[visibleFrameIndex % frames.length].content}
-                        frameHeight={frameHeight}
-                        frameWidth={frameWidth}
-                        foregroundColor={foregroundColor}
-                        backgroundColor={backgroundColor}
-                    />
-                </ControlsWrapper>
-                <ControlsWrapper>
-                    <button onClick={getGif}>Convert to GIF</button>
-                </ControlsWrapper>
-                <SubTitle>Output</SubTitle>
-                <OutputWrapper>
-                    {gifSrc ? (
-                        <>
-                            <img src={gifSrc} />
-                        </>
-                    ) : null}
-                </OutputWrapper>
+                <FramesWrapper>{Frames}</FramesWrapper>
             </div>
+            <PreviewAndOutputWrapper>
+                <div>
+                    <SubTitle>Preview</SubTitle>
+                    <ControlsWrapper>
+                        <TextArea
+                            value={frames[visibleFrameIndex % frames.length].content}
+                            frameHeight={frameHeight}
+                            frameWidth={frameWidth}
+                            foregroundColor={foregroundColor}
+                            backgroundColor={backgroundColor}
+                        />
+                    </ControlsWrapper>
+                </div>
+                <ConvertToGifWrapper>
+                    <button onClick={getGif}>Convert to GIF</button>
+                </ConvertToGifWrapper>
+                <div>
+                    <SubTitle>Output</SubTitle>
+                    <OutputWrapper>
+                        {gifSrc ? (
+                            <>
+                                <StyledGif src={gifSrc} />
+                            </>
+                        ) : (
+                            <PlaceholderDiv frameHeight={frameHeight} frameWidth={frameWidth} />
+                        )}
+                    </OutputWrapper>
+                </div>
+            </PreviewAndOutputWrapper>
         </>
     )
 }
