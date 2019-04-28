@@ -53,6 +53,7 @@ const FramesWrapper = styled.div`
     width: 100%;
     white-space: nowrap;
     background-color: #dddddd;
+    padding: 20px;
 `
 
 const FrameSection = styled.div`
@@ -61,9 +62,23 @@ const FrameSection = styled.div`
 `
 
 const ControlsWrapper = styled.div`
-    display: flex;
-    justify-content: center;
+    max-width: 200px;
+    padding: 20px;
+    background-color: #f5f5f5;
+`
+
+const PreviewWrapper = styled.div`
     margin: 20px;
+`
+
+const ControlsSectionWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+`
+const ControlsAndFramesWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
 `
 
 const OutputWrapper = styled.div`
@@ -76,6 +91,8 @@ const PreviewAndOutputWrapper = styled.div`
     flex-direction: row;
     justify-content: center;
     flex-grow: 0;
+    margin-top: 20px;
+    text-align: center;
 `
 
 const FrameTitleBar = styled.div`
@@ -83,14 +100,10 @@ const FrameTitleBar = styled.div`
     justify-content: space-between;
 `
 
-const Label = styled.label`
-    margin-left: 20px;
-`
+const Label = styled.label``
 
 const Input = styled.input`
     width: 50px;
-    margin-left: 20px;
-    margin-right: 5px;
 `
 
 const Title = styled.h1`
@@ -101,8 +114,8 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
     font-size: 18px;
-    text-align: center;
-    margin: 20px;
+    /* text-align: center; */
+    margin-bottom: 10px;
 `
 
 const App = () => {
@@ -273,60 +286,78 @@ const App = () => {
         <>
             <div>
                 <Title>Gif Maker</Title>
-                <ControlsWrapper>
-                    <button onClick={() => createFrame()}>Add Frame</button>
-                    <Label for="width">Width (in PX):</Label>
-                    <Input
-                        onChange={event => setFrameWidth(parseFloat(event.target.value))}
-                        min={10}
-                        max={500}
-                        step={10}
-                        type="number"
-                        value={frameWidth}
-                        id="width"
-                    />
-                    <Label for="height">Height (in PX):</Label>
-                    <Input
-                        id="height"
-                        onChange={event => {
-                            setFrameHeight(parseFloat(event.target.value))
-                        }}
-                        min={10}
-                        max={500}
-                        step={10}
-                        type="number"
-                        value={frameHeight}
-                    />
-                    <Label for="foreground">Foreground Color:</Label>
-                    <Input
-                        type="color"
-                        value={foregroundColor}
-                        id="foreground"
-                        onChange={event => setForegroundColor(event.target.value)}
-                    />
-                    <Label for="background">Background Color:</Label>
-                    <Input
-                        type="color"
-                        value={backgroundColor}
-                        id="background"
-                        onChange={event => setBackgroundColor(event.target.value)}
-                    />
-                    <Label for="framerate">FPS:</Label>
-                    <Input
-                        min={0.01}
-                        max={200}
-                        id="framerate"
-                        onChange={event => setFrameRate(parseFloat(event.target.value))}
-                        value={frameRate}
-                        type="number"
-                    />
-                </ControlsWrapper>
-                <FramesWrapper>{Frames}</FramesWrapper>
+                <ControlsAndFramesWrapper>
+                    <ControlsWrapper>
+                        <SubTitle>Settings</SubTitle>
+                        <ControlsSectionWrapper>
+                            <button onClick={() => createFrame()}>Add Frame</button>
+                        </ControlsSectionWrapper>
+                        <ControlsSectionWrapper>
+                            <Label for="width">Width (in PX):</Label>
+                            <Input
+                                onChange={event => setFrameWidth(parseFloat(event.target.value))}
+                                min={10}
+                                max={500}
+                                step={10}
+                                type="number"
+                                value={frameWidth}
+                                id="width"
+                            />
+                        </ControlsSectionWrapper>
+                        <ControlsSectionWrapper>
+                            <Label for="height">Height (in PX):</Label>
+                            <Input
+                                id="height"
+                                onChange={event => {
+                                    setFrameHeight(parseFloat(event.target.value))
+                                }}
+                                min={10}
+                                max={500}
+                                step={10}
+                                type="number"
+                                value={frameHeight}
+                            />
+                        </ControlsSectionWrapper>
+                        <ControlsSectionWrapper>
+                            <Label for="foreground">Foreground Color:</Label>
+                            <Input
+                                type="color"
+                                value={foregroundColor}
+                                id="foreground"
+                                onChange={event => setForegroundColor(event.target.value)}
+                            />
+                        </ControlsSectionWrapper>
+                        <ControlsSectionWrapper>
+                            <Label for="background">Background Color:</Label>
+                            <Input
+                                type="color"
+                                value={backgroundColor}
+                                id="background"
+                                onChange={event => setBackgroundColor(event.target.value)}
+                            />
+                        </ControlsSectionWrapper>
+                        <ControlsSectionWrapper>
+                            <Label for="framerate">FPS:</Label>
+                            <Input
+                                min={0.01}
+                                max={200}
+                                id="framerate"
+                                onChange={event => setFrameRate(parseFloat(event.target.value))}
+                                value={frameRate}
+                                type="number"
+                            />
+                        </ControlsSectionWrapper>
+                    </ControlsWrapper>
+                    <FramesWrapper>
+                        <SubTitle>Frames</SubTitle>
+                        {Frames}
+                    </FramesWrapper>
+                </ControlsAndFramesWrapper>
             </div>
             <PreviewAndOutputWrapper>
                 <div>
                     <SubTitle>Preview</SubTitle>
-                    <ControlsWrapper>
+                    <PreviewWrapper>
                         <TextArea
                             value={frames[visibleFrameIndex % frames.length].content}
                             frameHeight={frameHeight}
@@ -334,7 +365,7 @@ const App = () => {
                             foregroundColor={foregroundColor}
                             backgroundColor={backgroundColor}
                         />
-                    </ControlsWrapper>
+                    </PreviewWrapper>
                 </div>
                 <ConvertToGifWrapper>
                     <button onClick={getGif}>Convert to GIF</button>
