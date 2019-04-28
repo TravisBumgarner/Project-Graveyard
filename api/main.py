@@ -10,11 +10,11 @@ app = Flask(__name__)
 CORS(app)
 
 
-def text_to_image(text, width, height, foreground_color, background_color):
+def text_to_image(text, width, height, foreground_color, background_color, font_size):
     image = Image.new("RGB", (width, height), color=background_color)
-    font = ImageFont.truetype("/Library/Fonts/Arial.ttf", 15)
+    font = ImageFont.truetype("/Library/Fonts/Arial.ttf", font_size)
     d = ImageDraw.Draw(image)
-    d.text((10, 10), text, font=font, fill=foreground_color)
+    d.text((0, 0), text, font=font, fill=foreground_color)
     return image
 
 
@@ -35,6 +35,7 @@ def process():
     frames = data["frames"]
     width = int(data["width"])
     height = int(data["height"])
+    font_size = int(data["font_size"])
     frame_rate = int(data["frame_rate"])
     foreground_color = data["foreground_color"]
     background_color = data["background_color"]
@@ -46,6 +47,7 @@ def process():
             height=height,
             foreground_color=foreground_color,
             background_color=background_color,
+            font_size=font_size,
         )
         for frame in frames
     ]

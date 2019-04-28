@@ -13,9 +13,11 @@ const TextArea = styled.textarea`
         return props.frameWidth
     }}px;
     height: ${props => props.frameHeight}px;
+    font-size: ${props => props.fontSize}px;
     color: ${props => props.foregroundColor};
     background-color: ${props => props.backgroundColor};
     margin: 10px;
+    font-family: Arial;
 `
 
 const PlaceholderDiv = styled.div`
@@ -130,6 +132,7 @@ const App = () => {
     const [gifSrc, setGifSrc] = useState(null)
     const [foregroundColor, setForegroundColor] = useState('#000000')
     const [backgroundColor, setBackgroundColor] = useState('#ffffff')
+    const [fontSize, setFontSize] = useState(15)
 
     const createFrame = () => {
         setFrames([...frames, makeFrameState(nextFrameKey)])
@@ -203,6 +206,7 @@ const App = () => {
                     <TextArea
                         foregroundColor={foregroundColor}
                         backgroundColor={backgroundColor}
+                        fontSize={fontSize}
                         onChange={event => {
                             updateFrameText(key, event.target.value)
                         }}
@@ -277,7 +281,8 @@ const App = () => {
                 height: frameHeight,
                 frame_rate: frameRate,
                 foreground_color: foregroundColor,
-                background_color: backgroundColor
+                background_color: backgroundColor,
+                font_size: fontSize
             })
             .then(r => setGifSrc(r.data.url))
     }
@@ -316,6 +321,15 @@ const App = () => {
                                 step={10}
                                 type="number"
                                 value={frameHeight}
+                            />
+                        </ControlsSectionWrapper>
+                        <ControlsSectionWrapper>
+                            <Label for="fontSize">Font Size:</Label>
+                            <Input
+                                id="fontSize"
+                                onChange={event => setFontSize(parseFloat(event.target.value))}
+                                value={fontSize}
+                                type="number"
                             />
                         </ControlsSectionWrapper>
                         <ControlsSectionWrapper>
@@ -364,6 +378,7 @@ const App = () => {
                             frameWidth={frameWidth}
                             foregroundColor={foregroundColor}
                             backgroundColor={backgroundColor}
+                            fontSize={fontSize}
                         />
                     </PreviewWrapper>
                 </div>
