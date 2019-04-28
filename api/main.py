@@ -1,4 +1,5 @@
 import uuid
+import os
 
 from flask import Flask, send_file, request, jsonify, send_from_directory
 from PIL import Image, ImageDraw, ImageFont
@@ -6,7 +7,7 @@ import imageio
 from flask_cors import CORS
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="dist/")
 CORS(app)
 
 
@@ -58,3 +59,14 @@ def process():
 
     imageio.mimsave(file_path, images, **params)
     return jsonify({"url": file_url})
+
+
+@app.route("/", defaults={"path": ""})
+@app.route("/static/<path:path>")
+def serve(path):
+    print(os.listdir(app.static_folder))
+    if path != "" and os.path.exists(app.static_folder + path):
+        print("sending app")
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, "index.html")
