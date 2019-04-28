@@ -371,7 +371,7 @@ const App = () => {
                     <button onClick={getGif}>Convert to GIF</button>
                 </ConvertToGifWrapper>
                 <div>
-                    <SubTitle>Output</SubTitle>
+                    <SubTitle>Output (right click to save)</SubTitle>
                     <OutputWrapper>
                         {gifSrc ? (
                             <>
