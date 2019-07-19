@@ -2,6 +2,7 @@
 const DECREASE_SPEED = 219; // this is the [ char by default. Visit https://keycode.info/ to remap the keys below.
 const INCREASE_SPEED = 221; // this is the ] char by default.
 const INITIATE_PLAYER = 220; // this is the \ char by default.
+const GET_MULTIPLIER = (currentPlaybackRate, direction) => currentPlaybackRate >= 3 && (direction > 0 || currentPlaybackRate >= 3.25) ? 0.25 : 0.1;
 // End User Settings
 
 let currentSpeed;
@@ -34,8 +35,8 @@ document.addEventListener("keydown", event => {
 
   if (event.keyCode === INCREASE_SPEED || event.keyCode === DECREASE_SPEED) {
     const currentPlaybackRate = videoPlayer.playbackRate;
-    const multiplier = currentPlaybackRate >= 4 ? 2 : 0.5;
     const direction = event.keyCode === INCREASE_SPEED ? 1 : -1;
+    const multiplier = GET_MULTIPLIER(currentPlaybackRate, direction);
 
     const newPlaybackRate = currentPlaybackRate + direction * multiplier;
 

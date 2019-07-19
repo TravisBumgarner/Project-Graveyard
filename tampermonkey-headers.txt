@@ -4,6 +4,6 @@
 // @version      1.0
 // @description  Add Custom Video Speeds to Video Players
 // @author       Travis Bumgarner
-// @include /.*/
+// @include      /.*/
 // @grant        none
 // ==/UserScript==
