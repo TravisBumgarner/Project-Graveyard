@@ -10,7 +10,7 @@ let videoPlayer;
 
 const updateSpeedDisplay = value => {
   document.getElementById("videoPlayerDisplay").innerHTML = `Speed: ${
-    videoPlayer.playbackRate
+    videoPlayer.playbackRate.toFixed(2)
   }`;
 };
 
@@ -20,7 +20,7 @@ document.addEventListener("keydown", event => {
     if (!videoPlayer) {
       console.log("no video found");
       return;
-    } else {
+    } else if (!document.getElementById("videoPlayerDisplay")) {
       var newDiv = document.createElement("div");
       var newContent = document.createTextNode(
         `Speed: ${videoPlayer.playbackRate}`
