@@ -1,5 +1,5 @@
-- [ ] Convert to boilerplate
+- [x] Convert to boilerplate
 - [ ] Get favicon
-- [ ] Setup sentry
 - [ ] Setup Google Analytics
 - [ ] Setup template.ejs
+- [ ] Build App
