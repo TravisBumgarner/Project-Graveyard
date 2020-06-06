@@ -7,6 +7,7 @@ import CAD_IMG from './media/cad.png'
 import CODE_IMG from './media/code.jpg'
 import CIRCUITS_IMG from './media/circuits.png'
 import AUTHOR_IMG from './media/author.png'
+import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
     max-width: 1200px;
@@ -25,6 +26,7 @@ const H1 = styled.h1`
 const H2 = styled.h2`
     font-size: 1.8em;
     margin-bottom: 1em;
+    font-weight: 700;
 `
 
 const H3 = styled.h3`
@@ -43,6 +45,7 @@ const Section = styled.div`
     flex-basis: 0;
     flex-grow: 1;
     margin: 5em 0;
+    margin: 1em;
 `
 
 const SectionWrapper = styled.div`
@@ -59,6 +62,8 @@ const CallToAction = styled.div`
     bottom: 0;
     left: 0;
     padding: 1em;
+    display: flex;
+    justify-content: center;
     background-color: ${PRIMARY_COLOR};
     a {
         color: ${SECONDARY_COLOR};
@@ -117,10 +122,11 @@ const App = () => {
                 </SectionWrapper>
             </AppWrapper>
             <CallToAction>
-                <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">
-                    <H2 style={{ fontWeight: 700, margin: '0 0.5em 0 0' }}>Click here to Register Now!</H2>
-                </a>
+                <H2 style={{ textAlign: "center", fontWeight: 700, margin: '0 0.5em 0 0' }}>
+                    <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Click here to Register Now!</a>
+                </H2>
             </CallToAction>
+            <img style={{ zIndex: -999, position: 'fixed', left: 0, top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
         </>
     )
 }
