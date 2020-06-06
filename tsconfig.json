@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "src/types/*"
+            ],
+            "Theme": [
+                "src/theme.ts"
+            ]
+        },
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "jsx": "react",
+        "skipLibCheck": true
+    },
+    "exclude": [
+        "./node_modules/*"
+    ],
+}
