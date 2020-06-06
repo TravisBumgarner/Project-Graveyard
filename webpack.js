@@ -13,6 +13,10 @@ module.exports = env => {
                     test: /\.[jt]s[x]?$/,
                     exclude: /node_modules/,
                     loader: 'babel-loader',
+                },
+                {
+                    test: /\.(jpe?g|png|gif|svg)$/i,
+                    loader: "file-loader"
                 }
             ]
         },

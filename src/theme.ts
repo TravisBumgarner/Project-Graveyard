@@ -21,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
             font-size: 14px;
         }
         padding-bottom: 3em;
+        a {
+            color: white;
+        }
     }
 `
 

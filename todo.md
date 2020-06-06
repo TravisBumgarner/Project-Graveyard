@@ -1,5 +1,7 @@
 - [x] Convert to boilerplate
-- [ ] Get favicon
-- [ ] Setup Google Analytics
-- [ ] Setup template.ejs
-- [ ] Build App
+- [x] Get favicon
+- [x] Setup Google Analytics
+- [x] Setup template.ejs
+- [x] Build App
+- [x] Setup google domains
+- [x] setup gcp
