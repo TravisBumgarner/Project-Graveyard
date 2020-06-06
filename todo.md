@@ -5,3 +5,7 @@
 - [x] Build App
 - [x] Setup google domains
 - [x] setup gcp
+- [ ] Social Media
+    - [ ] Update Instagram and make post
+    - [ ] LinkedIn
+    - [ ] Twitter

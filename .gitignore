@@ -9,3 +9,4 @@ run/
 lib/
 dist/app.bundle.js.map
 dist/app.bundle.js
+public/

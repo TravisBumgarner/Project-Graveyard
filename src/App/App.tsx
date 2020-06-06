@@ -1,20 +1,26 @@
 import React from 'react'
 import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
-
 import styled from 'styled-components'
+import {
+    FaTwitter as Twitter,
+    FaLinkedin as LinkedIn,
+    FaInstagram as Instagram,
+    FaTwitch as Twitch,
+    FaYoutube as YouTube
+} from 'react-icons/fa'
 
 import CAD_IMG from './media/cad.png'
 import CODE_IMG from './media/code.jpg'
-import CIRCUITS_IMG from './media/circuits.png'
+import CIRCUITS_IMG from './media/circuits.jpg'
 import AUTHOR_IMG from './media/author.png'
 import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
     max-width: 1200px;
     margin: 15px auto 30px;
-    width: 100vw;
     box-sizing: border-box;
     text-align: center;
+    box-sizing: border-box;
 `
 
 const H1 = styled.h1`
@@ -92,11 +98,11 @@ const AuthorImg = styled.img`
     height: auto;
     border-radius: 1em;
     height: 0%;
-    min-width: 230px;
+    max-width: 230px;
     margin: 0 2em 0 0;
 
     ${media.tablet} {
-        width: 150px;
+        max-width: 150px;
         margin-right: 1em;
     }
 `
@@ -122,13 +128,44 @@ const ImageAndTextWrapper = styled.div`
 
 `
 
+const EXTERNAL_LINKS = [
+    {
+        href: 'https://www.twitch.tv/travis_the_maker',
+        content: <Twitch size="3em" />
+    },
+    {
+        href: 'https://www.youtube.com/channel/UCFgIg95KzVg97KAeXdWbeXg',
+        content: <YouTube size="3em" />
+    },
+    {
+        href: 'https://twitter.com/travis_the_makr',
+        content: <Twitter size="3em" />
+    },
+    {
+        href: 'https://instagram.com/travis_the_maker',
+        content: <Instagram size="3em" />
+    },
+    {
+        href: 'https://www.linkedin.com/in/travisbumgarner/',
+        content: <LinkedIn size="3em" />
+    }
+]
+
+
+const ExternalLinks = EXTERNAL_LINKS.map(l => <a key={l.href} href={l.href}>{l.content}</a>)
+
+const ExternalLinksWrapper = styled.div`
+    a {
+        margin: 0 1em 0 0;
+    }
+`
 
 const App = () => {
     return (
         <>
             <GlobalStyle />
             <AppWrapper>
-                <H1>Want to learn about 3D CAD, code, and circuits for free? No experience required!</H1>
+                <H1>Want to learn about 3D CAD, Code, and Circuits for free? No experience required!</H1>
                 <SectionWrapper>
                     <ImageAndTextWrapper><Img src={CAD_IMG} /><H3>CAD!</H3></ImageAndTextWrapper>
                     <ImageAndTextWrapper><H3>Code!</H3><Img src={CODE_IMG} /></ImageAndTextWrapper>
@@ -141,7 +178,9 @@ const App = () => {
                             <AuthorImg src={AUTHOR_IMG} />
                             <div>
                                 <Text>Travis Bumgarner has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
-                                <Text>Check him out on <a target="_blank" href="https://www.instagram.com/travis_the_maker">Instagram</a> and <a target="_blank" href="https://twitter.com/travis_the_makr">Twitter</a>.</Text>
+                                <ExternalLinksWrapper>
+                                    {ExternalLinks}
+                                </ExternalLinksWrapper>
                             </div>
                         </div>
                     </Section>
@@ -164,11 +203,12 @@ const App = () => {
                 </SectionWrapper>
             </AppWrapper>
             <CallToAction>
-                <H2 style={{ textAlign: "center", fontWeight: 700 }}>
+                <H2 style={{ textAlign: "center", fontWeight: 700, margin: 0 }}>
                     <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Click here to Register Now!</a>
                 </H2>
             </CallToAction>
-            <img style={{ zIndex: -999, position: 'fixed', left: 0, top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
+
+            <img style={{ zIndex: -999, position: 'fixed', left: 0, boxSizing: 'border-box', top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
         </>
     )
 }

@@ -8,7 +8,7 @@
     },
     "scripts": {
         "start-dev": "NODE_ENV=development webpack-dev-server --env.NODE_ENV=development --mode=development --config webpack.js",
-        "bundle": "NODE_ENV=production; rm -rf ./public; mkdir ./public; webpack --env.NODE_ENV=production --mode=production --config webpack.js --verobose",
+        "bundle": "NODE_ENV=production; rm -rf ./public; mkdir ./public; cp ./src/og.png ./public; webpack --env.NODE_ENV=production --mode=production --config webpack.js --verobose",
         "precommit": "tsc --noEmit --skipLibCheck",
         "deploy": "gcloud builds submit --tag gcr.io/eng40-277714/landing-page && gcloud run deploy landing-page --image gcr.io/eng40-277714/landing-page --platform managed --region us-east1",
         "typecheck": "tsc --noEmit -p ./tsconfig.json"
