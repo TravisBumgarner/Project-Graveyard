@@ -1,5 +1,5 @@
 import React from 'react'
-import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR } from 'Theme'
+import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
 
 import styled from 'styled-components'
 
@@ -53,6 +53,10 @@ const SectionWrapper = styled.div`
     display: flex;
     max-width: 100%;
     justify-content: space-between;
+
+    ${media.tablet} {
+        flex-direction: column;
+    }
 `
 
 const CallToAction = styled.div`
@@ -75,9 +79,47 @@ const CallToAction = styled.div`
 `
 
 const Img = styled.img`
+    width: 100%;
+    height: auto;
+    border-radius: 1em;
+
+    ${media.tablet} {
+    }
+`
+
+const AuthorImg = styled.img`
     width: 30%;
     height: auto;
     border-radius: 1em;
+    height: 0%;
+    min-width: 230px;
+    margin: 0 2em 0 0;
+
+    ${media.tablet} {
+        width: 150px;
+        margin-right: 1em;
+    }
+`
+
+const ImageAndTextWrapper = styled.div`
+    width: 30%;
+    & > ${H3} {
+        display: none;
+    }
+    ${media.tablet} {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & > ${H3} {
+            display: initial;
+        }
+        & > * {
+            width: 50%;
+        }
+    }
+
 `
 
 
@@ -88,15 +130,15 @@ const App = () => {
             <AppWrapper>
                 <H1>Want to learn about 3D CAD, code, and circuits for free? No experience required!</H1>
                 <SectionWrapper>
-                    <Img src={CODE_IMG} />
-                    <Img src={CAD_IMG} />
-                    <Img src={CIRCUITS_IMG} />
+                    <ImageAndTextWrapper><Img src={CAD_IMG} /><H3>CAD!</H3></ImageAndTextWrapper>
+                    <ImageAndTextWrapper><H3>Code!</H3><Img src={CODE_IMG} /></ImageAndTextWrapper>
+                    <ImageAndTextWrapper><Img src={CIRCUITS_IMG} /><H3>Circuits!</H3></ImageAndTextWrapper>
                 </SectionWrapper>
                 <SectionWrapper>
                     <Section>
                         <H2>About the Author</H2>
                         <div style={{ display: 'flex' }}>
-                            <Img style={{ height: '0%', minWidth: '230px', margin: '0 2em 0 0' }} src={AUTHOR_IMG} />
+                            <AuthorImg src={AUTHOR_IMG} />
                             <div>
                                 <Text>Travis Bumgarner has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
                                 <Text>Check him out on <a target="_blank" href="https://www.instagram.com/travis_the_maker">Instagram</a> and <a target="_blank" href="https://twitter.com/travis_the_makr">Twitter</a>.</Text>
@@ -122,7 +164,7 @@ const App = () => {
                 </SectionWrapper>
             </AppWrapper>
             <CallToAction>
-                <H2 style={{ textAlign: "center", fontWeight: 700, margin: '0 0.5em 0 0' }}>
+                <H2 style={{ textAlign: "center", fontWeight: 700 }}>
                     <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Click here to Register Now!</a>
                 </H2>
             </CallToAction>
