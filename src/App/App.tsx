@@ -1,5 +1,5 @@
 import React from 'react'
-import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
+import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media, TERTIARY_COLOR } from 'Theme'
 import styled from 'styled-components'
 import {
     FaTwitter as Twitter,
@@ -30,7 +30,7 @@ const H1 = styled.h1`
 `
 
 const H2 = styled.h2`
-    font-size: 1.8em;
+    font-size: 2.2em;
     margin-bottom: 1em;
     font-weight: 700;
 `
@@ -38,6 +38,8 @@ const H2 = styled.h2`
 const H3 = styled.h3`
     font-size: 1.4em;
     margin-bottom: 0.5em;
+    font-weight: 900;
+    margin-top: 1.5em;
 `
 
 const Text = styled.p`
@@ -125,7 +127,15 @@ const ImageAndTextWrapper = styled.div`
             width: 50%;
         }
     }
+`
 
+const List = styled.ul`
+    margin-left: 2em;
+    list-style: initial;
+`
+
+const ListItem = styled.li`
+    margin: 0.5em 0;
 `
 
 const EXTERNAL_LINKS = [
@@ -199,6 +209,25 @@ const App = () => {
                     <Section>
                         <H2>Where?</H2>
                         <Text>It will be streamed live on <a target="_blank" href="https://www.twitch.tv/travis_the_maker">Twitch</a>.</Text>
+                    </Section>
+                </SectionWrapper>
+                <SectionWrapper>
+                    <Section>
+                        <H2>Frequently Asked Questions</H2>
+
+                        <H3>How do I register?</H3>
+                        <Text><a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Click here!</a></Text>
+
+                        <H3>Will this be recorded?</H3>
+                        <Text>Yes! Recordings will be posted on Travis the Maker's <a target="_blank" href="https://www.youtube.com/channel/UCFgIg95KzVg97KAeXdWbeXg">YouTube Channel</a>. Now would be a great time to subscribe to the channel so you don't miss out!</Text>
+
+                        <H3>What software will we use and do I have to pay for it?</H3>
+                        <Text>All software is free to download. We'll be using the following:</Text>
+                        <List>
+                            <ListItem>Fusion 360 for 3D CAD - <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">Download</a></ListItem>
+                            <ListItem>Eagle CAD for Circuits - <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">Download</a></ListItem>
+                            <ListItem>Arduino for Code - <a target="_blank" href="https://www.arduino.cc/en/Main/Software">Download</a></ListItem>
+                        </List>
                     </Section>
                 </SectionWrapper>
             </AppWrapper>

@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 const PRIMARY_COLOR = '#FFFFFF'
 const SECONDARY_COLOR = '#333a4a'
+const TERTIARY_COLOR = '#b9ccff'
 
 const customMediaQuery = (maxWidth: number) => `@media (max-width: ${maxWidth}px)`
 
@@ -23,8 +24,11 @@ const GlobalStyle = createGlobalStyle`
         padding-bottom: 3em;
         a {
             color: white;
+            &: hover {
+                color: ${ TERTIARY_COLOR};
+            }
         }
     }
 `
 
-export { media, PRIMARY_COLOR, SECONDARY_COLOR, GlobalStyle }
+export { media, PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, GlobalStyle }
