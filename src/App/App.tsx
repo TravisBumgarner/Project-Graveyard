@@ -18,7 +18,7 @@ import AUTHOR_IMG from './media/author.png'
 import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 15px auto 30px;
     box-sizing: border-box;
     box-sizing: border-box;
@@ -41,6 +41,13 @@ const H3 = styled.h3`
     font-size: 1.4em;
     font-weight: 900;
     margin: 0.5em 0 0.5em 0;
+`
+
+const H4 = styled.div`
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 900;
+    margin-top: 1.5em;
 `
 
 const Text = styled.p`
@@ -182,7 +189,8 @@ const App = () => {
                         <Section>
                             <H3>CAD!</H3>
                             <List>
-                                <ListItem>Creating Parts</ListItem>
+                                <ListItem>Taking Measurements</ListItem>
+                                <ListItem>Creating Parts in Fusion 360 and SolidWorks</ListItem>
                                 <ListItem>Using External Libraries</ListItem>
                                 <ListItem>And much much more!</ListItem>
                             </List>
@@ -191,7 +199,7 @@ const App = () => {
                             <H3>Code!</H3>
                             <List>
                                 <ListItem>Arduino Tools</ListItem>
-                                <ListItem>Programming Basics wit C++</ListItem>
+                                <ListItem>Programming Basics with C++</ListItem>
                                 <ListItem>And much much more!</ListItem>
                             </List>
                         </Section>
@@ -227,13 +235,36 @@ const App = () => {
                             <H3>Will this be recorded?</H3>
                             <Text>Yes! Recordings will be posted on Travis the Maker's <a target="_blank" href="https://www.youtube.com/channel/UCFgIg95KzVg97KAeXdWbeXg">YouTube Channel</a>. Now would be a great time to subscribe to the channel so you don't miss out!</Text>
 
-                            <H3>What software will we use and do I have to pay for it?</H3>
-                            <Text>All software is free to download. We'll be using the following:</Text>
-                            <List>
-                                <ListItem>Fusion 360 for 3D CAD - <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">Download</a></ListItem>
-                                <ListItem>Eagle CAD for Circuits - <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">Download</a></ListItem>
-                                <ListItem>Arduino for Code - <a target="_blank" href="https://www.arduino.cc/en/Main/Software">Download</a></ListItem>
-                            </List>
+                            <H3>What skills do I need?</H3>
+                            <Text>No previous skills needed. These talks will be very broad and I'll try and go as slow as possible. With that said, these talks will cover A LOT of information. You will walk away having an idea of next steps in your learning journey.</Text>
+
+                            <H3>Do I need to buy anything?</H3>
+                            <Text>Nope! Check out the "What do I need" question for more details.</Text>
+
+                            <H3>What do I need?</H3>
+                            <H4>CAD</H4>
+                            <Text>
+                                You have two options - we'll cover the basics of each in separate workshops.
+                            </Text>
+                            <Text>
+                                The first is Fusion 360 which is free to <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">download here</a> (Scroll to the bottom for the free version).
+                            </Text>
+                            <Text>
+                                The second option is SolidWorks. SolidWorks is available for $40USD a year as a part of membership with the orgaization EAA. < a href="https://eaa.org/eaa/eaa-membership/eaa-member-benefits" target="_blank">Click here</a> for more details.
+                            </Text>
+                            <H4>Code and Circuits</H4>
+                            <Text>
+                                For designing PCBs, we'll be using EagleCAD which can be <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">downloaded here</a>.
+                            </Text>
+                            <Text>
+                                You have two options we'll cover at the same time.
+                            </Text>
+                            <Text>
+                                The first option is TinkerCAD and you can register for it <a target="_blank" href="https://www.tinkercad.com/dashboard">here</a>. TinkerCAD is a fully digital option. It lets you write code and play with digital circuits and components so you don't need to buy any parts.
+                            </Text>
+                            <Text>
+                                The second option is to purchase an Arduino kit, <a href="https://amzn.to/3d7SBbv" target="_blank">such as this one</a>, and <a target="_blank" href="https://www.arduino.cc/en/Main/Software">download the free software</a>. If you would like to purchase your own kit or already own equipment, that's totally fine! At the very least, it is recommended that you have an Arduino, USB cable, LEDs, resistors, a breadboard, push buttons, wires, and photo reesistors. If you'd like help, please use one of the contact methods listed in the "About the Author" section.
+                            </Text>
                         </Section>
                     </SectionContent>
                 </SectionWrapper>

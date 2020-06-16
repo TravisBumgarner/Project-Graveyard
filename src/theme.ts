@@ -29,6 +29,9 @@ const GlobalStyle = createGlobalStyle`
             }
         }
     }
+    li, p {
+        line-height: 1.5;
+    }
 `
 
 export { media, PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, GlobalStyle }
