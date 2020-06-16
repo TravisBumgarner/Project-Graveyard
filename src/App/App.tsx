@@ -98,7 +98,7 @@ const CallToAction = styled.div`
     left: 0;
     padding: 1em;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     background-color: ${PRIMARY_COLOR};
     a {
         color: ${SECONDARY_COLOR};
@@ -162,7 +162,7 @@ const EXTERNAL_LINKS = [
 ]
 
 
-const ExternalLinks = EXTERNAL_LINKS.map(l => <a key={l.href} href={l.href}>{l.content}</a>)
+const ExternalLinks = EXTERNAL_LINKS.map(l => <a key={l.href} target="_blank" href={l.href}>{l.content}</a>)
 
 const ExternalLinksWrapper = styled.div`
     a {
@@ -241,30 +241,37 @@ const App = () => {
                             <H3>Do I need to buy anything?</H3>
                             <Text>Nope! Check out the "What do I need" question for more details.</Text>
 
+                            <H3>How do I prepare?</H3>
+                            <Text>Read through the "What do I need" section and decide which software and equipment you'll need. Feel free to connect via one of the social media links if you should need help! Start playing around and come prepared with LOTS OF QUESTIONS! You'll get the most out of this content that way!</Text>
+
                             <H3>What do I need?</H3>
-                            <H4>CAD</H4>
-                            <Text>
-                                You have two options - we'll cover the basics of each in separate workshops.
-                            </Text>
-                            <Text>
-                                The first is Fusion 360 which is free to <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">download here</a> (Scroll to the bottom for the free version).
-                            </Text>
-                            <Text>
-                                The second option is SolidWorks. SolidWorks is available for $40USD a year as a part of membership with the orgaization EAA. < a href="https://eaa.org/eaa/eaa-membership/eaa-member-benefits" target="_blank">Click here</a> for more details.
-                            </Text>
-                            <H4>Code and Circuits</H4>
-                            <Text>
-                                For designing PCBs, we'll be using EagleCAD which can be <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">downloaded here</a>.
-                            </Text>
-                            <Text>
-                                You have two options we'll cover at the same time.
-                            </Text>
-                            <Text>
-                                The first option is TinkerCAD and you can register for it <a target="_blank" href="https://www.tinkercad.com/dashboard">here</a>. TinkerCAD is a fully digital option. It lets you write code and play with digital circuits and components so you don't need to buy any parts.
-                            </Text>
-                            <Text>
-                                The second option is to purchase an Arduino kit, <a href="https://amzn.to/3d7SBbv" target="_blank">such as this one</a>, and <a target="_blank" href="https://www.arduino.cc/en/Main/Software">download the free software</a>. If you would like to purchase your own kit or already own equipment, that's totally fine! At the very least, it is recommended that you have an Arduino, USB cable, LEDs, resistors, a breadboard, push buttons, wires, and photo reesistors. If you'd like help, please use one of the contact methods listed in the "About the Author" section.
-                            </Text>
+                            <List>
+                                <ListItem><strong>Measuring Tools</strong></ListItem>
+                                <List>
+                                    <ListItem><strong>Pen or Pencil</strong></ListItem>
+                                    <ListItem><strong>Notebook or Paper</strong></ListItem>
+                                    <ListItem><strong>Ruler</strong></ListItem>
+                                    <ListItem><strong><a target="_blank" href="https://amzn.to/2Y4Hj3p">Calipers</a></strong> (Optional)<br /> Be sure to purchase an extra battery or two.</ListItem>
+                                    <ListItem><strong>Things to measure!</strong><br /> We'll be measuring simple shapes like pencils, cups, books, etc.</ListItem>
+                                </List>
+
+                                <ListItem><strong>3D CAD Software</strong></ListItem>
+                                <List>
+                                    <ListItem><strong>Option 1: Free version of <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">Fusion 360</a></strong><br />(Scroll to the bottom for the free version).</ListItem>
+                                    <ListItem><strong>Option 2: Paid version SolidWorks</strong><br />It is available for $40USD a year as a part of membership with the orgaization EAA. < a href="https://eaa.org/eaa/eaa-membership/eaa-member-benefits" target="_blank">Click here</a> for more details.</ListItem>
+                                </List>
+
+                                <ListItem><strong>PCB Design Software</strong></ListItem>
+                                <List>
+                                    <ListItem><strong>Free version of <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">EagleCAD</a></strong></ListItem>
+                                </List>
+
+                                <ListItem><strong>Coding and Creating Circuits</strong></ListItem>
+                                <List>
+                                    <ListItem><strong>Option 1: Free version of <a target="_blank" href="https://www.tinkercad.com/dashboard">TinkerCAD</a></strong><br />TinkerCAD is a fully digital option. It lets you write code and play with digital circuits and components so you don't need to buy any parts.</ListItem>
+                                    <ListItem><strong>Option 2: <a href="https://amzn.to/3d7SBbv" target="_blank">Purchased Arduino Kit</a> and <a target="_blank" href="https://www.arduino.cc/en/Main/Software">free software</a></strong><br />If you would like to purchase your own kit or already own equipment, that's totally fine! At the very least, it is recommended that you have an Arduino, USB cable, LEDs, resistors, a breadboard, push buttons, wires, and photo reesistors. If you'd like help, please use one of the contact methods listed in the "About the Author" section.</ListItem>
+                                </List>
+                            </List>
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
@@ -287,8 +294,11 @@ const App = () => {
             </AppWrapper>
             <CallToAction>
                 <H2 style={{ textAlign: "center", fontWeight: 700, margin: 0 }}>
-                    <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Click here to Register Now!</a>
+                    <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Register Now!</a>
                 </H2>
+                <ExternalLinksWrapper>
+                    {ExternalLinks}
+                </ExternalLinksWrapper>
             </CallToAction>
 
             <img style={{ zIndex: -999, position: 'fixed', left: 0, boxSizing: 'border-box', top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />

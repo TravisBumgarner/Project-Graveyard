@@ -32,6 +32,9 @@ const GlobalStyle = createGlobalStyle`
     li, p {
         line-height: 1.5;
     }
+    strong {
+        font-weight: 700;
+    }
 `
 
 export { media, PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, GlobalStyle }
