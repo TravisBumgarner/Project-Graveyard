@@ -6,7 +6,8 @@ import {
     FaLinkedin as LinkedIn,
     FaInstagram as Instagram,
     FaTwitch as Twitch,
-    FaYoutube as YouTube
+    FaYoutube as YouTube,
+    FaSlack as Slack
 } from 'react-icons/fa'
 
 import { Calendar } from './components'
@@ -140,6 +141,10 @@ const ListItem = styled.li`
 
 const EXTERNAL_LINKS = [
     {
+        href: 'https://join.slack.com/t/cadcodeandcircuits/shared_invite/zt-f4u1pi0i-V_4r97fwbQkaLnTFVheovA',
+        content: <Slack size="3em" />
+    },
+    {
         href: 'https://www.twitch.tv/travis_the_maker',
         content: <Twitch size="3em" />
     },
@@ -183,6 +188,24 @@ const App = () => {
                         <Img src={CIRCUITS_IMG} />
                     </SectionContent>
                 </SectionWrapper>
+
+                <SectionWrapper>
+                    <SectionContent>
+                        <Section>
+                            <H2>About the Author</H2>
+                            <div style={{ display: 'flex' }}>
+                                <AuthorImg src={AUTHOR_IMG} />
+                                <div>
+                                    <Text>Travis Bumgarner (<a href="http://travisbumgarner.com/" target="_blank">Portfolio here</a>) has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
+                                    <ExternalLinksWrapper>
+                                        {ExternalLinks}
+                                    </ExternalLinksWrapper>
+                                </div>
+                            </div>
+                        </Section>
+                    </SectionContent>
+                </SectionWrapper>
+
                 <SectionWrapper>
                     <H2>What You'll Learn</H2>
                     <SectionContent>
@@ -224,6 +247,7 @@ const App = () => {
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
+
                 <SectionWrapper>
                     <SectionContent>
                         <Section>
@@ -246,6 +270,7 @@ const App = () => {
 
                             <H3>What do I need?</H3>
                             <List>
+                                <ListItem><strong><a href="https://join.slack.com/t/cadcodeandcircuits/shared_invite/zt-f4u1pi0i-V_4r97fwbQkaLnTFVheovA" target="_blank">Free Slack Membership</a></strong><br />This will be where we chat before, during, and after sessions.</ListItem>
                                 <ListItem><strong>Measuring Tools</strong></ListItem>
                                 <List>
                                     <ListItem><strong>Pen or Pencil</strong></ListItem>
@@ -258,7 +283,7 @@ const App = () => {
                                 <ListItem><strong>3D CAD Software</strong></ListItem>
                                 <List>
                                     <ListItem><strong>Option 1: Free version of <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">Fusion 360</a></strong><br />(Scroll to the bottom for the free version).</ListItem>
-                                    <ListItem><strong>Option 2: Paid version SolidWorks</strong><br />It is available for $40USD a year as a part of membership with the orgaization EAA. < a href="https://eaa.org/eaa/eaa-membership/eaa-member-benefits" target="_blank">Click here</a> for more details.</ListItem>
+                                    <ListItem><strong>Option 2: Paid version SolidWorks</strong><br />It is available for $40USD a year as a part of membership with the organization EAA. < a href="https://eaa.org/eaa/eaa-membership/eaa-member-benefits" target="_blank">Click here</a> for more details.</ListItem>
                                 </List>
 
                                 <ListItem><strong>PCB Design Software</strong></ListItem>
@@ -266,28 +291,12 @@ const App = () => {
                                     <ListItem><strong>Free version of <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">EagleCAD</a></strong></ListItem>
                                 </List>
 
-                                <ListItem><strong>Coding and Creating Circuits</strong></ListItem>
+                                <ListItem><strong>Coding and Circuits Software/Hardware</strong></ListItem>
                                 <List>
                                     <ListItem><strong>Option 1: Free version of <a target="_blank" href="https://www.tinkercad.com/dashboard">TinkerCAD</a></strong><br />TinkerCAD is a fully digital option. It lets you write code and play with digital circuits and components so you don't need to buy any parts.</ListItem>
-                                    <ListItem><strong>Option 2: <a href="https://amzn.to/3d7SBbv" target="_blank">Purchased Arduino Kit</a> and <a target="_blank" href="https://www.arduino.cc/en/Main/Software">free software</a></strong><br />If you would like to purchase your own kit or already own equipment, that's totally fine! At the very least, it is recommended that you have an Arduino, USB cable, LEDs, resistors, a breadboard, push buttons, wires, and photo reesistors. If you'd like help, please use one of the contact methods listed in the "About the Author" section.</ListItem>
+                                    <ListItem><strong>Option 2: Purchased <a href="https://amzn.to/3d7SBbv" target="_blank">Arduino Kit</a> and free version of <a target="_blank" href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a></strong><br />If you would like to purchase your own kit or already own equipment, that's totally fine! At the very least, it is recommended that you have an Arduino, USB cable, LEDs, resistors, a breadboard, push buttons, wires, and photo resistors. If you'd like help, please use one of the contact methods listed in the "About the Author" section.</ListItem>
                                 </List>
                             </List>
-                        </Section>
-                    </SectionContent>
-                </SectionWrapper>
-                <SectionWrapper>
-                    <SectionContent>
-                        <Section>
-                            <H2>About the Author</H2>
-                            <div style={{ display: 'flex' }}>
-                                <AuthorImg src={AUTHOR_IMG} />
-                                <div>
-                                    <Text>Travis Bumgarner has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
-                                    <ExternalLinksWrapper>
-                                        {ExternalLinks}
-                                    </ExternalLinksWrapper>
-                                </div>
-                            </div>
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
