@@ -251,6 +251,20 @@ const App = () => {
                 <SectionWrapper>
                     <SectionContent>
                         <Section>
+                            <H2>Resources</H2>
+                            <List>
+                                <ListItem> <a target="_blank" href="https://docs.google.com/presentation/d/1SvmSbxtJpW-iA_WC6L3_vZwDqIfAObRb2BWHmSXQtnY/edit?usp=sharing">Day 1 Code Presentation</a></ListItem>
+                                <ListItem>Day 2 Circuits Presentation (Coming Soon!)</ListItem>
+                                <ListItem>Day 4 CAD (Coming Soon!)</ListItem>
+                                <ListItem>Day 5 Combining All 3 Presentation (Coming Soon!)</ListItem>
+                            </List>
+                        </Section>
+                    </SectionContent>
+                </SectionWrapper>
+
+                <SectionWrapper>
+                    <SectionContent>
+                        <Section>
                             <H2>Frequently Asked Questions</H2>
 
                             <H3>How do I register?</H3>
