@@ -254,7 +254,7 @@ const App = () => {
                             <H2>Resources</H2>
                             <List>
                                 <ListItem> <a target="_blank" href="https://docs.google.com/presentation/d/1SvmSbxtJpW-iA_WC6L3_vZwDqIfAObRb2BWHmSXQtnY/edit?usp=sharing">Day 1 Code Presentation</a></ListItem>
-                                <ListItem>Day 2 Circuits Presentation (Coming Soon!)</ListItem>
+                                <ListItem><a target="_blanl" href="https://docs.google.com/presentation/d/1fYRybnH2XspEQbKTChf_UALPtEf40phfZAnaR1I1yt4/edit?usp=sharing">Day 2 Circuits Presentation</a></ListItem>
                                 <ListItem>Day 4 CAD (Coming Soon!)</ListItem>
                                 <ListItem>Day 5 Combining All 3 Presentation (Coming Soon!)</ListItem>
                             </List>
