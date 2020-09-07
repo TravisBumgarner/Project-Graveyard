@@ -1,11 +1,4 @@
-- [x] Convert to boilerplate
-- [x] Get favicon
-- [x] Setup Google Analytics
-- [x] Setup template.ejs
-- [x] Build App
-- [x] Setup google domains
-- [x] setup gcp
-- [ ] Social Media
-    - [ ] Update Instagram and make post
-    - [ ] LinkedIn
-    - [ ] Twitter
+- [x] Update Boilerplate
+- [ ] Add analytics
+- [ ] Write OG Text and Image
+- [ ] Create form

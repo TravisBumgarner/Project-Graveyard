@@ -5,17 +5,12 @@ import {
     FaTwitter as Twitter,
     FaLinkedin as LinkedIn,
     FaInstagram as Instagram,
-    FaTwitch as Twitch,
-    FaYoutube as YouTube,
-    FaSlack as Slack
 } from 'react-icons/fa'
-
-import { Calendar } from './components'
 
 import CAD_IMG from './media/cad.png'
 import CODE_IMG from './media/code.jpg'
 import CIRCUITS_IMG from './media/circuits.jpg'
-import AUTHOR_IMG from './media/author.png'
+import AUTHOR_IMG from './media/author.jpg'
 import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
@@ -141,28 +136,16 @@ const ListItem = styled.li`
 
 const EXTERNAL_LINKS = [
     {
-        href: 'https://join.slack.com/t/cadcodeandcircuits/shared_invite/zt-f4u1pi0i-V_4r97fwbQkaLnTFVheovA',
-        content: <Slack size="3em" />
-    },
-    {
-        href: 'https://www.twitch.tv/travis_the_maker',
-        content: <Twitch size="3em" />
-    },
-    {
-        href: 'https://www.youtube.com/channel/UCFgIg95KzVg97KAeXdWbeXg',
-        content: <YouTube size="3em" />
-    },
-    {
-        href: 'https://twitter.com/travis_the_makr',
-        content: <Twitter size="3em" />
-    },
-    {
         href: 'https://instagram.com/travis_the_maker',
         content: <Instagram size="3em" />
     },
     {
         href: 'https://www.linkedin.com/in/travisbumgarner/',
         content: <LinkedIn size="3em" />
+    },
+    {
+        href: 'https://twitter.com/travis_the_makr',
+        content: <Twitter size="3em" />
     }
 ]
 
@@ -237,87 +220,21 @@ const App = () => {
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
-                <SectionWrapper>
-                    <SectionContent>
-                        <Section>
-                            <H2>Schedule</H2>
-                            <Text>Workshops will be streamed live on <a target="_blank" href="https://www.twitch.tv/travis_the_maker">Twitch</a>. They'll be recorded and shared later on <a target="_blank" href="https://www.youtube.com/channel/UCFgIg95KzVg97KAeXdWbeXg">YouTube</a></Text>
-                            <Text>Click on Event Names for More Details. (Schedule subject to change.)</Text>
-                            <Calendar />
-                        </Section>
-                    </SectionContent>
-                </SectionWrapper>
-
-                <SectionWrapper>
-                    <SectionContent>
-                        <Section>
-                            <H2>Resources</H2>
-                            <List>
-                                <ListItem> <a target="_blank" href="https://docs.google.com/presentation/d/1SvmSbxtJpW-iA_WC6L3_vZwDqIfAObRb2BWHmSXQtnY/edit?usp=sharing">Day 1 Code Presentation</a></ListItem>
-                                <ListItem><a target="_blanl" href="https://docs.google.com/presentation/d/1fYRybnH2XspEQbKTChf_UALPtEf40phfZAnaR1I1yt4/edit?usp=sharing">Day 2 Circuits Presentation</a></ListItem>
-                                <ListItem>Day 4 CAD (Coming Soon!)</ListItem>
-                                <ListItem>Day 5 Combining All 3 Presentation (Coming Soon!)</ListItem>
-                            </List>
-                        </Section>
-                    </SectionContent>
-                </SectionWrapper>
 
                 <SectionWrapper>
                     <SectionContent>
                         <Section>
                             <H2>Frequently Asked Questions</H2>
 
-                            <H3>How do I register?</H3>
-                            <Text><a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Click here!</a></Text>
-
-                            <H3>Will this be recorded?</H3>
-                            <Text>Yes! Recordings will be posted on Travis the Maker's <a target="_blank" href="https://www.youtube.com/channel/UCFgIg95KzVg97KAeXdWbeXg">YouTube Channel</a>. Now would be a great time to subscribe to the channel so you don't miss out!</Text>
-
-                            <H3>What skills do I need?</H3>
-                            <Text>No previous skills needed. These talks will be very broad and I'll try and go as slow as possible. With that said, these talks will cover A LOT of information. You will walk away having an idea of next steps in your learning journey.</Text>
-
-                            <H3>Do I need to buy anything?</H3>
-                            <Text>Nope! Check out the "What do I need" question for more details.</Text>
-
-                            <H3>How do I prepare?</H3>
-                            <Text>Read through the "What do I need" section and decide which software and equipment you'll need. Feel free to connect via one of the social media links if you should need help! Start playing around and come prepared with LOTS OF QUESTIONS! You'll get the most out of this content that way!</Text>
-
-                            <H3>What do I need?</H3>
-                            <List>
-                                <ListItem><strong><a href="https://join.slack.com/t/cadcodeandcircuits/shared_invite/zt-f4u1pi0i-V_4r97fwbQkaLnTFVheovA" target="_blank">Free Slack Membership</a></strong><br />This will be where we chat before, during, and after sessions.</ListItem>
-                                <ListItem><strong>Measuring Tools</strong></ListItem>
-                                <List>
-                                    <ListItem><strong>Pen or Pencil</strong></ListItem>
-                                    <ListItem><strong>Notebook or Paper</strong></ListItem>
-                                    <ListItem><strong>Ruler</strong></ListItem>
-                                    <ListItem><strong><a target="_blank" href="https://amzn.to/2Y4Hj3p">Calipers</a></strong> (Optional)<br /> Be sure to purchase an extra battery or two.</ListItem>
-                                    <ListItem><strong>Things to measure!</strong><br /> We'll be measuring simple shapes like pencils, cups, books, etc.</ListItem>
-                                </List>
-
-                                <ListItem><strong>3D CAD Software</strong></ListItem>
-                                <List>
-                                    <ListItem><strong>Option 1: Free version of <a target="_blank" href="https://www.autodesk.com/campaigns/fusion-360-for-hobbyists">Fusion 360</a></strong><br />(Scroll to the bottom for the free version).</ListItem>
-                                    <ListItem><strong>Option 2: Paid version SolidWorks</strong><br />It is available for $40USD a year as a part of membership with the organization EAA. < a href="https://eaa.org/eaa/eaa-membership/eaa-member-benefits" target="_blank">Click here</a> for more details.</ListItem>
-                                </List>
-
-                                <ListItem><strong>PCB Design Software</strong></ListItem>
-                                <List>
-                                    <ListItem><strong>Free version of <a target="_blank" href="https://www.autodesk.com/products/eagle/free-download">EagleCAD</a></strong></ListItem>
-                                </List>
-
-                                <ListItem><strong>Coding and Circuits Software/Hardware</strong></ListItem>
-                                <List>
-                                    <ListItem><strong>Option 1: Free version of <a target="_blank" href="https://www.tinkercad.com/dashboard">TinkerCAD</a></strong><br />TinkerCAD is a fully digital option. It lets you write code and play with digital circuits and components so you don't need to buy any parts.</ListItem>
-                                    <ListItem><strong>Option 2: Purchased <a href="https://amzn.to/3d7SBbv" target="_blank">Arduino Kit</a> and free version of <a target="_blank" href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a></strong><br />If you would like to purchase your own kit or already own equipment, that's totally fine! At the very least, it is recommended that you have an Arduino, USB cable, LEDs, resistors, a breadboard, push buttons, wires, and photo resistors. If you'd like help, please use one of the contact methods listed in the "About the Author" section.</ListItem>
-                                </List>
-                            </List>
+                            <H3>How do I foo?</H3>
+                            <Text>Foo!</Text>
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
             </AppWrapper>
             <CallToAction>
                 <H2 style={{ textAlign: "center", fontWeight: 700, margin: 0 }}>
-                    <a target="_blank" href="https://forms.gle/HuUfqtbepWBAKq1m7">Register Now!</a>
+                    <a target="_blank" href="">Get in Touch!</a>
                 </H2>
                 <ExternalLinksWrapper>
                     {ExternalLinks}
