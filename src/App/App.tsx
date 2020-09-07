@@ -7,15 +7,22 @@ import {
     FaInstagram as Instagram,
 } from 'react-icons/fa'
 
-import CAD_IMG from './media/cad.png'
-import CODE_IMG from './media/code.jpg'
-import CIRCUITS_IMG from './media/circuits.jpg'
+import IMG_1 from './media/1.jpg'
+import IMG_2 from './media/2.jpg'
+import IMG_3 from './media/3.jpg'
+import IMG_4 from './media/4.jpg'
+import IMG_5 from './media/5.jpg'
+import IMG_6 from './media/6.jpg'
+import IMG_7 from './media/7.jpg'
+import IMG_8 from './media/8.jpg'
+import IMG_9 from './media/9.jpg'
+import IMG_10 from './media/10.jpg'
 import AUTHOR_IMG from './media/author.jpg'
 import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
     max-width: 1000px;
-    margin: 15px auto 30px;
+    margin: 120px auto 30px;
     box-sizing: border-box;
     box-sizing: border-box;
     padding: 0 1em 0;
@@ -23,7 +30,6 @@ const AppWrapper = styled.div`
 
 const H1 = styled.h1`
     font-size: 3em;
-    margin: 1em 0 2em;
     font-weight: 700;
 `
 
@@ -76,29 +82,28 @@ const SectionWrapper = styled.div`
 `
 
 const SectionContent = styled.div`
-
     display: flex;
     max-width: 100%;
     justify-content: space-between;
 
-    ${media.tablet} {
-        ${(({ nowrap }: { nowrap?: boolean }) => nowrap ? '' : 'flex-direction: column;')}
-    }
 `
 
-const CallToAction = styled.div`
+const Header = styled.div`
     display: flex;
     width: 100%;
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
     padding: 1em;
     display: flex;
     justify-content: space-between;
     background-color: ${PRIMARY_COLOR};
+    color: ${SECONDARY_COLOR};
+
     a {
         color: ${SECONDARY_COLOR};
     }
+    
     & > * {
         margin-right: 1em;
     }
@@ -109,6 +114,17 @@ const Img = styled.img`
     width: calc(90% / 3);
     height: auto;
     border-radius: 1em;
+`
+
+const ImgGrid = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    img {
+        margin-bottom: 20px;
+    }
+
 `
 
 const AuthorImg = styled.img`
@@ -153,6 +169,8 @@ const EXTERNAL_LINKS = [
 const ExternalLinks = EXTERNAL_LINKS.map(l => <a key={l.href} target="_blank" href={l.href}>{l.content}</a>)
 
 const ExternalLinksWrapper = styled.div`
+    display: flex;
+    align-items: center;
     a {
         margin: 0 1em 0 0;
     }
@@ -162,63 +180,81 @@ const App = () => {
     return (
         <>
             <GlobalStyle />
+            <Header>
+                <div>
+                    <H1>Painless Prototyping</H1>
+                    <p>Your one stop, prototype shop.</p>
+                </div>
+
+                <ExternalLinksWrapper>
+                    <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
+                        <a target="_blank" href="">Let's chat!</a>
+                    </H2>
+                    {ExternalLinks}
+                </ExternalLinksWrapper>
+            </Header>
             <AppWrapper>
-                <H1>Want to learn about 3D CAD, Code, and Circuits for free? No experience required!</H1>
                 <SectionWrapper>
-                    <SectionContent nowrap>
-                        <Img src={CAD_IMG} />
-                        <Img src={CODE_IMG} />
-                        <Img src={CIRCUITS_IMG} />
+                    <SectionContent>
+                        <H2>Looking to get a prototype built? You've come to the right place!</H2>
                     </SectionContent>
                 </SectionWrapper>
 
                 <SectionWrapper>
+                    <H2>Services</H2>
                     <SectionContent>
-                        <Section>
-                            <H2>About the Author</H2>
-                            <div style={{ display: 'flex' }}>
-                                <AuthorImg src={AUTHOR_IMG} />
-                                <div>
-                                    <Text>Travis Bumgarner (<a href="http://travisbumgarner.com/" target="_blank">Portfolio here</a>) has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
-                                    <ExternalLinksWrapper>
-                                        {ExternalLinks}
-                                    </ExternalLinksWrapper>
-                                </div>
-                            </div>
-                        </Section>
-                    </SectionContent>
-                </SectionWrapper>
 
-                <SectionWrapper>
-                    <H2>What You'll Learn</H2>
-                    <SectionContent>
                         <Section>
-                            <H3>CAD!</H3>
+                            <H3>Mechanical</H3>
                             <List>
-                                <ListItem>Taking Measurements</ListItem>
-                                <ListItem>Creating Parts in Fusion 360 and SolidWorks</ListItem>
-                                <ListItem>Using External Libraries</ListItem>
-                                <ListItem>And much much more!</ListItem>
+                                <ListItem>3D Modeling</ListItem>
+                                <ListItem>3D Printing</ListItem>
+                                <ListItem>Metal Machining</ListItem>
+                                <ListItem>Laser Cutting</ListItem>
+                                <ListItem>Woodworking</ListItem>
+                                <ListItem>And more!</ListItem>
                             </List>
                         </Section>
                         <Section>
-                            <H3>Code!</H3>
+                            <H3>Electrical</H3>
                             <List>
-                                <ListItem>Arduino Tools</ListItem>
-                                <ListItem>Programming Basics with C++</ListItem>
-                                <ListItem>And much much more!</ListItem>
-                            </List>
-                        </Section>
-                        <Section>
-                            <H3>Circuits!</H3>
-                            <List>
-                                <ListItem>Safety</ListItem>
-                                <ListItem>Prototyping with Breadboards</ListItem>
+                                <ListItem>Circuit Design</ListItem>
                                 <ListItem>PCB Design</ListItem>
-                                <ListItem>And much much more!</ListItem>
+                                <ListItem>Arduino</ListItem>
+                                <ListItem>Raspberry Pi</ListItem>
+                                <ListItem>ESP8266</ListItem>
+                                <ListItem>And more!</ListItem>
                             </List>
                         </Section>
+
+                        <Section>
+                            <H3>Digital</H3>
+                            <List>
+                                <ListItem>Websites</ListItem>
+                                <ListItem>Desktop Applications</ListItem>
+                                <ListItem>Mobile Applications</ListItem>
+                                <ListItem>And more!</ListItem>
+                            </List>
+                        </Section>
+
                     </SectionContent>
+                    <ImgGrid>
+                        <Img src={IMG_1} />
+                        <Img src={IMG_2} />
+                        <Img src={IMG_3} />
+                        <Img src={IMG_4} />
+                        <Img src={IMG_5} />
+                        <Img src={IMG_6} />
+                        <Img src={IMG_7} />
+                        <Img src={IMG_8} />
+                        <Img src={IMG_9} />
+                        <Img src={IMG_10} />
+                    </ImgGrid>
+
+                    <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
+                        <a target="_blank" href="https://www.instagram.com/travis_the_maker/">View more on Instagram!</a>
+                    </H2>
+
                 </SectionWrapper>
 
                 <SectionWrapper>
@@ -231,15 +267,22 @@ const App = () => {
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
+
+
+                <SectionWrapper>
+                    <SectionContent>
+                        <Section>
+                            <H2>About</H2>
+                            <div style={{ display: 'flex' }}>
+                                <AuthorImg src={AUTHOR_IMG} />
+                                <div>
+                                    <Text>Travis Bumgarner (<a href="http://travisbumgarner.com/" target="_blank">Portfolio here</a>) has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
+                                </div>
+                            </div>
+                        </Section>
+                    </SectionContent>
+                </SectionWrapper>
             </AppWrapper>
-            <CallToAction>
-                <H2 style={{ textAlign: "center", fontWeight: 700, margin: 0 }}>
-                    <a target="_blank" href="">Get in Touch!</a>
-                </H2>
-                <ExternalLinksWrapper>
-                    {ExternalLinks}
-                </ExternalLinksWrapper>
-            </CallToAction>
 
             <img style={{ zIndex: -999, position: 'fixed', left: 0, boxSizing: 'border-box', top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
         </>
