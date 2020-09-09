@@ -22,34 +22,43 @@ import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
     max-width: 1000px;
-    margin: 120px auto 30px;
+    margin: 140px auto 30px;
     box-sizing: border-box;
     box-sizing: border-box;
     padding: 0 1em 0;
+
+    ${media.tablet}{
+        margin-top: 150px;
+    }
 `
 
 const H1 = styled.h1`
     font-size: 3em;
     font-weight: 700;
+
+    ${media.desktop}{
+        font-size: 2em;
+    }
 `
 
 const H2 = styled.h2`
     font-size: 2.2em;
-    margin: 0.5em 0 0.5em 0;
+    margin: 0.5em 0 1em 0;
     font-weight: 700;
+
+    ${media.desktop}{
+        font-size: 1.4em;
+    }
 `
 
 const H3 = styled.h3`
     font-size: 1.4em;
     font-weight: 900;
     margin: 0.5em 0 0.5em 0;
-`
 
-const H4 = styled.div`
-    font-size: 1em;
-    margin-bottom: 0.5em;
-    font-weight: 900;
-    margin-top: 1.5em;
+    ${media.desktop}{
+        font-size: 1em;
+    }
 `
 
 const Text = styled.p`
@@ -61,7 +70,7 @@ const Text = styled.p`
 const Section = styled.div`
     flex-basis: 0;
     flex-grow: 1;
-    margin: 1em;
+    margin: 0 1em;
 
     &:first-child {
         margin-left: 0;
@@ -78,6 +87,7 @@ const Section = styled.div`
 `
 
 const SectionWrapper = styled.div`
+    margin: 3em 0;
 `
 
 const SectionContent = styled.div`
@@ -105,6 +115,13 @@ const Header = styled.div`
     
     & > * {
         margin-right: 1em;
+    }
+
+    ${media.tablet} {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
     }
 
 `
@@ -152,15 +169,15 @@ const ListItem = styled.li`
 const EXTERNAL_LINKS = [
     {
         href: 'https://instagram.com/travis_the_maker',
-        content: <Instagram size="3em" />
+        content: <Instagram size="2em" />
     },
     {
         href: 'https://www.linkedin.com/in/travisbumgarner/',
-        content: <LinkedIn size="3em" />
+        content: <LinkedIn size="2em" />
     },
     {
         href: 'https://twitter.com/travis_the_makr',
-        content: <Twitter size="3em" />
+        content: <Twitter size="2em" />
     }
 ]
 
@@ -171,7 +188,7 @@ const ExternalLinksWrapper = styled.div`
     display: flex;
     align-items: center;
     a {
-        margin: 0 1em 0 0;
+        margin: 0 0.5em 0 0;
     }
 `
 

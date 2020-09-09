@@ -7,7 +7,7 @@ const TERTIARY_COLOR = '#b9ccff'
 const customMediaQuery = (maxWidth: number) => `@media (max-width: ${maxWidth}px)`
 
 const media = {
-    desktop: customMediaQuery(1200),
+    desktop: customMediaQuery(1000),
     tablet: customMediaQuery(768),
     phone: customMediaQuery(376)
 }
@@ -18,9 +18,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Montserrat', sans-serif;
         background-color: ${SECONDARY_COLOR};
         font-size: 16px;
-        ${media.tablet} {
-            font-size: 14px;
-        }
+
         padding-bottom: 3em;
         a {
             color: white;
