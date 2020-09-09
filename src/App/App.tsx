@@ -127,16 +127,17 @@ const Header = styled.div`
 `
 
 const Img = styled.img`
-    width: calc(90% / 3);
+    width: calc(30%);
     height: auto;
     border-radius: 1em;
+
+    &:nth-child(3n+2){
+        margin-left: calc(10% / 6);
+        margin-right: calc(10% / 6);
+    }
 `
 
 const ImgGrid = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
     img {
         margin-bottom: 20px;
     }
