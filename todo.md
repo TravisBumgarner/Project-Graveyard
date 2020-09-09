@@ -1,4 +1,4 @@
 - [x] Update Boilerplate
 - [ ] Add analytics
 - [ ] Write OG Text and Image
-- [ ] Create form
+- [x] Create form
