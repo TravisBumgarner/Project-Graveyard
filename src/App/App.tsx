@@ -95,6 +95,10 @@ const SectionContent = styled.div`
     max-width: 100%;
     justify-content: space-between;
 
+    ${media.tablet} {
+        flex-direction: column;
+    }
+
 `
 
 const Header = styled.div`
@@ -127,21 +131,18 @@ const Header = styled.div`
 `
 
 const Img = styled.img`
-    width: calc(30%);
+    width: calc(32%);
     height: auto;
     border-radius: 1em;
+    margin-bottom: 2%;
 
     &:nth-child(3n+2){
-        margin-left: calc(10% / 6);
-        margin-right: calc(10% / 6);
+        margin-left: 2%;
+        margin-right: 2%;
     }
 `
 
 const ImgGrid = styled.div`
-    img {
-        margin-bottom: 20px;
-    }
-
 `
 
 const AuthorImg = styled.img`
