@@ -78,7 +78,6 @@ const Section = styled.div`
 `
 
 const SectionWrapper = styled.div`
-    margin: 4em 0 6em 0;
 `
 
 const SectionContent = styled.div`
@@ -188,7 +187,7 @@ const App = () => {
 
                 <ExternalLinksWrapper>
                     <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
-                        <a target="_blank" href="">Let's chat!</a>
+                        <a target="_blank" href="https://forms.gle/eGe1DfyE8RGc1k1p8">Let's chat!</a>
                     </H2>
                     {ExternalLinks}
                 </ExternalLinksWrapper>
@@ -203,7 +202,6 @@ const App = () => {
                 <SectionWrapper>
                     <H2>Services</H2>
                     <SectionContent>
-
                         <Section>
                             <H3>Mechanical</H3>
                             <List>
@@ -238,36 +236,28 @@ const App = () => {
                         </Section>
 
                     </SectionContent>
-                    <ImgGrid>
-                        <Img src={IMG_1} />
-                        <Img src={IMG_2} />
-                        <Img src={IMG_3} />
-                        <Img src={IMG_4} />
-                        <Img src={IMG_5} />
-                        <Img src={IMG_6} />
-                        <Img src={IMG_7} />
-                        <Img src={IMG_8} />
-                        <Img src={IMG_9} />
-                        <Img src={IMG_10} />
-                    </ImgGrid>
-
-                    <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
-                        <a target="_blank" href="https://www.instagram.com/travis_the_maker/">View more on Instagram!</a>
-                    </H2>
-
                 </SectionWrapper>
-
                 <SectionWrapper>
+                    <H2>Sample Work</H2>
                     <SectionContent>
-                        <Section>
-                            <H2>Frequently Asked Questions</H2>
-
-                            <H3>How do I foo?</H3>
-                            <Text>Foo!</Text>
-                        </Section>
+                        <ImgGrid>
+                            <Img src={IMG_1} />
+                            <Img src={IMG_2} />
+                            <Img src={IMG_3} />
+                            <Img src={IMG_4} />
+                            <Img src={IMG_5} />
+                            <Img src={IMG_6} />
+                            <Img src={IMG_7} />
+                            <Img src={IMG_8} />
+                            <Img src={IMG_9} />
+                        </ImgGrid>
+                    </SectionContent>
+                    <SectionContent>
+                        <H3 style={{ textAlign: "center", fontWeight: 700, margin: 0, width: '100%' }}>
+                            <a target="_blank" href="https://www.instagram.com/travis_the_maker/">View more on Instagram!</a>
+                        </H3>
                     </SectionContent>
                 </SectionWrapper>
-
 
                 <SectionWrapper>
                     <SectionContent>
@@ -279,6 +269,15 @@ const App = () => {
                                     <Text>Travis Bumgarner (<a href="http://travisbumgarner.com/" target="_blank">Portfolio here</a>) has been a maker for almost 10 years. He studied mechanical engineering in university, launched an electrical engineering startup, and now works as a software engineer. In his free time he enjoys 3D modeling and printing, creating circuits, and programming websites and micro-controllers(mini computers).</Text>
                                 </div>
                             </div>
+                        </Section>
+                    </SectionContent>
+                </SectionWrapper>
+
+                <SectionWrapper>
+                    <SectionContent>
+                        <Section>
+                            <H2>Let's Chat</H2>
+                            <a target="_blank" href="https://forms.gle/eGe1DfyE8RGc1k1p8">Click here</a> and let's setup a time to chat!
                         </Section>
                     </SectionContent>
                 </SectionWrapper>
