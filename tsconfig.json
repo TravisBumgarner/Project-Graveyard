@@ -8,6 +8,9 @@
             ],
             "Theme": [
                 "src/theme.ts"
+            ],
+            "sharedComponents": [
+                "src/sharedComponents"
             ]
         },
         "module": "commonjs",
