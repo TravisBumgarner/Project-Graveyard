@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import { GlobalStyle, media } from 'Theme'
-import { Header, Home } from './components'
+import { Header, Home, ButtonBoard } from './components'
 import { Error } from 'sharedComponents'
 import BACKGROUND_IMG from './media/background.jpg'
 
@@ -28,6 +28,7 @@ const App = () => {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={Home} />
+                        <Route exact path="/buttonboard" component={ButtonBoard} />
                         <Route render={rest => <Error showNotFoundError={true} {...rest} />} />
                     </Switch>
                 </BrowserRouter>
