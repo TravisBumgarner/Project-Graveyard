@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
-import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media, TERTIARY_COLOR } from 'Theme'
+import { GlobalStyle, media } from 'Theme'
 import { Header, Home } from './components'
+import { Error } from 'sharedComponents'
 import BACKGROUND_IMG from './media/background.jpg'
 
 const AppWrapper = styled.div`
@@ -27,10 +28,10 @@ const App = () => {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={Home} />
+                        <Route render={rest => <Error showNotFoundError={true} {...rest} />} />
                     </Switch>
                 </BrowserRouter>
             </AppWrapper>
-
             <img style={{ zIndex: -999, position: 'fixed', left: 0, boxSizing: 'border-box', top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
         </>
     )

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import Error from './Error'
 import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
 
 const H1 = styled.h1`
@@ -88,5 +89,6 @@ export {
     Section,
     SectionWrapper,
     List,
-    ListItem
+    ListItem,
+    Error
 }

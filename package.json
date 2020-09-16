@@ -16,7 +16,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@sentry/browser": "^4.1.1",
+        "@sentry/browser": "^4.6.6",
+        "@types/react-router-dom": "^5.1.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-icons": "^3.1.0",

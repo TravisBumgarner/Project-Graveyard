@@ -15,15 +15,6 @@ import AUTHOR_IMG from './media/author.jpg'
 import { Text, H2, H3, Section, SectionWrapper, SectionContent, List, ListItem } from 'sharedComponents'
 
 const HomeWrapper = styled.div`
-    max-width: 1000px;
-    margin: 140px auto 30px;
-    box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0 1em 0;
-
-    ${media.tablet}{
-        margin-top: 150px;
-    }
 `
 
 const Img = styled.img`
