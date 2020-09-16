@@ -54,14 +54,30 @@ const Home = () => {
                 <SectionContent>
                     <Section>
                         <Text>
-                            Got an idea that you're looking to turn into a working prototype? You've come to the right place!
-                            </Text>
+                            Hello and welcome to Painless Prototyping. If you have an idea that you want to be turned into a working prototype then you are in the right place!
+                        </Text>
+                        <Text>
+                            Let us guess. Are your napkins and scrap paper all inked up with all the inventive ideas that have been
+                            popping into your head lately? We get it because we have been there ourselves.
+                        </Text>
+                        <Text>
+                            Here at Painless Prototyping, we will take your prototype ideas and make them a reality.
+                        </Text>
                     </Section>
                 </SectionContent>
             </SectionWrapper>
 
             <SectionWrapper>
                 <H2>Services</H2>
+                <SectionContent>
+                    <Section>
+                        <Text>
+                            Our prototype services include mechanical, electrical, and software engineering. Below are just some of the
+                            things we specialize in. If you do not see what you are looking for below, reach out to us. We're sure we
+                            can make it happen!
+                        </Text>
+                    </Section>
+                </SectionContent>
                 <SectionContent>
                     <Section>
                         <H3>Mechanical</H3>
@@ -121,6 +137,28 @@ const Home = () => {
             </SectionWrapper>
 
             <SectionWrapper>
+                <H2>It’s a team effort.</H2>
+                <SectionContent>
+                    <Section>
+                        <Text>
+                            Your visions should not be up for interpretation. Don’t get us wrong, we get the job done but we also pride
+                            ourselves on taking our time to make sure you are 100% satisfied with what we come up with. We couldn’t
+                            get through this process without you.
+                        </Text>
+                        <Text>
+                            We believe that with good design, anything is possible. It is as simple as that.
+                        </Text>
+                        <Text>
+                            You deserve to achieve the highest level of success when it comes to your product and we want to help you
+                            get there. We have the best people in the game on the job and our equipment is top of the line. Let us
+                            provide you with everything you need to convert your ideas into future innovations. So what are you waiting
+                            for? Let’s do this thing.
+                        </Text>
+                    </Section>
+                </SectionContent>
+            </SectionWrapper>
+
+            <SectionWrapper>
                 <SectionContent>
                     <Section>
                         <H2>About the Makers</H2>
@@ -134,11 +172,12 @@ const Home = () => {
             </SectionWrapper>
 
             <SectionWrapper>
+                <H2>Let's Chat!</H2>
                 <SectionContent>
                     <Section>
-                        <H2>Let's Chat</H2>
-                        <a target="_blank" href="https://forms.gle/eGe1DfyE8RGc1k1p8">Click here</a> and let's setup a time to chat!
-                        </Section>
+                        <Text>Have a project you’d like to discuss? Dying to know what we can turn your idea into? We’ve got you covered.</Text>
+                        <H3><a target="_blank" href="https://forms.gle/eGe1DfyE8RGc1k1p8">Message us today!</a></H3>
+                    </Section>
                 </SectionContent>
             </SectionWrapper>
         </HomeWrapper>
