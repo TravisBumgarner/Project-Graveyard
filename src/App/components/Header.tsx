@@ -1,13 +1,14 @@
 import styled from 'styled-components'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
     FaTwitter as Twitter,
     FaLinkedin as LinkedIn,
     FaInstagram as Instagram,
 } from 'react-icons/fa'
 
-import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
-import { H1, H2, H3, Section } from 'sharedComponents'
+import { PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
+import { H1, H2 } from 'sharedComponents'
 
 
 const HeaderWrapper = styled.div`
@@ -68,7 +69,7 @@ const Header = () => {
     return (
         <HeaderWrapper>
             <div>
-                <H1>Painless Prototyping</H1>
+                <Link to="/"><H1>Painless Prototyping</H1></Link>
                 <p>Your one stop, prototype shop.</p>
             </div>
 

@@ -8,6 +8,7 @@ import IMG_7 from './7.jpg'
 import IMG_8 from './8.jpg'
 import IMG_9 from './9.jpg'
 import AUTHOR_IMG from './author.jpg'
+import BACKGROUND_IMG from './background.jpg'
 
 export {
     IMG_1,
@@ -19,5 +20,6 @@ export {
     IMG_7,
     IMG_8,
     IMG_9,
-    AUTHOR_IMG
+    AUTHOR_IMG,
+    BACKGROUND_IMG
 }

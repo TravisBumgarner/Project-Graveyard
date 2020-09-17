@@ -23,18 +23,18 @@ const App = () => {
     return (
         <>
             <GlobalStyle />
-            <Header />
-            <AppWrapper>
-                <BrowserRouter>
+            <BrowserRouter>
+                <Header />
+                <AppWrapper>
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/prototyping" component={Prototyping} />
                         <Route exact path="/buttonboard" component={ButtonBoard} />
                         <Route render={rest => <Error showNotFoundError={true} {...rest} />} />
                     </Switch>
-                </BrowserRouter>
-            </AppWrapper>
-            <img style={{ zIndex: -999, position: 'fixed', left: 0, boxSizing: 'border-box', top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
+                </AppWrapper>
+                <img style={{ zIndex: -999, position: 'fixed', left: 0, boxSizing: 'border-box', top: 0, minWidth: "100vw", minHeight: "100vh", opacity: "0.1" }} src={BACKGROUND_IMG} />
+            </BrowserRouter>
         </>
     )
 }
