@@ -7,35 +7,6 @@ import { Text, H2, H3, Section, SectionWrapper, SectionContent, List, ListItem }
 const ButtonBoardWrapper = styled.div`
 `
 
-const Img = styled.img`
-    width: calc(32%);
-    height: auto;
-    border-radius: 1em;
-    margin-bottom: 2%;
-
-    &:nth-child(3n+2){
-        margin-left: 2%;
-        margin-right: 2%;
-    }
-`
-
-const ImgGrid = styled.div`
-`
-
-const AuthorImg = styled.img`
-    width: 30%;
-    height: auto;
-    border-radius: 1em;
-    height: 0%;
-    max-width: 230px;
-    margin: 0 2em 0 0;
-
-    ${media.tablet} {
-        max-width: 150px;
-        margin-right: 1em;
-    }
-`
-
 const ButtonBoard = () => {
     return (
         <ButtonBoardWrapper>
@@ -56,6 +27,25 @@ const ButtonBoard = () => {
                             <ListItem>Choose from 6, 9, or 12 key layouts</ListItem>
                         </List>
                     </Section>
+                </SectionContent>
+            </SectionWrapper>
+
+            <SectionWrapper>
+                <H2>Button Board V1.0</H2>
+                <SectionContent>
+                    Kickstarter. And such. And a photo.
+                </SectionContent>
+            </SectionWrapper>
+
+            <SectionWrapper>
+                <H2>Interested?</H2>
+                <SectionContent>
+                    Do the thing. Signup!
+                    Fill out the form completely to win a thing
+
+                    Form
+                        - How many buttons
+                        - What would you use this for?
                 </SectionContent>
             </SectionWrapper>
         </ButtonBoardWrapper>

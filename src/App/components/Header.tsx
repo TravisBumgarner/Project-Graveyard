@@ -17,7 +17,7 @@ const HeaderWrapper = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    padding: 1em;
+    padding: 0.5em 1em;
     display: flex;
     justify-content: space-between;
     background-color: ${PRIMARY_COLOR};

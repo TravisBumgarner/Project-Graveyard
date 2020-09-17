@@ -4,7 +4,7 @@ import Error from './Error'
 import { GlobalStyle, PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
 
 const H1 = styled.h1`
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: 700;
 
     ${media.desktop}{
@@ -13,7 +13,7 @@ const H1 = styled.h1`
 `
 
 const H2 = styled.h2`
-    font-size: 2.2em;
+    font-size: 2em;
     margin: 0.5em 0 1em 0;
     font-weight: 700;
 
