@@ -11,6 +11,9 @@
             ],
             "sharedComponents": [
                 "src/sharedComponents"
+            ],
+            "media": [
+                "src/media"
             ]
         },
         "module": "commonjs",

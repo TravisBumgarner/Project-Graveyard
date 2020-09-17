@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import { GlobalStyle, media } from 'Theme'
-import { Header, Home, ButtonBoard } from './components'
+import { Header, Home, Prototyping, ButtonBoard } from './components'
 import { Error } from 'sharedComponents'
-import BACKGROUND_IMG from './media/background.jpg'
+import { BACKGROUND_IMG } from 'media'
 
 const AppWrapper = styled.div`
     max-width: 1000px;
@@ -28,6 +28,7 @@ const App = () => {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={Home} />
+                        <Route exact path="/prototyping" component={Prototyping} />
                         <Route exact path="/buttonboard" component={ButtonBoard} />
                         <Route render={rest => <Error showNotFoundError={true} {...rest} />} />
                     </Switch>

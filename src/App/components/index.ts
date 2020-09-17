@@ -1,9 +1,11 @@
-import Home from './Home'
+import Prototyping from './Prototyping'
 import Header from './Header'
 import ButtonBoard from './ButtonBoard'
+import Home from './Home'
 
 export {
-    Home,
+    Prototyping,
     Header,
-    ButtonBoard
+    ButtonBoard,
+    Home
 }
