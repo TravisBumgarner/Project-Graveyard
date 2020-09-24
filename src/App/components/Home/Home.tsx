@@ -34,7 +34,7 @@ const Home = () => {
                     </Section>
                     <Section>
                         <Link to="/buttonboard">
-                            <H3>Button Board 2.0</H3>
+                            <H3>Button Board V2.0</H3>
                             <Img src={IMG_8} />
                         </Link>
                     </Section>
