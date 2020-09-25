@@ -50,8 +50,10 @@ const ButtonBoard = () => {
             </Link>
           </Section>
           <Section>
-            <H3>Button Board V1 (Coming Soon)</H3>
-            <Img src={IMG_5} />
+            <Link to="/products/buttonboardv1">
+              <H3>Button Board V1</H3>
+              <Img src={IMG_5} />
+            </Link>
           </Section>
           <Section>
             <Link to="/products/joinus">

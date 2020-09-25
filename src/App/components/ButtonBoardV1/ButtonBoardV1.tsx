@@ -11,7 +11,7 @@ import {
   List,
   ListItem,
 } from "sharedComponents"
-import { IMG_5, IMG_8 } from "media"
+import { IMG_5, IMG_12 } from "media"
 
 const ButtonBoardV1Wrapper = styled.div``
 
@@ -25,44 +25,37 @@ const ButtonBoardV1 = () => {
   return (
     <ButtonBoardV1Wrapper>
       <SectionWrapper>
-        <H2>Button Board V2.0</H2>
+        <H2>Button Board V1</H2>
         <SectionContent>
           <Section>
             <H3>Features</H3>
             <List>
-              <ListItem>Progammable with Arduino</ListItem>
-              <ListItem>Support for Macro thing X</ListItem>
+              <ListItem>Compatible with Arduino, Raspberry Pi, and many other boards as well! (Code Samples: <a target="_blank" href="https://github.com/painlessprototyping/bb_rasp_pi_hello_world/blob/master/button_board_hello_world.py">Raspberry Pi</a>, <a target="_blank" href="https://github.com/painlessprototyping/bb_arduino_hello_world/blob/master/helloworld.ino">Arduino</a></ListItem>
+              <ListItem>Interchangeable and removable button caps</ListItem>
+              <ListItem>Stickers for labeling buttons</ListItem>
+              <ListItem>LED Power Indicator</ListItem>
             </List>
-            <H3>Customization</H3>
-            <List>
-              <ListItem>Choose from 6, 9, or 12 key layouts</ListItem>
-            </List>
+            <H3>Kickstarter</H3>
+            <Text>Check out the original Kickstarter project <a target="_blank" href="https://www.kickstarter.com/projects/267560573/button-board-prototyping-electronics-the-painless">here</a></Text>
+
+            <H3>Interested?</H3>
+            <Text>We're currently out of stock but you can signup  <a target="_blank" href="https://forms.gle/d3zMo8zL6owpWwbMA">here</a> to be notified when we're back in stock.</Text>
           </Section>
 
-          <Section>
-            <Img src={IMG_8} />
-          </Section>
-        </SectionContent>
-      </SectionWrapper>
-
-      <SectionWrapper>
-        <H2>History</H2>
-        <SectionContent>
           <Section>
             <Img src={IMG_5} />
           </Section>
-          <Section>The adventures began with the Button Board V1.0.</Section>
         </SectionContent>
       </SectionWrapper>
 
       <SectionWrapper>
-        <H2>Interested?</H2>
         <SectionContent>
-          Do the thing. Signup! Fill out the form completely to win a thing Form
-          - How many buttons - What would you use this for?
+          <Section>
+            <Img src={IMG_12} />
+          </Section>
         </SectionContent>
       </SectionWrapper>
-    </ButtonBoardV1Wrapper>
+    </ButtonBoardV1Wrapper >
   )
 }
 

@@ -9,6 +9,7 @@ import IMG_8 from "./8.jpg"
 import IMG_9 from "./9.jpg"
 import IMG_10 from "./10.jpg"
 import IMG_11 from "./11.jpg"
+import IMG_12 from "./12.jpg"
 import AUTHOR_IMG from "./author.jpg"
 import BACKGROUND_IMG from "./background.jpg"
 
@@ -24,6 +25,7 @@ export {
   IMG_9,
   IMG_10,
   IMG_11,
+  IMG_12,
   AUTHOR_IMG,
   BACKGROUND_IMG,
 }
