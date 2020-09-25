@@ -13,7 +13,7 @@ import {
   List,
   ListItem,
 } from "sharedComponents"
-import { IMG_5, IMG_8 } from "media"
+import { IMG_5, IMG_8, IMG_11 } from "media"
 
 const ButtonBoardWrapper = styled.div``
 
@@ -52,7 +52,13 @@ const ButtonBoard = () => {
           <Section>
             <Link to="/products/buttonboardv2">
               <H3>Button Board V1</H3>
-              <Img src={IMG_8} />
+              <Img src={IMG_5} />
+            </Link>
+          </Section>
+          <Section>
+            <Link to="/products/joinus">
+              <H3>Join us!</H3>
+              <Img src={IMG_11} />
             </Link>
           </Section>
         </SectionContent>

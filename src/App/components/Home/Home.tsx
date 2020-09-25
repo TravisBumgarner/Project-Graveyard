@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-import { IMG_8, IMG_2, BACKGROUND_IMG } from "media"
+import { IMG_10, IMG_2, BACKGROUND_IMG } from "media"
 import {
   H2,
   H3,
@@ -42,7 +42,7 @@ const Home = () => {
           <Section>
             <Link to="/products">
               <H3>Products</H3>
-              <Img src={IMG_8} />
+              <Img src={IMG_10} />
             </Link>
           </Section>
         </SectionContent>

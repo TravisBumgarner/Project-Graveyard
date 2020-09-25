@@ -10,6 +10,7 @@ import {
   Products,
   ButtonBoardV1,
   ButtonBoardV2,
+  JoinUs,
 } from "./components"
 import { Error } from "sharedComponents"
 import { BACKGROUND_IMG } from "media"
@@ -47,6 +48,7 @@ const App = () => {
               path="/products/buttonboardv2"
               component={ButtonBoardV2}
             />
+            <Route exact path="/products/joinus" component={JoinUs} />
             <Route
               render={(rest) => <Error showNotFoundError={true} {...rest} />}
             />
