@@ -31,7 +31,11 @@ const JoinUs = () => {
               Let's combine forces and build the next Painless Prototyping
               product together!
             </Text>
-            <Text>Click the Let's Chat link above to get started!</Text>
+            <Text>
+              <a target="_blank" href="https://forms.gle/NcnSaG8qsPHg6iJz7">
+                Let's chat!
+              </a>
+            </Text>
           </Section>
           <Section>
             <Img src={IMG_11} />

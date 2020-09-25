@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 import {
   Text,
@@ -10,16 +10,16 @@ import {
   SectionContent,
   List,
   ListItem,
-} from "sharedComponents";
-import { IMG_5, IMG_8 } from "media";
+} from "sharedComponents"
+import { IMG_5, IMG_8 } from "media"
 
-const ButtonBoardV2Wrapper = styled.div``;
+const ButtonBoardV2Wrapper = styled.div``
 
 const Img = styled.img`
   width: 100%;
   height: auto;
   border-radius: 1em;
-`;
+`
 
 const ButtonBoardV2 = () => {
   return (
@@ -30,13 +30,22 @@ const ButtonBoardV2 = () => {
           <Section>
             <H3>Features</H3>
             <List>
-              <ListItem>Progammable with Arduino</ListItem>
-              <ListItem>Support for Macro thing X</ListItem>
+              <ListItem>
+                Support for Zoom, Google Hangouts, Photoshop, and other
+                applications
+              </ListItem>
+              <ListItem>Reprogrammable Keyboard</ListItem>
             </List>
             <H3>Customization</H3>
             <List>
               <ListItem>Choose from 6, 9, or 12 key layouts</ListItem>
             </List>
+            <H3>Interested?</H3>
+            <Text>
+              <a href="https://forms.gle/Tx8pAJ92HubCoXtr8" target="_blank">
+                Sign up to be notified when it's available
+              </a>
+            </Text>
           </Section>
 
           <Section>
@@ -63,7 +72,7 @@ const ButtonBoardV2 = () => {
         </SectionContent>
       </SectionWrapper>
     </ButtonBoardV2Wrapper>
-  );
-};
+  )
+}
 
-export default ButtonBoardV2;
+export default ButtonBoardV2

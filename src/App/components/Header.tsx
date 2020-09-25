@@ -75,7 +75,7 @@ const Header = () => {
 
             <ExternalLinksWrapper>
                 <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
-                    <a target="_blank" href="https://forms.gle/eGe1DfyE8RGc1k1p8">Let's chat!</a>
+                    <a target="_blank" href="https://forms.gle/NcnSaG8qsPHg6iJz7">Let's chat!</a>
                 </H2>
                 {ExternalLinks}
             </ExternalLinksWrapper>
