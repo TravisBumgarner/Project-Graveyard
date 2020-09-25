@@ -80,6 +80,23 @@ const ListItem = styled.li`
     margin: 0.5em 0;
 `
 
+const TextOverImageWrapper = styled.div`
+  position: relative;
+
+  img {
+    
+  }
+
+  h2, h3 {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 30%;
+    background-color: ${SECONDARY_COLOR + 'CC'};
+    padding: 10px 0;
+  }
+`
+
 export {
     H1,
     H2,
@@ -90,5 +107,6 @@ export {
     SectionWrapper,
     List,
     ListItem,
-    Error
+    Error,
+    TextOverImageWrapper
 }
