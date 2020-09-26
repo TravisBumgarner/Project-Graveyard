@@ -44,7 +44,7 @@ module.exports = env => {
             new webpack.DefinePlugin({ __IS_PRODUCTION__: env.NODE_ENV === 'production' }),
             new HtmlWebpackPlugin({
                 template: './src/index.template.ejs',
-                favicon: "./src/favicon.png",
+                favicon: "./src/media/favicon.jpg",
                 inject: 'body'
             })
         ]
