@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <HomeWrapper>
       <SectionWrapper>
-        <H2>What can we help you with today?</H2>
+        <H2>What are you looking for?</H2>
         <SectionContent>
           <Section>
             <Link to="/prototyping">
@@ -42,14 +42,14 @@ const Home = () => {
               </TextOverImageWrapper>
             </Link>
           </Section>
-          <Section>
+          {/* <Section>
             <Link to="/buttonboardv1">
               <TextOverImageWrapper>
                 <H3>Button Board V1</H3>
                 <Img src={IMG_5} />
               </TextOverImageWrapper>
             </Link>
-          </Section>
+          </Section> */}
           <Section>
             <Link to="/joinus">
               <TextOverImageWrapper>
