@@ -35,6 +35,7 @@ const ButtonBoardV2 = () => {
                 applications
               </ListItem>
               <ListItem>Reprogrammable Keyboard</ListItem>
+              <ListItem>Use as a keyboard for Arduino and other electronics projects</ListItem>
             </List>
             <H3>Customization</H3>
             <List>
@@ -43,7 +44,7 @@ const ButtonBoardV2 = () => {
             <H3>Interested?</H3>
             <Text>
               <a href="https://forms.gle/Tx8pAJ92HubCoXtr8" target="_blank">
-                Sign up to be notified when it's available
+                Click here to be notified when it's available!
               </a>
             </Text>
           </Section>
@@ -51,24 +52,6 @@ const ButtonBoardV2 = () => {
           <Section>
             <Img src={IMG_8} />
           </Section>
-        </SectionContent>
-      </SectionWrapper>
-
-      <SectionWrapper>
-        <H2>History</H2>
-        <SectionContent>
-          <Section>
-            <Img src={IMG_5} />
-          </Section>
-          <Section>The adventures began with the Button Board V1.0.</Section>
-        </SectionContent>
-      </SectionWrapper>
-
-      <SectionWrapper>
-        <H2>Interested?</H2>
-        <SectionContent>
-          Do the thing. Signup! Fill out the form completely to win a thing Form
-          - How many buttons - What would you use this for?
         </SectionContent>
       </SectionWrapper>
     </ButtonBoardV2Wrapper>
