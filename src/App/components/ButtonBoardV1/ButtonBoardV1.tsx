@@ -30,7 +30,7 @@ const ButtonBoardV1 = () => {
           <Section>
             <H3>Features</H3>
             <List>
-              <ListItem>Compatible with Arduino, Raspberry Pi, and many other boards as well! (Code Samples: <a target="_blank" href="https://github.com/painlessprototyping/bb_rasp_pi_hello_world/blob/master/button_board_hello_world.py">Raspberry Pi</a>, <a target="_blank" href="https://github.com/painlessprototyping/bb_arduino_hello_world/blob/master/helloworld.ino">Arduino</a></ListItem>
+              <ListItem>Compatible with Arduino, Raspberry Pi, and many other boards as well! (Code Samples: <a target="_blank" href="https://github.com/painlessprototyping/bb_rasp_pi_hello_world/blob/master/button_board_hello_world.py">Raspberry Pi</a>, <a target="_blank" href="https://github.com/painlessprototyping/bb_arduino_hello_world/blob/master/helloworld.ino">Arduino</a>)</ListItem>
               <ListItem>Interchangeable and removable button caps</ListItem>
               <ListItem>Stickers for labeling buttons</ListItem>
               <ListItem>LED Power Indicator</ListItem>
