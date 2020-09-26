@@ -88,12 +88,18 @@ const TextOverImageWrapper = styled.div`
   }
 
   h2, h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     text-align: center;
     width: 100%;
-    bottom: 30%;
+    bottom: 20%;
     background-color: ${SECONDARY_COLOR + 'CC'};
-    padding: 10px 0;
+    padding: 10px;
+    box-sizing: border-box;
+    height: 3em;
+
   }
 `
 

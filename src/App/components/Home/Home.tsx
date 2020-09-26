@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-import { IMG_10, IMG_2 } from "media"
+import { IMG_8, IMG_2, IMG_5, IMG_11 } from "media"
 import {
   H2,
   H3,
@@ -29,16 +29,32 @@ const Home = () => {
           <Section>
             <Link to="/prototyping">
               <TextOverImageWrapper>
-                <H3>Prototyping Services</H3>
+                <H3>Prototyping & Consulting</H3>
                 <Img src={IMG_2} />
               </TextOverImageWrapper>
             </Link>
           </Section>
           <Section>
-            <Link to="/products">
+            <Link to="/buttonboardv2">
               <TextOverImageWrapper>
-                <H3>Products</H3>
-                <Img src={IMG_10} />
+                <H3>Button Board V2</H3>
+                <Img src={IMG_8} />
+              </TextOverImageWrapper>
+            </Link>
+          </Section>
+          <Section>
+            <Link to="/buttonboardv1">
+              <TextOverImageWrapper>
+                <H3>Button Board V1</H3>
+                <Img src={IMG_5} />
+              </TextOverImageWrapper>
+            </Link>
+          </Section>
+          <Section>
+            <Link to="/joinus">
+              <TextOverImageWrapper>
+                <H3>Join Us!</H3>
+                <Img src={IMG_11} />
               </TextOverImageWrapper>
             </Link>
           </Section>

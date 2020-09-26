@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 import { media } from "Theme"
 import {
@@ -12,6 +13,7 @@ import {
   IMG_7,
   IMG_8,
   IMG_9,
+  IMG_11,
   AUTHOR_IMG,
 } from "media"
 import {
@@ -188,9 +190,9 @@ const Prototyping = () => {
       </SectionWrapper>
 
       <SectionWrapper>
+        <H2>About the Makers</H2>
         <SectionContent>
           <Section>
-            <H2>About the Makers</H2>
             <H3>Travis Bumgarner</H3>
             <div style={{ display: "flex" }}>
               <AuthorImg src={AUTHOR_IMG} />
@@ -206,6 +208,17 @@ const Prototyping = () => {
                 engineer. In his free time he enjoys 3D modeling and printing,
                 creating circuits, and programming websites and
                 micro-controllers(mini computers).{" "}
+              </Text>
+            </div>
+          </Section>
+        </SectionContent>
+        <SectionContent>
+          <Section>
+            <H3>You!</H3>
+            <div style={{ display: "flex" }}>
+              <AuthorImg src={IMG_11} />
+              <Text>
+                Have the skills to join the team? <Link to="/joinus">Let's chat! </Link>
               </Text>
             </div>
           </Section>

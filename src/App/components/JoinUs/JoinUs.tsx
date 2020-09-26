@@ -28,7 +28,7 @@ const JoinUs = () => {
           <Section>
             <H3>Have Ideas?</H3>
             <Text>
-              Let's combine forces and build the next Painless Prototyping
+              Know about engineering, manufacturing, sales, etc.? Let's combine forces and build the next Painless Prototyping
               product together!
             </Text>
             <Text>

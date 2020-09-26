@@ -37,18 +37,17 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/prototyping" component={Prototyping} />
-            <Route exact path="/products" component={Products} />
             <Route
               exact
-              path="/products/buttonboardv1"
+              path="/buttonboardv1"
               component={ButtonBoardV1}
             />
             <Route
               exact
-              path="/products/buttonboardv2"
+              path="/buttonboardv2"
               component={ButtonBoardV2}
             />
-            <Route exact path="/products/joinus" component={JoinUs} />
+            <Route exact path="/joinus" component={JoinUs} />
             <Route
               render={(rest) => <Error showNotFoundError={true} {...rest} />}
             />

@@ -25,7 +25,7 @@ const ButtonBoardV2 = () => {
   return (
     <ButtonBoardV2Wrapper>
       <SectionWrapper>
-        <H2>Button Board V2.0</H2>
+        <H2>Button Board V2</H2>
         <SectionContent>
           <Section>
             <H3>Features</H3>
