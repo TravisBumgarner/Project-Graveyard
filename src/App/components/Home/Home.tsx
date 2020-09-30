@@ -37,7 +37,7 @@ const Home = () => {
           <Section>
             <Link to="/buttonboardv2">
               <TextOverImageWrapper>
-                <H3>Button Board V2</H3>
+                <H3>Button Board V2 [NEW!]</H3>
                 <Img src={IMG_8} />
               </TextOverImageWrapper>
             </Link>

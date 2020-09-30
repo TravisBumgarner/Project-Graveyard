@@ -99,7 +99,8 @@ const TextOverImageWrapper = styled.div`
     padding: 10px;
     box-sizing: border-box;
     height: 3em;
-
+    border-bottom: 0.2em solid white;
+    border-top: 0.2em solid white;
   }
 `
 
