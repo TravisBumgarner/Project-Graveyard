@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-import { IMG_8, IMG_2, IMG_5, IMG_11 } from "media"
+import { IMG_8, IMG_2, IMG_11 } from "media"
 import {
   H2,
   H3,

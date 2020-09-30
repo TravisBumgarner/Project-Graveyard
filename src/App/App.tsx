@@ -7,7 +7,6 @@ import {
   Header,
   Home,
   Prototyping,
-  Products,
   ButtonBoardV1,
   ButtonBoardV2,
   JoinUs,

@@ -22,6 +22,7 @@ const HeaderWrapper = styled.div`
     justify-content: space-between;
     background-color: ${PRIMARY_COLOR};
     color: ${SECONDARY_COLOR};
+    z-index: 999;
 
     a {
         color: ${SECONDARY_COLOR};
