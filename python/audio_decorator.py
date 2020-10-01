@@ -1,16 +1,15 @@
-def audio_on_done(fcn):
-    def wrapper():
+def mario_or_bust(fcn):
+    def wrappers(*args, **kwargs):
         try:
-            fcn()
-            os.system('afplay path_to_success_sound.wav')
-        except:
-            os.system('afplay path_to_fail_sound.wav')
+            fcn(*args, **kwargs)
+            os.system('afplay /Users/travis-bumgarner/Programming/smb_stage_clear.wav -v 0.05')
 
-    return wrapper
+        except Error as e:
+            print(e)
+            os.system('afplay /Users/travis-bumgarner/Programming/smb_gameover.wav -v 0.05')
+    return wrappers
 
-
-# Example
-# @audio_on_done
+# @mario_or_bust
 # def foo():
-#     x()
+#     notrealfunction()
 # foo()
