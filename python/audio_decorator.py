@@ -1,7 +1,7 @@
 def mario_or_bust(fcn):
     def wrappers(*args, **kwargs):
         try:
-            fcn(*args, **kwargs)
+            return fcn(*args, **kwargs)
             os.system('afplay /Users/travis-bumgarner/Programming/smb_stage_clear.wav -v 0.05')
 
         except Error as e:
