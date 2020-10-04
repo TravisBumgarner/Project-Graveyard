@@ -1,6 +1,6 @@
 # Raspberry Pi Setup
 
-1. Clone via HTTPS
+1. Clone via HTTPS into `/var/www/stats_tracker`
 2. Install NPM and Node
 ```
 curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
