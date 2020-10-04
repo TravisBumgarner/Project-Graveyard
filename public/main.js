@@ -89,7 +89,7 @@ const plotCharts = (data) => {
 }
 
 const fetchData = async () => {
-    const { data } = await axios.get('http://localhost:8000/')
+    const { data } = await axios.get('http://localhost:8000/data')
     return data
 }
 
