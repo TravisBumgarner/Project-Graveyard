@@ -1,0 +1,13 @@
+[Unit]
+Description=Stat Tracker
+
+[Service]
+ExecStart=/home/pi/stats_tracker
+Restart=always
+User=nobody
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/pi/stats_tracker
+
+[Install]
+WantedBy=multi-user.target
