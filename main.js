@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const plotCharts = (data) => {
     const coffees = []
     const dates = []
