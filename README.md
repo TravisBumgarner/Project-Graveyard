@@ -8,5 +8,9 @@ sudo apt install nodejs
 ```
 3. Install depdendencies
 `npm i`
-4. Start server
-`npm start`
+4. Setup Service
+`cp stats_tracker.service /etc/systemd/system`
+`systemctl start stats_tracker`
+`systemctl enable stats_tracker`
+
+See logs at `journalctl -u stats_tracker`
