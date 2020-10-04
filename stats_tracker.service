@@ -2,7 +2,7 @@
 Description=Stat Tracker
 
 [Service]
-ExecStart=/home/pi/stats_tracker
+ExecStart=/home/pi/stats_tracker/server.js
 Restart=always
 User=nobody
 Environment=PATH=/usr/bin:/usr/local/bin
