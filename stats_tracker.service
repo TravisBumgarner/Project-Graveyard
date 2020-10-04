@@ -1,10 +1,11 @@
 [Unit]
 Description=Stat Tracker
+After=network.target
 
 [Service]
-ExecStart=/var/www/stats_tracker/server.js
+ExecStart=/usr/bin/node /var/www/stats_tracker/server.js
 Restart=always
-User=nobody
+User=root
 Environment=PATH=/usr/bin:/usr/local/bin
 Environment=NODE_ENV=production
 WorkingDirectory=/var/www/stats_tracker
