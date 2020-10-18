@@ -10,6 +10,7 @@ export {
   Header,
   Home,
   ButtonBoardV1,
-  ButtonBoardV2,
-  JoinUs,
+ButtonBoardV2,
+JoinUs,
 }
+``
