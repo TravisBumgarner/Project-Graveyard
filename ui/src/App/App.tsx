@@ -1,15 +1,8 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
 import styled from 'styled-components'
-import { w3cwebsocket as W3CWebSocket } from "websocket"
 
 import { Login, Chat, Paint } from './components'
-
-const client = new W3CWebSocket('ws://127.0.0.1:5000')
-
-client.onopen = () => {
-    console.log('WebSocket Client Connected')
-}
+import { establishConnection } from './client'
 
 const Wrapper = styled.div`
     display: flex;
@@ -31,8 +24,14 @@ const Aside = styled.aside`
 `
 
 const App = () => {
+    const [isConnected, setIsConnected] = React.useState(false)
     const [user, setUser] = React.useState('Bob')
-    console.log(user)
+
+    if (!isConnected) {
+        establishConnection(setIsConnected)
+        return <p>Loading</p>
+    }
+
     if (!user) {
         return (
             <Wrapper>
@@ -44,10 +43,10 @@ const App = () => {
     return (
         <Wrapper>
             <Main>
-                <Paint />
+                <Paint user={user} />
             </Main>
             <Aside>
-                <Chat user={user} client={client} />
+                <Chat user={user} />
             </Aside>
         </Wrapper>
     )

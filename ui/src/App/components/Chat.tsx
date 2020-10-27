@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import { sendMessage, parseMessage } from '../client'
+
 const ChatBoxWrapper = styled.div`
 display: flex;
 `
@@ -21,7 +23,7 @@ const ReceivedMessages = styled.div`
     background-color: rgba(0,0,0,0.2);
 `
 
-const Chat = ({ client, user }) => {
+const Chat = ({ user }) => {
     const [messagesReceived, setMessagesReceived] = React.useState([])
     const [messageToSend, setMessageToSend] = React.useState('')
 
@@ -30,18 +32,12 @@ const Chat = ({ client, user }) => {
     })
 
     const submit = () => {
-        client.send(JSON.stringify({
-            "content": messageToSend,
-            "sender": user
-        }))
+        sendMessage({ content: messageToSend, sender: user, messageType: 'chatMessage' })
         setMessageToSend('')
     }
 
-    client.onmessage = (message) => {
-        const dataFromServer = JSON.parse(message.data);
-        setMessagesReceived([...messagesReceived, dataFromServer])
-    };
-
+    const foo = parseMessage('chatMessage', console.log)
+    console.log(foo)
     return (
         <>
             <ReceivedMessages>
