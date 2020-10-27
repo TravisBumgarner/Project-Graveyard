@@ -12,15 +12,26 @@ client.onopen = () => {
 }
 
 const Wrapper = styled.div`
-    margin: 20vh 20vw;
-    width: 60vw;
-    height: 60vw;
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+`
+
+const Main = styled.main`
+    width 60%;
+    height: 100%;
+    padding: 3em;
+`
+
+const Aside = styled.aside`
+    width 40%;
+    height: 100%;
+    padding: 3em;
 `
 
 const App = () => {
-    const [user, setUser] = React.useState('')
+    const [user, setUser] = React.useState('Bob')
     console.log(user)
     if (!user) {
         return (
@@ -32,8 +43,12 @@ const App = () => {
 
     return (
         <Wrapper>
-            <Chat user={user} client={client} />
-            <Paint />
+            <Main>
+                <Paint />
+            </Main>
+            <Aside>
+                <Chat user={user} client={client} />
+            </Aside>
         </Wrapper>
     )
 }
