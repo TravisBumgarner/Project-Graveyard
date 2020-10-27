@@ -12,6 +12,7 @@ const Paint = ({ user }) => {
     }, [pixel1, pixel2, pixel3])
 
     parseMessage('paintMessage', ({ content, sender }) => {
+        console.log(content, sender, 'paintMessage')
         if (user === sender) {
             console.log('returning')
             return
@@ -19,7 +20,7 @@ const Paint = ({ user }) => {
         setPixel1(content[0])
         setPixel2(content[1])
         setPixel3(content[2])
-    })
+    })()
 
     return <div>
         <button onClick={() => setPixel1(pixel1 === 1 ? 0 : 1)}>{pixel1 === 0 ? 'X' : 'O'}</button>

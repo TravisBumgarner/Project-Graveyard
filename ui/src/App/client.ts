@@ -26,11 +26,10 @@ const sendMessage = ({ content, sender, action }: Message) => {
     client.send(encodedMessage)
 }
 
-const parseMessage = (actionSubscription: MessageType, handleMessage) => {
-    console.log(handleMessage)
+const parseMessage = (actionSubscription: MessageType, handleMessage) => () => {
     client.onmessage = (message) => {
         const decodedMessage = JSON.parse(message.data);
-        return decodedMessage.action === actionSubscription ? handleMessage(decodedMessage)() : null
+        return decodedMessage.action === actionSubscription ? handleMessage(decodedMessage) : null
     };
 }
 
