@@ -10,7 +10,7 @@ type State = {
 
 const EMPTY_STATE: State = {
     hasConnected: false,
-    user: '',
+    user: Math.random() + '',
     pixels: [0, 0, 0],
     messages: []
 }
