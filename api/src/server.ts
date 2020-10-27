@@ -3,6 +3,7 @@ import * as http from 'http'
 import * as WebSocket from 'ws'
 
 const app = express()
+const pixels = [0, 0, 0]
 
 //initialize a simple http server
 const server = http.createServer(app)
@@ -14,44 +15,27 @@ interface ExtWebSocket extends WebSocket {
     isAlive: boolean
 }
 
-function createMessage(content: string, sender: string, action: string): string {
-    return JSON.stringify(new Message(content, sender, action))
-}
-
-export class Message {
-    constructor(
-        public content: string,
-        public sender: string,
-        public action: string
-    ) { }
-}
-
 wss.on('connection', (ws: WebSocket) => {
-
     const extWs = ws as ExtWebSocket
-
     extWs.isAlive = true
+    ws.on('pong', () => { extWs.isAlive = true })
 
-    ws.on('pong', () => {
-        extWs.isAlive = true
-    })
-
-    //connection is up, let's add a simple simple event
     ws.on('message', (msg: string) => {
+        console.log(pixels)
+        const action = JSON.parse(msg)
+        if (action.type === 'SET_PIXEL') {
+            pixels[action.pixel] = action.value
+        }
 
-        const message = JSON.parse(msg) as Message
-        console.log(message)
         setTimeout(() => {
             wss.clients
                 .forEach(client => {
-                    client.send(createMessage(message.content, message.sender, message.action))
+                    client.send(msg)
                 })
         }, 1000)
-
     })
 
-    //send immediatly a feedback to the incoming connection    
-    ws.send(createMessage('Connected', 'Server', 'connection'))
+    ws.send(JSON.stringify({ type: 'SETUP_PIXELS', pixels }))
 
     ws.on('error', (err) => {
         console.warn(`Client disconnected - reason: ${err}`)

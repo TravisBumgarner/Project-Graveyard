@@ -1,36 +1,41 @@
-import { w3cwebsocket as W3CWebSocket } from "websocket"
+// import { w3cwebsocket as W3CWebSocket } from "websocket"
 
-const client = new W3CWebSocket('ws://127.0.0.1:5000')
+// const client = new W3CWebSocket('ws://127.0.0.1:5000')
 
-type MessageType = 'chatMessage' | 'paintMessage'
+// client.onopen = () => {
+//     console.log('WebSocket Client Connected')
+//     // setIsConnected(true)
+// }
 
-type Message = {
-    content: any,
-    sender: string,
-    action: MessageType
-}
+// type MessageType = 'chatMessage' | 'paintMessage'
 
-const establishConnection = (setIsConnected) => {
-    client.onopen = () => {
-        console.log('WebSocket Client Connected')
-        setIsConnected(true)
-    }
-}
+// type Message = {
+//     content: any,
+//     sender: string,
+//     action: MessageType
+// }
 
-const sendMessage = ({ content, sender, action }: Message) => {
-    const encodedMessage = JSON.stringify({
-        content,
-        action,
-        sender,
-    })
-    client.send(encodedMessage)
-}
+// // const establishConnection = (setIsConnected) => {
+// client.onopen = () => {
+//     console.log('WebSocket Client Connected')
+//     setIsConnected(true)
+// }
+// // }
 
-const parseMessage = (actionSubscription: MessageType, handleMessage) => () => {
-    client.onmessage = (message) => {
-        const decodedMessage = JSON.parse(message.data);
-        return decodedMessage.action === actionSubscription ? handleMessage(decodedMessage) : null
-    };
-}
+// const sendMessage = ({ content, sender, action }: Message) => {
+//     const encodedMessage = JSON.stringify({
+//         content,
+//         action,
+//         sender,
+//     })
+//     client.send(encodedMessage)
+// }
 
-export { parseMessage, sendMessage, establishConnection }
+// // const parseMessage = (actionSubscription: MessageType, handleMessage) => () => {
+// //     client.onmessage = (message) => {
+// //         const decodedMessage = JSON.parse(message.data);
+// //         return decodedMessage.action === actionSubscription ? handleMessage(decodedMessage) : null
+// //     };
+// // }
+
+// export default client

@@ -1,8 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { w3cwebsocket as W3CWebSocket } from "websocket"
 
-import { Login, Chat, Paint } from './components'
-import { establishConnection } from './client'
+import { Paint, Chat, Login, Context, context } from './components'
+
+const client = new W3CWebSocket('ws://127.0.0.1:5000')
 
 const Wrapper = styled.div`
     display: flex;
@@ -12,44 +14,76 @@ const Wrapper = styled.div`
 `
 
 const Main = styled.main`
-    width 60%;
+    width: 60%;
     height: 100%;
     padding: 3em;
 `
 
 const Aside = styled.aside`
-    width 40%;
+    width: 40%;
     height: 100%;
     padding: 3em;
 `
 
 const App = () => {
-    const [isConnected, setIsConnected] = React.useState(false)
-    const [user, setUser] = React.useState('')
+    const { state, dispatch } = React.useContext(context)
 
-    if (!isConnected) {
-        establishConnection(setIsConnected)
+    client.onmessage = (message) => {
+        const action = JSON.parse(message.data);
+        console.log(action)
+        switch (action.type as 'TRANSMIT_MESSAGE' | 'SETUP_PIXELS' | 'SET_PIXEL') {
+            case 'TRANSMIT_MESSAGE':
+                console.log('why')
+                dispatch(action)
+                break
+            case 'SETUP_PIXELS':
+                dispatch(action)
+                break
+            case 'SET_PIXEL':
+                console.log('reducer app', action)
+                dispatch(action)
+                break
+            default:
+                console.log('uncaught action')
+                break
+        }
+    }
+
+    if (!state.hasConnected) {
+        client.onopen = (message) => {
+            dispatch({ type: 'CONNECTED', })
+        }
         return <p>Loading</p>
     }
 
-    if (!user) {
+    if (!state.user) {
         return (
             <Wrapper>
-                <Login setUser={setUser} />
+                <Login />
             </Wrapper>
         )
     }
 
     return (
         <Wrapper>
+            <h1>Hello {state.user}</h1>
             <Main>
-                <Paint user={user} />
+                <Paint />
             </Main>
             <Aside>
-                <Chat user={user} />
+                <Chat />
             </Aside>
         </Wrapper>
     )
 }
 
-export default App
+const AppWithContext = () => {
+    return (
+        <Context>
+            <App />
+        </Context>
+    )
+}
+
+export default AppWithContext
+export { client }
