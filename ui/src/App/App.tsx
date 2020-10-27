@@ -25,7 +25,7 @@ const Aside = styled.aside`
 
 const App = () => {
     const [isConnected, setIsConnected] = React.useState(false)
-    const [user, setUser] = React.useState('Bob')
+    const [user, setUser] = React.useState('')
 
     if (!isConnected) {
         establishConnection(setIsConnected)

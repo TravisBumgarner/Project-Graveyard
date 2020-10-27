@@ -24,7 +24,7 @@ const ReceivedMessages = styled.div`
 `
 
 const Chat = ({ user }) => {
-    const [messagesReceived, setMessagesReceived] = React.useState([])
+    const [messagesReceived, setMessagesReceived] = React.useState([{ content: "hi", sender: "bob" }])
     const [messageToSend, setMessageToSend] = React.useState('')
 
     const chatMessages = messagesReceived.map(({ content, sender }, index) => {
@@ -32,12 +32,14 @@ const Chat = ({ user }) => {
     })
 
     const submit = () => {
-        sendMessage({ content: messageToSend, sender: user, messageType: 'chatMessage' })
+        sendMessage({ content: messageToSend, sender: user, action: 'chatMessage' })
         setMessageToSend('')
     }
 
-    const foo = parseMessage('chatMessage', console.log)
-    console.log(foo)
+    parseMessage('chatMessage', ({ content, sender }) => {
+        setMessagesReceived([...messagesReceived, { content, sender }])
+    })
+
     return (
         <>
             <ReceivedMessages>

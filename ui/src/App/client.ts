@@ -7,7 +7,7 @@ type MessageType = 'chatMessage' | 'paintMessage'
 type Message = {
     content: any,
     sender: string,
-    messageType: MessageType
+    action: MessageType
 }
 
 const establishConnection = (setIsConnected) => {
@@ -17,19 +17,20 @@ const establishConnection = (setIsConnected) => {
     }
 }
 
-const sendMessage = ({ content, sender, messageType }: Message) => {
-    client.send(JSON.stringify({
+const sendMessage = ({ content, sender, action }: Message) => {
+    const encodedMessage = JSON.stringify({
         content,
+        action,
         sender,
-        messageType
-    }))
+    })
+    client.send(encodedMessage)
 }
 
-const parseMessage = (messageTypeSubscription: MessageType, handleMessage) => {
-    return client.onmessage = (message) => {
-        const { messageType }: Message = JSON.parse(message.data);
-
-        return messageType === messageTypeSubscription ? handleMessage(message) : null
+const parseMessage = (actionSubscription: MessageType, handleMessage) => {
+    console.log(handleMessage)
+    client.onmessage = (message) => {
+        const decodedMessage = JSON.parse(message.data);
+        return decodedMessage.action === actionSubscription ? handleMessage(decodedMessage)() : null
     };
 }
 
