@@ -5,7 +5,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket"
 
 import { firebase } from './services'
 import { PublicRoute, PrivateRoute } from './hocComponents'
-import { Paint, Signup, Login, Context, context, Home } from './components'
+import { Paint, Signup, Login, Context, context, Home, Chat } from './components'
 
 const Wrapper = styled.div`
     display: flex;
@@ -38,7 +38,7 @@ const App = () => {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={Paint}></Route>
-                <PrivateRoute path="/paint" authenticated={state.isAuthed} component={Paint}></PrivateRoute>
+                <PrivateRoute path="/paint" authenticated={state.isAuthed} component={Chat}></PrivateRoute>
                 <PublicRoute path="/signup" authenticated={state.isAuthed} component={Signup}></PublicRoute>
                 <PublicRoute path="/login" authenticated={state.isAuthed} component={Login}></PublicRoute>
             </Switch>
