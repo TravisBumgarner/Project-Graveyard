@@ -30,7 +30,8 @@ const App = () => {
     const { state, dispatch } = React.useContext(context)
 
     React.useEffect(() => firebase.auth().onAuthStateChanged((user) => {
-        dispatch({ type: 'AUTH_USER', user: 'Bob', isAuthed: !!user })
+        console.log(user.email)
+        dispatch({ type: 'AUTH_USER', user: user.email, isAuthed: !!user })
     }), [])
 
     return (

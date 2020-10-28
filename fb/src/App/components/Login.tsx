@@ -1,19 +1,49 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
+import { signin } from '../helpers/auth'
 import { context } from '../components'
 
-const Login = () => {
+const SignIn = () => {
     const { dispatch } = React.useContext(context)
-    const [value, setValue] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [error, setError] = React.useState('')
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setError('')
+        try {
+            await signin(email, password);
+        } catch (error) {
+            setError(error.message)
+        }
+    }
 
     return (
         <div>
-            <p>Login:</p>
-            <input value={value} onChange={(event) => setValue(event.target.value)} />
-            <button onClick={() => dispatch({ type: 'LOGIN_USER', user: value, isAuthed: true })}>Login!</button>
+            <form onSubmit={handleSubmit}>
+                <input
+                    placeholder="Email"
+                    name="email"
+                    type="email"
+                    onChange={event => setEmail(event.target.value)}
+                    value={email}
+                ></input>
+                <input
+                    placeholder="Password"
+                    name="password"
+                    onChange={event => setPassword(event.target.value)}
+                    value={password}
+                    type="password"
+                ></input>
+                {error.length ? <p>{error}</p> : null}
+                <button type="submit">Sign In</button>
+                <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            </form>
         </div >
     )
 }
 
-export default Login
+export default SignIn
