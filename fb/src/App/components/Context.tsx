@@ -9,7 +9,7 @@ type State = {
 }
 
 const EMPTY_STATE: State = {
-    isAuthed: true,
+    isAuthed: false,
     user: Math.random() + '',
     pixels: [0, 0, 0],
     messages: []
@@ -58,7 +58,6 @@ const reducer = (state: State, action: Action): State => {
             }
         }
         case 'SET_PIXEL': {
-            console.log('Context', action)
             const modifiedPixels = [...state.pixels]
             modifiedPixels[action.pixel] = action.value
             return {

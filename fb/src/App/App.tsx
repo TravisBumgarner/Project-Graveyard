@@ -31,12 +31,10 @@ const App = () => {
 
     React.useEffect(() => firebase.auth().onAuthStateChanged((user) => {
         dispatch({ type: 'AUTH_USER', user: 'Bob', isAuthed: !!user })
-    }))
-    const [a, setA] = React.useState('asd')
-    return (
+    }), [])
 
+    return (
         <BrowserRouter>
-            <input value={a} onChange={console.log} />
             <Switch>
                 <Route exact path="/" component={Paint}></Route>
                 <PrivateRoute path="/paint" authenticated={state.isAuthed} component={Paint}></PrivateRoute>
