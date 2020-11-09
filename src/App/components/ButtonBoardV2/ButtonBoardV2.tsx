@@ -10,8 +10,10 @@ import {
   SectionContent,
   List,
   ListItem,
+
 } from "sharedComponents"
 import { IMG_5, IMG_8 } from "media"
+import { Link } from "react-router-dom"
 
 const ButtonBoardV2Wrapper = styled.div``
 
@@ -28,6 +30,15 @@ const ButtonBoardV2 = () => {
         <H2>Button Board V2</H2>
         <SectionContent>
           <Section>
+            <H3>Resources</H3>
+            <List>
+              <ListItem>
+                <a target="_blank" href="https://www.youtube.com/watch?v=GUt9Ix0iZ18">Soldering Tutorial</a>
+              </ListItem>
+              <ListItem>
+                <a target="_blank" href="https://github.com/painlessprototyping/bb_2.1_arduino_hello_world">Code Sample</a>
+              </ListItem>
+            </List>
             <H3>Features</H3>
             <List>
               <ListItem>
