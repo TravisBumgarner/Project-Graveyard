@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-import { IMG_8, IMG_2, IMG_11 } from "media"
+import { IMG_8, IMG_2, IMG_11, IMG_5 } from "media"
 import {
   H2,
   H3,
@@ -12,7 +12,10 @@ import {
   TextOverImageWrapper
 } from "sharedComponents"
 
-const HomeWrapper = styled.div``
+const HomeWrapper = styled.div`
+  max-width: 600px;
+  margin:0px auto;
+`
 
 const Img = styled.img`
   width: 100%;
@@ -25,6 +28,8 @@ const Home = () => {
     <HomeWrapper>
       <SectionWrapper>
         <H2>What are you looking for?</H2>
+      </SectionWrapper>
+      <SectionWrapper>
         <SectionContent>
           <Section>
             <Link to="/prototyping">
@@ -42,14 +47,18 @@ const Home = () => {
               </TextOverImageWrapper>
             </Link>
           </Section>
-          {/* <Section>
-            <Link to="/buttonboardv1">
+        </SectionContent>
+      </SectionWrapper>
+      <SectionWrapper>
+        <SectionContent>
+          <Section>
+            <a target="blank" href="https://www.tindie.com/stores/painless_prototyping/">
               <TextOverImageWrapper>
-                <H3>Button Board V1</H3>
+                <H3>Online Store [Coming Soon!]</H3>
                 <Img src={IMG_5} />
               </TextOverImageWrapper>
-            </Link>
-          </Section> */}
+            </a>
+          </Section>
           <Section>
             <Link to="/joinus">
               <TextOverImageWrapper>

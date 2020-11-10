@@ -33,7 +33,7 @@ const ButtonBoardV2 = () => {
             <H3>Resources</H3>
             <List>
               <ListItem>
-                <a target="_blank" href="https://www.youtube.com/watch?v=GUt9Ix0iZ18">Soldering Tutorial</a>
+                <a target="_blank" href="https://youtu.be/MNvAwK-dcPc">Setup Tutorial</a>
               </ListItem>
               <ListItem>
                 <a target="_blank" href="https://github.com/painlessprototyping/bb_2.1_arduino_hello_world">Code Sample</a>

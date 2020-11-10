@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-import { media } from "Theme"
+import { media, PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from "Theme"
 import {
   IMG_1,
   IMG_2,
@@ -54,6 +54,36 @@ const AuthorImg = styled.img`
   ${media.tablet} {
     max-width: 150px;
     margin-right: 1em;
+  }
+`
+
+const Quote = styled.blockquote`
+  font-size: 30px;
+  color: ${SECONDARY_COLOR};
+  background: ${PRIMARY_COLOR};
+  margin: .5em 10px;
+  padding: 0 10px;
+  padding: 10px 20px;
+  line-height: 1.4;
+  border-radius: 1em;
+
+  &:before {
+    content: open-quote;
+    display: inline;
+    height: 0;
+    line-height: 0;
+    left: -10px;
+    position: relative;
+    top: 30px;
+    color: #ccc;
+    font-size: 3em;
+  }
+
+  p {
+    margin:0;
+    text-align: right;
+    font-size: 1em;
+    font-style: italic;
   }
 `
 
@@ -164,6 +194,18 @@ const Prototyping = () => {
       </SectionWrapper>
 
       <SectionWrapper>
+        <H2>Testimonials</H2>
+        <SectionContent>
+          <Section>
+            <Quote>
+              "Travis answered so many of my questions and helped me feel more confident and excited about my Kickstarter campaign!"
+              <p>— Keltson H</p>
+            </Quote>
+          </Section>
+        </SectionContent>
+      </SectionWrapper>
+
+      <SectionWrapper>
         <H2>It’s a team effort.</H2>
         <SectionContent>
           <Section>
@@ -197,7 +239,7 @@ const Prototyping = () => {
             <div style={{ display: "flex" }}>
               <AuthorImg src={AUTHOR_IMG} />
               <Text>
-                Travis has been a maker for almost 10 years. If he doesn't know
+                Travis has been a maker for almost 10 years and a startup mentor (at MIT Sandbox) for 2 years. If he doesn't know
                 how to do or make something, he'll learn the skills required -
                 as demonstrated by the diversity of his{" "}
                 <a href="http://travisbumgarner.com/" target="_blank">
