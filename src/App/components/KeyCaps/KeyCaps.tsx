@@ -99,6 +99,14 @@ const keyboards = [
         keys: ['navy', 'blue', 'lblue', 'blue', 'lblue', 'navy',],
         title: "Blues"
     },
+    {
+        keys: ['brown', 'turqouise', 'brown', 'turqouise', 'brown', 'turqouise',],
+        title: "Mint Chocolate Chip"
+    },
+    {
+        keys: ['lime', 'lime', 'navy', 'lime', 'navy', 'navy',],
+        title: "Triangles"
+    },
 ]
 
 
