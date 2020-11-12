@@ -43,23 +43,32 @@ const Key = styled.div`
     width: calc(${KEYBOARD_WIDTH} / 3);
     height: calc(${KEYBOARD_WIDTH} / 3);
     display: flex;
-    align - items: center;
-    justify - content: center;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     margin: 5px 0;
-    display: inline-block;
+`
 
-    &:nth-child(3n + 2){
+const Keyboard = styled.div`
+    width: calc(${KEYBOARD_WIDTH} + 60px);
+    background-color: white;
+    padding: 10px;
+    display:flex;
+    flex-wrap: wrap;
+    div {
         margin-left: 10px;
         margin-right: 10px;
     }
 `
 
-const Keyboard = styled.div`
-    width: calc(${KEYBOARD_WIDTH} + 20px);
+const KeyCapGrid = styled.div`
     background-color: white;
-    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
 
+    div {
+        margin: 10px;
+    }
 `
 
 const keyboards = [
@@ -126,9 +135,9 @@ const KeyCaps = () => {
             <SectionWrapper>
                 <H2>KeyCaps</H2>
                 <SectionContent>
-                    <Keyboard>
+                    <KeyCapGrid>
                         {Object.keys(COLORS).map(color => <Key color={COLORS[color]}>{color}</Key>)}
-                    </Keyboard>
+                    </KeyCapGrid>
                 </SectionContent>
                 {Keyboards}
             </SectionWrapper>
