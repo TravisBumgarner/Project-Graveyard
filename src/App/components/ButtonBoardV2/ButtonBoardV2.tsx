@@ -50,6 +50,7 @@ const ButtonBoardV2 = () => {
             </List>
             <H3>Customization</H3>
             <List>
+              <ListItem><Link to="/keycaps">Design your own 6 key layout</Link></ListItem>
               <ListItem>Choose from 6, 9, or 12 key layouts</ListItem>
             </List>
             <H3>Interested?</H3>

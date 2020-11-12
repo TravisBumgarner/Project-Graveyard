@@ -133,7 +133,7 @@ const KeyCaps = () => {
     return (
         <KeyCapWrapper>
             <SectionWrapper>
-                <H2>KeyCaps</H2>
+                <H2>Key Cap Colors</H2>
                 <SectionContent>
                     <KeyCapGrid>
                         {Object.keys(COLORS).map(color => <Key color={COLORS[color]}>{color}</Key>)}
