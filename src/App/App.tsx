@@ -10,6 +10,7 @@ import {
   ButtonBoardV1,
   ButtonBoardV2,
   JoinUs,
+  KeyCaps
 } from "./components"
 import { Error } from "sharedComponents"
 import { BACKGROUND_IMG } from "media"
@@ -36,6 +37,8 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/prototyping" component={Prototyping} />
+            <Route exact path="/keycaps" component={KeyCaps} />
+
             <Route
               exact
               path="/buttonboardv1"
