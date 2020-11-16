@@ -21,7 +21,8 @@ const COLORS = {
     gray3: "#5e5a57",
     red: "#d42929",
     pink: "#fac7cc",
-    orange: "#ff9144",
+    hotpink: "#ff00e0",
+    orange: "#f96600",
     yellow: "#f3da42",
     brown: "#9b6b47",
     olive: "#887e4b",
@@ -32,7 +33,7 @@ const COLORS = {
     blue: "#4360d5",
     lblue: "#95c8f3",
     purple: "#564186",
-    lpurple: "#bcaeeb"
+    lpurple: "#bcaeeb",
 
 }
 
@@ -55,6 +56,8 @@ const Keyboard = styled.div`
     padding: 10px;
     display:flex;
     flex-wrap: wrap;
+    font-size: 50px;
+    color: white;
     div {
         margin-left: 10px;
         margin-right: 10px;
@@ -72,6 +75,16 @@ const KeyCapGrid = styled.div`
 `
 
 const keyboards = [
+    {
+        keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
+        title: "Programming",
+        text: ['</>', '#!', '{ }', 'i++', '&&', '/ /']
+    },
+    {
+        keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
+        title: "Geometry",
+        text: ['■', '▲', '●', '◄', '▼', '►']
+    },
     {
         keys: ['orange', 'purple', 'orange', 'purple', 'orange', 'purple',],
         title: "Orange and Purple"
@@ -116,16 +129,21 @@ const keyboards = [
         keys: ['lime', 'lime', 'navy', 'lime', 'navy', 'navy',],
         title: "Triangles"
     },
+    {
+        keys: ['purple', 'hotpink', 'lpurple', 'black', 'white', 'blue',],
+        title: "Retro Future"
+    },
+
 ]
 
 
 const KeyCaps = () => {
 
-    const Keyboards = keyboards.map(({ title, keys }) => {
+    const Keyboards = keyboards.map(({ title, keys, text }) => {
         return <>
             <H2>{title}</H2>
             <Keyboard>
-                {keys.map(key => <Key color={COLORS[key]} />)}
+                {keys.map((key, index) => <Key color={COLORS[key]}>{text ? text[index] : ''}</Key>)}
             </Keyboard>
         </>
     })
