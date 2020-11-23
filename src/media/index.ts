@@ -12,6 +12,13 @@ import IMG_11 from "./11.jpg"
 import IMG_12 from "./12.jpg"
 import AUTHOR_IMG from "./author.jpg"
 import BACKGROUND_IMG from "./background.jpg"
+import KEYCAP_HEADER from './headerpin.png'
+import KEYCAP_CURLIES from './curlies.png'
+import KEYCAP_DIODE from './diode.png'
+import KEYCAP_PARENS from './parens.png'
+import KEYCAP_QUOTES from './quotes.png'
+import KEYCAP_SWITCH from './switch.png'
+
 
 export {
   IMG_1,
@@ -28,4 +35,10 @@ export {
   IMG_12,
   AUTHOR_IMG,
   BACKGROUND_IMG,
+  KEYCAP_HEADER,
+  KEYCAP_CURLIES,
+  KEYCAP_DIODE,
+  KEYCAP_PARENS,
+  KEYCAP_QUOTES,
+  KEYCAP_SWITCH,
 }

@@ -30,6 +30,12 @@ const ButtonBoardV2 = () => {
         <H2>Button Board V2</H2>
         <SectionContent>
           <Section>
+            <H3>Interested?</H3>
+            <Text>
+              <a href="https://forms.gle/Tx8pAJ92HubCoXtr8" target="_blank">
+                Click here to be notified when it's available!
+              </a>
+            </Text>
             <H3>Resources</H3>
             <List>
               <ListItem>
@@ -53,12 +59,6 @@ const ButtonBoardV2 = () => {
               <ListItem><Link to="/keycaps">Design your own 6 key layout</Link></ListItem>
               <ListItem>Choose from 6, 9, or 12 key layouts</ListItem>
             </List>
-            <H3>Interested?</H3>
-            <Text>
-              <a href="https://forms.gle/Tx8pAJ92HubCoXtr8" target="_blank">
-                Click here to be notified when it's available!
-              </a>
-            </Text>
           </Section>
 
           <Section>

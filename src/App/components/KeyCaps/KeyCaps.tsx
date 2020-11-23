@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
+
 import {
     Text,
     H2,
@@ -9,6 +10,14 @@ import {
     SectionWrapper,
     SectionContent,
 } from "sharedComponents"
+import {
+    KEYCAP_CURLIES,
+    KEYCAP_DIODE,
+    KEYCAP_HEADER,
+    KEYCAP_PARENS,
+    KEYCAP_QUOTES,
+    KEYCAP_SWITCH
+} from "media"
 
 const KeyCapWrapper = styled.div``
 
@@ -77,6 +86,11 @@ const KeyCapGrid = styled.div`
 const keyboards = [
     {
         keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
+        title: "Keyboards",
+        images: [KEYCAP_CURLIES, KEYCAP_DIODE, KEYCAP_HEADER, KEYCAP_PARENS, KEYCAP_QUOTES, KEYCAP_SWITCH]
+    },
+    {
+        keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
         title: "Programming",
         text: ['</>', '#!', '{ }', 'i++', '&&', '/ /']
     },
@@ -139,11 +153,11 @@ const keyboards = [
 
 const KeyCaps = () => {
 
-    const Keyboards = keyboards.map(({ title, keys, text }) => {
+    const Keyboards = keyboards.map(({ title, keys, text, images }) => {
         return <>
             <H2>{title}</H2>
             <Keyboard>
-                {keys.map((key, index) => <Key color={COLORS[key]}>{text ? text[index] : ''}</Key>)}
+                {keys.map((key, index) => <Key color={COLORS[key]}>{text ? text[index] : ''}{images ? <img src={images[index]} /> : ''}</Key>)}
             </Keyboard>
         </>
     })
