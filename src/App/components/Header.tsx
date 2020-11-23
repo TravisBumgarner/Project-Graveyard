@@ -76,6 +76,9 @@ const Header = () => {
 
             <ExternalLinksWrapper>
                 <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
+                    <a target="_blank" href="https://www.tindie.com/stores/painless_prototyping/">Online Store</a>
+                </H2>
+                <H2 style={{ display: 'inline-block', textAlign: "center", fontWeight: 700, margin: 0 }}>
                     <a target="_blank" href="https://forms.gle/NcnSaG8qsPHg6iJz7">Let's chat!</a>
                 </H2>
                 {ExternalLinks}
