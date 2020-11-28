@@ -31,11 +31,18 @@ const ButtonBoardV2 = () => {
         <SectionContent>
           <Section>
             <H3>Interested?</H3>
-            <Text>
-              <a href="https://forms.gle/Tx8pAJ92HubCoXtr8" target="_blank">
-                Click here to be notified when it's available!
+            <List>
+              <ListItem>
+                <a href="https://forms.gle/Tx8pAJ92HubCoXtr8" target="_blank">
+                  Click here to be notified when it's available!
               </a>
-            </Text>
+              </ListItem>
+              <ListItem>
+                <a href="https://docs.google.com/forms/d/1_Dtx5cnKzR1K_QAiwciMaw8kqIMueK2SF3CPLaGQEsQ/edit" target="_blank">
+                  Click here to vote on your favorite color schemes!
+              </a>
+              </ListItem>
+            </List>
             <H3>Resources</H3>
             <List>
               <ListItem>
