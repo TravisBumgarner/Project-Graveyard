@@ -31,14 +31,7 @@ const Home = () => {
       </SectionWrapper>
       <SectionWrapper>
         <SectionContent>
-          <Section>
-            <Link to="/prototyping">
-              <TextOverImageWrapper>
-                <H3>Prototyping & Consulting</H3>
-                <Img src={IMG_2} />
-              </TextOverImageWrapper>
-            </Link>
-          </Section>
+
           <Section>
             <Link to="/buttonboardv2">
               <TextOverImageWrapper>
@@ -47,18 +40,30 @@ const Home = () => {
               </TextOverImageWrapper>
             </Link>
           </Section>
+
+          <Section>
+            <Link to="/prototyping">
+              <TextOverImageWrapper>
+                <H3>Prototyping & Consulting</H3>
+                <Img src={IMG_2} />
+              </TextOverImageWrapper>
+            </Link>
+          </Section>
+
         </SectionContent>
       </SectionWrapper>
       <SectionWrapper>
         <SectionContent>
+
           <Section>
             <a target="blank" href="https://www.tindie.com/stores/painless_prototyping/">
               <TextOverImageWrapper>
-                <H3>Online Store [Coming Soon!]</H3>
+                <H3>Online Store</H3>
                 <Img src={IMG_5} />
               </TextOverImageWrapper>
             </a>
           </Section>
+
           <Section>
             <Link to="/joinus">
               <TextOverImageWrapper>
@@ -67,6 +72,7 @@ const Home = () => {
               </TextOverImageWrapper>
             </Link>
           </Section>
+
         </SectionContent>
       </SectionWrapper>
     </HomeWrapper>

@@ -5,6 +5,7 @@ import ButtonBoardV1 from "./ButtonBoardV1"
 import ButtonBoardV2 from "./ButtonBoardV2"
 import JoinUs from "./JoinUs"
 import KeyCaps from "./KeyCaps"
+import Footer from "./Footer"
 
 export {
   Prototyping,
@@ -14,4 +15,5 @@ export {
   ButtonBoardV2,
   JoinUs,
   KeyCaps,
+  Footer
 }

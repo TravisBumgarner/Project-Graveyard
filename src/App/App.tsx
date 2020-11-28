@@ -10,7 +10,8 @@ import {
   ButtonBoardV1,
   ButtonBoardV2,
   JoinUs,
-  KeyCaps
+  KeyCaps,
+  Footer
 } from "./components"
 import { Error } from "sharedComponents"
 import { BACKGROUND_IMG } from "media"
@@ -55,6 +56,7 @@ const App = () => {
             />
           </Switch>
         </AppWrapper>
+        <Footer />
         <img
           style={{
             zIndex: -999,
