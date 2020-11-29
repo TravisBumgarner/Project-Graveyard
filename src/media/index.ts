@@ -10,6 +10,11 @@ import IMG_9 from "./9.jpg"
 import IMG_10 from "./10.jpg"
 import IMG_11 from "./11.jpg"
 import IMG_12 from "./12.jpg"
+import IMG_13 from "./13.jpg"
+import IMG_14 from "./14.jpg"
+import IMG_15 from "./15.jpg"
+import IMG_16 from "./16.jpg"
+import IMG_17 from "./17.png"
 import AUTHOR_IMG from "./author.jpg"
 import BACKGROUND_IMG from "./background.jpg"
 import KEYCAP_HEADER from './headerpin.png'
@@ -33,6 +38,11 @@ export {
   IMG_10,
   IMG_11,
   IMG_12,
+  IMG_13,
+  IMG_14,
+  IMG_15,
+  IMG_16,
+  IMG_17,
   AUTHOR_IMG,
   BACKGROUND_IMG,
   KEYCAP_HEADER,
