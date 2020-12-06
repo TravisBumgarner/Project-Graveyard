@@ -28,8 +28,7 @@ const JoinUs = () => {
           <Section>
             <H3>Have Ideas?</H3>
             <Text>
-              Know about engineering, manufacturing, sales, etc.? Let's combine forces and build the next Painless Prototyping
-              product together!
+              One aspect of Painless Prototyping is enabling makers to bring their educational products to market. We have experience with product photography, manufacturing, shipping, advertising, product support, documentation, and more. If you're interested in throwing your maker skills into the mix, we want to hear from you!
             </Text>
             <Text>
               <a target="_blank" href="https://forms.gle/NcnSaG8qsPHg6iJz7">
@@ -42,7 +41,7 @@ const JoinUs = () => {
           </Section>
         </SectionContent>
       </SectionWrapper>
-    </JoinUsWrapper>
+    </JoinUsWrapper >
   )
 }
 

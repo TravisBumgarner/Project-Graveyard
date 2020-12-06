@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React from 'react'
 import { PRIMARY_COLOR, SECONDARY_COLOR, media } from 'Theme'
-import { H1, H2 } from 'sharedComponents'
+import { H3 } from 'sharedComponents'
 
 
 const FooterWrapper = styled.div`
@@ -31,7 +31,7 @@ const FooterWrapper = styled.div`
 const Footer = () => {
     return (
         <FooterWrapper>
-            <H2><a target="_blank" href="https://forms.gle/DXsBoCmJhyBsvYacA">Vote now for your favorite keyboard color schemes!</a></H2>
+            <H3><a target="_blank" href="https://forms.gle/DXsBoCmJhyBsvYacA">Vote now for your favorite keyboard color schemes!</a></H3>
         </FooterWrapper>
     )
 }
