@@ -55,7 +55,7 @@ const ButtonBoardV2 = () => {
               </a>
               </H3>
             </CallToAction>
-            <H3>Learn the Basics of basics Programming and Electronics (or share with others)!</H3>
+            <H3>Learn the basics of Programming and Electronics (or share with others)!</H3>
             <Text>The typical routes into programming and electronics are boring. In programming, your first task is to get the message "Hello World" to appear on the screen. In electronics, your task is to blink a light. Lame! Why not create something more interesting?
             </Text>
             <Text>With this kit, you'll learn to do some soldering and coding. When you're done you'll get to leave the experience with a completed keyboard that does what you want - from controlling video calls to your music!</Text>
