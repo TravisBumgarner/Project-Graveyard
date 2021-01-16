@@ -117,25 +117,25 @@ const KeyCaps = () => {
                 <li>(Optional) Reset the theme: <button onClick={() => { setIsWhitePCB(true); setKeys(new Array(6).fill('black')) }}>Reset</button></li>
                 <li>Select either a Black or White PCB: <button onClick={() => setIsWhitePCB(true)}>White</button> <button onClick={() => setIsWhitePCB(false)}>Black</button></li>
                 <li>Select a Color from the Color Palette</li>
-                <ColorSwatches>
-                    {
-                        Object
-                            .keys(COLORS)
-                            .map(color => {
-                                return <Swatch
-                                    hasBorder={color === selectedColor}
-                                    color={COLORS[color]}
-                                    onClick={() => setSelectedColor(color)}
-                                />
-                            })
-                    }
-                </ColorSwatches>
                 <li>Click on a Key on the keyboard below to change the color</li>
                 <li>Repeat the previous step until you're happy</li>
                 <li>Share the page URL on Kickstarter for a chance to win your theme!</li>
 
             </ol>
             <h2>Your Theme</h2>
+            <ColorSwatches>
+                {
+                    Object
+                        .keys(COLORS)
+                        .map(color => {
+                            return <Swatch
+                                hasBorder={color === selectedColor}
+                                color={COLORS[color]}
+                                onClick={() => setSelectedColor(color)}
+                            />
+                        })
+                }
+            </ColorSwatches>
             <Keyboard
                 isWhitePCB={isWhitePCB}
             >
