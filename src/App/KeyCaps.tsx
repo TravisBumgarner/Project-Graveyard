@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { useLocation, useHistory } from 'react-router-dom'
 
 const COLORS = {
     black: "#2e2e2e",
@@ -74,10 +75,34 @@ const Swatch = styled.div`
     ${({ hasBorder }) => hasBorder ? 'border: 5px solid white;' : ''}
 `
 
+const map = (search) => {
+    const params = new URLSearchParams(search)
+
+    const keys = ['k1', 'k2', 'k3', 'k4', 'k5', 'k6'].map(key => params.get(key))
+
+    const allValidKeys = keys.every(key => Object.keys(COLORS).includes(key))
+
+    return allValidKeys ? keys : new Array(6).fill('black')
+}
+
+const stringifyTheme = (keys) => {
+    return keys.reduce((accum, key, index) => `${accum}k${index + 1}=${key}&`, '?')
+}
+
 const KeyCaps = () => {
+    let history = useHistory();
+    const { search } = useLocation()
+
     const [isWhitePCB, setIsWhitePCB] = React.useState(true)
     const [selectedColor, setSelectedColor] = React.useState('red')
-    const [keys, setKeys] = React.useState(new Array(6).fill('black'))
+    const [keys, setKeys] = React.useState(map(search))
+
+    React.useEffect(
+        () => {
+            history.push(stringifyTheme(keys))
+        },
+        [JSON.stringify(keys), isWhitePCB]
+    )
 
     return (
         <div>
