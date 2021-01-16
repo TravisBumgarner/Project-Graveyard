@@ -114,6 +114,7 @@ const KeyCaps = () => {
             <h1>Design your own Theme!</h1>
             <h2>How To</h2>
             <ol>
+                <li>(Optional) Reset the theme: <button onClick={() => { setIsWhitePCB(true); setKeys(new Array(6).fill('black')) }}>Reset</button></li>
                 <li>Select either a Black or White PCB: <button onClick={() => setIsWhitePCB(true)}>White</button> <button onClick={() => setIsWhitePCB(false)}>Black</button></li>
                 <li>Select a Color from the Color Palette</li>
                 <ColorSwatches>

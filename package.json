@@ -10,7 +10,7 @@
         "start-dev": "webpack-dev-server --env.NODE_ENV=development --mode=development --config webpack.js",
         "bundle": "rm -rf ./public; mkdir ./public; cp ./src/og.png ./public; webpack --env.NODE_ENV=production --mode=production --config webpack.js --verobose",
         "precommit": "tsc --noEmit --skipLibCheck",
-        "deploy": "gcloud builds submit --tag gcr.io/eng40-277714/landing-page && gcloud run deploy landing-page --image gcr.io/eng40-277714/landing-page --platform managed --region us-east1",
+        "deploy": "gcloud builds submit --tag gcr.io/eng40-277714/themecontest && gcloud run deploy themecontest --image gcr.io/eng40-277714/themecontest --platform managed --region us-east1",
         "typecheck": "tsc --noEmit -p ./tsconfig.json"
     },
     "author": "",
