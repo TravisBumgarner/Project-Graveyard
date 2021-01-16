@@ -6,15 +6,12 @@ import { GlobalStyle, media } from "Theme"
 import KeyCaps from "./KeyCaps"
 
 const AppWrapper = styled.div`
-  max-width: 1000px;
-  margin: 140px auto 30px;
+  height: 100vh;
+  display flex;
+  justify-content: center;
   box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0 1em 0;
-
-  ${media.tablet} {
-    margin-top: 150px;
-  }
+  padding: 2em;
+  margin: 0px auto;
 `
 
 const App = () => {

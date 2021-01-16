@@ -13,25 +13,23 @@ const media = {
 }
 
 const GlobalStyle = createGlobalStyle`
+    body {
+        margin: 0;
+    }
     html {
         color: ${PRIMARY_COLOR};
         font-family: 'Montserrat', sans-serif;
         background-color: ${SECONDARY_COLOR};
         font-size: 16px;
-
-        padding-bottom: 3em;
-        a {
-            color: white;
-            &: hover {
-                color: ${ TERTIARY_COLOR};
-            }
-        }
     }
-    li, p {
-        line-height: 1.5;
+    h1 {
+        font-size: 1.5em;
     }
-    strong {
-        font-weight: 700;
+    h2 {
+        font-size: 1.2em;
+    }
+    h3 {
+        font-size: 1em;
     }
 `
 
