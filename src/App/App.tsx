@@ -6,11 +6,10 @@ import { GlobalStyle, media } from "Theme"
 import KeyCaps from "./KeyCaps"
 
 const AppWrapper = styled.div`
-  height: 100vh;
   display flex;
   justify-content: center;
   box-sizing: border-box;
-  padding: 2em;
+  padding: 0.5em 2em;
   margin: 0px auto;
 `
 

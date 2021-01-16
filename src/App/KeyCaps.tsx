@@ -61,6 +61,7 @@ const Keyboard = styled.div`
 const ColorSwatches = styled.div`
     display: flex;
     flex-wrap: wrap;
+    padding: 1em 0;
 `
 
 const Swatch = styled.div`
@@ -113,9 +114,23 @@ const KeyCaps = () => {
             <h1>Design your own Theme!</h1>
             <h2>How To</h2>
             <ol>
-                <li>Select either a Black or White PCB</li>
-                <li>Select a Color from the Color Palette Below</li>
-                <li>Click on a Key on Your Keyboard to change the color</li>
+                <li>Select either a Black or White PCB: <button onClick={() => setIsWhitePCB(true)}>White</button> <button onClick={() => setIsWhitePCB(false)}>Black</button></li>
+                <li>Select a Color from the Color Palette</li>
+                <ColorSwatches>
+                    {
+                        Object
+                            .keys(COLORS)
+                            .map(color => {
+                                return <Swatch
+                                    hasBorder={color === selectedColor}
+                                    color={COLORS[color]}
+                                    onClick={() => setSelectedColor(color)}
+                                />
+                            })
+                    }
+                </ColorSwatches>
+                <li>Click on a Key on the keyboard below to change the color</li>
+                <li>Repeat the previous step until you're happy</li>
                 <li>Share the page URL on Kickstarter for a chance to win your theme!</li>
 
             </ol>
@@ -135,26 +150,6 @@ const KeyCaps = () => {
                     />
                 })}
             </Keyboard>
-
-            <h2>PCB Color</h2>
-            <button onClick={() => setIsWhitePCB(true)}>White</button>
-            <button onClick={() => setIsWhitePCB(false)}>Black</button>
-            <h2>Color Palette</h2>
-            <ColorSwatches>
-                {
-                    Object
-                        .keys(COLORS)
-                        .map(color => {
-                            return <Swatch
-                                hasBorder={color === selectedColor}
-                                color={COLORS[color]}
-                                onClick={() => setSelectedColor(color)}
-                            />
-                        })
-                }
-            </ColorSwatches>
-
-
         </div >
     )
 }

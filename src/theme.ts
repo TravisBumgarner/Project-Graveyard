@@ -31,6 +31,10 @@ const GlobalStyle = createGlobalStyle`
     h3 {
         font-size: 1em;
     }
+    ol {
+        margin: 0;
+        padding: 0;
+    }
 `
 
 export { media, PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR, GlobalStyle }
