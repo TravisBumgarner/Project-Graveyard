@@ -75,31 +75,35 @@ const Swatch = styled.div`
     ${({ hasBorder }) => hasBorder ? 'border: 5px solid white;' : ''}
 `
 
-const map = (search) => {
+const mapTheme = (search) => {
     const params = new URLSearchParams(search)
 
     const keys = ['k1', 'k2', 'k3', 'k4', 'k5', 'k6'].map(key => params.get(key))
-
     const allValidKeys = keys.every(key => Object.keys(COLORS).includes(key))
 
-    return allValidKeys ? keys : new Array(6).fill('black')
+    const isWhitePCB = params.get('w')
+    console.log(allValidKeys)
+    return (allValidKeys && isWhitePCB === '1' || isWhitePCB === '0')
+        ? [keys, isWhitePCB === '1']
+        : [new Array(6).fill('black'), true]
 }
 
-const stringifyTheme = (keys) => {
-    return keys.reduce((accum, key, index) => `${accum}k${index + 1}=${key}&`, '?')
+const stringifyTheme = (keys, isWhitePCB) => {
+    return keys.reduce((accum, key, index) => `${accum}k${index + 1}=${key}&`, '?') + `w=${isWhitePCB ? 1 : 0}`
 }
 
 const KeyCaps = () => {
     let history = useHistory();
     const { search } = useLocation()
+    const [initialKeys, initialPCB] = mapTheme(search)
 
-    const [isWhitePCB, setIsWhitePCB] = React.useState(true)
-    const [selectedColor, setSelectedColor] = React.useState('red')
-    const [keys, setKeys] = React.useState(map(search))
+    const [isWhitePCB, setIsWhitePCB] = React.useState(initialPCB)
+    const [selectedColor, setSelectedColor] = React.useState('black')
+    const [keys, setKeys] = React.useState(initialKeys)
 
     React.useEffect(
         () => {
-            history.push(stringifyTheme(keys))
+            history.push(stringifyTheme(keys, isWhitePCB))
         },
         [JSON.stringify(keys), isWhitePCB]
     )
