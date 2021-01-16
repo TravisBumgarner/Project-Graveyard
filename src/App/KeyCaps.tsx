@@ -1,18 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 
-
-import {
-    Text,
-    H2,
-    H3,
-    Section,
-    SectionWrapper,
-    SectionContent,
-} from "sharedComponents"
-
-const KeyCapWrapper = styled.div``
-
 const COLORS = {
     black: "#2e2e2e",
     white: "#f0efed",
@@ -75,93 +63,68 @@ const KeyCapGrid = styled.div`
     }
 `
 
-const keyboards = [
-    {
-        keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
-        title: "Programming",
-        text: ['</>', '#!', '{ }', 'i++', '&&', '/ /']
-    },
-    {
-        keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
-        title: "Geometry",
-        text: ['■', '▲', '●', '◄', '▼', '►']
-    },
-    {
-        keys: ['orange', 'purple', 'orange', 'purple', 'orange', 'purple',],
-        title: "Orange and Purple"
-    },
-    {
-        keys: ['pink', 'lpurple', 'lblue', 'lime', 'white', 'turqouise',],
-        title: "Pastels"
-    },
-    {
-        keys: ['black', 'black', 'black', 'black', 'black', 'black',],
-        title: "All Black"
-    },
-    {
-        keys: ['white', 'white', 'white', 'white', 'white', 'white',],
-        title: "All White"
-    },
-    {
-        keys: ['red', 'orange', 'yellow', 'blue', 'black', 'white',],
-        title: "Solids"
-    },
-    {
-        keys: ['turqouise', 'lime', 'navy', 'lblue', 'blue', 'gray1',],
-        title: "Sea"
-    },
-    {
-        keys: ['red', 'orange', 'yellow', 'yellow', 'red', 'orange',],
-        title: "Fire"
-    },
-    {
-        keys: ['gray1', 'gray2', 'gray3', 'white', 'gray1', 'gray2',],
-        title: "Cloudy"
-    },
-    {
-        keys: ['navy', 'blue', 'lblue', 'blue', 'lblue', 'navy',],
-        title: "Blues"
-    },
-    {
-        keys: ['brown', 'turqouise', 'brown', 'turqouise', 'brown', 'turqouise',],
-        title: "Mint Chocolate Chip"
-    },
-    {
-        keys: ['lime', 'lime', 'navy', 'lime', 'navy', 'navy',],
-        title: "Triangles"
-    },
-    {
-        keys: ['purple', 'hotpink', 'lpurple', 'black', 'white', 'blue',],
-        title: "Retro Future"
-    },
-
-]
-
-
 const KeyCaps = () => {
-
-    const Keyboards = keyboards.map(({ title, keys, text, images }) => {
-        return <>
-            <H2>{title}</H2>
-            <Keyboard>
-                {keys.map((key, index) => <Key color={COLORS[key]}>{text ? text[index] : ''}{images ? <img src={images[index]} /> : ''}</Key>)}
-            </Keyboard>
-        </>
-    })
+    const [selectedColor, setSelectedColor] = React.useState('red')
+    const [keys, setKeys] = React.useState(new Array(6).fill('black'))
 
     return (
-        <KeyCapWrapper>
-            <SectionWrapper>
-                <H2>Key Cap Colors</H2>
-                <SectionContent>
-                    <KeyCapGrid>
-                        {Object.keys(COLORS).map(color => <Key color={COLORS[color]}>{color}</Key>)}
-                    </KeyCapGrid>
-                </SectionContent>
-                {Keyboards}
-            </SectionWrapper>
-        </KeyCapWrapper >
+        <div>
+            <KeyCapGrid>
+                {
+                    Object
+                        .keys(COLORS)
+                        .map(color => {
+                            return <Key
+                                color={COLORS[color]}
+                                onClick={() => setSelectedColor(color)}
+                            >{color}
+                            </Key>
+                        })
+                }
+            </KeyCapGrid>
+
+            <div style={{
+                backgroundColor: COLORS[selectedColor], width: '50px', height: '50px'
+            }} />
+
+            <Keyboard>
+                {keys.map((key, index) => {
+                    return <Key
+                        key={index}
+                        color={COLORS[key]}
+                        onClick={() => {
+                            const newKeys = [...keys]
+                            newKeys[index] = selectedColor
+                            setKeys(newKeys)
+                        }}
+                    />
+                })}
+            </Keyboard>
+
+        </div >
     )
+    // const Keyboards = keyboards.map(({ title, keys, text, images }) => {
+    //     return <>
+    //         <H2>{title}</H2>
+    // <Keyboard>
+    //     {keys.map((key, index) => <Key color={COLORS[key]}>{text ? text[index] : ''}{images ? <img src={images[index]} /> : ''}</Key>)}
+    // </Keyboard>
+    //     </>
+    // })
+
+    // return (
+    //     <KeyCapWrapper>
+    //         <SectionWrapper>
+    //             <H2>Key Cap Colors</H2>
+    //             <SectionContent>
+    // < KeyCapGrid >
+    // { Object.keys(COLORS).map(color => <Key color={COLORS[color]}>{color}</Key>) }
+    //             </KeyCapGrid >
+    //             </SectionContent>
+    //             {Keyboards}
+    //         </SectionWrapper>
+    //     </KeyCapWrapper >
+    // )
 }
 
 export default KeyCaps
