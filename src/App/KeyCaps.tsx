@@ -10,14 +10,6 @@ import {
     SectionWrapper,
     SectionContent,
 } from "sharedComponents"
-import {
-    KEYCAP_CURLIES,
-    KEYCAP_DIODE,
-    KEYCAP_HEADER,
-    KEYCAP_PARENS,
-    KEYCAP_QUOTES,
-    KEYCAP_SWITCH
-} from "media"
 
 const KeyCapWrapper = styled.div``
 
@@ -84,11 +76,6 @@ const KeyCapGrid = styled.div`
 `
 
 const keyboards = [
-    {
-        keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
-        title: "Keyboards",
-        images: [KEYCAP_CURLIES, KEYCAP_DIODE, KEYCAP_HEADER, KEYCAP_PARENS, KEYCAP_QUOTES, KEYCAP_SWITCH]
-    },
     {
         keys: ['navy', 'navy', 'navy', 'navy', 'navy', 'navy',],
         title: "Programming",

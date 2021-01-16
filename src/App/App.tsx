@@ -3,18 +3,7 @@ import styled from "styled-components"
 import { Switch, Route, BrowserRouter } from "react-router-dom"
 
 import { GlobalStyle, media } from "Theme"
-import {
-  Header,
-  Home,
-  Prototyping,
-  ButtonBoardV1,
-  ButtonBoardV2,
-  JoinUs,
-  KeyCaps,
-  Footer
-} from "./components"
-import { Error } from "sharedComponents"
-import { BACKGROUND_IMG } from "media"
+import KeyCaps from "./KeyCaps"
 
 const AppWrapper = styled.div`
   max-width: 1000px;
@@ -33,43 +22,11 @@ const App = () => {
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <Header />
         <AppWrapper>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/prototyping" component={Prototyping} />
-            <Route exact path="/keycaps" component={KeyCaps} />
-
-            <Route
-              exact
-              path="/buttonboardv1"
-              component={ButtonBoardV1}
-            />
-            <Route
-              exact
-              path="/buttonboardv2"
-              component={ButtonBoardV2}
-            />
-            <Route exact path="/joinus" component={JoinUs} />
-            <Route
-              render={(rest) => <Error showNotFoundError={true} {...rest} />}
-            />
+            <Route component={KeyCaps} />
           </Switch>
         </AppWrapper>
-        <Footer />
-        <img
-          style={{
-            zIndex: -999,
-            position: "fixed",
-            left: 0,
-            boxSizing: "border-box",
-            top: 0,
-            minWidth: "100vw",
-            minHeight: "100vh",
-            opacity: "0.1",
-          }}
-          src={BACKGROUND_IMG}
-        />
       </BrowserRouter>
     </>
   )
