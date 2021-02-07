@@ -3,27 +3,21 @@ import styled from "styled-components"
 import { useLocation, useHistory } from 'react-router-dom'
 
 const COLORS = {
-    black: "#2e2e2e",
-    white: "#f0efed",
-    tan: "#d7d3c7",
     gray1: "#aeada8",
-    gray2: "#7a7a7a",
-    gray3: "#5e5a57",
-    red: "#d42929",
+    white: "#f0efed",
     pink: "#fac7cc",
-    hotpink: "#ff00e0",
+    red: "#d42929",
     orange: "#f96600",
     yellow: "#f3da42",
-    brown: "#9b6b47",
-    olive: "#887e4b",
-    forrest: "#648733",
+    green: "#227a0f",
     lime: "#65d559",
-    turqouise: "#8bdfae",
-    navy: "#3e578f",
-    blue: "#4360d5",
+    turquoise: "#8bdfae",
     lblue: "#95c8f3",
-    purple: "#564186",
+    blue: "#4360d5",
+    navy: "#3e578f",
     lpurple: "#bcaeeb",
+    purple: "#564186",
+    brown: "#9b6b47",
 }
 
 const KEY_SPACING = '10px;'
@@ -79,14 +73,13 @@ const Swatch = styled.div`
 const mapTheme = (search) => {
     const params = new URLSearchParams(search)
 
-    const keys = ['k1', 'k2', 'k3', 'k4', 'k5', 'k6'].map(key => params.get(key))
+    const keys = ['k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7', 'k8', 'k9'].map(key => params.get(key))
     const allValidKeys = keys.every(key => Object.keys(COLORS).includes(key))
 
     const isWhitePCB = params.get('w')
-    console.log(allValidKeys)
     return (allValidKeys && isWhitePCB === '1' || isWhitePCB === '0')
         ? [keys, isWhitePCB === '1']
-        : [new Array(6).fill('black'), true]
+        : [new Array(9).fill('navy'), true]
 }
 
 const stringifyTheme = (keys, isWhitePCB) => {
@@ -119,8 +112,7 @@ const KeyCaps = () => {
                 <li>Select a Color from the Color Palette</li>
                 <li>Click on a Key on the keyboard below to change the color</li>
                 <li>Repeat the previous step until you're happy</li>
-                <li>Share the page URL on Kickstarter for a chance to win your theme!</li>
-
+                <li>Share this page's URL on Kickstarter for a chance to win a 9 Key BYO Keyboard!</li>
             </ol>
             <h2>Your Theme</h2>
             <ColorSwatches>
