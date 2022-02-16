@@ -1,0 +1,27 @@
+{
+  "name": "help-speaking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "sd": "concurrently -n frontend,backend \"npm run sd:fe --workspace=frontend\" \"npm run sd:be --workspace=backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TravisBumgarner/help-speaking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TravisBumgarner/help-speaking/issues"
+  },
+  "homepage": "https://github.com/TravisBumgarner/help-speaking#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}

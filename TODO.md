@@ -1,0 +1,16 @@
+- [x] Remove uneeded code
+- [ ] Add edit for WorksheetEntry
+- [ ] Add more fields for worksheet
+    - [ ] I speak _____ and I am learning _______ 
+    - [ ] Use ^ these fields to generate UI for worksheetentry
+    - [ ] For Example - Written in English, Written in French, Pronounced in French
+- [ ] Setup for Postgres instead of SQLlite
+- [ ] Figure out how to record and save audio
+- [ ] Add user login
+    - [ ] With firebase?
+- [ ] Have views for students and teachers
+- [ ] Export to flash card app
+    - [ ] Be able to choose what to export
+- [ ] add testing and linting
+- [ ] Find some beta testers
+- [ ] Need some way for students to share with teachers
