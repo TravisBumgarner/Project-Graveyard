@@ -30,6 +30,7 @@ const WorksheetEntryType = new GraphQLObjectType({
         knownLanguageText: { type: GraphQLNonNull(GraphQLString) },
         newLanguageText: { type: GraphQLNonNull(GraphQLString) },
         worksheetId: { type: GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: GraphQLNonNull(GraphQLString) },
     })
 })
 

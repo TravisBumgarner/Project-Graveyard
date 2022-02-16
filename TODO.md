@@ -12,5 +12,6 @@
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
 - [ ] add testing and linting
+- [ ] create a style
 - [ ] Find some beta testers
 - [ ] Need some way for students to share with teachers

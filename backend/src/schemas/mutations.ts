@@ -5,10 +5,12 @@ import {
     GraphQLObjectType,
     GraphQLInt
 } from 'graphql'
+import fs from 'fs'
 
 import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType } from './types'
 import { AtLeast, Exactly } from '../../../sharedUtilities'
+import path from 'path';
 
 type AddWorksheetArgs = {
     title: string
@@ -47,6 +49,7 @@ type AddWorksheetEntryArgs = {
     newLanguageText: string
     id: string
     worksheetId: string
+    audioUrl: string
 }
 
 const addWorksheetEntry = {
@@ -57,12 +60,21 @@ const addWorksheetEntry = {
         newLanguageText: { type: GraphQLNonNull(GraphQLString) },
         id: { type: GraphQLNonNull(GraphQLString) },
         worksheetId: { type: GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs) => {
+        const savePath = path.join(__dirname, `../../public/recordings/${args.worksheetId}`)
+
+        if (!fs.existsSync(savePath)) {
+            fs.mkdirSync(savePath);
+        }
+        fs.writeFileSync(path.join(savePath, `${args.id}.webm`), Buffer.from(args.audioUrl.replace("data:audio/webm;base64,", ''), 'base64'));
+
         return await getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
-                ...args
+                ...args,
+                audioUrl: "cats.com"
             })
     }
 }

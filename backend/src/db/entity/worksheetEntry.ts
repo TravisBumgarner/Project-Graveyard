@@ -16,6 +16,9 @@ export default class WorksheetEntry {
     @Column({ nullable: false })
     worksheetId: string
 
+    @Column({ nullable: false })
+    audioUrl: string
+
     @ManyToOne(() => Worksheet, worksheet => worksheet.worksheetEntries)
     worksheet: Worksheet;
 }

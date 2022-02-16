@@ -10,6 +10,7 @@ import { context } from '.'
 import { WorksheetEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
+import { useRecorder } from '../hooks'
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -17,18 +18,30 @@ const ActionButton = styled.button`
 
 `
 
+const objectUrlToBase64 = async (objectUrl: string) => {
+    const blob = await fetch(objectUrl).then(r => r.blob())
+    return new Promise((resolve, _) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+    });
+}
+
 const ADD_WORKSHEET_ENTRY = gql`
+
 mutation AddWorksheetEntry (
     $knownLanguageText: String!
     $newLanguageText: String!
     $id: String!
     $worksheetId: String!
+    $audioUrl: String!
   ) {
-    addWorksheetEntry(id: $id, worksheetId: $worksheetId, knownLanguageText: $knownLanguageText, newLanguageText: $newLanguageText){
+    addWorksheetEntry(id: $id, worksheetId: $worksheetId, knownLanguageText: $knownLanguageText, newLanguageText: $newLanguageText, audioUrl: $audioUrl){
       id,
       knownLanguageText,
       newLanguageText,
-      worksheetId
+      worksheetId,
+      audioUrl
     }
 }
 `;
@@ -50,16 +63,20 @@ type AddSentenceProps = {
 
 const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) => {
     const { state, dispatch } = React.useContext(context)
+    let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
     const handleSubmit = async () => {
+        const base64Audio = await objectUrlToBase64(audioURL)
         const response = await addWorksheetEntry({
             variables: {
                 knownLanguageText,
                 newLanguageText,
                 id: uuidv4(),
-                worksheetId
+                worksheetId,
+                audioUrl: base64Audio
+
             }
         })
         dispatch({ type: "ADD_WORKSHEET_ENTRY", data: { worksheetEntry: response.data.addWorksheetEntry } })
@@ -87,9 +104,21 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
                 <input name="newLanguageText" value={newLanguageText} onChange={event => setNewLanguageText(event.target.value)} />
             </div>
 
-            <button onClick={handleSubmit}>Submit</button>
-            <button onClick={handleCancel}>Cancel</button>
-            <button onClick={handleDelete}>Delete</button>
+            <audio src={audioURL} controls />
+            <div>
+                <button onClick={startRecording} disabled={isRecording}>
+                    Record
+                </button>
+                <button onClick={stopRecording} disabled={!isRecording}>
+                    Stop
+                </button>
+            </div>
+
+            <div>
+                <button onClick={handleSubmit}>Submit</button>
+                <button onClick={handleCancel}>Cancel</button>
+                <button onClick={handleDelete}>Delete</button>
+            </div>
         </div>
     </div>
 }
@@ -112,7 +141,7 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
         <tr key={id} >
             <td>{knownLanguageText}</td>
             <td>{newLanguageText}</td>
-            <td>Audio coming soon</td>
+            <td><audio controls src={`http://localhost:5001/recordings/${worksheetEntry.worksheetId}/${worksheetEntry.id}.webm`} /></td>
             <td>
                 <ActionButton><AiOutlineEdit /></ActionButton>
                 <ActionButton onClick={handleDelete}><AiOutlineDelete /></ActionButton>
@@ -131,7 +160,7 @@ const Worksheet = ({ }: WorksheetProps) => {
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
 
-    const { title, description, id, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
+    const { title, description, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
 
     return (
         <div>
