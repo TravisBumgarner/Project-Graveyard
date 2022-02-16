@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { context } from '.'
 import { Worksheet } from '../types'
 import { dateToString } from '../utilities'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const ADD_WORKSHEET = gql`
 mutation AddWorksheet (
@@ -14,12 +15,16 @@ mutation AddWorksheet (
     $description: String!,
     $id: String!
     $date: String!
+    $knownLanguage: String!
+    $newLanguage: String!
   ) {
-    addWorksheet(id: $id, title: $title, description: $description, date: $date){
+    addWorksheet(id: $id, title: $title, description: $description, date: $date, knownLanguage: $knownLanguage, newLanguage: $newLanguage){
       id,
       title,
       description,
-      date
+      date,
+      knownLanguage,
+      newLanguage
     }
 }
 `;
@@ -36,6 +41,8 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     const [addWorksheet] = useMutation<{ addWorksheet: Worksheet }>(ADD_WORKSHEET)
     const [title, setTitle] = React.useState(`Worksheet ${Object.keys(state.worksheets).length + 1}`)
     const [description, setDescription] = React.useState<string>('')
+    const [knownLanguage, setknownLanguage] = React.useState<string>('')
+    const [newLanguage, setnewLanguage] = React.useState<string>('')
     const [date, setDate] = React.useState<moment.Moment>(moment())
 
     const handleSubmit = async () => {
@@ -44,7 +51,9 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
                 date,
                 id: uuidv4(),
                 description,
-                title
+                title,
+                knownLanguage,
+                newLanguage
             }
         })
         console.log('handlesiubmit', response.data.addWorksheet)
@@ -74,6 +83,16 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
             </div>
 
             <div>
+                <label htmlFor="knownLanguage">What language are translating from?</label>
+                <input name="knownLanguage" value={knownLanguage} onChange={event => setknownLanguage(event.target.value)} />
+            </div>
+
+            <div>
+                <label htmlFor="newLanguage">What language are you translating to?</label>
+                <input name="newLanguage" value={newLanguage} onChange={event => setnewLanguage(event.target.value)} />
+            </div>
+
+            <div>
                 <label htmlFor="date">Date: </label>
                 <input type="date" name="date" value={dateToString(date)} onChange={event => setDate(moment(event.target.value))} />
             </div>
@@ -93,7 +112,7 @@ const Worksheets = () => {
         <div>
             <h1>Worksheets</h1>
             <ul>
-                {Object.values(state.worksheets).map(({ title, description, id }) => <li key={id}><a href={`/worksheet/${id}`}>{title} - {description}</a></li>)}
+                {Object.values(state.worksheets).map(({ title, description, id, knownLanguage, newLanguage }) => <li key={id}><a href={`/worksheet/${id}`}>{title} - {description} - {knownLanguage} - {newLanguage}</a></li>)}
             </ul>
             <button onClick={() => setShowModal(true)}>Add Worksheet</button>
             <Modal

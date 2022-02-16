@@ -34,6 +34,7 @@ const worksheetEntries = {
             .getRepository(entity.WorksheetEntry)
             .createQueryBuilder('worksheet-entries')
             .getMany()
+        console.log(data)
         return data
     }
 }

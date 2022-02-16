@@ -13,6 +13,12 @@ export default class Worksheet {
     @Column({ nullable: false })
     description: string
 
+    @Column({ nullable: false })
+    knownLanguage: string
+
+    @Column({ nullable: false })
+    newLanguage: string
+
     @Column({ type: 'date', nullable: false })
     date: string
 

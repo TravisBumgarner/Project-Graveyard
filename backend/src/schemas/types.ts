@@ -16,7 +16,9 @@ const WorksheetType = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLString) },
         title: { type: GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLNonNull(GraphQLString) },
-        date: { type: GraphQLNonNull(GraphQLString) }
+        date: { type: GraphQLNonNull(GraphQLString) },
+        knownLanguage: { type: GraphQLNonNull(GraphQLString) },
+        newLanguage: { type: GraphQLNonNull(GraphQLString) }
     })
 })
 
@@ -25,7 +27,8 @@ const WorksheetEntryType = new GraphQLObjectType({
     description: 'This represents a worksheet entry',
     fields: () => ({
         id: { type: GraphQLNonNull(GraphQLString) },
-        text: { type: GraphQLNonNull(GraphQLString) },
+        knownLanguageText: { type: GraphQLNonNull(GraphQLString) },
+        newLanguageText: { type: GraphQLNonNull(GraphQLString) },
         worksheetId: { type: GraphQLNonNull(GraphQLString) },
     })
 })

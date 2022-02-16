@@ -5,12 +5,15 @@ type Worksheet = {
     title: string
     description: string
     date: moment.Moment
+    knownLanguage: string
+    newLanguage: string
 }
 
 type WorksheetEntry = {
     id: string,
     worksheetId: string,
-    text: string
+    knownLanguageText: string
+    newLanguageText: string
 }
 
 export {

@@ -8,7 +8,10 @@ export default class WorksheetEntry {
     id: string
 
     @Column({ nullable: false })
-    text: string
+    knownLanguageText: string
+
+    @Column({ nullable: false })
+    newLanguageText: string
 
     @Column({ nullable: false })
     worksheetId: string

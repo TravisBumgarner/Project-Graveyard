@@ -1,9 +1,9 @@
 - [x] Remove uneeded code
 - [ ] Add edit for WorksheetEntry
-- [ ] Add more fields for worksheet
-    - [ ] I speak _____ and I am learning _______ 
-    - [ ] Use ^ these fields to generate UI for worksheetentry
-    - [ ] For Example - Written in English, Written in French, Pronounced in French
+- [x] Add more fields for worksheet
+    - [x] I speak _____ and I am learning _______ 
+    - [x] Use ^ these fields to generate UI for worksheetentry
+    - [x] For Example - Written in English, Written in French, Pronounced in French
 - [ ] Setup for Postgres instead of SQLlite
 - [ ] Figure out how to record and save audio
 - [ ] Add user login

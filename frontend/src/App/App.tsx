@@ -22,11 +22,14 @@ query HydrateApp {
     title,
     id,
     description,
-    date
+    date,
+    knownLanguage,
+    newLanguage
   }
   worksheetEntries {
     id,
-    text,
+    knownLanguageText,
+    newLanguageText,
     worksheetId
   }
 }

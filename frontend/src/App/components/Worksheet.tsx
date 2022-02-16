@@ -19,13 +19,15 @@ const ActionButton = styled.button`
 
 const ADD_WORKSHEET_ENTRY = gql`
 mutation AddWorksheetEntry (
-    $text: String!
+    $knownLanguageText: String!
+    $newLanguageText: String!
     $id: String!
     $worksheetId: String!
   ) {
-    addWorksheetEntry(id: $id, text: $text, worksheetId: $worksheetId){
+    addWorksheetEntry(id: $id, worksheetId: $worksheetId, knownLanguageText: $knownLanguageText, newLanguageText: $newLanguageText){
       id,
-      text,
+      knownLanguageText,
+      newLanguageText,
       worksheetId
     }
 }
@@ -49,16 +51,17 @@ type AddSentenceProps = {
 const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) => {
     const { state, dispatch } = React.useContext(context)
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(ADD_WORKSHEET_ENTRY)
-    const [text, setText] = React.useState<string>('')
+    const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
+    const [newLanguageText, setNewLanguageText] = React.useState<string>('')
     const handleSubmit = async () => {
         const response = await addWorksheetEntry({
             variables: {
-                text,
+                knownLanguageText,
+                newLanguageText,
                 id: uuidv4(),
                 worksheetId
             }
         })
-        console.log('handlesiubmit', response.data.addWorksheetEntry)
         dispatch({ type: "ADD_WORKSHEET_ENTRY", data: { worksheetEntry: response.data.addWorksheetEntry } })
         closeModal()
     }
@@ -75,8 +78,13 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
         <h1>New Worksheet Entry</h1>
         <div>
             <div>
-                <label htmlFor="text">Text: </label>
-                <input name="text" value={text} onChange={event => setText(event.target.value)} />
+                <label htmlFor="knownLanguageText">{state.worksheets[worksheetId].knownLanguage}</label>
+                <input name="knownLanguageText" value={knownLanguageText} onChange={event => setKnownLanguageText(event.target.value)} />
+            </div>
+
+            <div>
+                <label htmlFor="newLanguageText">{state.worksheets[worksheetId].newLanguage}</label>
+                <input name="newLanguageText" value={newLanguageText} onChange={event => setNewLanguageText(event.target.value)} />
             </div>
 
             <button onClick={handleSubmit}>Submit</button>
@@ -91,7 +99,7 @@ type WorksheetEntryProps = {
 }
 const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
     const { state, dispatch } = React.useContext(context)
-    const { id, text } = worksheetEntry
+    const { id, knownLanguageText, newLanguageText } = worksheetEntry
 
     const [deleteWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(DELETE_WORKSHEET_ENTRY)
 
@@ -102,7 +110,8 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
 
     return (
         <tr key={id} >
-            <td>{text}</td>
+            <td>{knownLanguageText}</td>
+            <td>{newLanguageText}</td>
             <td>Audio coming soon</td>
             <td>
                 <ActionButton><AiOutlineEdit /></ActionButton>
@@ -122,16 +131,20 @@ const Worksheet = ({ }: WorksheetProps) => {
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
 
+    const { title, description, id, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
+
     return (
         <div>
             <div style={{ border: '1px solid black', padding: '10px' }}>
-                <h1>{state.worksheets[worksheetId].title}</h1>
-                <p>Description: {state.worksheets[worksheetId].description}</p>
-                <p>Date: {dateToString(moment(state.worksheets[worksheetId].date))}</p>
+                <h1>{title}</h1>
+                <p>Description: {description}</p>
+                <p>Date: {dateToString(moment(date))}</p>
+                <p>From: {knownLanguage} To: {newLanguage}</p>
                 <table>
                     <thead>
                         <tr>
-                            <th scope="col">Written</th>
+                            <th scope="col">{state.worksheets[worksheetId].knownLanguage}</th>
+                            <th scope="col">{state.worksheets[worksheetId].newLanguage}</th>
                             <th scope="col">Recorded</th>
                             <th scope="col">Actions</th>
                         </tr>

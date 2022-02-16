@@ -15,6 +15,8 @@ type AddWorksheetArgs = {
     id: string
     description: string
     date: string
+    knownLanguage: string
+    newLanguage: string
 }
 
 const addWorksheet = {
@@ -25,18 +27,24 @@ const addWorksheet = {
         id: { type: GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
+        knownLanguage: { type: GraphQLNonNull(GraphQLString) },
+        newLanguage: { type: GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs) => {
-        return await getConnection()
+        const response = await getConnection()
             .getRepository(entity.Worksheet)
             .save({
                 ...args
             })
+
+        return response
     }
+
 }
 
 type AddWorksheetEntryArgs = {
-    text: string
+    knownLanguageText: string
+    newLanguageText: string
     id: string
     worksheetId: string
 }
@@ -45,18 +53,17 @@ const addWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Add a Worksheet Entry',
     args: {
-        text: { type: GraphQLNonNull(GraphQLString) },
+        knownLanguageText: { type: GraphQLNonNull(GraphQLString) },
+        newLanguageText: { type: GraphQLNonNull(GraphQLString) },
         id: { type: GraphQLNonNull(GraphQLString) },
         worksheetId: { type: GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, { text, id, worksheetId }: AddWorksheetEntryArgs) => {
+    resolve: async (parent: undefined, args: AddWorksheetEntryArgs) => {
         return await getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
-                text,
-                id,
-                worksheetId
-            } as any)
+                ...args
+            })
     }
 }
 
