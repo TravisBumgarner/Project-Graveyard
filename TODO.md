@@ -5,13 +5,22 @@
     - [x] Use ^ these fields to generate UI for worksheetentry
     - [x] For Example - Written in English, Written in French, Pronounced in French
 - [ ] Setup for Postgres instead of SQLlite
-- [ ] Figure out how to record and save audio
-- [ ] Add user login
-    - [ ] With firebase?
+- [x] Figure out how to record and save audio
+- [x] Add user login
+    - [x] With firebase?
+- [ ] add the idea of users
+    - [ ] Only be able to edit your own work
+    - [ ] Need some way for students to share with teachers
+- [ ] create a style
+- [ ] Figure out .dotenv on frontend
 - [ ] Have views for students and teachers
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
 - [ ] add testing and linting
-- [ ] create a style
 - [ ] Find some beta testers
-- [ ] Need some way for students to share with teachers
+- [ ] Firebase for projection
+    - [ ] Create a new project
+        - [ ] Remove localhost
+- [ ] Add logging
+- [ ] Figure out modifying the express.Request type
+- [ ] is the shouldPermit util a good idea?

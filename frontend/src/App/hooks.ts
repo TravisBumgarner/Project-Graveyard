@@ -4,7 +4,6 @@ const useRecorder = () => {
     const [audioURL, setAudioURL] = useState<string>("");
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [recorder, setRecorder] = useState(null);
-    console.log(audioURL)
     useEffect(() => {
         if (recorder === null) {
             if (isRecording) {

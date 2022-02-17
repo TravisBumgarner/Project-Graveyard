@@ -5,6 +5,7 @@ import ormconfig from './src/db/ormconfig'
 import app from './src/app'
 import config from './src/config'
 
+
 const catchError = (error: unknown) => {
   console.log(error)
   process.exit(1)

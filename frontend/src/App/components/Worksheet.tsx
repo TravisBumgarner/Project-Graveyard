@@ -159,9 +159,8 @@ const Worksheet = ({ }: WorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
-
+    console.log('worksheets', state.worksheets)
     const { title, description, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
-
     return (
         <div>
             <div style={{ border: '1px solid black', padding: '10px' }}>

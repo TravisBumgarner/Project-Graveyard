@@ -1,17 +1,22 @@
+import { User } from 'firebase/auth'
 import React from 'react'
 
 import { Worksheet, WorksheetEntry } from '../../types'
 
 type State = {
+    message: string
     worksheets: Record<string, Worksheet>
     worksheetEntries: Record<string, WorksheetEntry>
     appHydrated: boolean
+    currentUser: User | null
 }
 
 const EMPTY_STATE: State = {
+    message: null,
     worksheets: {},
     worksheetEntries: {},
-    appHydrated: false
+    appHydrated: false,
+    currentUser: null
 }
 
 const context = React.createContext(
@@ -28,6 +33,13 @@ type HydrateApp = {
     data: {
         worksheets: Worksheet[],
         worksheetEntries: WorksheetEntry[]
+    }
+}
+
+type UserSignup = {
+    type: 'USER_AUTHED'
+    data: {
+        currentUser: User
     }
 }
 
@@ -74,7 +86,21 @@ type GetWorksheets = {
     }
 }
 
+type AddMessage = {
+    type: 'ADD_MESSAGE'
+    data: {
+        message: string
+    }
+}
+
+type DeleteMessage = {
+    type: 'DELETE_MESSAGE'
+}
+
 type Action =
+    | AddMessage
+    | DeleteMessage
+    | UserSignup
     | HydrateApp
     | AddWorksheet
     | EditWorksheet
@@ -85,6 +111,15 @@ type Action =
 
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
+        case 'ADD_MESSAGE': {
+            return { ...state, message: action.data.message }
+        }
+        case 'DELETE_MESSAGE': {
+            return { ...state, message: '' }
+        }
+        case 'USER_AUTHED': {
+            return { ...state, currentUser: action.data.currentUser }
+        }
         case 'HYDRATE_APP': {
             const worksheets: Record<string, Worksheet> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })

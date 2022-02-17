@@ -6,11 +6,12 @@ import {
     GraphQLInt
 } from 'graphql'
 import fs from 'fs'
+import path from 'path';
 
 import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType } from './types'
 import { AtLeast, Exactly } from '../../../sharedUtilities'
-import path from 'path';
+import { shouldPermit } from './utilities'
 
 type AddWorksheetArgs = {
     title: string
@@ -32,7 +33,9 @@ const addWorksheet = {
         knownLanguage: { type: GraphQLNonNull(GraphQLString) },
         newLanguage: { type: GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddWorksheetArgs) => {
+    resolve: async (parent: undefined, args: AddWorksheetArgs, context) => {
+        if (!shouldPermit(context)) return null
+
         const response = await getConnection()
             .getRepository(entity.Worksheet)
             .save({
@@ -62,7 +65,9 @@ const addWorksheetEntry = {
         worksheetId: { type: GraphQLNonNull(GraphQLString) },
         audioUrl: { type: GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddWorksheetEntryArgs) => {
+    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context) => {
+        if (!shouldPermit(context)) return null
+
         const savePath = path.join(__dirname, `../../public/recordings/${args.worksheetId}`)
 
         if (!fs.existsSync(savePath)) {
@@ -85,7 +90,9 @@ const deleteWorksheetEntry = {
     args: {
         id: { type: GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, { id }: Exactly<AddWorksheetEntryArgs, 'id'>) => {
+    resolve: async (parent: undefined, { id }: Exactly<AddWorksheetEntryArgs, 'id'>, context) => {
+        if (!shouldPermit(context)) return null
+
         await getConnection()
             .getRepository(entity.WorksheetEntry)
             .delete({
