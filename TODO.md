@@ -10,11 +10,13 @@
 - [x] Figure out how to record and save audio
 - [x] Add user login
     - [x] With firebase?
-- [ ] add the idea of users
+- [x] add the idea of users
     - [ ] Only be able to edit your own work
     - [ ] Need some way for students to share with teachers
     - [ ] Need way for teachers to give feedback
 - [ ] Bare minimum of usable UI
+- [ ] Figure out file hosting
+- [ ] Figure out deployment
 
 # Post MVP
 
@@ -30,3 +32,4 @@
 - [ ] Add logging
 - [ ] Figure out modifying the express.Request type
 - [ ] is the shouldPermit util a good idea?
+- [ ] Include reference to icons

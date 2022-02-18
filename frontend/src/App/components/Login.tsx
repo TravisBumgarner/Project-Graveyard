@@ -36,7 +36,6 @@ const Login = ({ }: LoginProps) => {
                     }
                 }
             })
-            await setIsLoading(false)
             return navigate('/')
         } catch (error) {
             dispatch({

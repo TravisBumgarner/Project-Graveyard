@@ -1,26 +1,256 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
+import ReactModal from 'react-modal'
+import { FaRegWindowClose } from "react-icons/fa";
+import { darken, lighten } from 'polished';
+
+const colorFactory = (color: string) => ({
+    base: color,
+    darken: darken(0.25, color),
+    lighten: lighten(0.25, color)
+}
+
+)
+
+const PRIMARY = colorFactory('#6A7FDB')
+console.log(PRIMARY)
+const SECONDARY = colorFactory('#45CB85')
+const TERTIARY = colorFactory('#57E2E5')
+const QUATERNARY = colorFactory('#E08DAC')
 
 const H1 = styled.h1`
-
+    color: ${PRIMARY.base};
 `
 
 const H2 = styled.h2`
-
+    color: ${PRIMARY.base};
 `
 
 const H3 = styled.h3`
+    color: ${PRIMARY.base};
+`
+
+const Button = styled.button`
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    font-weight: 700;
+    margin: 0.5rem;
+
+    ${({ variation }: { variation: 'primary' | 'secondary' | 'tertiary' | 'quaternary' }) => {
+        if (variation === 'primary') {
+            return `
+                color: ${PRIMARY.base};
+                border-color: ${PRIMARY.base};
+
+                &:hover {
+                    color: ${PRIMARY.darken};
+                    border-color: ${PRIMARY.darken};
+                    background-color: ${PRIMARY.lighten};
+                }
+            `
+        } else if (variation === "secondary") {
+            return `
+                color: ${SECONDARY.base};
+                border-color: ${SECONDARY.base};
+
+                &:hover {
+                    background-color: ${SECONDARY.lighten};
+                    color: ${SECONDARY.darken};
+                    border-color: ${SECONDARY.darken};
+                }
+            `
+        } else if (variation === "tertiary") {
+            return `
+                color: ${TERTIARY.base};
+                border-color: ${TERTIARY.base};
+
+                &:hover {
+                    background-color: ${TERTIARY.lighten};
+                    color: ${TERTIARY.darken};
+                    border-color: ${TERTIARY.darken};
+                }
+            `
+        } else if (variation === "quaternary") {
+            return `
+                color: ${QUATERNARY.base};
+                border-color: ${QUATERNARY.base};
+
+                &:hover {
+                    background-color: ${QUATERNARY.lighten};
+                    color: ${QUATERNARY.darken};
+                    border-color: ${QUATERNARY.darken};
+                }
+            `
+        }
+    }}
+
+    &:hover {
+    cursor: pointer;
+}
 
 `
 
+const Paragraph = styled.p`
+    color: ${PRIMARY.base};
+    line-height: 1.15;
+`
+
+const Label = styled.label`
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    font-weight: 700;
+    color: ${PRIMARY.base};
+`
+
+const Audio = styled.audio`
+    width: 100%;
+`
+
+const Input = styled.input`
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    font-weight: 700;
+    color: ${PRIMARY.base};
+    border-color: ${PRIMARY.base};
+
+    &:focus{
+        border-color: ${PRIMARY.darken};
+    }
+
+`
+
+const LabelAndInputWrapper = styled.div`
+    margin: 0.5rem;
+
+    ${Label}{
+        display: block;
+        box-sizing: border-box;
+    }
+
+    ${Input}{
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+`
+
+type LabelAndInputProps = {
+    name: string
+    label: string
+    value: string
+    handleChange: (value: string) => void
+}
+
+const LabelAndInput = ({ value, name, label, handleChange }: LabelAndInputProps) => {
+    return <LabelAndInputWrapper>
+        <Label htmlFor={name}>{label}</Label>
+        <Input name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
+    </LabelAndInputWrapper>
+}
+
+type ModalProps = {
+    children: JSX.Element | JSX.Element[]
+    showModal: boolean
+    closeModal: () => void
+    contentLabel: string
+}
+
+const HeaderWrapper = styled.div`
+    display: flex;
+    margin: 0.5rem;
+    justify-content: space-between;
+    svg {
+        cursor: pointer;
+        fill: ${PRIMARY.base};
+
+    &:hover {
+        fill: ${PRIMARY.darken};
+        }
+    }
+    `
+
+const ModalWrapper = styled.div`
+   
+`
+
+const Modal = ({ children, showModal, closeModal, contentLabel }: ModalProps) => {
+    return (
+        <ReactModal
+            isOpen={showModal}
+            onRequestClose={closeModal}
+            contentLabel={contentLabel}
+            style={{
+                overlay: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                },
+                content: {
+                    borderColor: PRIMARY.base,
+                    borderRadius: '1.5em',
+                }
+            }}
+        >
+            <ModalWrapper>
+                <HeaderWrapper>
+                    <H1>{contentLabel}</H1>
+                    <FaRegWindowClose onClick={closeModal} size={"2rem"} />
+                </HeaderWrapper>
+                {children}
+            </ModalWrapper>
+        </ReactModal >
+    )
+}
+
 
 const StyleExploration = () => {
+    const [showModal1, setShowModal1] = React.useState<boolean>(false)
+    const [showModal2, setShowModal2] = React.useState<boolean>(true)
+
+    const [foo, setFoo] = React.useState<string>('')
+    const [bar, setBar] = React.useState<string>('')
+    const [buzz, setBuzz] = React.useState<number>(0)
+
     return <div>
         <H1>H1 Header</H1>
         <H2>H2 Header</H2>
         <H3>H3 Header</H3>
+        <Audio controls />
+        <Paragraph>Plain Text.</Paragraph>
+        <Label htmlFor='Name'>Name:</Label>
+        <Input name="name" placeholder='Name?'></Input>
+        <div>
+            <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
+            <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
+            <Button variation="tertiary" onClick={() => setShowModal2(true)}>Tertiary Button</Button>
+            <Button variation="quaternary" onClick={() => setShowModal2(true)}>Quaternary Button</Button>
+        </div>
+        <Modal contentLabel="Demo" showModal={showModal1} closeModal={() => setShowModal1(false)}>
+            <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique, arcu et bibendum posuere, est tellus blandit dolor, a scelerisque massa massa posuere ipsum. Aenean est justo, aliquet quis porttitor vel, eleifend non metus. Suspendisse eu dui at arcu condimentum dictum. Integer suscipit turpis massa, et pellentesque purus interdum et. Donec id pharetra libero, id tincidunt lectus. In fermentum leo sem, et feugiat urna tincidunt vitae. Nulla rutrum condimentum erat quis bibendum.</Paragraph>
+            <Paragraph>Proin ligula velit, scelerisque et dapibus sed, tristique sed orci. Mauris neque ligula, faucibus id ante id, varius fermentum ex. In in ullamcorper felis. Maecenas at eros diam. Aliquam aliquam massa sit amet leo rhoncus, et sodales tellus posuere. Duis a dignissim libero. Quisque eu neque eget felis sagittis sodales. Nam volutpat orci id ligula mollis elementum.</Paragraph>
+            <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
+            <Button variation="secondary" onClick={() => setShowModal1(true)}>Secondary Button</Button>
+        </Modal>
 
+        <Modal contentLabel="Input Demo" showModal={showModal2} closeModal={() => setShowModal2(false)}>
+
+
+            <LabelAndInput name="foo" label='Foo!' value={foo} handleChange={(value) => setFoo(value)} />
+            <LabelAndInput name="bar" label='Bar!' value={bar} handleChange={(value) => setBar(value)} />
+            <Button variation="primary" onClick={() => setShowModal2(true)}>Primary Button</Button>
+            <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
+        </Modal>
     </div>
 }
 
