@@ -8,8 +8,8 @@ const Header = () => {
 
     return (
         <div>
-            <h1>Worksheets!</h1>
-            {state.currentUser ? <p>Welcome {state.currentUser.email}</p> : <p>You should login</p>}
+            <h1>Panda!!</h1>
+            {state.currentUser ? <p>Welcome {state.currentUser.panda.userName}</p> : <p>You should login</p>}
         </div>
     )
 }

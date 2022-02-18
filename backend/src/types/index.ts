@@ -1,8 +1,7 @@
-type User = {
-    "user_id": string
-    "email": string
+type Context = {
+    authenticatedUserId: string | null
 }
 
 export {
-    User
+    Context
 }

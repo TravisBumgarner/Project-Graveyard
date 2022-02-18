@@ -1,14 +1,17 @@
-import { User } from 'firebase/auth'
+import { User as FirebaseUser } from 'firebase/auth'
 import React from 'react'
 
-import { Worksheet, WorksheetEntry } from '../../types'
+import { Worksheet, WorksheetEntry, PandaAppUser } from '../../types'
 
 type State = {
     message: string
     worksheets: Record<string, Worksheet>
     worksheetEntries: Record<string, WorksheetEntry>
     appHydrated: boolean
-    currentUser: User | null
+    currentUser: {
+        firebase: FirebaseUser,
+        panda: PandaAppUser
+    } | null
 }
 
 const EMPTY_STATE: State = {
@@ -37,9 +40,29 @@ type HydrateApp = {
 }
 
 type UserSignup = {
-    type: 'USER_AUTHED'
+    type: 'USER_SIGNED_UP'
     data: {
-        currentUser: User
+        currentUser: {
+            firebase: FirebaseUser
+            panda: PandaAppUser
+        }
+    }
+}
+
+type UserLogin = {
+    type: 'USER_LOGGED_IN'
+    data: {
+        currentUser: {
+            firebase: FirebaseUser
+            panda: PandaAppUser
+        }
+    }
+}
+
+type UserSignedOut = {
+    type: 'USER_SIGNED_OUT'
+    data: {
+        currentUser: null
     }
 }
 
@@ -100,7 +123,9 @@ type DeleteMessage = {
 type Action =
     | AddMessage
     | DeleteMessage
+    | UserLogin
     | UserSignup
+    | UserSignedOut
     | HydrateApp
     | AddWorksheet
     | EditWorksheet
@@ -110,6 +135,7 @@ type Action =
     | DeleteWorksheetEntry
 
 const reducer = (state: State, action: Action): State => {
+    console.log(action.type)
     switch (action.type) {
         case 'ADD_MESSAGE': {
             return { ...state, message: action.data.message }
@@ -117,13 +143,15 @@ const reducer = (state: State, action: Action): State => {
         case 'DELETE_MESSAGE': {
             return { ...state, message: '' }
         }
-        case 'USER_AUTHED': {
+        case 'USER_SIGNED_OUT':
+        case 'USER_LOGGED_IN':
+        case 'USER_SIGNED_UP': {
             return { ...state, currentUser: action.data.currentUser }
         }
         case 'HYDRATE_APP': {
             const worksheets: Record<string, Worksheet> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
-
+            console.log(action.data)
             const worksheetEntries: Record<string, WorksheetEntry> = {}
             action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
             return { ...state, worksheets, worksheetEntries, appHydrated: true }

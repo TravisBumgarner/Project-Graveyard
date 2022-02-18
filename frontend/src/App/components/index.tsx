@@ -1,6 +1,6 @@
 import Navigation from "./Navigation";
 import Home from "./Home";
-import Dashboard from './Dashboard'
+import UserDashboard from './UserDashboard'
 import Worksheet from './Worksheet'
 import { Context, context } from "./Context";
 import Signup from "./Signup";
@@ -10,12 +10,14 @@ import ForgottenPassword from "./ForgottenPassword";
 import ConditionalRoute from "./ConditionalRoute";
 import Profile from "./Profile";
 import StyleExploration from "./StyleExploration";
+import ReviewDashboard from "./ReviewDashboard";
+import ReviewWorksheet from "./ReviewWorksheet";
 
 export {
     Home,
     Navigation,
     Context,
-    Dashboard,
+    UserDashboard,
     Worksheet,
     Signup,
     Login,
@@ -24,5 +26,7 @@ export {
     ForgottenPassword,
     ConditionalRoute,
     Profile,
-    StyleExploration
+    StyleExploration,
+    ReviewWorksheet,
+    ReviewDashboard
 }

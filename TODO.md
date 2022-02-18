@@ -1,3 +1,5 @@
+# MVP
+
 - [x] Remove uneeded code
 - [ ] Add edit for WorksheetEntry
 - [x] Add more fields for worksheet
@@ -11,14 +13,18 @@
 - [ ] add the idea of users
     - [ ] Only be able to edit your own work
     - [ ] Need some way for students to share with teachers
+    - [ ] Need way for teachers to give feedback
+- [ ] Bare minimum of usable UI
+
+# Post MVP
+
 - [ ] create a style
 - [ ] Figure out .dotenv on frontend
-- [ ] Have views for students and teachers
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
 - [ ] add testing and linting
 - [ ] Find some beta testers
-- [ ] Firebase for projection
+- [ ] Firebase for production
     - [ ] Create a new project
         - [ ] Remove localhost
 - [ ] Add logging

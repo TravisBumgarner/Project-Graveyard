@@ -14,11 +14,32 @@ const WorksheetType = new GraphQLObjectType({
     description: 'This represents a worksheet',
     fields: () => ({
         id: { type: GraphQLNonNull(GraphQLString) },
+        userId: { type: GraphQLNonNull(GraphQLString) },
         title: { type: GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
         knownLanguage: { type: GraphQLNonNull(GraphQLString) },
         newLanguage: { type: GraphQLNonNull(GraphQLString) }
+        // user: {
+        //     type: UserType,
+        //     resolve: async (worksheet: any) => {
+        //         const data = await getConnection()
+        //             .getRepository(entity.User)
+        //             .createQueryBuilder('user')
+        //             .where({ id: worksheet.userId })
+        //             .getOne()
+        //         return data
+        //     }
+        // },
+    })
+})
+
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    description: 'This represents a user',
+    fields: () => ({
+        id: { type: GraphQLNonNull(GraphQLString) },
+        username: { type: GraphQLNonNull(GraphQLString) },
     })
 })
 

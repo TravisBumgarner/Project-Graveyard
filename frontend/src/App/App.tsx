@@ -11,7 +11,8 @@ import {
   NormalizedCacheObject
 } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
-import { getIdToken } from 'firebase/auth'
+import { getIdToken, onAuthStateChanged, User } from 'firebase/auth'
+import axios from 'axios'
 
 import {
   ForgottenPassword,
@@ -19,18 +20,20 @@ import {
   ConditionalRoute,
   Login,
   Header,
-  Dashboard,
+  UserDashboard,
   Context,
   Navigation,
   context,
   Worksheet as WorksheetComponent,
   Signup,
   Profile,
-  StyleExploration
+  ReviewDashboard,
+  StyleExploration,
+  ReviewWorksheet
 } from './components'
-import { Worksheet, WorksheetEntry } from './types';
+import { PandaAppUser, Worksheet, WorksheetEntry } from './types';
 import { auth } from '../firebase';
-import { User } from 'firebase/auth';
+import { GlobalStyle } from 'theme';
 
 const HYDRATE_APP = gql`
 query HydrateApp {
@@ -40,7 +43,8 @@ query HydrateApp {
     description,
     date,
     knownLanguage,
-    newLanguage
+    newLanguage,
+    userId,
   }
   worksheetEntries {
     id,
@@ -50,8 +54,6 @@ query HydrateApp {
   }
 }
 `
-
-
 
 
 const Message = () => {
@@ -74,7 +76,6 @@ const Message = () => {
 const App = () => {
   const { state, dispatch } = React.useContext(context)
   useQuery<{ worksheet: Worksheet[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
-
   return (
     <>
       <Message />
@@ -82,12 +83,15 @@ const App = () => {
       <Navigation />
       <Routes>
         <Route path="/worksheet/:worksheetId" element={<ConditionalRoute authedComponent={<WorksheetComponent />} />} />
+        <Route path="/review/:worksheetId" element={<ConditionalRoute authedComponent={<ReviewWorksheet />} />} />
+        <Route path="/review-dashboard" element={<ConditionalRoute authedComponent={<ReviewDashboard />} />} />
         <Route path="/profile" element={<ConditionalRoute authedComponent={<Profile />} />} />
-        <Route path="/signup" element={<ConditionalRoute authedComponent={<Dashboard />} unauthedComponent={<Signup />} />} />
-        <Route path="/login" element={<ConditionalRoute authedComponent={<Dashboard />} unauthedComponent={<Login />} />} />
-        <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<Dashboard />} unauthedComponent={<ForgottenPassword />} />} />
+        <Route path="/signup" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Signup />} />} />
+        <Route path="/login" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Login />} />} />
+        <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<ForgottenPassword />} />} />
         <Route path="/stylesheet" element={<StyleExploration />} />
-        <Route path="/" element={<ConditionalRoute authedComponent={<Dashboard />} unauthedComponent={<Home />} />} />
+        <Route path="/user-dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </>
   )
@@ -97,12 +101,31 @@ const WrappedApp = () => {
   const [client, setClient] = React.useState<ApolloClient<NormalizedCacheObject> | null>(null)
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const { state, dispatch } = React.useContext(context)
-  console.log('app', state.worksheets)
-  React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async currentUser => {
-      dispatch({ type: "USER_AUTHED", data: { currentUser } })
 
-      const token = currentUser ? await getIdToken(currentUser) : ''
+  React.useEffect(() => {
+    onAuthStateChanged(auth, async (firebase) => {
+      if (!firebase) return
+
+      const token = await getIdToken(firebase)
+      const { data: panda }: { data: PandaAppUser } = await axios.get('http://localhost:5001/whoami', {
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : ""
+        }
+      })
+      dispatch({
+        type: "USER_LOGGED_IN", data: {
+          currentUser: {
+            panda,
+            firebase
+          }
+        }
+      })
+    })
+  }, [])
+
+  React.useEffect(() => {
+    const getAuthedClient = async () => {
+      const token = await getIdToken(state.currentUser.firebase)
       const authLink = setContext((_, { headers }) => {
         return {
           headers: {
@@ -122,10 +145,29 @@ const WrappedApp = () => {
       });
       setClient(client)
       setIsLoading(false)
-      return unsubscribe
-    })
+    }
 
-  }, [])
+    const getUnauthedClient = async () => {
+      const httpLink = createHttpLink({
+        uri: 'http://localhost:5001/graphql',
+      });
+
+      const client = new ApolloClient({
+        cache: new InMemoryCache(),
+        link: httpLink,
+      });
+      setClient(client)
+      setIsLoading(false)
+    }
+
+    if (state.currentUser) {
+      getAuthedClient()
+    } else {
+      getUnauthedClient()
+    }
+
+
+  }, [state.currentUser])
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -143,7 +185,10 @@ const WrappedApp = () => {
 const ContextWrapper = () => {
   return (
     <Context>
-      <WrappedApp />
+      <>
+        <GlobalStyle />
+        <WrappedApp />
+      </>
     </Context>
   )
 }

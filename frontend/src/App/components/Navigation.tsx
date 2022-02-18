@@ -21,17 +21,17 @@ const StyledNav = styled.ul`
 type Props = {
 }
 
-// const ALWAYS_VISIBLE_LINKS = [
-
-// ]
+const ALWAYS_VISIBLE_LINKS = [
+    { text: "Home", to: "/" },
+]
 
 const LOGGED_IN_VISIBLE_LINKS = [
-    { text: "Dashboard", to: "/" },
+    { text: "User Dashboard", to: "/user-dashboard" },
+    { text: "Review Dashboard", to: "/review-dashboard" },
     { text: "Profile", to: "/profile" }
 ]
 
 const LOGGED_OUT_VISIBLE_LINKS = [
-    { text: "Home", to: "/" },
     { text: "Log In", to: "/login" },
     { text: "Sign Up", to: "/signup" },
 ]
@@ -40,7 +40,7 @@ const Navigation = (props: Props) => {
     const { state, dispatch } = React.useContext(context)
 
     const links = [
-        // ...ALWAYS_VISIBLE_LINKS,
+        ...ALWAYS_VISIBLE_LINKS,
         ...(state.currentUser ? LOGGED_IN_VISIBLE_LINKS : LOGGED_OUT_VISIBLE_LINKS)
     ]
 
@@ -48,6 +48,7 @@ const Navigation = (props: Props) => {
     const handleLogout = async () => {
         try {
             await signOut(auth)
+            dispatch({ type: "USER_SIGNED_OUT", data: { currentUser: null } })
             navigate('/login')
         } catch {
             alert("something went wrong logging out")

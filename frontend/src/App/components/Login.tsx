@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
+import { PandaAppUser } from '../types'
+import axios from 'axios'
 
 type LoginProps = {
 }
@@ -12,22 +14,36 @@ const Login = ({ }: LoginProps) => {
     const { dispatch } = React.useContext(context)
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
-    const [email, setEmail] = React.useState<string>('')
-    const [password, setPassword] = React.useState<string>('')
+    const [email, setEmail] = React.useState<string>('bbb@bbb.com')
+    const [password, setPassword] = React.useState<string>('bbbbbb')
 
     const handleSubmit = async () => {
         setIsLoading(true)
 
         try {
-            await signInWithEmailAndPassword(auth, email, password)
-            navigate('/')
+            const { user: firebase } = await signInWithEmailAndPassword(auth, email, password)
+            const token = await getIdToken(firebase)
+            const { data: panda }: { data: PandaAppUser } = await axios.get('http://localhost:5001/whoami', {
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : ""
+                }
+            })
+            dispatch({
+                type: "USER_LOGGED_IN", data: {
+                    currentUser: {
+                        panda,
+                        firebase
+                    }
+                }
+            })
+            await setIsLoading(false)
+            return navigate('/')
         } catch (error) {
             dispatch({
                 type: "ADD_MESSAGE", data: {
                     message: `Failed to login: ${error.message}`
                 }
             })
-        } finally {
             setIsLoading(false)
         }
     }

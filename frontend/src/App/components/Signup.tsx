@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
+import { PandaAppUser } from '../types'
+import axios from 'axios'
 
 type SignupProps = {}
 
@@ -12,6 +14,7 @@ const Singup = ({ }: SignupProps) => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>('')
+    const [username, setUsername] = React.useState<string>('')
     const [password, setPassword] = React.useState<string>('')
     const [passwordConfirmation, setPasswordConfirmation] = React.useState<string>('')
     const handleSubmit = async () => {
@@ -23,8 +26,24 @@ const Singup = ({ }: SignupProps) => {
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password)
-            navigate('/');
+            const { user: firebase } = await createUserWithEmailAndPassword(auth, email, password)
+            const token = await getIdToken(firebase)
+            const { data: panda }: { data: PandaAppUser } = await axios.post('http://localhost:5001/whoami', {
+                username
+            }, {
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : ""
+                }
+            })
+
+            dispatch({
+                type: "USER_SIGNED_UP", data: {
+                    currentUser: {
+                        panda,
+                        firebase
+                    }
+                }
+            })
         } catch (error) {
             dispatch({
                 type: "ADD_MESSAGE", data: {
@@ -38,6 +57,12 @@ const Singup = ({ }: SignupProps) => {
     return (
         <div>
             <h1>Sign Up</h1>
+            <div>
+                <label htmlFor="username">Username:</label>
+                <input type="text" name="username" value={username} onChange={(event) => setUsername(event.target.value)} />
+            </div>
+
+
             <div>
                 <label htmlFor="email">Email:</label>
                 <input type="text" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />

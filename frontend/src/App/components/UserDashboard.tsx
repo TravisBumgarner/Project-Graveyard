@@ -104,12 +104,12 @@ const Worksheets = () => {
     const { state, dispatch } = React.useContext(context)
 
     const [showModal, setShowModal] = React.useState<boolean>(false)
-
+    console.log(state)
     return (
         <div>
             <h1>Worksheets</h1>
             <ul>
-                {Object.values(state.worksheets).map(({ title, description, id, knownLanguage, newLanguage }) => <li key={id}><Link to={`/worksheet/${id}`}>{title} - {description} - {knownLanguage} - {newLanguage}</Link></li>)}
+                {Object.values(state.worksheets).filter(({ userId }) => userId === state.currentUser.panda.id).map(({ title, description, id, knownLanguage, newLanguage }) => <li key={id}><Link to={`/worksheet/${id}`}>{title} - {description} - {knownLanguage} - {newLanguage}</Link></li>)}
             </ul>
             <button onClick={() => setShowModal(true)}>Add Worksheet</button>
             <Modal

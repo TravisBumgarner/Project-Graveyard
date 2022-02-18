@@ -13,9 +13,6 @@ const GET_PROJECTS = gql`
   }
 `;
 
-
-
-
 export {
   GET_PROJECTS,
 }

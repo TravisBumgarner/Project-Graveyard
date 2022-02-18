@@ -7,6 +7,7 @@ type Worksheet = {
     date: moment.Moment
     knownLanguage: string
     newLanguage: string
+    userId: string
 }
 
 type WorksheetEntry = {
@@ -16,7 +17,13 @@ type WorksheetEntry = {
     newLanguageText: string
 }
 
+type PandaAppUser = {
+    id: string
+    userName: string
+}
+
 export {
     Worksheet,
-    WorksheetEntry
+    WorksheetEntry,
+    PandaAppUser
 }

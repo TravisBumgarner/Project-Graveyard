@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryColumn, ManyToOne } from 'typeorm'
+import { Column, Entity, PrimaryColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm'
 
 import Worksheet from './worksheet'
+import User from './user'
 
 @Entity()
 export default class WorksheetEntry {

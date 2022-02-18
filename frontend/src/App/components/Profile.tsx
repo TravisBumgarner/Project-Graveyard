@@ -14,7 +14,7 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
     const { dispatch, state } = React.useContext(context)
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
-    const [email, setEmail] = React.useState<string>(state.currentUser.email)
+    const [email, setEmail] = React.useState<string>(state.currentUser.firebase.email)
     const [password, setPassword] = React.useState<string>('')
     const [passwordConfirmation, setPasswordConfirmation] = React.useState<string>('')
 
@@ -28,11 +28,11 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
         }
 
         try {
-            if (email !== state.currentUser.email) {
-                await updateEmail(state.currentUser, email)
+            if (email !== state.currentUser.firebase.email) {
+                await updateEmail(state.currentUser.firebase, email)
             }
             if (password.length > 0) {
-                await updatePassword(state.currentUser, password)
+                await updatePassword(state.currentUser.firebase, password)
             }
             closeModal()
         } catch (error) {
@@ -79,15 +79,14 @@ const Profile = ({ }: ProfileProps) => {
     const navigate = useNavigate()
 
     const [showModal, setShowModal] = React.useState<boolean>(false)
-    console.log(state.currentUser)
-
 
     return (
         <>
             <div>
                 <h1>Profile</h1>
-                <p>Email: {state.currentUser.email}</p>
-                <p>Last Login: {state.currentUser.metadata.lastSignInTime}</p>
+                <p>Username: {state.currentUser.panda.userName}</p>
+                <p>Email: {state.currentUser.firebase.email}</p>
+                <p>Last Login: {state.currentUser.firebase.metadata.lastSignInTime}</p>
             </div>
             <button onClick={() => setShowModal(true)}>Edit Profile</button>
             <Modal
