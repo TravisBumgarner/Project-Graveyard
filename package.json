@@ -8,7 +8,8 @@
     "backend"
   ],
   "scripts": {
-    "sd": "concurrently -n frontend,backend \"npm run sd:fe --workspace=frontend\" \"npm run sd:be --workspace=backend\""
+    "docker": "docker-compose up -d",
+    "sd": "concurrently -n docker,frontend,backend \"npm run docker\" \"npm run sd:fe --workspace=frontend\" \"npm run sd:be --workspace=backend\""
   },
   "repository": {
     "type": "git",

@@ -1,10 +1,7 @@
-require('dotenv').config({ path: '.env' })
 import { createConnection } from 'typeorm'
 
 import ormconfig from './src/db/ormconfig'
 import app from './src/app'
-import config from './src/config'
-
 
 const catchError = (error: unknown) => {
   console.log(error)
@@ -13,8 +10,8 @@ const catchError = (error: unknown) => {
 
 const startup = async () => {
   await createConnection(ormconfig).catch(catchError)
-  await app.listen(config.expressPortname, () => {
-    console.log(`App listening at http://localhost:${config.expressPortname}`)
+  await app.listen(5001, () => {
+    console.log(`App listening at http://localhost:5001`)
   })
 }
 
