@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { Routes, Route } from 'react-router'
 import {
@@ -107,7 +107,7 @@ const WrappedApp = () => {
       if (!firebase) return
 
       const token = await getIdToken(firebase)
-      const { data: panda }: { data: PandaAppUser } = await axios.get('http://localhost:5001/whoami', {
+      const { data: panda }: { data: PandaAppUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
         headers: {
           'Authorization': token ? `Bearer ${token}` : ""
         }
@@ -136,7 +136,7 @@ const WrappedApp = () => {
       });
 
       const httpLink = createHttpLink({
-        uri: 'http://localhost:5001/graphql',
+        uri: __API_ENDPOINT__ + '/graphql',
       });
 
       const client = new ApolloClient({
@@ -149,7 +149,7 @@ const WrappedApp = () => {
 
     const getUnauthedClient = async () => {
       const httpLink = createHttpLink({
-        uri: 'http://localhost:5001/graphql',
+        uri: __API_ENDPOINT__ + '/graphql',
       });
 
       const client = new ApolloClient({

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 

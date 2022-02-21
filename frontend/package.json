@@ -35,9 +35,10 @@
     "webpack-dev-server": "^3.11.3"
   },
   "scripts": {
-    "sd:fe": "webpack serve --mode=development --config=webpack.js",
+    "sd:fe": "NODE_ENV=development webpack serve --mode=development --config=webpack.js",
     "test-unit": "jest --config=jest.unit.js",
-    "bundle-ui": " rm -rf ./public; mkdir ./public; webpack --mode=production --config=webpack.js",
-    "precommit": "npm run test-unit"
+    "bundle-ui": "rm -rf ./build; mkdir ./build; NODE_ENV=production webpack --mode=production --config=webpack.js",
+    "precommit": "npm run test-unit",
+    "deploy": "npm run bundle-ui; firebase deploy"
   }
 }

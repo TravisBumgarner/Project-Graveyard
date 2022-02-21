@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { createUserWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -28,7 +28,7 @@ const Singup = ({ }: SignupProps) => {
         try {
             const { user: firebase } = await createUserWithEmailAndPassword(auth, email, password)
             const token = await getIdToken(firebase)
-            const { data: panda }: { data: PandaAppUser } = await axios.post('http://localhost:5001/whoami', {
+            const { data: panda }: { data: PandaAppUser } = await axios.post(__API_ENDPOINT__ + '/whoami', {
                 username
             }, {
                 headers: {

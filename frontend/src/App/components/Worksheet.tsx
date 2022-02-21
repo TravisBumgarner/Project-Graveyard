@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
 import { gql, useMutation, useQuery } from '@apollo/client'
@@ -141,7 +141,7 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
         <tr key={id} >
             <td>{knownLanguageText}</td>
             <td>{newLanguageText}</td>
-            <td><audio controls src={`http://localhost:5001/recordings/${worksheetEntry.worksheetId}/${worksheetEntry.id}.webm`} /></td>
+            <td><audio controls src={__AUDIO_ENDPOINT__ + `/recordings/${worksheetEntry.worksheetId}/${worksheetEntry.id}.webm`} /></td>
             <td>
                 <ActionButton><AiOutlineEdit /></ActionButton>
                 <ActionButton onClick={handleDelete}><AiOutlineDelete /></ActionButton>

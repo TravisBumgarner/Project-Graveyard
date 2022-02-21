@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -23,7 +23,7 @@ const Login = ({ }: LoginProps) => {
         try {
             const { user: firebase } = await signInWithEmailAndPassword(auth, email, password)
             const token = await getIdToken(firebase)
-            const { data: panda }: { data: PandaAppUser } = await axios.get('http://localhost:5001/whoami', {
+            const { data: panda }: { data: PandaAppUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ""
                 }
