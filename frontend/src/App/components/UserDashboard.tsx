@@ -51,7 +51,8 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
                 description,
                 title,
                 knownLanguage,
-                newLanguage
+                newLanguage,
+                userId: state.currentUser.panda.id
             }
         })
         dispatch({ type: "ADD_WORKSHEET", data: { worksheet: response.data.addWorksheet } })
@@ -71,12 +72,12 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
         <div>
             <div>
                 <label htmlFor="title">Title: </label>
-                <input name="title" value={title} onChange={event => setTitle(event.target.value)} />
+                <input autoComplete='off' name="title" value={title} onChange={event => setTitle(event.target.value)} />
             </div>
 
             <div>
                 <label htmlFor="goal">Goal: </label>
-                <input name="goal" value={description} onChange={event => setDescription(event.target.value)} />
+                <input autoComplete='off' name="goal" value={description} onChange={event => setDescription(event.target.value)} />
             </div>
 
             <div>
@@ -104,7 +105,6 @@ const Worksheets = () => {
     const { state, dispatch } = React.useContext(context)
 
     const [showModal, setShowModal] = React.useState<boolean>(false)
-    console.log(state)
     return (
         <div>
             <h1>Worksheets</h1>

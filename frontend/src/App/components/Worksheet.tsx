@@ -96,12 +96,12 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
         <div>
             <div>
                 <label htmlFor="knownLanguageText">{state.worksheets[worksheetId].knownLanguage}</label>
-                <input name="knownLanguageText" value={knownLanguageText} onChange={event => setKnownLanguageText(event.target.value)} />
+                <input autoComplete='off' name="knownLanguageText" value={knownLanguageText} onChange={event => setKnownLanguageText(event.target.value)} />
             </div>
 
             <div>
                 <label htmlFor="newLanguageText">{state.worksheets[worksheetId].newLanguage}</label>
-                <input name="newLanguageText" value={newLanguageText} onChange={event => setNewLanguageText(event.target.value)} />
+                <input autoComplete='off' name="newLanguageText" value={newLanguageText} onChange={event => setNewLanguageText(event.target.value)} />
             </div>
 
             <audio src={audioURL} controls />
