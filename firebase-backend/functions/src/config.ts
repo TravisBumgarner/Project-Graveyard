@@ -1,7 +1,7 @@
-import { String, Record, Number, Static } from 'runtypes'
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+import { String, Record, Number } from 'runtypes'
 
 const Env = Record({
+    nodeEnv: String,
     postgres: Record({
         host: String,
         port: Number,
@@ -10,7 +10,6 @@ const Env = Record({
         database: String,
     })
 })
-
 const getEnv = () => {
     const env = {
         postgres: {
@@ -24,10 +23,8 @@ const getEnv = () => {
     try {
         return Env.check(env)
     } catch (error) {
-        throw Error('Invalid project config')
+        throw Error('Invalil project config' + JSON.stringify(process.env))
     }
 }
 
-const config = getEnv()
-
-export default config
+export default getEnv

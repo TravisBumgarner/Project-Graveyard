@@ -14,7 +14,6 @@ const colorFactory = (color: string) => ({
 )
 
 const PRIMARY = colorFactory('#6A7FDB')
-console.log(PRIMARY)
 const SECONDARY = colorFactory('#45CB85')
 const TERTIARY = colorFactory('#57E2E5')
 const QUATERNARY = colorFactory('#E08DAC')

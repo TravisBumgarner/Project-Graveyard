@@ -7,8 +7,6 @@ const Review = () => {
     const { state, dispatch } = React.useContext(context)
 
     const [showModal, setShowModal] = React.useState<boolean>(false)
-    console.log(state.currentUser.panda.id)
-    console.log(state)
     return (
         <div>
             <h1>Review Others</h1>

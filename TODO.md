@@ -15,9 +15,12 @@
     - [ ] Need some way for students to share with teachers
     - [ ] Need way for teachers to give feedback
 - [ ] Bare minimum of usable UI
+- [ ] Diagram the GCP system and get Alan's / James's feedback
 - [ ] Figure out file hosting
 - [ ] Figure out deployment
-
+- [ ] Setup way to deploy infra as code for GCP
+- [ ] Don't use admin postgres to connect to GCP SQL
+- [ ] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
 # Post MVP
 
 - [ ] create a style

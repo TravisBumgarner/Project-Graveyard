@@ -135,7 +135,6 @@ type Action =
     | DeleteWorksheetEntry
 
 const reducer = (state: State, action: Action): State => {
-    console.log(action.type)
     switch (action.type) {
         case 'ADD_MESSAGE': {
             return { ...state, message: action.data.message }
@@ -151,7 +150,6 @@ const reducer = (state: State, action: Action): State => {
         case 'HYDRATE_APP': {
             const worksheets: Record<string, Worksheet> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
-            console.log(action.data)
             const worksheetEntries: Record<string, WorksheetEntry> = {}
             action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
             return { ...state, worksheets, worksheetEntries, appHydrated: true }
