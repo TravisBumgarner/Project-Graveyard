@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { context } from '.'
@@ -9,6 +9,7 @@ const StyledNav = styled.ul`
     list-style: none;
     flex-direction: row;
     display: flex;
+    padding: 0;
 
     li {
         padding: 10px;
@@ -46,9 +47,18 @@ const Navigation = (props: Props) => {
     return (
         <StyledNav>
             {links.map(({ text, to }) => {
-                return <li key={to} ><Link to={to}>{text}</Link></li>
+                return (
+                    <li key={to} >
+                        <NavLink style={({ isActive }) => {
+                            return {
+                                fontWeight: isActive ? 700 : 100
+                            }
+                        }} to={to} >{text}
+                        </NavLink>
+                    </li>
+                )
             })}
-        </StyledNav>
+        </StyledNav >
     )
 }
 export default Navigation

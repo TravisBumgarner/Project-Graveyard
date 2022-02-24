@@ -25,7 +25,8 @@ mutation AddWorksheet (
       description,
       date,
       knownLanguage,
-      newLanguage
+      newLanguage,
+      userId
     }
 }
 `;
@@ -44,6 +45,11 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     const [date, setDate] = React.useState<moment.Moment>(moment())
 
     const handleSubmit = async () => {
+        if (!title || !description || !knownLanguage || !newLanguage || !date) {
+            dispatch({ type: "ADD_MESSAGE", data: { message: "Please fully complete the form." } })
+            return
+        }
+
         const response = await addWorksheet({
             variables: {
                 date,
@@ -55,6 +61,7 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
                 userId: state.currentUser.panda.id
             }
         })
+
         dispatch({ type: "ADD_WORKSHEET", data: { worksheet: response.data.addWorksheet } })
         closeModal()
     }
@@ -76,8 +83,8 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
             </div>
 
             <div>
-                <label htmlFor="goal">Goal: </label>
-                <input autoComplete='off' name="goal" value={description} onChange={event => setDescription(event.target.value)} />
+                <label htmlFor="description">Description: </label>
+                <input autoComplete='off' name="description" value={description} onChange={event => setDescription(event.target.value)} />
             </div>
 
             <div>
@@ -108,9 +115,39 @@ const Worksheets = () => {
     return (
         <div>
             <h1>Worksheets</h1>
-            <ul>
-                {Object.values(state.worksheets).filter(({ userId }) => userId === state.currentUser.panda.id).map(({ title, description, id, knownLanguage, newLanguage }) => <li key={id}><Link to={`/worksheet/${id}`}>{title} - {description} - {knownLanguage} - {newLanguage}</Link></li>)}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Object
+                        .values(state.worksheets)
+                        .filter(({ userId }) => userId === state.currentUser.panda.id)
+                        .map(({ title, description, id, knownLanguage, newLanguage }) => {
+                            return (
+                                <tr key={id}>
+                                    <td>{title}</td>
+                                    <td>{knownLanguage}</td>
+                                    <td>{newLanguage}</td>
+                                    <td>{description}</td>
+                                    <td>
+                                        <Link to={`/worksheet/${id}`}>View</Link>
+                                        <button>Edit</button>
+                                        <button>Delete</button>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+
+            </table>
             <button onClick={() => setShowModal(true)}>Add Worksheet</button>
             <Modal
                 isOpen={showModal}

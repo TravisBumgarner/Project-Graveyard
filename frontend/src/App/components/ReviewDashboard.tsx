@@ -4,15 +4,46 @@ import { Link } from 'react-router-dom'
 import { context } from '.'
 
 const Review = () => {
-    const { state, dispatch } = React.useContext(context)
-
-    const [showModal, setShowModal] = React.useState<boolean>(false)
+    const { state } = React.useContext(context)
+    console.log(state.worksheets)
     return (
         <div>
             <h1>Review Others</h1>
-            <ul>
-                {Object.values(state.worksheets).filter(({ userId }) => userId !== state.currentUser.panda.id).map(({ title, description, id, knownLanguage, newLanguage }) => <li key={id}><Link to={`/review/${id}`}>{title} - {description} - {knownLanguage} - {newLanguage}</Link></li>)}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Username</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {Object
+                        .values(state.worksheets)
+                        .filter(({ userId }) => !(userId === state.currentUser.panda.id))
+                        .map(({ title, userId, description, id, knownLanguage, newLanguage }) => {
+                            return (
+                                <tr key={id}>
+                                    <td>{title}</td>
+                                    <td>{userId}</td>
+                                    <td>{knownLanguage}</td>
+                                    <td>{newLanguage}</td>
+                                    <td>{description}</td>
+                                    <td>
+                                        <Link to={`/worksheet/${id}`}>View</Link>
+                                        <button>Review</button>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+
+            </table>
         </div>
     )
 }
