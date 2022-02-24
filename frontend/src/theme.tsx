@@ -7,10 +7,6 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Comfortaa', cursive;
         /* background-color: #ffd5e5; */
     }
-
-    td {
-        border: 1px solid black;
-    }
 `
 
 export { GlobalStyle }

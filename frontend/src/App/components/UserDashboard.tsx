@@ -1,14 +1,23 @@
 import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
+import { AiOutlineFolder, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import styled from 'styled-components'
 
+import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow } from './StyleExploration'
 import { context } from '.'
 import { Worksheet } from '../types'
 import { dateToString } from '../utilities'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { Button } from './StyleExploration'
+
+const ActionButton = styled.button`
+    background-color: transparent;
+    border: 0;
+
+`
 
 const ADD_WORKSHEET = gql`
 mutation AddWorksheet (
@@ -115,40 +124,40 @@ const Worksheets = () => {
     return (
         <div>
             <h1>Worksheets</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>Title</TableHeaderCell>
+                        <TableHeaderCell>From</TableHeaderCell>
+                        <TableHeaderCell>To</TableHeaderCell>
+                        <TableHeaderCell>Description</TableHeaderCell>
+                        <TableHeaderCell>Actions</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
                     {Object
                         .values(state.worksheets)
                         .filter(({ userId }) => userId === state.currentUser.panda.id)
                         .map(({ title, description, id, knownLanguage, newLanguage }) => {
                             return (
-                                <tr key={id}>
-                                    <td>{title}</td>
-                                    <td>{knownLanguage}</td>
-                                    <td>{newLanguage}</td>
-                                    <td>{description}</td>
-                                    <td>
-                                        <Link to={`/worksheet/${id}`}>View</Link>
-                                        <button>Edit</button>
-                                        <button>Delete</button>
-                                    </td>
-                                </tr>
+                                <TableRow key={id}>
+                                    <TableBodyCell>{title}</TableBodyCell>
+                                    <TableBodyCell>{knownLanguage}</TableBodyCell>
+                                    <TableBodyCell>{newLanguage}</TableBodyCell>
+                                    <TableBodyCell>{description}</TableBodyCell>
+                                    <TableBodyCell>
+                                        <ActionButton><Link to={`/worksheet/${id}`}><AiOutlineFolder /></Link></ActionButton>
+                                        <ActionButton><AiOutlineEdit /></ActionButton>
+                                        <ActionButton><AiOutlineDelete /></ActionButton>
+                                    </TableBodyCell>
+                                </TableRow>
                             )
                         })
                     }
-                </tbody>
+                </TableBody>
 
-            </table>
-            <button onClick={() => setShowModal(true)}>Add Worksheet</button>
+            </Table>
+            <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}

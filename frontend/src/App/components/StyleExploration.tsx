@@ -7,11 +7,15 @@ import { darken, lighten } from 'polished';
 
 const colorFactory = (color: string) => ({
     base: color,
+    darkest: darken(0.1, color),
     darken: darken(0.25, color),
-    lighten: lighten(0.25, color)
+    lighten: lighten(0.25, color),
+    lightest: lighten(0.1, color),
 }
 
 )
+
+
 
 const PRIMARY = colorFactory('#6A7FDB')
 const SECONDARY = colorFactory('#45CB85')
@@ -212,10 +216,49 @@ const Modal = ({ children, showModal, closeModal, contentLabel }: ModalProps) =>
     )
 }
 
+const Table = styled.table`
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    border-color: ${PRIMARY.base};
+    border-collapse: collapse;
+    border-radius: 1em;
+`
+
+const TableHeader = styled.thead`
+    font-weight: 700;
+`
+
+const TableBody = styled.tbody`
+    font-weight: 100;
+`
+
+const TableRow = styled.tr`
+    &:nth-child(2n+1){
+        background-color: ${PRIMARY.lightest};   
+    }
+
+    &:nth-child(2n){
+        background-color: ${PRIMARY.lighten};   
+    }
+    
+`
+
+const TableHeaderCell = styled.th`
+    background-color: ${PRIMARY.lighten};    
+    padding: 5px;
+    
+`
+const TableBodyCell = styled.td`
+    border-bottom: 2px solid ${PRIMARY.base};    
+    padding: 10px;
+    
+`
+
 
 const StyleExploration = () => {
     const [showModal1, setShowModal1] = React.useState<boolean>(false)
-    const [showModal2, setShowModal2] = React.useState<boolean>(true)
+    const [showModal2, setShowModal2] = React.useState<boolean>(false)
 
     const [foo, setFoo] = React.useState<string>('')
     const [bar, setBar] = React.useState<string>('')
@@ -226,6 +269,48 @@ const StyleExploration = () => {
         <H2>H2 Header</H2>
         <H3>H3 Header</H3>
         <Audio controls />
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHeaderCell>Foo</TableHeaderCell>
+                    <TableHeaderCell>Bar</TableHeaderCell>
+                    <TableHeaderCell>Buzz</TableHeaderCell>
+                    <TableHeaderCell>Bazz</TableHeaderCell>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                </TableRow>
+                <TableRow>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                </TableRow>
+                <TableRow>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                </TableRow>
+                <TableRow>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                </TableRow>
+                <TableRow>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                    <TableBodyCell>daksdkasd</TableBodyCell>
+                </TableRow>
+            </TableBody>
+        </Table>
         <Paragraph>Plain Text.</Paragraph>
         <Label htmlFor='Name'>Name:</Label>
         <Input name="name" placeholder='Name?'></Input>
@@ -254,3 +339,12 @@ const StyleExploration = () => {
 }
 
 export default StyleExploration
+export {
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableHeader,
+    TableHeaderCell,
+    TableRow,
+    Button
+}
