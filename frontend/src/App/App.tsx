@@ -19,6 +19,7 @@ import {
   Home,
   ConditionalRoute,
   Login,
+  Logout,
   Header,
   UserDashboard,
   Context,
@@ -88,6 +89,7 @@ const App = () => {
         <Route path="/profile" element={<ConditionalRoute authedComponent={<Profile />} />} />
         <Route path="/signup" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Signup />} />} />
         <Route path="/login" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Login />} />} />
+        <Route path="/logout" element={<ConditionalRoute authedComponent={<Logout />} unauthedComponent={<Home />} />} />
         <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<ForgottenPassword />} />} />
         <Route path="/stylesheet" element={<StyleExploration />} />
         <Route path="/user-dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />

@@ -8,7 +8,7 @@ const Header = () => {
 
     return (
         <div>
-            <h1>Panda!!</h1>
+            <h1>Flash Sentences</h1>
             {state.currentUser ? <p>Welcome {state.currentUser.panda.userName}</p> : <p>You should login</p>}
         </div>
     )

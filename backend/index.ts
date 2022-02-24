@@ -8,6 +8,7 @@ const catchError = (error: unknown) => {
   process.exit(1)
 }
 
+
 const startup = async () => {
   await createConnection(ormconfig).catch(catchError)
   await app.listen(5001, () => {

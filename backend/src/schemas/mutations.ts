@@ -3,14 +3,13 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
-    GraphQLInt
 } from 'graphql'
 import fs from 'fs'
 import path from 'path';
 
 import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType } from './types'
-import { AtLeast, Exactly } from '../../../sharedUtilities'
+import { Exactly } from '../utilities'
 import { Context } from '../types'
 
 type AddWorksheetArgs = {

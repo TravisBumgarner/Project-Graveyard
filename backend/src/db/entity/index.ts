@@ -1,6 +1,6 @@
 import Worksheet from "./worksheet";
 import WorksheetEntry from "./worksheetEntry";
-import User from "./User";
+import User from "./user";
 
 export {
     Worksheet,

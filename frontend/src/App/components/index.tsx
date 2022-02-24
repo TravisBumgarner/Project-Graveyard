@@ -5,6 +5,7 @@ import Worksheet from './Worksheet'
 import { Context, context } from "./Context";
 import Signup from "./Signup";
 import Login from "./Login";
+import Logout from "./Logout";
 import Header from "./Header";
 import ForgottenPassword from "./ForgottenPassword";
 import ConditionalRoute from "./ConditionalRoute";
@@ -21,6 +22,7 @@ export {
     Worksheet,
     Signup,
     Login,
+    Logout,
     context,
     Header,
     ForgottenPassword,
