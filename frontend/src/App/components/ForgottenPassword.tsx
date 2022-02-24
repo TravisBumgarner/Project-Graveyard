@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
+import { Button, LabelAndInput } from './StyleExploration'
 
 type ForgottenPasswordProps = {
 }
@@ -35,11 +36,10 @@ const ForgottenPassword = ({ }: ForgottenPasswordProps) => {
         <div>
             <h1>Password Reset</h1>
             <div>
-                <label htmlFor="email">Email:</label>
-                <input type="text" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <LabelAndInput name="email" label='Email' value={email} handleChange={(email) => setEmail(email)} />
             </div>
 
-            <button disabled={isLoading} onClick={handleSubmit}>Reset Password</button>
+            <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Reset Password</Button>
             <div>
                 Need an account? <Link to="/login">Log In!</Link>
             </div>

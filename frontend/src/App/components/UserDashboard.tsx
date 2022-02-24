@@ -11,7 +11,7 @@ import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
 import { context } from '.'
 import { Worksheet } from '../types'
 import { dateToString } from '../utilities'
-import { Button } from './StyleExploration'
+import { Button, LabelAndInput } from './StyleExploration'
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -87,32 +87,27 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
         <h1>Worksheets</h1>
         <div>
             <div>
-                <label htmlFor="title">Title: </label>
-                <input autoComplete='off' name="title" value={title} onChange={event => setTitle(event.target.value)} />
+                <LabelAndInput label="Title" name="title" value={title} handleChange={title => setTitle(title)} />
             </div>
 
             <div>
-                <label htmlFor="description">Description: </label>
-                <input autoComplete='off' name="description" value={description} onChange={event => setDescription(event.target.value)} />
+                <LabelAndInput label="Description" name="description" value={description} handleChange={description => setDescription(description)} />
             </div>
 
             <div>
-                <label htmlFor="knownLanguage">What language are translating from?</label>
-                <input name="knownLanguage" value={knownLanguage} onChange={event => setknownLanguage(event.target.value)} />
+                <LabelAndInput label="From" name="knowLanguage" value={knownLanguage} handleChange={knownLanguage => setknownLanguage(knownLanguage)} />
             </div>
 
             <div>
-                <label htmlFor="newLanguage">What language are you translating to?</label>
-                <input name="newLanguage" value={newLanguage} onChange={event => setnewLanguage(event.target.value)} />
+                <LabelAndInput label="To" name="newLanguage" value={newLanguage} handleChange={newLanguage => setnewLanguage(newLanguage)} />
             </div>
 
             <div>
-                <label htmlFor="date">Date: </label>
-                <input type="date" name="date" value={dateToString(date)} onChange={event => setDate(moment(event.target.value))} />
+                <LabelAndInput label="Date" name="date" value={dateToString(date)} handleChange={date => setDate(moment(date))} />
             </div>
-            <button onClick={handleSubmit}>Submit</button>
-            <button onClick={handleCancel}>Cancel</button>
-            <button onClick={handleDelete}>Delete</button>
+            <Button variation="primary" onClick={handleSubmit}>Submit</Button>
+            <Button variation="primary" onClick={handleCancel}>Cancel</Button>
+            <Button variation="primary" onClick={handleDelete}>Delete</Button>
         </div>
     </div>
 }

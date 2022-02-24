@@ -6,6 +6,7 @@ import { context } from '.'
 import { auth } from '../../firebase'
 import { PandaAppUser } from '../types'
 import axios from 'axios'
+import { Button, LabelAndInput } from './StyleExploration'
 
 type LoginProps = {
 }
@@ -51,16 +52,14 @@ const Login = ({ }: LoginProps) => {
         <div>
             <h1>Log In</h1>
             <div>
-                <label htmlFor="email">Email:</label>
-                <input type="text" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <LabelAndInput label="Email" name="email" value={email} handleChange={email => setEmail(email)} />
             </div>
 
             <div>
-                <label htmlFor="password">Password:</label>
-                <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+            <LabelAndInput label="Password" name="password" value={password} handleChange={password => setPassword(password)} />
             </div>
 
-            <button disabled={isLoading} onClick={handleSubmit}>Log In</button>
+            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>variation="primary"
             <div>
                 <Link to="/forgottenpassword">Forgot your password?</Link>
             </div>

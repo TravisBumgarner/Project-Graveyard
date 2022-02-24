@@ -346,5 +346,6 @@ export {
     TableHeader,
     TableHeaderCell,
     TableRow,
-    Button
+    Button,
+    LabelAndInput
 }

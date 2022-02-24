@@ -57,29 +57,11 @@ query HydrateApp {
 `
 
 
-const Message = () => {
-  const { state, dispatch } = React.useContext(context)
-  const handleSubmit = () => {
-    dispatch({ type: "DELETE_MESSAGE" })
-  }
-
-  if (state.message) {
-    return (
-      <div style={{ zIndex: '999', backgroundColor: 'white', border: '2px solid black' }}>
-        <h1>{state.message}</h1>
-        <button onClick={handleSubmit}>Ok</button>
-      </div>
-    )
-  }
-  return null
-}
-
 const App = () => {
   const { state, dispatch } = React.useContext(context)
   useQuery<{ worksheet: Worksheet[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
   return (
     <>
-      <Message />
       <Header />
       <Navigation />
       <Routes>

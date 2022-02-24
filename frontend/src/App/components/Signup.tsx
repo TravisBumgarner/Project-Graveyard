@@ -6,6 +6,7 @@ import { context } from '.'
 import { auth } from '../../firebase'
 import { PandaAppUser } from '../types'
 import axios from 'axios'
+import { Button, LabelAndInput } from './StyleExploration'
 
 type SignupProps = {}
 
@@ -58,27 +59,23 @@ const Singup = ({ }: SignupProps) => {
         <div>
             <h1>Sign Up</h1>
             <div>
-                <label htmlFor="username">Username:</label>
-                <input type="text" name="username" value={username} onChange={(event) => setUsername(event.target.value)} />
+                <LabelAndInput label="Username" name="username" value={username} handleChange={username => setUsername(username)} />
             </div>
 
 
             <div>
-                <label htmlFor="email">Email:</label>
-                <input type="text" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <LabelAndInput label="Email" name="email" value={email} handleChange={email => setEmail(email)} />
             </div>
 
             <div>
-                <label htmlFor="password">Password:</label>
-                <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                <LabelAndInput label="Password" name="password" value={password} handleChange={password => setPassword(password)} />
             </div>
 
             <div>
-                <label htmlFor="confirmPassword">Confirm Password:</label>
-                <input type="password" name="confirmPassword" value={passwordConfirmation} onChange={(event) => setPasswordConfirmation(event.target.value)} />
+                <LabelAndInput label="Confirm Password" name="confirmPassword" value={passwordConfirmation} handleChange={passwordConfirmation => setPasswordConfirmation(passwordConfirmation)} />
             </div>
 
-            <button disabled={isLoading} onClick={handleSubmit}>Sign Up</button>
+            <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Sign Up</Button>
             <div>
                 Already signed up? <Link to="/login">Log In!</Link>
             </div>

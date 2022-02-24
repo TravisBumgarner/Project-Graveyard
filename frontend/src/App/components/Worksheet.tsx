@@ -11,6 +11,7 @@ import { WorksheetEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
+import { Button, LabelAndInput } from './StyleExploration'
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -95,13 +96,12 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
         <h1>New Worksheet Entry</h1>
         <div>
             <div>
-                <label htmlFor="knownLanguageText">{state.worksheets[worksheetId].knownLanguage}</label>
-                <input autoComplete='off' name="knownLanguageText" value={knownLanguageText} onChange={event => setKnownLanguageText(event.target.value)} />
+                <LabelAndInput label="From" name="fromLanguage" value={knownLanguageText} handleChange={knownLanguage => setKnownLanguageText(knownLanguage)} />
             </div>
 
             <div>
-                <label htmlFor="newLanguageText">{state.worksheets[worksheetId].newLanguage}</label>
-                <input autoComplete='off' name="newLanguageText" value={newLanguageText} onChange={event => setNewLanguageText(event.target.value)} />
+                <LabelAndInput label="To" name="fnewLanguage" value={newLanguageText} handleChange={newLanguage => setNewLanguageText(newLanguage)} />
+
             </div>
 
             <audio src={audioURL} controls />
@@ -115,9 +115,9 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
             </div>
 
             <div>
-                <button onClick={handleSubmit}>Submit</button>
-                <button onClick={handleCancel}>Cancel</button>
-                <button onClick={handleDelete}>Delete</button>
+                <Button variation="primary" onClick={handleSubmit}>Submit</Button>
+                <Button variation="primary" onClick={handleCancel}>Cancel</Button>
+                <Button variation="primary" onClick={handleDelete}>Delete</Button>
             </div>
         </div>
     </div>
@@ -181,9 +181,9 @@ const Worksheet = ({ }: WorksheetProps) => {
                         {filteredWorksheetEntries.map(worksheetEntry => <WorksheetEntry worksheetEntry={worksheetEntry} />)}
                     </tbody>
                 </table>
-                <button onClick={() => setShowModal(true)}>Add Entry</button>
+                <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
             </div>
-            <button onClick={() => console.log('submitted')}>Submit for Feedback</button>
+            <Button variation="primary" onClick={() => console.log('submitted')}>Submit for Feedback</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}

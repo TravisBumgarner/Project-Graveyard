@@ -5,6 +5,8 @@ import Modal from 'react-modal'
 
 import { context } from '.'
 import { auth } from '../../firebase'
+import { LabelAndInput, Button } from '../components/StyleExploration'
+
 
 type EditProfileProps = {
     closeModal: () => void
@@ -50,22 +52,20 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
         <div>
             <h1>Edit Profile</h1>
             <div>
-                <label htmlFor="email">Email:</label>
-                <input type="text" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <LabelAndInput label="Email" value={email} name="email" handleChange={(email) => setEmail(email)} />
             </div>
 
             <div>
-                <label htmlFor="password">Password:</label>
-                <input placeholder='Leave Blank to Not Update' type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                <LabelAndInput label="Password" value={password} name="password" handleChange={(password) => setPassword(password)} />
             </div>
 
             <div>
-                <label htmlFor="confirmPassword">Confirm Password:</label>
-                <input placeholder='Leave Blank to Not Update' type="password" name="confirmPassword" value={passwordConfirmation} onChange={(event) => setPasswordConfirmation(event.target.value)} />
+                <LabelAndInput label="Confirm Password" value={password} name="confirmPassword" handleChange={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)} />
+
             </div>
 
-            <button disabled={isLoading} onClick={handleSubmit}>Save Changes</button>
-            <button disabled={isLoading} onClick={closeModal}>Cancel</button>
+            <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Save Changes</Button>
+            <Button variation='secondary' disabled={isLoading} onClick={closeModal}>Cancel</Button>
         </div>
     )
 }
@@ -88,7 +88,7 @@ const Profile = ({ }: ProfileProps) => {
                 <p>Email: {state.currentUser.firebase.email}</p>
                 <p>Last Login: {state.currentUser.firebase.metadata.lastSignInTime}</p>
             </div>
-            <button onClick={() => setShowModal(true)}>Edit Profile</button>
+            <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}
