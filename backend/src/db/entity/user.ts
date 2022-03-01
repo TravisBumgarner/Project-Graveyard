@@ -7,7 +7,7 @@ export default class User {
     id: string
 
     @PrimaryColumn({ nullable: false })
-    userName: string
+    username: string
 
     @Column({ nullable: false })
     firebaseId: string

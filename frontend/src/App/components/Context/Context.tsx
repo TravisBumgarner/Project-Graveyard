@@ -1,11 +1,12 @@
 import { User as FirebaseUser } from 'firebase/auth'
+import moment from 'moment'
 import React from 'react'
 
 import { Worksheet, WorksheetEntry, PandaAppUser } from '../../types'
 
 type State = {
     message: string
-    worksheets: Record<string, Worksheet>
+    worksheets: Record<string, Worksheet & { user: PandaAppUser }>
     worksheetEntries: Record<string, WorksheetEntry>
     appHydrated: boolean
     currentUser: {
@@ -34,7 +35,7 @@ const context = React.createContext(
 type HydrateApp = {
     type: 'HYDRATE_APP'
     data: {
-        worksheets: Worksheet[],
+        worksheets: (Worksheet & { user: PandaAppUser })[],
         worksheetEntries: WorksheetEntry[]
     }
 }
@@ -69,14 +70,14 @@ type UserSignedOut = {
 type AddWorksheet = {
     type: 'ADD_WORKSHEET'
     data: {
-        worksheet: Worksheet
+        worksheet: Worksheet & { user: PandaAppUser }
     }
 }
 
 type EditWorksheet = {
     type: 'EDIT_WORKSHEET'
     data: {
-        worksheet: Worksheet
+        worksheet: Worksheet & { user: PandaAppUser }
     }
 }
 
@@ -104,7 +105,7 @@ type DeleteWorksheetEntry = {
 type GetWorksheets = {
     type: 'GET_WORKSHEETS'
     data: {
-        worksheets: Worksheet[],
+        worksheets: (Worksheet & { user: PandaAppUser })[],
 
     }
 }
@@ -148,16 +149,14 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, currentUser: action.data.currentUser }
         }
         case 'HYDRATE_APP': {
-            const worksheets: Record<string, Worksheet> = {}
-            console.log("hydrate_app", action.data.worksheets)
+            const worksheets: Record<string, Worksheet & { user: PandaAppUser }> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             const worksheetEntries: Record<string, WorksheetEntry> = {}
             action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
             return { ...state, worksheets, worksheetEntries, appHydrated: true }
         }
         case 'GET_WORKSHEETS': {
-            const worksheets: Record<string, Worksheet> = {}
-            console.log("get_worksheets", action.data.worksheets)
+            const worksheets: Record<string, Worksheet & { user: PandaAppUser }> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             return { ...state, worksheets }
         }

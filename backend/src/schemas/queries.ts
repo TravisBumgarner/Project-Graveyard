@@ -40,6 +40,34 @@ const worksheet = {
     }
 }
 
+type GetReviewArgs = {
+    userId?: string
+    worksheetId?: string
+}
+
+const review = {
+    type: GraphQLList(WorksheetType),
+    description: 'List of Worksheets',
+    args: {
+        userId: { type: GraphQLString },
+        filterAuthenticatedUser: { type: GraphQLBoolean }
+    },
+    resolve: async (_parent, args: GetReviewArgs, context: Context) => {
+        if (!context.authenticatedUserId) return []
+        const query = await getConnection()
+            .getRepository(entity.Review)
+            .createQueryBuilder('review')
+
+        if (args.userId) query.andWhere("review.userId = :userId", { userId: args.userId })
+
+        if (args.worksheetId) query.andWhere("review.worksheetId = :worksheetId", { worksheetId: args.worksheetId })
+
+        const data = query.getMany()
+
+        return data
+    }
+}
+
 const worksheetEntries = {
     type: GraphQLList(WorksheetEntryType),
     description: 'List of All Worksheet Entries',
@@ -61,7 +89,8 @@ const RootQueryType = new GraphQLObjectType({
     description: 'Root Query',
     fields: () => ({
         worksheet,
-        worksheetEntries
+        worksheetEntries,
+        review
     })
 })
 

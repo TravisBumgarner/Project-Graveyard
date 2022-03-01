@@ -1,7 +1,22 @@
+# Today
+
+- [ ] https://medium.com/@HurricaneJames/graphql-mutations-fb3ad5ae73c4
+- [ ] https://atheros.ai/blog/input-object-type-as-an-argument-for-graphql-mutations-and-queries
+- [ ] ~~Why is database getting deleted ~~
+    - Probably because I keep force quitting with postico open?
+- [x] Get username displayed on the screen
+- [ ] Add a way to give a review
+- [x] Figure out how to do migrations outside/inside a container. (.env points to different localhost then where migrations are run)
+- [ ] Fix page refresh always redirecting people to login
+- [x] Figure out broken date picker (or just hide date picker and have date created be set)
+- [ ] Does global context make sense? Maybe requests should be made on page load instead
+- [ ] How to handle types with GraphQL?
+    - https://www.apollographql.com/docs/apollo-server/data/resolvers/
+
 # MVP
 
 - [x] Remove uneeded code
-- [ ] Add edit for WorksheetEntry
+- [ ] ~~Add edit for WorksheetEntry~~
 - [x] Add more fields for worksheet
     - [x] I speak _____ and I am learning _______ 
     - [x] Use ^ these fields to generate UI for worksheetentry
@@ -22,11 +37,11 @@
     - [ ] why is null being returned for all data via graphql with gcp
     - [ ] Setup cors
     - [ ] Figure out 8mb deploy bundle
-    - [ ] Figure out how to do migrations outside/inside a container. (.env points to different localhost then where migrations are run)
     - [ ] Setup a new auth for production for Firebase auth so that it doesn't clash with development
 - [ ] Setup way to deploy infra as code for GCP
+- [ ] Add homepage instructions
 - [ ] Don't use admin postgres to connect to GCP SQL
-- [ ] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
+- [x] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
 # Post MVP
 
 - [ ] create a style

@@ -122,7 +122,7 @@ const Input = styled.input`
     border: 2px solid;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
-    background-color: transparent;
+    background-color: white;
     font-weight: 700;
     color: ${PRIMARY.base};
     border-color: ${PRIMARY.base};
@@ -153,12 +153,13 @@ type LabelAndInputProps = {
     label: string
     value: string
     handleChange: (value: string) => void
+    type?: 'password'
 }
 
-const LabelAndInput = ({ value, name, label, handleChange }: LabelAndInputProps) => {
+const LabelAndInput = ({ value, name, label, handleChange, type }: LabelAndInputProps) => {
     return <LabelAndInputWrapper>
         <Label htmlFor={name}>{label}</Label>
-        <Input name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
+        <Input type={type || 'text'} name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
     </LabelAndInputWrapper>
 }
 
@@ -347,5 +348,6 @@ export {
     TableHeaderCell,
     TableRow,
     Button,
-    LabelAndInput
+    LabelAndInput,
+    Input,
 }

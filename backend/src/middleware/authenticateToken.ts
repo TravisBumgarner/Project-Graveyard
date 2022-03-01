@@ -25,9 +25,7 @@ const decodeIDToken = async (req, res, next) => {
         const idToken = req.headers.authorization.split('Bearer ')[1];
         try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
-            console.log('decodedtoken', decodedToken)
             req['authenticatedUserId'] = await getUserIdFromFirebaseId(decodedToken.user_id);
-            console.log('decoded', req.authenticatedUserId)
             req['firebaseId'] = decodedToken.user_id
         } catch (err) {
             console.log(err);

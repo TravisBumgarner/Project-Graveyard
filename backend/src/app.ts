@@ -54,7 +54,7 @@ app.post('/whoami', async (req: ModifiedExpressRequest, res: express.Response) =
       .getRepository(entity.User)
       .save({
         id: uuidv4(),
-        userName: req.body.username,
+        username: req.body.username,
         firebaseId: req.firebaseId
       })
     return res.send(response);

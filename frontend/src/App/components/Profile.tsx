@@ -84,7 +84,7 @@ const Profile = ({ }: ProfileProps) => {
         <>
             <div>
                 <h1>Profile</h1>
-                <p>Username: {state.currentUser.panda.userName}</p>
+                <p>Username: {state.currentUser.panda.username}</p>
                 <p>Email: {state.currentUser.firebase.email}</p>
                 <p>Last Login: {state.currentUser.firebase.metadata.lastSignInTime}</p>
             </div>

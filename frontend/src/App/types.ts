@@ -10,6 +10,11 @@ type Worksheet = {
     userId: string
 }
 
+type Review = {
+
+}
+
+
 type WorksheetEntry = {
     id: string,
     worksheetId: string,
@@ -19,11 +24,12 @@ type WorksheetEntry = {
 
 type PandaAppUser = {
     id: string
-    userName: string
+    username: string
 }
 
 export {
     Worksheet,
     WorksheetEntry,
-    PandaAppUser
+    PandaAppUser,
+    Review
 }

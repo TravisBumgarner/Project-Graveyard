@@ -3,7 +3,7 @@ import moment from 'moment'
 import Modal from 'react-modal'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 import { context } from '.'
@@ -16,6 +16,7 @@ import { Button, LabelAndInput } from './StyleExploration'
 const ActionButton = styled.button`
     background-color: transparent;
     border: 0;
+    cursor: pointer;
 
 `
 
@@ -83,7 +84,6 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
         dispatch({ type: "ADD_WORKSHEET_ENTRY", data: { worksheetEntry: response.data.addWorksheetEntry } })
         closeModal()
     }
-
     const handleCancel = () => {
         closeModal()
     }
@@ -96,11 +96,11 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
         <h1>New Worksheet Entry</h1>
         <div>
             <div>
-                <LabelAndInput label="From" name="fromLanguage" value={knownLanguageText} handleChange={knownLanguage => setKnownLanguageText(knownLanguage)} />
+                <LabelAndInput label={state.worksheets[worksheetId].knownLanguage} name="fromLanguage" value={knownLanguageText} handleChange={knownLanguage => setKnownLanguageText(knownLanguage)} />
             </div>
 
             <div>
-                <LabelAndInput label="To" name="fnewLanguage" value={newLanguageText} handleChange={newLanguage => setNewLanguageText(newLanguage)} />
+                <LabelAndInput label={state.worksheets[worksheetId].newLanguage} name="newLanguage" value={newLanguageText} handleChange={newLanguage => setNewLanguageText(newLanguage)} />
 
             </div>
 
@@ -143,8 +143,8 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
             <td>{newLanguageText}</td>
             <td><audio controls src={__AUDIO_ENDPOINT__ + `/recordings/${worksheetEntry.worksheetId}/${worksheetEntry.id}.webm`} /></td>
             <td>
-                <ActionButton><AiOutlineEdit /></ActionButton>
-                <ActionButton onClick={handleDelete}><AiOutlineDelete /></ActionButton>
+
+                <ActionButton onClick={handleDelete}>Delete</ActionButton>
             </td>
         </tr>
     )
@@ -159,6 +159,7 @@ const Worksheet = ({ }: WorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
+    const navigate = useNavigate()
 
     const { title, description, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
     return (
@@ -183,7 +184,7 @@ const Worksheet = ({ }: WorksheetProps) => {
                 </table>
                 <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
             </div>
-            <Button variation="primary" onClick={() => console.log('submitted')}>Submit for Feedback</Button>
+            <Button variation="primary" onClick={() => navigate('/user-dashboard')}>Submit for Feedback</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}
@@ -191,7 +192,7 @@ const Worksheet = ({ }: WorksheetProps) => {
             >
                 <AddWorksheetEntryModal worksheetId={worksheetId} closeModal={() => setShowModal(false)} />
             </Modal>
-        </div>
+        </div >
     )
 }
 

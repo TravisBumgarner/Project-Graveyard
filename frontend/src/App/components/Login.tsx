@@ -56,10 +56,10 @@ const Login = ({ }: LoginProps) => {
             </div>
 
             <div>
-            <LabelAndInput label="Password" name="password" value={password} handleChange={password => setPassword(password)} />
+                <LabelAndInput type="password" label="Password" name="password" value={password} handleChange={password => setPassword(password)} />
             </div>
 
-            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>variation="primary"
+            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>
             <div>
                 <Link to="/forgottenpassword">Forgot your password?</Link>
             </div>

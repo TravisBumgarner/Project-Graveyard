@@ -68,11 +68,11 @@ const Singup = ({ }: SignupProps) => {
             </div>
 
             <div>
-                <LabelAndInput label="Password" name="password" value={password} handleChange={password => setPassword(password)} />
+                <LabelAndInput label="Password" type="password" name="password" value={password} handleChange={password => setPassword(password)} />
             </div>
 
             <div>
-                <LabelAndInput label="Confirm Password" name="confirmPassword" value={passwordConfirmation} handleChange={passwordConfirmation => setPasswordConfirmation(passwordConfirmation)} />
+                <LabelAndInput type="password" label="Confirm Password" name="confirmPassword" value={passwordConfirmation} handleChange={passwordConfirmation => setPasswordConfirmation(passwordConfirmation)} />
             </div>
 
             <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Sign Up</Button>

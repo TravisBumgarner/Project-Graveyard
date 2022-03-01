@@ -27,17 +27,16 @@ const Review = () => {
                     {Object
                         .values(state.worksheets)
                         .filter(({ userId }) => !(userId === state.currentUser.panda.id))
-                        .map(({ title, userId, description, id, knownLanguage, newLanguage }) => {
+                        .map(({ title, user: { username }, description, id, knownLanguage, newLanguage }) => {
                             return (
                                 <TableRow key={id}>
                                     <TableBodyCell>{title}</TableBodyCell>
-                                    <TableBodyCell>{userId}</TableBodyCell>
+                                    <TableBodyCell>{username}</TableBodyCell>
                                     <TableBodyCell>{knownLanguage}</TableBodyCell>
                                     <TableBodyCell>{newLanguage}</TableBodyCell>
                                     <TableBodyCell>{description}</TableBodyCell>
                                     <TableBodyCell>
-                                        <Link to={`/worksheet/${id}`}>View</Link>
-                                        <button>Review</button>
+                                        <Link to={`/review/${id}`}>Review</Link>
                                     </TableBodyCell>
                                 </TableRow>
                             )

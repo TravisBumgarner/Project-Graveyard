@@ -3,12 +3,13 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
+    GraphQLList
 } from 'graphql'
 import fs from 'fs'
 import path from 'path';
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType } from './types'
+import { WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType } from './types'
 import { Exactly } from '../utilities'
 import { Context } from '../types'
 
@@ -43,6 +44,62 @@ const addWorksheet = {
             })
 
         return response
+    }
+}
+
+type AddReviewArgs = {
+    id: string
+    date: string
+    worksheetId: string
+    reviewEntries: {
+        id: string
+        worksheetEntryId: string
+        oralFeedback: string
+        writtenFeedback: string
+    }[]
+}
+
+const addReview = {
+    type: ReviewType,
+    description: 'Add a Review',
+    args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        date: { type: GraphQLNonNull(GraphQLString) },
+        foo: { type: GraphQLList(GraphQLString) }
+        // reviewEntries: { type: GraphQLList(ReviewEntryType) } // this isn'r correct
+    },
+    resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
+        // if (!context.authenticatedUserId) return null
+
+        const { reviewEntries, id: reviewId, date } = args
+
+        const reviewEntity = new entity.Review()
+        reviewEntity.id = reviewId
+        reviewEntity.date = date
+        reviewEntity.userId = context.authenticatedUserId || 'foobar'
+
+        // const reviewEntryEntities: entity.ReviewEntry[] = []
+        // reviewEntries.forEach(({ id, writtenFeedback, oralFeedback, worksheetEntryId }) => {
+        //     const reviewEntryEntity = new entity.ReviewEntry()
+        //     reviewEntryEntity.id = id
+        //     reviewEntryEntity.writtenFeedback = writtenFeedback
+        //     reviewEntryEntity.oralFeedback = oralFeedback
+        //     reviewEntryEntity.worksheetEntryId = worksheetEntryId
+        //     reviewEntryEntity.reviewId = reviewId
+
+        //     reviewEntryEntities.push(reviewEntryEntity)
+        // })
+
+        // const reviewResponse = await getConnection()
+        //     .getRepository(entity.ReviewEntry)
+        //     .save(reviewEntryEntities)
+
+
+        const reviewEnetryResponse = await getConnection()
+            .getRepository(entity.Review)
+            .save(reviewEntity)
+
+        return reviewEnetryResponse
     }
 }
 
@@ -110,7 +167,8 @@ const RootMutationType = new GraphQLObjectType({
     fields: () => ({
         addWorksheet,
         addWorksheetEntry,
-        deleteWorksheetEntry
+        deleteWorksheetEntry,
+        addReview
     })
 })
 

@@ -9,8 +9,7 @@ import styled from 'styled-components'
 
 import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow } from './StyleExploration'
 import { context } from '.'
-import { Worksheet } from '../types'
-import { dateToString } from '../utilities'
+import { PandaAppUser, Worksheet } from '../types'
 import { Button, LabelAndInput } from './StyleExploration'
 
 const ActionButton = styled.button`
@@ -46,22 +45,22 @@ type AddWorksheetProps = {
 
 const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
-    const [addWorksheet] = useMutation<{ addWorksheet: Worksheet }>(ADD_WORKSHEET)
+    const [addWorksheet] = useMutation<{ addWorksheet: Worksheet & { user: PandaAppUser } }>(ADD_WORKSHEET)
     const [title, setTitle] = React.useState(`Worksheet ${Object.keys(state.worksheets).length + 1}`)
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
     const [newLanguage, setnewLanguage] = React.useState<string>('')
-    const [date, setDate] = React.useState<moment.Moment>(moment())
+    // const [date, setDate] = React.useState<moment.Moment>(moment())
 
     const handleSubmit = async () => {
-        if (!title || !description || !knownLanguage || !newLanguage || !date) {
+        if (!title || !description || !knownLanguage || !newLanguage) {
             dispatch({ type: "ADD_MESSAGE", data: { message: "Please fully complete the form." } })
             return
         }
 
         const response = await addWorksheet({
             variables: {
-                date,
+                date: moment(),
                 id: uuidv4(),
                 description,
                 title,
@@ -95,15 +94,11 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
             </div>
 
             <div>
-                <LabelAndInput label="From" name="knowLanguage" value={knownLanguage} handleChange={knownLanguage => setknownLanguage(knownLanguage)} />
+                <LabelAndInput label="From Language" name="knowLanguage" value={knownLanguage} handleChange={knownLanguage => setknownLanguage(knownLanguage)} />
             </div>
 
             <div>
-                <LabelAndInput label="To" name="newLanguage" value={newLanguage} handleChange={newLanguage => setnewLanguage(newLanguage)} />
-            </div>
-
-            <div>
-                <LabelAndInput label="Date" name="date" value={dateToString(date)} handleChange={date => setDate(moment(date))} />
+                <LabelAndInput label="To Language" name="newLanguage" value={newLanguage} handleChange={newLanguage => setnewLanguage(newLanguage)} />
             </div>
             <Button variation="primary" onClick={handleSubmit}>Submit</Button>
             <Button variation="primary" onClick={handleCancel}>Cancel</Button>
@@ -141,9 +136,7 @@ const Worksheets = () => {
                                     <TableBodyCell>{newLanguage}</TableBodyCell>
                                     <TableBodyCell>{description}</TableBodyCell>
                                     <TableBodyCell>
-                                        <ActionButton><Link to={`/worksheet/${id}`}><AiOutlineFolder /></Link></ActionButton>
-                                        <ActionButton><AiOutlineEdit /></ActionButton>
-                                        <ActionButton><AiOutlineDelete /></ActionButton>
+                                        <ActionButton><Link to={`/worksheet/${id}`}>View</Link></ActionButton>
                                     </TableBodyCell>
                                 </TableRow>
                             )

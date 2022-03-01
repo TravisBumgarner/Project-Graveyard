@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm'
+import { Column, Entity, PrimaryColumn, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm'
+import Review from './review'
+import ReviewEntry from './reviewEntry'
 
 import Worksheet from './worksheet'
-import User from './user'
 
 @Entity()
 export default class WorksheetEntry {
@@ -22,4 +23,7 @@ export default class WorksheetEntry {
 
     @ManyToOne(() => Worksheet, worksheet => worksheet.worksheetEntries)
     worksheet: Worksheet;
+
+    @OneToMany(() => ReviewEntry, ReviewEntry => ReviewEntry.worksheetEntry)
+    worksheetEntries: WorksheetEntry[];
 }

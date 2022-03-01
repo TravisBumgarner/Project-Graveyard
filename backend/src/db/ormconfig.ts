@@ -41,6 +41,5 @@ const ormconfig = {
     }
 }[process.env.NODE_ENV || ''] as ConnectionOptions
 
-console.log(ormconfig)
 
 export default ormconfig
