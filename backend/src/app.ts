@@ -20,16 +20,11 @@ app.use(authenticateToken)
 
 app.use(express.static('./public'))
 
-let fakeUser: null | string = null
-if (process.env.NODE_ENV === 'development') {
-  fakeUser = 'c0459285-b3ae-4e4b-8d88-c526200d82e5'
-}
-
 app.use('/graphql', graphqlHTTP((req: ModifiedExpressRequest) => {
   return {
     schema: schema,
     graphiql: true,
-    context: { authenticatedUserId: req.authenticatedUserId || fakeUser }
+    context: { authenticatedUserId: req.authenticatedUserId }
   }
 }))
 

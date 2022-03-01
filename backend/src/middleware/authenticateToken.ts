@@ -1,7 +1,7 @@
-import path from 'path'
-import admin from 'firebase-admin'
+import admin, { ServiceAccount } from 'firebase-admin'
 import { getConnection } from 'typeorm';
 
+import serviceAccount from './serviceAccountKey.json'
 import { entity } from './../db';
 
 const getUserIdFromFirebaseId = async (firebaseId: string) => {
@@ -14,10 +14,9 @@ const getUserIdFromFirebaseId = async (firebaseId: string) => {
     return data ? data.id : null
 }
 
-const serviceAccount = require(path.join(__dirname, '../../serviceAccountKey.json'));
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount as ServiceAccount)
 });
 
 const decodeIDToken = async (req, res, next) => {
@@ -26,7 +25,9 @@ const decodeIDToken = async (req, res, next) => {
         const idToken = req.headers.authorization.split('Bearer ')[1];
         try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
+            console.log('decodedtoken', decodedToken)
             req['authenticatedUserId'] = await getUserIdFromFirebaseId(decodedToken.user_id);
+            console.log('decoded', req.authenticatedUserId)
             req['firebaseId'] = decodedToken.user_id
         } catch (err) {
             console.log(err);

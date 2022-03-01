@@ -2,6 +2,7 @@ import { String, Record, Number } from 'runtypes'
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const Env = Record({
+    expressPort: Number,
     postgres: Record({
         host: String,
         port: Number,
@@ -13,6 +14,7 @@ const Env = Record({
 
 const getEnv = () => {
     const env = {
+        expressPort: parseInt(process.env.EXPRESS_PORT || ''),
         postgres: {
             host: process.env.POSTGRES_HOST,
             port: parseInt(process.env.POSTGRES_PORTNAME || ''),
@@ -20,7 +22,7 @@ const getEnv = () => {
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
         }
-    }
+}
     try {
         return Env.check(env)
     } catch (error) {

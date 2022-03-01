@@ -7,12 +7,11 @@ const getEnvVariables = () => {
   if (!process.env.NODE_ENV) {
     throw new Error("NODE_ENV is not defined.")
   }
-
-  return process.env === 'development' ? {
-    __API_ENDPOINT__: "''",
-    __AUDIO_ENDPOINT__: "''"
-  } : {
+  return process.env.NODE_ENV === 'development' ? {
     __API_ENDPOINT__: "'http://localhost:5001'",
+    __AUDIO_ENDPOINT__: "'http://localhost:5001'"
+  } : {
+    __API_ENDPOINT__: "'https://backend-7lp5bth6xq-uc.a.run.app'",
     __AUDIO_ENDPOINT__: "'http://localhost:5001'"
   }
 }

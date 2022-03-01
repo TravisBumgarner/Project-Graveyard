@@ -25,7 +25,7 @@ const worksheet = {
         filterAuthenticatedUser: { type: GraphQLBoolean }
     },
     resolve: async (_parent, args: GetWorksheetArgs, context: Context) => {
-        if (!context.authenticatedUserId) return null
+        if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.Worksheet)
             .createQueryBuilder('worksheet')
@@ -40,29 +40,13 @@ const worksheet = {
     }
 }
 
-const whoami = {
-    type: GraphQLList(WorksheetType),
-    description: 'Find out who you are!',
-    args: {},
-    resolve: async (_parent, _args, context: Context) => {
-        if (!context.authenticatedUserId) return null
-        const data = await getConnection()
-            .getRepository(entity.User)
-            .createQueryBuilder('user')
-            .where('user.id = :authenticatedUserId', { authenticatedUserId: context.authenticatedUserId })
-            .getOne()
-
-        return data
-    }
-}
-
 const worksheetEntries = {
     type: GraphQLList(WorksheetEntryType),
     description: 'List of All Worksheet Entries',
     args: {
     },
     resolve: async (_parent, args, context: Context) => {
-        if (!context.authenticatedUserId) return null
+        if (!context.authenticatedUserId) return []
 
         const data = await getConnection()
             .getRepository(entity.WorksheetEntry)

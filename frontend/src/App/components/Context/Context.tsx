@@ -149,6 +149,7 @@ const reducer = (state: State, action: Action): State => {
         }
         case 'HYDRATE_APP': {
             const worksheets: Record<string, Worksheet> = {}
+            console.log("hydrate_app", action.data.worksheets)
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             const worksheetEntries: Record<string, WorksheetEntry> = {}
             action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
@@ -156,6 +157,7 @@ const reducer = (state: State, action: Action): State => {
         }
         case 'GET_WORKSHEETS': {
             const worksheets: Record<string, Worksheet> = {}
+            console.log("get_worksheets", action.data.worksheets)
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             return { ...state, worksheets }
         }

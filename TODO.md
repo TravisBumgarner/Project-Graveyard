@@ -18,6 +18,12 @@
 - [ ] Diagram the GCP system and get Alan's / James's feedback
 - [ ] Figure out file hosting
 - [ ] Figure out deployment
+    - [x] Get an api endpoint for backend and add to frontend webpack config for calls
+    - [ ] why is null being returned for all data via graphql with gcp
+    - [ ] Setup cors
+    - [ ] Figure out 8mb deploy bundle
+    - [ ] Figure out how to do migrations outside/inside a container. (.env points to different localhost then where migrations are run)
+    - [ ] Setup a new auth for production for Firebase auth so that it doesn't clash with development
 - [ ] Setup way to deploy infra as code for GCP
 - [ ] Don't use admin postgres to connect to GCP SQL
 - [ ] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means

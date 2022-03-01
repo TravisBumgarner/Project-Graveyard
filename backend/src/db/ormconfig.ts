@@ -5,15 +5,42 @@ import config from '../../config'
 const ENTITIES_DIR = __dirname + '/entity'
 const MIGRATIONS_DIR = __dirname + '/migration'
 
-export default {
-    ...config.postgres,
-    type: 'postgres',
-    synchronize: false,
-    logging: false,
-    entities: [ENTITIES_DIR + '/**/*{.ts,.js}'],
-    migrations: [MIGRATIONS_DIR + '/**/*{.ts,.js}'],
-    cli: {
-        entitiesDir: ENTITIES_DIR,
-        migrationsDir: MIGRATIONS_DIR,
+const ormconfig = {
+    'development': {
+        database: config.postgres.database,
+        password: config.postgres.password,
+        username: config.postgres.username,
+        type: 'postgres',
+        synchronize: false,
+        logging: false,
+        host: config.postgres.host,
+        entities: [ENTITIES_DIR + '/**/*{.ts,.js}'],
+        migrations: [MIGRATIONS_DIR + '/**/*{.ts,.js}'],
+        cli: {
+            entitiesDir: ENTITIES_DIR,
+            migrationsDir: MIGRATIONS_DIR,
+        },
     },
-} as ConnectionOptions
+    'production': {
+        database: config.postgres.database,
+        password: config.postgres.password,
+        username: config.postgres.username,
+        type: 'postgres',
+        extra: {
+            socketPath: config.postgres.host,
+        },
+        synchronize: false,
+        logging: false,
+        host: config.postgres.host,
+        entities: [ENTITIES_DIR + '/**/*{.ts,.js}'],
+        migrations: [MIGRATIONS_DIR + '/**/*{.ts,.js}'],
+        cli: {
+            entitiesDir: ENTITIES_DIR,
+            migrationsDir: MIGRATIONS_DIR,
+        },
+    }
+}[process.env.NODE_ENV || ''] as ConnectionOptions
+
+console.log(ormconfig)
+
+export default ormconfig

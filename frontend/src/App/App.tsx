@@ -59,6 +59,7 @@ query HydrateApp {
 
 const App = () => {
   const { state, dispatch } = React.useContext(context)
+  console.log(state)
   useQuery<{ worksheet: Worksheet[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
   return (
     <>

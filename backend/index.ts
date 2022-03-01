@@ -2,6 +2,7 @@ import { createConnection } from 'typeorm'
 
 import ormconfig from './src/db/ormconfig'
 import app from './src/app'
+import config from './config'
 
 const catchError = (error: unknown) => {
   console.log(error)
@@ -11,8 +12,8 @@ const catchError = (error: unknown) => {
 
 const startup = async () => {
   await createConnection(ormconfig).catch(catchError)
-  await app.listen(5001, () => {
-    console.log(`App listening at http://localhost:5001`)
+  await app.listen(config.expressPort, '0.0.0.0', () => {
+    console.log(`App listening at http://0.0.0.0:${config.expressPort}`)
   })
 }
 
