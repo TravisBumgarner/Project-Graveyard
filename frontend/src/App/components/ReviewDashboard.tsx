@@ -7,7 +7,6 @@ import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
 
 const Review = () => {
     const { state } = React.useContext(context)
-    console.log(state.worksheets)
     return (
         <div>
             <H2>Review Others</H2>

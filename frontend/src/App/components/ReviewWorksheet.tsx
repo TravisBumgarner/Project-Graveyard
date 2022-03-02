@@ -22,13 +22,11 @@ const ActionButton = styled.button`
 `
 
 const ADD_REVIEW = gql`
-
-
-mutation AddWorksheet (
+mutation AddReview (
     $id: String!
     $worksheetId: String!
     $date: String!
-    $reviewEntries: [ReviewType]
+    $reviewEntries: [ReviewEntry]
   ) {
     addReview(
         id: $id,
@@ -37,8 +35,6 @@ mutation AddWorksheet (
         reviewEntries: $reviewEntries
         ){
       id,
-      worksheetId,
-      date
     }
 }
 `;
@@ -52,7 +48,6 @@ const WorksheetEntry = ({ worksheetEntry, reviewState, dispatchReview }: Workshe
     const { id, knownLanguageText, newLanguageText } = worksheetEntry
     const [showModal, setShowModal] = React.useState<boolean>(false)
     let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
-    console.log(audioURL)
 
     React.useEffect(() => {
         dispatchReview({ type: "ORAL_FEEDBACK_ACTION", data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
@@ -107,7 +102,6 @@ type WrittenFeedbackAction = {
 
 const reviewReducer = (state: State, action: OralFeedbackAction | WrittenFeedbackAction): State => {
     const { worksheetEntryId } = action.data
-    console.log(action)
     switch (action.type) {
         case 'ORAL_FEEDBACK_ACTION': {
             const { oralFeedback } = action.data
@@ -138,17 +132,19 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
     }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>))
     const [addReview] = useMutation<any>(ADD_REVIEW)
     const handleSubmit = async () => {
-        const response = await addReview({
-            variables: {
-                date: moment(),
+        const variables = {
+            date: moment(),
+            id: uuidv4(),
+            worksheetId,
+            reviewEntries: Object.keys(reviewState).map(worksheetEntryId => ({
                 id: uuidv4(),
-                worksheetId,
-                worksheetEntries: Object.keys(reviewState).map(worksheetEntryId => ({
-                    id: uuidv4(),
-                    worksheetEntryId,
-                    ...reviewState[worksheetEntryId],
-                }))
-            }
+                worksheetEntryId,
+                ...reviewState[worksheetEntryId],
+            }))
+        }
+        console.log('variables', variables)
+        const response = await addReview({
+            variables
         })
     }
     return (

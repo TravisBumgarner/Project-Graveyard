@@ -23,13 +23,11 @@ const WorksheetType = new GraphQLObjectType({
         user: {
             type: UserType,
             resolve: async (worksheet: any) => {
-                console.log('userdatarequest', worksheet)
                 const data = await getConnection()
                     .getRepository(entity.User)
                     .createQueryBuilder('user')
                     .where({ id: worksheet.userId })
                     .getOne()
-                console.log('userdata', data)
                 return data
             }
         },
@@ -69,19 +67,6 @@ const ReviewEntryType = new GraphQLObjectType({
         worksheetEntryId: { type: GraphQLNonNull(GraphQLString) },
         oralFeedback: { type: GraphQLNonNull(GraphQLString) },
         writtenFeedback: { type: GraphQLNonNull(GraphQLString) },
-        // user: {
-        //     type: UserType,
-        //     resolve: async (worksheet: any) => {
-        //         console.log('userdatarequest', worksheet)
-        //         const data = await getConnection()
-        //             .getRepository(entity.User)
-        //             .createQueryBuilder('user')
-        //             .where({ id: worksheet.userId })
-        //             .getOne()
-        //         console.log('userdata', data)
-        //         return data
-        //     }
-        // },
     })
 })
 

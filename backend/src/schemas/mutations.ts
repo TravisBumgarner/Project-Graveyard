@@ -3,13 +3,12 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
+    GraphQLInputObjectType,
     GraphQLList
 } from 'graphql'
-import fs from 'fs'
-import path from 'path';
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType } from './types'
+import { WorksheetType, WorksheetEntryType, ReviewType } from './types'
 import { Exactly } from '../utilities'
 import { Context } from '../types'
 import * as cloudinary from '../services/cloudinary'
@@ -22,6 +21,8 @@ type AddWorksheetArgs = {
     knownLanguage: string
     newLanguage: string
 }
+
+
 
 const addWorksheet = {
     type: WorksheetType,
@@ -66,12 +67,22 @@ const addReview = {
     args: {
         id: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
-        foo: { type: GraphQLList(GraphQLString) }
-        // reviewEntries: { type: GraphQLList(ReviewEntryType) } // this isn'r correct
+        worksheetId: { type: GraphQLNonNull(GraphQLString) },
+        reviewEntries: {
+            type: GraphQLList(new GraphQLInputObjectType({
+                name: 'ReviewEntry',
+                fields: () => ({
+                    id: { type: GraphQLString },
+                    worksheetEntryId: { type: GraphQLString },
+                    oralFeedback: { type: GraphQLString },
+                    writtenFeedback: { type: GraphQLString }
+                })
+            }))
+        }
     },
     resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
         // if (!context.authenticatedUserId) return null
-
+        console.log(args)
         const { reviewEntries, id: reviewId, date } = args
 
         const reviewEntity = new entity.Review()
@@ -79,26 +90,25 @@ const addReview = {
         reviewEntity.date = date
         reviewEntity.userId = context.authenticatedUserId || 'foobar'
 
-        // const reviewEntryEntities: entity.ReviewEntry[] = []
-        // reviewEntries.forEach(({ id, writtenFeedback, oralFeedback, worksheetEntryId }) => {
-        //     const reviewEntryEntity = new entity.ReviewEntry()
-        //     reviewEntryEntity.id = id
-        //     reviewEntryEntity.writtenFeedback = writtenFeedback
-        //     reviewEntryEntity.oralFeedback = oralFeedback
-        //     reviewEntryEntity.worksheetEntryId = worksheetEntryId
-        //     reviewEntryEntity.reviewId = reviewId
-
-        //     reviewEntryEntities.push(reviewEntryEntity)
-        // })
-
-        // const reviewResponse = await getConnection()
-        //     .getRepository(entity.ReviewEntry)
-        //     .save(reviewEntryEntities)
-
-
         const reviewEnetryResponse = await getConnection()
             .getRepository(entity.Review)
             .save(reviewEntity)
+
+        const reviewEntryEntities: entity.ReviewEntry[] = []
+        reviewEntries.forEach(({ id, writtenFeedback, oralFeedback, worksheetEntryId }) => {
+            const reviewEntryEntity = new entity.ReviewEntry()
+            reviewEntryEntity.id = id
+            reviewEntryEntity.writtenFeedback = writtenFeedback
+            reviewEntryEntity.oralFeedback = oralFeedback
+            reviewEntryEntity.worksheetEntryId = worksheetEntryId
+            reviewEntryEntity.reviewId = reviewId
+
+            reviewEntryEntities.push(reviewEntryEntity)
+        })
+        
+        const reviewResponse = await getConnection()
+            .getRepository(entity.ReviewEntry)
+            .save(reviewEntryEntities)
 
         return reviewEnetryResponse
     }
