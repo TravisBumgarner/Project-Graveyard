@@ -7,9 +7,10 @@
 - [x] Get username displayed on the screen
 - [ ] Add a way to give a review
 - [x] Figure out how to do migrations outside/inside a container. (.env points to different localhost then where migrations are run)
-- [ ] Fix page refresh always redirecting people to login
+- [x] Fix page refresh always redirecting people to login
 - [x] Figure out broken date picker (or just hide date picker and have date created be set)
 - [ ] Does global context make sense? Maybe requests should be made on page load instead
+- [ ] Page refresh on Worksheet page and review worksheet page is broken
 - [ ] How to handle types with GraphQL?
     - https://www.apollographql.com/docs/apollo-server/data/resolvers/
 
@@ -33,7 +34,6 @@
     - [ ] Need some way for students to share with teachers
     - [ ] Need way for teachers to give feedback
 - [ ] Bare minimum of usable UI
-- [ ] Diagram the GCP system and get Alan's / James's feedback
 - [ ] Figure out file hosting
 - [ ] Figure out deployment
     - [x] Get an api endpoint for backend and add to frontend webpack config for calls

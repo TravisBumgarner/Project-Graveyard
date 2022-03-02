@@ -11,7 +11,7 @@ import { WorksheetEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
-import { Input, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
+import { Button, Input, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
 
 
 const ActionButton = styled.button`
@@ -73,12 +73,12 @@ const WorksheetEntry = ({ worksheetEntry, reviewState, dispatchReview }: Workshe
                 <TableBodyCell>
                     <audio src={reviewState[worksheetEntry.id].oralFeedback} controls />
                     <div>
-                        <button onClick={startRecording} disabled={isRecording}>
+                        <Button variation="primary" onClick={startRecording} disabled={isRecording}>
                             Record
-                        </button>
-                        <button onClick={stopRecording} disabled={!isRecording}>
+                        </Button>
+                        <Button variation="primary" onClick={stopRecording} disabled={!isRecording}>
                             Stop
-                        </button>
+                        </Button>
                     </div>
                 </TableBodyCell>
             </TableRow>
@@ -180,7 +180,7 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
                     </TableBody>
                 </Table>
             </div>
-            <button onClick={handleSubmit}>Submit Feedback</button>
+            <Button variation="primary" onClick={handleSubmit}>Submit Feedback</Button>
         </div>
     )
 }

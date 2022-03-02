@@ -65,7 +65,7 @@ type AddSentenceProps = {
 
 const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) => {
     const { state, dispatch } = React.useContext(context)
-    let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
+    let [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder();
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
@@ -82,13 +82,15 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
             }
         })
         dispatch({ type: "ADD_WORKSHEET_ENTRY", data: { worksheetEntry: response.data.addWorksheetEntry } })
-        closeModal()
+        setKnownLanguageText('')
+        setNewLanguageText('')
+        clearAudioUrl()
     }
     const handleCancel = () => {
         closeModal()
     }
 
-    const handleDelete = () => {
+    const handleClose = () => {
         closeModal()
     }
 
@@ -117,7 +119,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
             <div>
                 <Button variation="primary" onClick={handleSubmit}>Submit</Button>
                 <Button variation="primary" onClick={handleCancel}>Cancel</Button>
-                <Button variation="primary" onClick={handleDelete}>Delete</Button>
+                <Button variation="primary" onClick={handleClose}>Close</Button>
             </div>
         </div>
     </div>
@@ -168,7 +170,6 @@ const Worksheet = ({ }: WorksheetProps) => {
                 <h1>{title}</h1>
                 <p>Description: {description}</p>
                 <p>Date: {dateToString(moment(date))}</p>
-                <p>From: {knownLanguage} To: {newLanguage}</p>
                 <table>
                     <thead>
                         <tr>

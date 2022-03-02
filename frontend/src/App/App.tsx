@@ -36,6 +36,7 @@ import {
 import { PandaAppUser, Worksheet, WorksheetEntry } from './types';
 import { auth } from '../firebase';
 import { GlobalStyle } from 'theme';
+import { Paragraph } from './components/StyleExploration';
 
 const HYDRATE_APP = gql`
 query HydrateApp {
@@ -63,7 +64,13 @@ query HydrateApp {
 
 const App = () => {
   const { state, dispatch } = React.useContext(context)
+
   useQuery<{ worksheet: (Worksheet & { user: PandaAppUser })[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
+
+  if (state.currentUser === undefined) {
+    return <Paragraph>Loading...</Paragraph>
+  }
+
   return (
     <>
       <Header />
@@ -93,7 +100,14 @@ const WrappedApp = () => {
 
   React.useEffect(() => {
     onAuthStateChanged(auth, async (firebase) => {
-      if (!firebase) return
+      if (!firebase) {
+        dispatch({
+          type: "USER_LOGGED_IN", data: {
+            currentUser: null
+          }
+        })
+        return
+      }
 
       const token = await getIdToken(firebase)
       const { data: panda }: { data: PandaAppUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {

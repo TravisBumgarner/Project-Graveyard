@@ -12,7 +12,7 @@ type State = {
     currentUser: {
         firebase: FirebaseUser,
         panda: PandaAppUser
-    } | null
+    } | null | undefined
 }
 
 const EMPTY_STATE: State = {
@@ -20,7 +20,7 @@ const EMPTY_STATE: State = {
     worksheets: {},
     worksheetEntries: {},
     appHydrated: false,
-    currentUser: null
+    currentUser: undefined
 }
 
 const context = React.createContext(
