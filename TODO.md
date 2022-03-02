@@ -2,7 +2,8 @@
 
 - [ ] https://medium.com/@HurricaneJames/graphql-mutations-fb3ad5ae73c4
 - [ ] https://atheros.ai/blog/input-object-type-as-an-argument-for-graphql-mutations-and-queries
-- [ ] ~~Why is database getting deleted ~~
+- [ ] Why is database getting deleted 
+    - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
     - Probably because I keep force quitting with postico open?
 - [x] Get username displayed on the screen
 - [ ] Add a way to give a review

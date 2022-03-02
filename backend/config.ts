@@ -9,6 +9,12 @@ const Env = Record({
         username: String,
         password: String,
         database: String,
+    }),
+    cloudinary: Record({
+        cloud_name: String,
+        api_key: String,
+        api_secret: String,
+        directory: String
     })
 })
 
@@ -21,8 +27,14 @@ const getEnv = () => {
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
+        },
+        cloudinary: {
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+            directory: process.env.CLOUDINARY_DIRECTORY
         }
-}
+    }
     try {
         return Env.check(env)
     } catch (error) {
