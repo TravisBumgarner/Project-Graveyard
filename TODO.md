@@ -21,10 +21,13 @@
     - [x] I speak _____ and I am learning _______ 
     - [x] Use ^ these fields to generate UI for worksheetentry
     - [x] For Example - Written in English, Written in French, Pronounced in French
-- [ ] Setup for Postgres instead of SQLlite
+- [x] Setup for Postgres instead of SQLlite
 - [x] Figure out how to record and save audio
 - [x] Add user login
     - [x] With firebase?
+- [x] Add homepage instructions
+- [x] Don't use admin postgres to connect to GCP SQL
+- [x] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
 - [x] add the idea of users
     - [ ] Only be able to edit your own work
     - [ ] Need some way for students to share with teachers
@@ -39,9 +42,6 @@
     - [ ] Figure out 8mb deploy bundle
     - [ ] Setup a new auth for production for Firebase auth so that it doesn't clash with development
 - [ ] Setup way to deploy infra as code for GCP
-- [ ] Add homepage instructions
-- [ ] Don't use admin postgres to connect to GCP SQL
-- [x] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
 # Post MVP
 
 - [ ] create a style

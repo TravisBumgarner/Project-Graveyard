@@ -1,9 +1,8 @@
 import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { context } from '.'
-
+import { StyledNavLink } from './StyleExploration'
 
 const StyledNav = styled.ul`
     list-style: none;
@@ -49,12 +48,7 @@ const Navigation = (props: Props) => {
             {links.map(({ text, to }) => {
                 return (
                     <li key={to} >
-                        <NavLink style={({ isActive }) => {
-                            return {
-                                fontWeight: isActive ? 700 : 100
-                            }
-                        }} to={to} >{text}
-                        </NavLink>
+                        <StyledNavLink to={to} text={text} />
                     </li>
                 )
             })}

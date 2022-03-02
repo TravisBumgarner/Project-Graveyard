@@ -30,7 +30,8 @@ import {
   Profile,
   ReviewDashboard,
   StyleExploration,
-  ReviewWorksheet
+  ReviewWorksheet,
+  Footer
 } from './components'
 import { PandaAppUser, Worksheet, WorksheetEntry } from './types';
 import { auth } from '../firebase';
@@ -80,6 +81,7 @@ const App = () => {
         <Route path="/user-dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />
         <Route path="/" element={<Home />} />
       </Routes>
+      <Footer />
     </>
   )
 }

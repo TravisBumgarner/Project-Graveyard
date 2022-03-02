@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import ReactModal from 'react-modal'
 import { FaRegWindowClose } from "react-icons/fa";
 import { darken, lighten } from 'polished';
+import { NavLink, useNavigate } from 'react-router-dom'
+
 
 const colorFactory = (color: string) => ({
     base: color,
@@ -11,10 +13,7 @@ const colorFactory = (color: string) => ({
     darken: darken(0.25, color),
     lighten: lighten(0.25, color),
     lightest: lighten(0.1, color),
-}
-
-)
-
+})
 
 
 const PRIMARY = colorFactory('#6A7FDB')
@@ -28,7 +27,28 @@ const H1 = styled.h1`
 
 const H2 = styled.h2`
     color: ${PRIMARY.base};
+    border-bottom: 2px solid ${PRIMARY.base};
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}`
+
+const StyledNavLink = ({ to, text }: { to: string, text: string }) => {
+    return (
+        <NavLink style={({ isActive }) => {
+            return {
+                fontWeight: isActive ? 700 : 100,
+                color: SECONDARY.base
+            }
+        }} to={to} >{text}
+        </NavLink>
+    )
+}
+
+const Link = styled.a`
+    color: ${SECONDARY.base};
 `
+
+
 
 const H3 = styled.h3`
     color: ${PRIMARY.base};
@@ -256,6 +276,16 @@ const TableBodyCell = styled.td`
     
 `
 
+const OrderedList = styled.ol`
+    color: ${PRIMARY.base};
+`
+
+const UnorderedList = styled.ol`
+    color: ${PRIMARY.base};
+`
+
+const ListItem = styled.li`
+`
 
 const StyleExploration = () => {
     const [showModal1, setShowModal1] = React.useState<boolean>(false)
@@ -269,6 +299,11 @@ const StyleExploration = () => {
         <H1>H1 Header</H1>
         <H2>H2 Header</H2>
         <H3>H3 Header</H3>
+        <OrderedList>
+            <ListItem>Hi</ListItem>
+            <ListItem>Hi</ListItem>
+            <ListItem>Hi</ListItem>
+        </OrderedList>
         <Audio controls />
         <Table>
             <TableHeader>
@@ -350,4 +385,13 @@ export {
     Button,
     LabelAndInput,
     Input,
+    Paragraph,
+    H1,
+    H2,
+    H3,
+    OrderedList,
+    UnorderedList,
+    ListItem,
+    StyledNavLink,
+    Link
 }

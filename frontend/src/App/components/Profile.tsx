@@ -5,7 +5,7 @@ import Modal from 'react-modal'
 
 import { context } from '.'
 import { auth } from '../../firebase'
-import { LabelAndInput, Button } from '../components/StyleExploration'
+import { LabelAndInput, Button, H2 } from '../components/StyleExploration'
 
 
 type EditProfileProps = {
@@ -83,7 +83,7 @@ const Profile = ({ }: ProfileProps) => {
     return (
         <>
             <div>
-                <h1>Profile</h1>
+                <H2>Profile</H2>
                 <p>Username: {state.currentUser.panda.username}</p>
                 <p>Email: {state.currentUser.firebase.email}</p>
                 <p>Last Login: {state.currentUser.firebase.metadata.lastSignInTime}</p>

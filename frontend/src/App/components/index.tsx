@@ -7,6 +7,7 @@ import Signup from "./Signup";
 import Login from "./Login";
 import Logout from "./Logout";
 import Header from "./Header";
+import Footer from "./Footer";
 import ForgottenPassword from "./ForgottenPassword";
 import ConditionalRoute from "./ConditionalRoute";
 import Profile from "./Profile";
@@ -25,6 +26,7 @@ export {
     Logout,
     context,
     Header,
+    Footer,
     ForgottenPassword,
     ConditionalRoute,
     Profile,

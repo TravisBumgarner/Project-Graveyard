@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { context } from '.'
-import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow } from './StyleExploration'
+import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from './StyleExploration'
 
 
 const Review = () => {
@@ -10,7 +10,7 @@ const Review = () => {
     console.log(state.worksheets)
     return (
         <div>
-            <h1>Review Others</h1>
+            <H2>Review Others</H2>
             <Table>
                 <TableHeader>
                     <TableRow>

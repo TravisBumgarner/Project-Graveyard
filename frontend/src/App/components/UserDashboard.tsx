@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { AiOutlineFolder, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import styled from 'styled-components'
 
-import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow } from './StyleExploration'
+import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from './StyleExploration'
 import { context } from '.'
 import { PandaAppUser, Worksheet } from '../types'
 import { Button, LabelAndInput } from './StyleExploration'
@@ -83,7 +83,7 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     }
 
     return <div>
-        <h1>Worksheets</h1>
+        <H2>Worksheets</H2>
         <div>
             <div>
                 <LabelAndInput label="Title" name="title" value={title} handleChange={title => setTitle(title)} />
@@ -113,7 +113,7 @@ const Worksheets = () => {
     const [showModal, setShowModal] = React.useState<boolean>(false)
     return (
         <div>
-            <h1>Worksheets</h1>
+            <H2>Worksheets</H2>
             <Table>
                 <TableHeader>
                     <TableRow>

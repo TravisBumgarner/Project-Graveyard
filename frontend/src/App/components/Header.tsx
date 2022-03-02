@@ -1,15 +1,11 @@
 import React from 'react'
 
-import { context } from '.'
+import { H1 } from './StyleExploration'
 
 const Header = () => {
-    const { state } = React.useContext(context)
-
-
     return (
         <div>
-            <h1>Flash Sentences</h1>
-            {state.currentUser ? <p>Welcome {state.currentUser.panda.username}</p> : <p>You should login</p>}
+            <H1>Flash Sentences</H1>
         </div>
     )
 }
