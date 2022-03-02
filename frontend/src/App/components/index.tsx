@@ -14,6 +14,7 @@ import Profile from "./Profile";
 import StyleExploration from "./StyleExploration";
 import ReviewDashboard from "./ReviewDashboard";
 import ReviewWorksheet from "./ReviewWorksheet";
+import Error from "./Error";
 
 export {
     Home,
@@ -31,6 +32,7 @@ export {
     ConditionalRoute,
     Profile,
     StyleExploration,
+    Error,
     ReviewWorksheet,
     ReviewDashboard
 }

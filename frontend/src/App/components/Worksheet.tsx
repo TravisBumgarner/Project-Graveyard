@@ -130,7 +130,7 @@ type WorksheetEntryProps = {
 }
 const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
     const { state, dispatch } = React.useContext(context)
-    const { id, knownLanguageText, newLanguageText } = worksheetEntry
+    const { id, knownLanguageText, newLanguageText, audioUrl } = worksheetEntry
 
     const [deleteWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(DELETE_WORKSHEET_ENTRY)
 
@@ -143,7 +143,7 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
         <tr key={id} >
             <td>{knownLanguageText}</td>
             <td>{newLanguageText}</td>
-            <td><audio controls src={__AUDIO_ENDPOINT__ + `/recordings/${worksheetEntry.worksheetId}/${worksheetEntry.id}.webm`} /></td>
+            <td><audio controls src={audioUrl} /></td>
             <td>
 
                 <ActionButton onClick={handleDelete}>Delete</ActionButton>

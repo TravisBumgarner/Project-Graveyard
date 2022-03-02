@@ -9,7 +9,7 @@ import schema from './schemas'
 import { authenticateToken } from './middleware'
 import { getConnection } from 'typeorm';
 import { entity } from './db';
-import uploadFile from './services/cloudinary'
+// import uploadFile from './services/cloudinary'
 
 type ModifiedExpressRequest = express.Request & { authenticatedUserId: string | null, firebaseId: string }
 
@@ -18,8 +18,6 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use(authenticateToken)
-
-app.use(express.static('./public'))
 
 app.use('/graphql', graphqlHTTP((req: ModifiedExpressRequest) => {
   return {
@@ -30,7 +28,7 @@ app.use('/graphql', graphqlHTTP((req: ModifiedExpressRequest) => {
 }))
 
 app.get('/', async (req: ModifiedExpressRequest, res: express.Response) => {
-  await uploadFile()
+  // await uploadFile()
   res.send('pong!')
 })
 

@@ -20,6 +20,7 @@ type WorksheetEntry = {
     worksheetId: string,
     knownLanguageText: string
     newLanguageText: string
+    audioUrl: string
 }
 
 type PandaAppUser = {

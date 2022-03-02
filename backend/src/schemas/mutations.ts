@@ -12,6 +12,7 @@ import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType } from './types'
 import { Exactly } from '../utilities'
 import { Context } from '../types'
+import * as cloudinary from '../services/cloudinary'
 
 type AddWorksheetArgs = {
     title: string
@@ -124,18 +125,13 @@ const addWorksheetEntry = {
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
 
-        const savePath = path.join(__dirname, `../../public/recordings/${args.worksheetId}`)
-
-        if (!fs.existsSync(savePath)) {
-            fs.mkdirSync(savePath);
-        }
-        fs.writeFileSync(path.join(savePath, `${args.id}.webm`), Buffer.from(args.audioUrl.replace("data:audio/webm;base64,", ''), 'base64'));
+        const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
 
         return await getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
                 ...args,
-                audioUrl: "cats.com"
+                audioUrl: url
             })
     }
 }

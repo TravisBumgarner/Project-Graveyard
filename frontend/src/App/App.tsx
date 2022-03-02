@@ -31,6 +31,7 @@ import {
   ReviewDashboard,
   StyleExploration,
   ReviewWorksheet,
+  Error,
   Footer
 } from './components'
 import { PandaAppUser, Worksheet, WorksheetEntry } from './types';
@@ -56,7 +57,8 @@ query HydrateApp {
     id,
     knownLanguageText,
     newLanguageText,
-    worksheetId
+    worksheetId,
+    audioUrl
   }
 }
 `
@@ -64,7 +66,7 @@ query HydrateApp {
 
 const App = () => {
   const { state, dispatch } = React.useContext(context)
-
+  console.log(state.worksheetEntries)
   useQuery<{ worksheet: (Worksheet & { user: PandaAppUser })[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
 
   if (state.currentUser === undefined) {
@@ -86,6 +88,7 @@ const App = () => {
         <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<ForgottenPassword />} />} />
         <Route path="/stylesheet" element={<StyleExploration />} />
         <Route path="/user-dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />
+        <Route path="/error" element={<Error />} />
         <Route path="/" element={<Home />} />
       </Routes>
       <Footer />

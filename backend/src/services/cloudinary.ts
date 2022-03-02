@@ -3,12 +3,11 @@ import path from 'path';
 
 import config from '../../config'
 
-const uploadFile = async () => {
+const uploadFile = async (filename, data) => {
     await cloudinary.config(config.cloudinary)
     console.log(path.join(__dirname, './15a0776e-1385-4919-a553-cdd4923a8cee.webm'))
-    const filename = `15a0776e-1385-4919-a553-cdd4923a8cee.webm`
     try {
-        await cloudinary.uploader.upload(path.join(__dirname, filename), {
+        await cloudinary.uploader.upload(data, {
             use_filename: true,
             resource_type: "raw",
             public_id: `${config.cloudinary.directory}/${filename}`
@@ -18,4 +17,6 @@ const uploadFile = async () => {
         console.log(JSON.stringify(error))
     }
 }
-export default uploadFile
+export {
+    uploadFile
+}
