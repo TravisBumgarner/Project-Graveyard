@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
         font-size: 16px;
         font-weight: 400;
         font-family: 'Comfortaa', cursive;
-        /* background-color: #ffd5e5; */
+        background-color: #242424;
     }
 `
 

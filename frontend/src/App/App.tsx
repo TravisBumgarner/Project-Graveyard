@@ -23,7 +23,6 @@ import {
   Header,
   UserDashboard,
   Context,
-  Navigation,
   context,
   Worksheet as WorksheetComponent,
   Signup,
@@ -75,7 +74,6 @@ const App = () => {
   return (
     <>
       <Header />
-      <Navigation />
       <Routes>
         <Route path="/worksheet/:worksheetId" element={<ConditionalRoute authedComponent={<WorksheetComponent />} />} />
         <Route path="/review/:worksheetId" element={<ConditionalRoute authedComponent={<ReviewWorksheet />} />} />

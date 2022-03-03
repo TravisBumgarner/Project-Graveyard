@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { context } from '.'
-import { StyledNavLink } from './StyleExploration'
+import { context } from '../..'
+import { StyledNavLink } from '../../StyleExploration'
 
 const StyledNav = styled.ul`
     list-style: none;

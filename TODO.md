@@ -61,6 +61,10 @@
 - [ ] Include reference to icons
 
 
+# New Features IDeas
+
+- Add ability to pick native language
+
 
 ```
 help-speaking-backend-1   | Compilation error in /app/backend/src/schemas/mutations.ts
