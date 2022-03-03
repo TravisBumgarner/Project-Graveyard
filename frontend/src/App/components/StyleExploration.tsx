@@ -142,15 +142,10 @@ const Input = styled.input`
     border: 2px solid;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
-    background-color: white;
+    background-color: transparent;
     font-weight: 700;
     color: ${PRIMARY.base};
     border-color: ${PRIMARY.base};
-
-    &:focus{
-        border-color: ${PRIMARY.darken};
-    }
-
 `
 
 const LabelAndInputWrapper = styled.div`
@@ -393,5 +388,9 @@ export {
     UnorderedList,
     ListItem,
     StyledNavLink,
-    Link
+    Link,
+    PRIMARY,
+    SECONDARY,
+    TERTIARY,
+    QUATERNARY
 }

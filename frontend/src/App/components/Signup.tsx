@@ -6,7 +6,7 @@ import { context } from '.'
 import { auth } from '../../firebase'
 import { PandaAppUser } from '../types'
 import axios from 'axios'
-import { Button, LabelAndInput } from './StyleExploration'
+import { Button, H2, LabelAndInput, Paragraph } from './StyleExploration'
 
 type SignupProps = {}
 
@@ -57,7 +57,7 @@ const Singup = ({ }: SignupProps) => {
     }
     return (
         <div>
-            <h1>Sign Up</h1>
+            <H2>Sign Up</H2>
             <div>
                 <LabelAndInput label="Username" name="username" value={username} handleChange={username => setUsername(username)} />
             </div>
@@ -77,7 +77,7 @@ const Singup = ({ }: SignupProps) => {
 
             <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Sign Up</Button>
             <div>
-                Already signed up? <Link to="/login">Log In!</Link>
+                <Paragraph>Already signed up? <Link to="/login">Log In!</Link></Paragraph>
             </div>
         </div>
     )

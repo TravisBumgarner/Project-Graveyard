@@ -6,7 +6,7 @@ import { context } from '.'
 import { auth } from '../../firebase'
 import { PandaAppUser } from '../types'
 import axios from 'axios'
-import { Button, LabelAndInput } from './StyleExploration'
+import { H2, Button, LabelAndInput, Paragraph } from './StyleExploration'
 
 type LoginProps = {
 }
@@ -50,7 +50,7 @@ const Login = ({ }: LoginProps) => {
 
     return (
         <div>
-            <h1>Log In</h1>
+            <H2>Log In</H2>
             <div>
                 <LabelAndInput label="Email" name="email" value={email} handleChange={email => setEmail(email)} />
             </div>
@@ -61,10 +61,10 @@ const Login = ({ }: LoginProps) => {
 
             <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>
             <div>
-                <Link to="/forgottenpassword">Forgot your password?</Link>
+                <Paragraph>Forgot your password? <Link to="/forgottenpassword">Reset it!</Link></Paragraph>
             </div>
             <div>
-                Need an account? <Link to="/signup">Sign Up!</Link>
+                <Paragraph>Need an account? <Link to="/signup">Sign Up!</Link></Paragraph>
             </div>
         </div>
     )
