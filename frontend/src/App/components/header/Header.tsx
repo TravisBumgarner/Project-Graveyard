@@ -6,8 +6,8 @@ import logo from '../../../static/logo.png'
 import { H1 } from '../StyleExploration'
 
 const Img = styled.img`
-    width: 150px;
-    height: 150px;
+    width: 75px;
+    height: 75px;
     margin-right: 1em;
     margin-left: 1em;
     box-sizing: border-box;
@@ -15,16 +15,25 @@ const Img = styled.img`
 
 const HeaderWrapper = styled.div`
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+
+    & > div:first-child {
+        display: flex;
+        align-items: center;
+    }
 `
 
 const Header = () => {
     return (
         <HeaderWrapper>
-            <H1>phrase a day</H1>
-            <Img src={logo} />
-            <Navigation />
+            <div>
+                <Img src={logo} />
+                <H1>phrase a day</H1>
+            </div>
+            <div>
+                <Navigation />
+            </div>
         </HeaderWrapper >
     )
 }

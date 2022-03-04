@@ -4,7 +4,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
-import { PandaAppUser } from '../types'
+import { PhraseADayUser } from '../types'
 import axios from 'axios'
 import { signOut } from 'firebase/auth'
 

@@ -16,9 +16,9 @@ const colorFactory = (color: string) => ({
 })
 
 
-const PRIMARY = colorFactory('#6A7FDB')
-const SECONDARY = colorFactory('#45CB85')
-const TERTIARY = colorFactory('#57E2E5')
+const PRIMARY = colorFactory('#57E2E5')
+const TERTIARY = colorFactory('#45CB85')
+const SECONDARY = colorFactory('#6A7FDB')
 const QUATERNARY = colorFactory('#E08DAC')
 
 const H1 = styled.h1`
@@ -234,11 +234,12 @@ const Modal = ({ children, showModal, closeModal, contentLabel }: ModalProps) =>
 
 const Table = styled.table`
     border: 2px solid;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    border-color: ${PRIMARY.base};
+    padding: 1rem;
     border-collapse: collapse;
     border-radius: 1em;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: ${PRIMARY.lightest};   
 `
 
 const TableHeader = styled.thead`
@@ -250,6 +251,7 @@ const TableBody = styled.tbody`
 `
 
 const TableRow = styled.tr`
+    padding: 10px;
     &:nth-child(2n+1){
         background-color: ${PRIMARY.lightest};   
     }
@@ -266,7 +268,6 @@ const TableHeaderCell = styled.th`
     
 `
 const TableBodyCell = styled.td`
-    border-bottom: 2px solid ${PRIMARY.base};    
     padding: 10px;
     
 `

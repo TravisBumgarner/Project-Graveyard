@@ -33,7 +33,7 @@ import {
   Error,
   Footer
 } from './components'
-import { PandaAppUser, Worksheet, WorksheetEntry } from './types';
+import { PhraseADayUser, Worksheet, WorksheetEntry } from './types';
 import { auth } from '../firebase';
 import { GlobalStyle } from 'theme';
 import { Paragraph } from './components/StyleExploration';
@@ -65,7 +65,7 @@ query HydrateApp {
 
 const App = () => {
   const { state, dispatch } = React.useContext(context)
-  useQuery<{ worksheet: (Worksheet & { user: PandaAppUser })[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
+  useQuery<{ worksheet: (Worksheet & { user: PhraseADayUser })[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
 
   if (state.currentUser === undefined) {
     return <Paragraph>Loading...</Paragraph>
@@ -110,7 +110,7 @@ const WrappedApp = () => {
       }
 
       const token = await getIdToken(firebase)
-      const { data: panda }: { data: PandaAppUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
+      const { data: phraseADay }: { data: PhraseADayUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
         headers: {
           'Authorization': token ? `Bearer ${token}` : ""
         }
@@ -118,7 +118,7 @@ const WrappedApp = () => {
       dispatch({
         type: "USER_LOGGED_IN", data: {
           currentUser: {
-            panda,
+            phraseADay,
             firebase
           }
         }

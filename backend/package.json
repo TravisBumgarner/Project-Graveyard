@@ -11,7 +11,7 @@
     "migration:revert": "npm run typeorm migration:revert",
     "migration:run:dev": "export NODE_ENV=development && npm run migration:run",
     "migration:run:production": "export NODE_ENV=production && npm run migration:run",
-    "migration:run:docker": "docker exec -it help-speaking-backend-1 npm run migration:run:dev",
+    "migration:run:docker": "export NODE_ENV=development && docker exec -it phraseaday_backend_1 npm run migration:run:dev",
     "migration:generate:docker": "docker exec -it help-speaking-backend-1 npm run migration:generate",
     "precommit": "echo \"---------------------------- NOTHING TO SEE HERE ON BACKEND ----------------------------\"",
     "deploy": "npm run build && gcloud config set project worksheets-9b1ad && gcloud builds submit --tag gcr.io/worksheets-9b1ad/backend && gcloud run deploy backend --image gcr.io/worksheets-9b1ad/backend --platform managed --region us-central1"

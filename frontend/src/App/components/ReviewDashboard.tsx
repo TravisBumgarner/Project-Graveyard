@@ -9,7 +9,7 @@ const Review = () => {
     const { state } = React.useContext(context)
     return (
         <div>
-            <H2>Review Others</H2>
+            <H2>Review Dashboard</H2>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -25,7 +25,7 @@ const Review = () => {
 
                     {Object
                         .values(state.worksheets)
-                        .filter(({ userId }) => !(userId === state.currentUser.panda.id))
+                        .filter(({ userId }) => !(userId === state.currentUser.phraseADay.id))
                         .map(({ title, user: { username }, description, id, knownLanguage, newLanguage }) => {
                             return (
                                 <TableRow key={id}>

@@ -2,16 +2,16 @@ import { User as FirebaseUser } from 'firebase/auth'
 import moment from 'moment'
 import React from 'react'
 
-import { Worksheet, WorksheetEntry, PandaAppUser } from '../../types'
+import { Worksheet, WorksheetEntry, PhraseADayUser } from '../../types'
 
 type State = {
     message: string
-    worksheets: Record<string, Worksheet & { user: PandaAppUser }>
+    worksheets: Record<string, Worksheet & { user: PhraseADayUser }>
     worksheetEntries: Record<string, WorksheetEntry>
     appHydrated: boolean
     currentUser: {
         firebase: FirebaseUser,
-        panda: PandaAppUser
+        phraseADay: PhraseADayUser
     } | null | undefined
 }
 
@@ -35,7 +35,7 @@ const context = React.createContext(
 type HydrateApp = {
     type: 'HYDRATE_APP'
     data: {
-        worksheets: (Worksheet & { user: PandaAppUser })[],
+        worksheets: (Worksheet & { user: PhraseADayUser })[],
         worksheetEntries: WorksheetEntry[]
     }
 }
@@ -45,7 +45,7 @@ type UserSignup = {
     data: {
         currentUser: {
             firebase: FirebaseUser
-            panda: PandaAppUser
+            phraseADay: PhraseADayUser
         }
     }
 }
@@ -55,7 +55,7 @@ type UserLogin = {
     data: {
         currentUser: {
             firebase: FirebaseUser
-            panda: PandaAppUser
+            phraseADay: PhraseADayUser
         }
     }
 }
@@ -70,14 +70,14 @@ type UserSignedOut = {
 type AddWorksheet = {
     type: 'ADD_WORKSHEET'
     data: {
-        worksheet: Worksheet & { user: PandaAppUser }
+        worksheet: Worksheet & { user: PhraseADayUser }
     }
 }
 
 type EditWorksheet = {
     type: 'EDIT_WORKSHEET'
     data: {
-        worksheet: Worksheet & { user: PandaAppUser }
+        worksheet: Worksheet & { user: PhraseADayUser }
     }
 }
 
@@ -105,7 +105,7 @@ type DeleteWorksheetEntry = {
 type GetWorksheets = {
     type: 'GET_WORKSHEETS'
     data: {
-        worksheets: (Worksheet & { user: PandaAppUser })[],
+        worksheets: (Worksheet & { user: PhraseADayUser })[],
 
     }
 }
@@ -149,14 +149,14 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, currentUser: action.data.currentUser }
         }
         case 'HYDRATE_APP': {
-            const worksheets: Record<string, Worksheet & { user: PandaAppUser }> = {}
+            const worksheets: Record<string, Worksheet & { user: PhraseADayUser }> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             const worksheetEntries: Record<string, WorksheetEntry> = {}
             action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
             return { ...state, worksheets, worksheetEntries, appHydrated: true }
         }
         case 'GET_WORKSHEETS': {
-            const worksheets: Record<string, Worksheet & { user: PandaAppUser }> = {}
+            const worksheets: Record<string, Worksheet & { user: PhraseADayUser }> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             return { ...state, worksheets }
         }

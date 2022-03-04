@@ -15,7 +15,7 @@ services:
     ports:
         - '5432:5432'
     volumes:
-        - ./postgres-data:/var/lib/postgresql/datacode
+        - ./postgres-data:/var/lib/postgresql/data
   frontend:
     image: node:16
     volumes: 

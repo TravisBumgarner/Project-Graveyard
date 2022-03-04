@@ -38,6 +38,7 @@ const getEnv = () => {
     try {
         return Env.check(env)
     } catch (error) {
+        console.log(config, process.env.NODE_ENV)
         throw Error('Invalid project config')
     }
 }

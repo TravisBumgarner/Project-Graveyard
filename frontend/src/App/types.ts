@@ -23,7 +23,7 @@ type WorksheetEntry = {
     audioUrl: string
 }
 
-type PandaAppUser = {
+type PhraseADayUser = {
     id: string
     username: string
 }
@@ -31,6 +31,6 @@ type PandaAppUser = {
 export {
     Worksheet,
     WorksheetEntry,
-    PandaAppUser,
+    PhraseADayUser,
     Review
 }

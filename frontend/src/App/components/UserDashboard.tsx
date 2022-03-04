@@ -9,7 +9,7 @@ import styled from 'styled-components'
 
 import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from './StyleExploration'
 import { context } from '.'
-import { PandaAppUser, Worksheet } from '../types'
+import { PhraseADayUser, Worksheet } from '../types'
 import { Button, LabelAndInput } from './StyleExploration'
 
 const ActionButton = styled.button`
@@ -45,7 +45,7 @@ type AddWorksheetProps = {
 
 const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
-    const [addWorksheet] = useMutation<{ addWorksheet: Worksheet & { user: PandaAppUser } }>(ADD_WORKSHEET)
+    const [addWorksheet] = useMutation<{ addWorksheet: Worksheet & { user: PhraseADayUser } }>(ADD_WORKSHEET)
     const [title, setTitle] = React.useState(`Worksheet ${Object.keys(state.worksheets).length + 1}`)
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
@@ -66,7 +66,7 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
                 title,
                 knownLanguage,
                 newLanguage,
-                userId: state.currentUser.panda.id
+                userId: state.currentUser.phraseADay.id
             }
         })
 
@@ -113,7 +113,7 @@ const Worksheets = () => {
     const [showModal, setShowModal] = React.useState<boolean>(false)
     return (
         <div>
-            <H2>Worksheets</H2>
+            <H2>User Dashboard</H2>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -127,7 +127,7 @@ const Worksheets = () => {
                 <TableBody>
                     {Object
                         .values(state.worksheets)
-                        .filter(({ userId }) => userId === state.currentUser.panda.id)
+                        .filter(({ userId }) => userId === state.currentUser.phraseADay.id)
                         .map(({ title, description, id, knownLanguage, newLanguage }) => {
                             return (
                                 <TableRow key={id}>
