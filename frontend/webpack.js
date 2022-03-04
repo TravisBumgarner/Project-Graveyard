@@ -9,10 +9,8 @@ const getEnvVariables = () => {
   }
   return process.env.NODE_ENV === 'development' ? {
     __API_ENDPOINT__: "'http://localhost:5001'",
-    __AUDIO_ENDPOINT__: "'http://localhost:5001'"
   } : {
     __API_ENDPOINT__: "'https://backend-7lp5bth6xq-uc.a.run.app'",
-    __AUDIO_ENDPOINT__: "'http://localhost:5001'"
   }
 }
 

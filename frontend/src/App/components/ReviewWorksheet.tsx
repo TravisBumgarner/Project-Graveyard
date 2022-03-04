@@ -7,11 +7,11 @@ import { useParams } from 'react-router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 import { context } from '.'
-import { WorksheetEntry } from '../types'
+import { WorksheetEntry as WorksheetReviewEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
-import { Button, Input, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
+import { Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
 
 
 const ActionButton = styled.button`
@@ -39,12 +39,12 @@ mutation AddReview (
 }
 `;
 
-type WorksheetEntryProps = {
-    worksheetEntry: WorksheetEntry
+type WorksheetReviewEntryProps = {
+    worksheetEntry: WorksheetReviewEntry
     reviewState: any
     dispatchReview: any
 }
-const WorksheetEntry = ({ worksheetEntry, reviewState, dispatchReview }: WorksheetEntryProps) => {
+const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: WorksheetReviewEntryProps) => {
     const { id, knownLanguageText, newLanguageText } = worksheetEntry
     const [showModal, setShowModal] = React.useState<boolean>(false)
     let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
@@ -52,13 +52,13 @@ const WorksheetEntry = ({ worksheetEntry, reviewState, dispatchReview }: Workshe
     React.useEffect(() => {
         dispatchReview({ type: "ORAL_FEEDBACK_ACTION", data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
     }, [audioURL])
-
+    console.log(worksheetEntry)
     return (
         <>
             <TableRow key={id} >
                 <TableBodyCell>{knownLanguageText}</TableBodyCell>
                 <TableBodyCell>{newLanguageText}</TableBodyCell>
-                <TableBodyCell><audio controls src={__AUDIO_ENDPOINT__ + `/recordings/${worksheetEntry.worksheetId}/${worksheetEntry.id}.webm`} /></TableBodyCell>
+                <TableBodyCell><audio controls src={worksheetEntry.audioUrl} /></TableBodyCell>
                 <TableBodyCell>
                     <Input value={reviewState[worksheetEntry.id].writtenFeedback} onChange={(event) => {
                         dispatchReview({ type: "WRITTEN_FEEDBACK_ACTION", data: { worksheetEntryId: worksheetEntry.id, writtenFeedback: event.target.value } })
@@ -150,11 +150,11 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
     return (
         <div>
             <div style={{ border: '1px solid black', padding: '10px' }}>
-                <h1>{title}</h1>
-                <p>Student: {username}</p>
-                <p>Description: {description}</p>
-                <p>Date: {dateToString(moment(date))}</p>
-                <p>From: {knownLanguage} To: {newLanguage}</p>
+                <H2>{title}</H2>
+                <Paragraph> Student: {username}</Paragraph>
+                <Paragraph> Description: {description}</Paragraph>
+                <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
+                <Paragraph> From: {knownLanguage} To: {newLanguage}</Paragraph>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -167,7 +167,7 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
                     </TableHeader>
                     <TableBody>
                         {filteredWorksheetEntries.map(worksheetEntry => (
-                            <WorksheetEntry
+                            <WorksheetReviewEntry
                                 reviewState={reviewState}
                                 dispatchReview={dispatchReview}
                                 worksheetEntry={worksheetEntry}

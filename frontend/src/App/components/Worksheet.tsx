@@ -11,7 +11,7 @@ import { WorksheetEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
-import { Button, LabelAndInput } from './StyleExploration'
+import { Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -95,7 +95,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
     }
 
     return <div>
-        <h1>New Worksheet Entry</h1>
+        <H2>New Worksheet Entry</H2>
         <div>
             <div>
                 <LabelAndInput label={state.worksheets[worksheetId].knownLanguage} name="fromLanguage" value={knownLanguageText} handleChange={knownLanguage => setKnownLanguageText(knownLanguage)} />
@@ -140,15 +140,15 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
     }
 
     return (
-        <tr key={id} >
-            <td>{knownLanguageText}</td>
-            <td>{newLanguageText}</td>
-            <td><audio controls src={audioUrl} /></td>
-            <td>
+        <TableRow key={id} >
+            <TableBodyCell>{knownLanguageText}</TableBodyCell>
+            <TableBodyCell>{newLanguageText}</TableBodyCell>
+            <TableBodyCell><audio controls src={audioUrl} /></TableBodyCell>
+            <TableBodyCell>
 
                 <ActionButton onClick={handleDelete}>Delete</ActionButton>
-            </td>
-        </tr>
+            </TableBodyCell>
+        </TableRow>
     )
 }
 
@@ -166,23 +166,23 @@ const Worksheet = ({ }: WorksheetProps) => {
     const { title, description, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
     return (
         <div>
-            <div style={{ border: '1px solid black', padding: '10px' }}>
-                <h1>{title}</h1>
-                <p>Description: {description}</p>
-                <p>Date: {dateToString(moment(date))}</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">{state.worksheets[worksheetId].knownLanguage}</th>
-                            <th scope="col">{state.worksheets[worksheetId].newLanguage}</th>
-                            <th scope="col">Recorded</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div>
+                <H2>{title}</H2>
+                <Paragraph> Description: {description}</Paragraph>
+                <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</TableHeaderCell>
+                            <TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</TableHeaderCell>
+                            <TableHeaderCell scope="col">Recorded</TableHeaderCell>
+                            <TableHeaderCell scope="col">Actions</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {filteredWorksheetEntries.map(worksheetEntry => <WorksheetEntry worksheetEntry={worksheetEntry} />)}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
                 <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
             </div>
             <Button variation="primary" onClick={() => navigate('/user-dashboard')}>Submit for Feedback</Button>
