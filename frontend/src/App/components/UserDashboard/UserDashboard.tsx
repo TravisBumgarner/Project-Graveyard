@@ -1,16 +1,17 @@
 import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { Link } from 'react-router-dom'
 import { AiOutlineFolder, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import styled from 'styled-components'
 
-import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from './StyleExploration'
-import { context } from '.'
-import { PhraseADayUser, Worksheet } from '../types'
-import { Button, LabelAndInput } from './StyleExploration'
+import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from '../StyleExploration'
+import { context } from '..'
+import { PhraseADayUser, Worksheet } from '../../types'
+import { Button, LabelAndInput } from '../StyleExploration'
+import { Review } from './components'
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -113,7 +114,7 @@ const Worksheets = () => {
     const [showModal, setShowModal] = React.useState<boolean>(false)
     return (
         <div>
-            <H2>User Dashboard</H2>
+            <H2>Worksheets</H2>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -158,4 +159,13 @@ const Worksheets = () => {
     )
 }
 
-export default Worksheets
+const UserDashboard = () => {
+    return (
+        <div>
+            <Worksheets />
+            <Review worksheetId={'e2856a2a-14a0-4998-b58b-dd733f42e76e'} />
+        </div>
+    )
+}
+
+export default UserDashboard

@@ -15,6 +15,8 @@
 - [ ] Page refresh on Worksheet page and review worksheet page is broken
 - [ ] How to handle types with GraphQL?
     - https://www.apollographql.com/docs/apollo-server/data/resolvers/
+- [ ] Get rid of || 'foobar'
+- [ ] Disable buttons when submitting
 
 # MVP
 

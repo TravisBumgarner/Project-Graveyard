@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm'
 
 import WorksheetEntry from './worksheetEntry'
 import User from './user'
+import Review from './review'
 
 @Entity()
 export default class Worksheet {
@@ -22,6 +23,9 @@ export default class Worksheet {
 
     @Column({ nullable: false })
     userId: string
+
+    @OneToMany(() => Review, Review => Review.worksheet)
+    reviews: Review[];
 
     @Column({ type: 'date', nullable: false })
     date: string

@@ -58,6 +58,18 @@ const ReviewType = new GraphQLObjectType({
     })
 })
 
+const ReviewForStudentType = new GraphQLObjectType({
+    name: 'ReviewForStudentType',
+    description: 'This represents a review to be given back to the student',
+    fields: () => ({
+        knownLanguageText: { type: GraphQLNonNull(GraphQLString) },
+        newLanguageText: { type: GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: GraphQLNonNull(GraphQLString) },
+        writtenFeedback: { type: GraphQLNonNull(GraphQLString) },
+        oralFeedback: { type: GraphQLNonNull(GraphQLString) },
+    })
+})
+
 const ReviewEntryType = new GraphQLObjectType({
     name: 'Review Entry',
     description: 'This represents a review entry',
@@ -91,4 +103,4 @@ const WorksheetEntryType = new GraphQLObjectType({
     })
 })
 
-export { WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType }
+export { WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType, ReviewForStudentType }

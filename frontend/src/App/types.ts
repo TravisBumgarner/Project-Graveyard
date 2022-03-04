@@ -10,8 +10,12 @@ type Worksheet = {
     userId: string
 }
 
-type Review = {
-
+type StudentReview = {
+    writtenFeedback: string
+    oralFeedback: string
+    audioUrl: string
+    knownLanguageText: string
+    newLanguageText: string
 }
 
 
@@ -32,5 +36,5 @@ export {
     Worksheet,
     WorksheetEntry,
     PhraseADayUser,
-    Review
+    StudentReview
 }

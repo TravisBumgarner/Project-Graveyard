@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
 import { H2, H3, Link, ListItem, OrderedList, Paragraph, UnorderedList } from './StyleExploration'
+import { context } from './Context'
 
 const Home = () => {
+    const { state, dispatch } = React.useContext(context)
+
+
     return (
         <div>
-            <H2>Welcome!</H2>
+            <H2>Welcome, {state.currentUser ? state.currentUser.phraseADay.username : "learner"}!</H2>
             <H3>Heads Up!</H3>
             <Paragraph>This application is currently in beta. <Link href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</Link></Paragraph>
 

@@ -9,8 +9,9 @@ import {
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType } from './types';
+import { WorksheetType, WorksheetEntryType, ReviewForStudentType } from './types';
 import { Context } from '../types';
+import { isUUID } from '../utilities'
 
 type GetWorksheetArgs = {
     userId?: string
@@ -30,10 +31,6 @@ const worksheet = {
             .getRepository(entity.Worksheet)
             .createQueryBuilder('worksheet')
 
-        if (args.userId) query.andWhere("worksheet.userId = :userId", { userId: args.userId })
-
-        if (args.filterAuthenticatedUser) query.andWhere("worksheet.userId != :userId", { userId: context.authenticatedUserId })
-
         const data = query.getMany()
 
         return data
@@ -41,28 +38,37 @@ const worksheet = {
 }
 
 type GetReviewArgs = {
-    userId?: string
-    worksheetId?: string
+    worksheetId: string
 }
 
-const review = {
-    type: GraphQLList(WorksheetType),
-    description: 'List of Worksheets',
+const studentReview = {
+    type: GraphQLList(ReviewForStudentType),
+    description: 'List of Reviews for a student',
     args: {
-        userId: { type: GraphQLString },
-        filterAuthenticatedUser: { type: GraphQLBoolean }
+        worksheetId: { type: GraphQLString },
     },
     resolve: async (_parent, args: GetReviewArgs, context: Context) => {
-        if (!context.authenticatedUserId) return []
-        const query = await getConnection()
-            .getRepository(entity.Review)
-            .createQueryBuilder('review')
+        // if (!context.authenticatedUserId) return []
+        if (!isUUID(args.worksheetId)) return []
 
-        if (args.userId) query.andWhere("review.userId = :userId", { userId: args.userId })
+        const data = await getConnection()
+            .query(`
+            select
+                worksheet_entry."knownLanguageText",
+                worksheet_entry."newLanguageText",
+                worksheet_entry."audioUrl",
+                review_entry."oralFeedback",
+                review_entry."writtenFeedback"
+            from
+                worksheet_entry
+            join
+                review_entry on  review_entry."worksheetEntryId" = worksheet_entry.id
+            where
+                worksheet_entry."worksheetId" = '${args.worksheetId}'
+            ;
+            `)
+        console.log(data)
 
-        if (args.worksheetId) query.andWhere("review.worksheetId = :worksheetId", { worksheetId: args.worksheetId })
-
-        const data = query.getMany()
 
         return data
     }
@@ -90,7 +96,7 @@ const RootQueryType = new GraphQLObjectType({
     fields: () => ({
         worksheet,
         worksheetEntries,
-        review
+        studentReview
     })
 })
 
