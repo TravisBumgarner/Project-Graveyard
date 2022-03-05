@@ -11,6 +11,7 @@ import { dateToString } from '../../../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../../../hooks'
 import { Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from '../../StyleExploration'
+import { Loading } from 'sharedComponents'
 
 const GET_WORKSHEET = gql`
 query GetWorksheets {
@@ -189,7 +190,7 @@ const Worksheet = ({ }: WorksheetProps) => {
         }
     })
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading />
 
 
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)

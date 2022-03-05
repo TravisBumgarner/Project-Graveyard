@@ -12,6 +12,7 @@ import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
 import { Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
+import { Loading } from 'sharedComponents'
 
 const GET_WORKSHEET = gql`
 query GetWorksheets {
@@ -150,7 +151,7 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
         }
     })
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading />
     const { title, description, knownLanguage, newLanguage, date, user: { username } } = worksheet
 
 

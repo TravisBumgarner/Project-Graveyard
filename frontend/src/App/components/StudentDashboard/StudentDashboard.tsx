@@ -8,6 +8,7 @@ import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
 import { context } from '..'
 import { TPhraseADayUser, TWorksheetStatus, TWorksheet } from '../../types'
 import { Button, LabelAndInput } from '../StyleExploration'
+import { Loading } from 'sharedComponents'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -240,7 +241,7 @@ const Worksheets = () => {
         }
     })
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading />
 
     const filterWorksheets = (status: TWorksheetStatus) => {
         return Object.values(worksheets)

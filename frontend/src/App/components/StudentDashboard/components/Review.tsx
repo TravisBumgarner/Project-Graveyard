@@ -7,6 +7,7 @@ import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
 import { context } from '../..'
 import { TStudentReview } from '../../../types'
 import { dateToString } from '../../../utilities'
+import { Loading } from 'sharedComponents'
 
 
 const STUDENT_REVIEW = gql`
@@ -46,7 +47,7 @@ const Review = ({ }: ReviewProps) => {
         }
     })
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading />
 
     return (
         <div>

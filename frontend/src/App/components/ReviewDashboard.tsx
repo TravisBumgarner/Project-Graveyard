@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Loading } from 'sharedComponents'
 
 import { context } from '.'
 import { TPhraseADayUser, TWorksheet } from '../types'
@@ -38,7 +39,7 @@ const Review = () => {
         }
     })
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Loading />
 
     return (
         <div>

@@ -36,12 +36,13 @@ import { auth } from '../firebase';
 import { GlobalStyle } from 'theme';
 import { Paragraph } from './components/StyleExploration';
 import Review from './components/StudentDashboard/components/Review';
+import { Loading } from 'sharedComponents';
 
 const App = () => {
   const { state } = React.useContext(context)
 
   if (state.currentUser === undefined) {
-    return <Paragraph>Loading...</Paragraph>
+    return <Loading />
   }
 
   return (
@@ -147,7 +148,7 @@ const WrappedApp = () => {
   }, [state.currentUser])
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Loading />
   }
 
   return (
