@@ -3,16 +3,29 @@ import { graphqlHTTP } from 'express-graphql'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { v4 as uuidv4 } from 'uuid'
-
+import * as Sentry from '@sentry/node'
+import * as Tracing from '@sentry/tracing'
 import { getConnection } from 'typeorm'
-import schema from './schemas'
 
+import schema from './schemas'
 import { authenticateToken } from './middleware'
 import { entity } from './db'
 
 type ModifiedExpressRequest = express.Request & { authenticatedUserId: string | null, firebaseId: string }
 
 const app = express()
+
+Sentry.init({
+    dsn: 'https://9381cae1fb3848a7a4d9b5309c2ae7b8@o196886.ingest.sentry.io/6244260',
+    integrations: [
+        new Sentry.Integrations.Http({ tracing: true }),
+        new Tracing.Integrations.Express({ app }),
+    ],
+    tracesSampleRate: 1.0,
+})
+
+app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.Handlers.tracingHandler())
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -61,6 +74,11 @@ app.get('/authcheck', (req: ModifiedExpressRequest, res: express.Response) => {
         return res.send('Hi, from within the auth')
     }
     return res.status(403).send('Not authorized')
+})
+
+app.use(Sentry.Handlers.errorHandler())
+app.use((err, req: ModifiedExpressRequest, res: express.Response) => {
+    res.statusCode = 500
 })
 
 export default app

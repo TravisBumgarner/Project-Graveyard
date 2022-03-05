@@ -11,16 +11,19 @@
 - [x] Page refresh on Worksheet page and review worksheet page is broken
 - [x] How to handle types with GraphQL?
     - https://www.apollographql.com/docs/apollo-server/data/resolvers/
+- [x] Get rid of || 'foobar'
+- [x] Add eslint
+- [x] Add backend monitoring
+- [x] Give names to docker containers
 - [ ] Figure out why node is crashing (see dump below)
 - [ ] Why is database getting deleted 
     - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
     - 2022-03-05 07:59:05.704 UTC [28] WARNING:  could not open statistics file "pg_stat_tmp/global.stat": Operation not permitted
     - Probably because I keep force quitting with postico open?
-- [x] Get rid of || 'foobar'
-- [x] Add eslint
 - [ ] Disable buttons when submitting
 - [ ] Add student and reviewer routers
-- [ ] Add backend monitoring
+- [ ] Set config of apollo, etc. for prod
+- [ ] Make sure that sentry is actually logging
   
 # MVP
 

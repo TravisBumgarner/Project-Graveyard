@@ -1,4 +1,5 @@
 import { String, Record, Number } from 'runtypes'
+
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const Env = Record({
@@ -38,7 +39,6 @@ const getEnv = () => {
     try {
         return Env.check(env)
     } catch (error) {
-        console.log(config, process.env.NODE_ENV)
         throw Error('Invalid project config')
     }
 }
