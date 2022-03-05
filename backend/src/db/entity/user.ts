@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryColumn, OneToMany } from 'typeorm'
-import Worksheet from './worksheet';
+import {
+    Column, Entity, PrimaryColumn, OneToMany,
+} from 'typeorm'
+import Worksheet from './worksheet'
 
 @Entity()
 export default class User {
@@ -12,6 +14,6 @@ export default class User {
     @Column({ nullable: false })
     firebaseId: string
 
-    @OneToMany(() => Worksheet, Worksheet => Worksheet.user)
-    Worksheets: Worksheet[];
+    @OneToMany(() => Worksheet, (Worksheet) => Worksheet.user) // eslint-disable-line
+    Worksheets: Worksheet[]
 }

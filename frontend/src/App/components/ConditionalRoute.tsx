@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom'
 
 import { context } from '.'
 
-
 type ConditionalRouteProps = {
     authedComponent: JSX.Element,
     unauthedComponent?: JSX.Element
@@ -13,9 +12,8 @@ const ConditionalRoute = ({ authedComponent, unauthedComponent }: ConditionalRou
     const { state } = React.useContext(context)
     if (state.currentUser) {
         return authedComponent
-    } else {
-        return unauthedComponent ? unauthedComponent : <Navigate to="/login"></Navigate>
     }
+    return unauthedComponent || <Navigate to="/login" />
 }
 
 export default ConditionalRoute

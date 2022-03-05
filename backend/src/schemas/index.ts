@@ -7,7 +7,7 @@ import RootQueryType from './queries'
 
 const schema = new GraphQLSchema({
     query: RootQueryType,
-    mutation: RootMutationType
+    mutation: RootMutationType,
 })
 
 export default schema

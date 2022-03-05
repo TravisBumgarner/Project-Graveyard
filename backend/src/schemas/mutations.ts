@@ -1,17 +1,17 @@
-import { getConnection } from 'typeorm';
+import { getConnection } from 'typeorm'
 import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
     GraphQLInputObjectType,
-    GraphQLList
+    GraphQLList,
 } from 'graphql'
 
 import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType, ReviewType } from './types'
 import { Exactly } from '../utilities'
 import { Context } from '../types'
-import * as cloudinary from '../services/cloudinary'
+import cloudinary from '../services/cloudinary'
 
 type AddWorksheetArgs = {
     title: string
@@ -22,18 +22,16 @@ type AddWorksheetArgs = {
     newLanguage: string
 }
 
-
-
 const addWorksheet = {
     type: WorksheetType,
     description: 'Add a Project',
     args: {
-        title: { type: GraphQLNonNull(GraphQLString) },
-        id: { type: GraphQLNonNull(GraphQLString) },
-        description: { type: GraphQLNonNull(GraphQLString) },
-        date: { type: GraphQLNonNull(GraphQLString) },
-        knownLanguage: { type: GraphQLNonNull(GraphQLString) },
-        newLanguage: { type: GraphQLNonNull(GraphQLString) },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        date: { type: new GraphQLNonNull(GraphQLString) },
+        knownLanguage: { type: new GraphQLNonNull(GraphQLString) },
+        newLanguage: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
@@ -42,11 +40,11 @@ const addWorksheet = {
             .getRepository(entity.Worksheet)
             .save({
                 ...args,
-                userId: context.authenticatedUserId
+                userId: context.authenticatedUserId,
             })
 
         return response
-    }
+    },
 }
 
 type AddReviewArgs = {
@@ -65,37 +63,41 @@ const addReview = {
     type: ReviewType,
     description: 'Add a Review',
     args: {
-        id: { type: GraphQLNonNull(GraphQLString) },
-        date: { type: GraphQLNonNull(GraphQLString) },
-        worksheetId: { type: GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        date: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetId: { type: new GraphQLNonNull(GraphQLString) },
         reviewEntries: {
-            type: GraphQLList(new GraphQLInputObjectType({
+            type: new GraphQLList(new GraphQLInputObjectType({
                 name: 'ReviewEntry',
                 fields: () => ({
                     id: { type: GraphQLString },
                     worksheetEntryId: { type: GraphQLString },
                     oralFeedback: { type: GraphQLString },
-                    writtenFeedback: { type: GraphQLString }
-                })
-            }))
-        }
+                    writtenFeedback: { type: GraphQLString },
+                }),
+            })),
+        },
     },
     resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
-        // if (!context.authenticatedUserId) return null
-        console.log(args)
-        const { reviewEntries, id: reviewId, date } = args
+        if (!context.authenticatedUserId) return null
+        const {
+            reviewEntries, id: reviewId, date, worksheetId,
+        } = args
 
         const reviewEntity = new entity.Review()
         reviewEntity.id = reviewId
         reviewEntity.date = date
-        reviewEntity.userId = context.authenticatedUserId || 'foobar'
+        reviewEntity.userId = context.authenticatedUserId
+        reviewEntity.worksheetId = worksheetId
 
         const reviewEnetryResponse = await getConnection()
             .getRepository(entity.Review)
             .save(reviewEntity)
 
         const reviewEntryEntities: entity.ReviewEntry[] = []
-        reviewEntries.forEach(({ id, writtenFeedback, oralFeedback, worksheetEntryId }) => {
+        reviewEntries.forEach(({
+            id, writtenFeedback, oralFeedback, worksheetEntryId,
+        }) => {
             const reviewEntryEntity = new entity.ReviewEntry()
             reviewEntryEntity.id = id
             reviewEntryEntity.writtenFeedback = writtenFeedback
@@ -105,13 +107,13 @@ const addReview = {
 
             reviewEntryEntities.push(reviewEntryEntity)
         })
-        
-        const reviewResponse = await getConnection()
+
+        await getConnection()
             .getRepository(entity.ReviewEntry)
             .save(reviewEntryEntities)
 
         return reviewEnetryResponse
-    }
+    },
 }
 
 type AddWorksheetEntryArgs = {
@@ -126,31 +128,31 @@ const addWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Add a Worksheet Entry',
     args: {
-        knownLanguageText: { type: GraphQLNonNull(GraphQLString) },
-        newLanguageText: { type: GraphQLNonNull(GraphQLString) },
-        id: { type: GraphQLNonNull(GraphQLString) },
-        worksheetId: { type: GraphQLNonNull(GraphQLString) },
-        audioUrl: { type: GraphQLNonNull(GraphQLString) },
+        knownLanguageText: { type: new GraphQLNonNull(GraphQLString) },
+        newLanguageText: { type: new GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetId: { type: new GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
 
         const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
 
-        return await getConnection()
+        return getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
                 ...args,
-                audioUrl: url
+                audioUrl: url,
             })
-    }
+    },
 }
 
 const deleteWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Delete a Worksheet Entry',
     args: {
-        id: { type: GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, { id }: Exactly<AddWorksheetEntryArgs, 'id'>, context) => {
         if (!context.authenticatedUserId) return null
@@ -158,14 +160,13 @@ const deleteWorksheetEntry = {
         await getConnection()
             .getRepository(entity.WorksheetEntry)
             .delete({
-                id
+                id,
             })
         return {
-            id
+            id,
         }
-    }
+    },
 }
-
 
 const RootMutationType = new GraphQLObjectType({
     name: 'Mutation',
@@ -174,8 +175,8 @@ const RootMutationType = new GraphQLObjectType({
         addWorksheet,
         addWorksheetEntry,
         deleteWorksheetEntry,
-        addReview
-    })
+        addReview,
+    }),
 })
 
 export default RootMutationType

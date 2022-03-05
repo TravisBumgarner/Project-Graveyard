@@ -1,48 +1,51 @@
-import { useEffect, useState } from "react";
-//https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
+import { useEffect, useState } from 'react'
+import utilities from './utilities'
+// https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
+
+async function requestRecorder() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    return new MediaRecorder(stream)
+}
+
 const useRecorder = () => {
-    const [audioURL, setAudioURL] = useState<string>("");
-    const [isRecording, setIsRecording] = useState<boolean>(false);
-    const [recorder, setRecorder] = useState(null);
+    const [audioURL, setAudioURL] = useState<string>('')
+    const [isRecording, setIsRecording] = useState<boolean>(false)
+    const [recorder, setRecorder] = useState(null)
     useEffect(() => {
         if (recorder === null) {
             if (isRecording) {
-                requestRecorder().then(setRecorder, console.error);
+                requestRecorder().then(setRecorder, utilities.logger)
             }
-            return;
+            return
         }
 
         if (isRecording) {
-            recorder.start();
+            recorder.start()
         } else {
-            recorder.stop();
+            recorder.stop()
         }
 
         const handleData = (e: any) => {
-            setAudioURL(URL.createObjectURL(e.data));
-        };
+            setAudioURL(URL.createObjectURL(e.data))
+        }
 
-        recorder.addEventListener("dataavailable", handleData);
-        return () => recorder.removeEventListener("dataavailable", handleData);
-    }, [recorder, isRecording]);
+        recorder.addEventListener('dataavailable', handleData)
+        return () => recorder.removeEventListener('dataavailable', handleData)
+    }, [recorder, isRecording])
 
     const startRecording = () => {
-        setIsRecording(true);
-    };
+        setIsRecording(true)
+    }
 
     const stopRecording = () => {
-        setIsRecording(false);
-    };
+        setIsRecording(false)
+    }
 
     const clearAudioUrl = () => {
-        setAudioURL('');
-    };
+        setAudioURL('')
+    }
 
-    return [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] as const;
-};
-
-async function requestRecorder() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    return new MediaRecorder(stream);
+    return [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] as const
 }
+
 export { useRecorder }

@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm'
+import {
+    Column, Entity, PrimaryColumn, ManyToOne,
+} from 'typeorm'
 
 import Review from './review'
 import WorksheetEntry from './worksheetEntry'
@@ -20,9 +22,9 @@ export default class ReviewEntry {
     @Column({ nullable: false })
     oralFeedback: string
 
-    @ManyToOne(() => Review, review => review.reviewEntries)
-    review: Review;
+    @ManyToOne(() => Review, (review) => review.reviewEntries)
+    review: Review
 
-    @ManyToOne(() => WorksheetEntry, worksheet => worksheet.worksheetEntries)
-    worksheetEntry: WorksheetEntry;
+    @ManyToOne(() => WorksheetEntry, (worksheet) => worksheet.worksheetEntries)
+    worksheetEntry: WorksheetEntry
 }

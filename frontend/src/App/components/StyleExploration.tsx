@@ -1,11 +1,9 @@
-
 import React from 'react'
 import styled from 'styled-components'
 import ReactModal from 'react-modal'
-import { FaRegWindowClose } from "react-icons/fa";
-import { darken, lighten } from 'polished';
-import { NavLink, useNavigate } from 'react-router-dom'
-
+import { FaRegWindowClose } from 'react-icons/fa'
+import { darken, lighten } from 'polished'
+import { NavLink } from 'react-router-dom'
 
 const colorFactory = (color: string) => ({
     base: color,
@@ -15,11 +13,11 @@ const colorFactory = (color: string) => ({
     lightest: lighten(0.1, color),
 })
 
-
-const PRIMARY = colorFactory('#6A7FDB')
-const SECONDARY = colorFactory('#45CB85')
-const TERTIARY = colorFactory('#57E2E5')
+const PRIMARY = colorFactory('#57E2E5')
+const TERTIARY = colorFactory('#45CB85')
+const SECONDARY = colorFactory('#6A7FDB')
 const QUATERNARY = colorFactory('#E08DAC')
+const DISABLED = colorFactory('#aaaaaa')
 
 const H1 = styled.h1`
     color: ${PRIMARY.base};
@@ -30,25 +28,23 @@ const H2 = styled.h2`
     border-bottom: 2px solid ${PRIMARY.base};
     padding-bottom: 1rem;
     margin-bottom: 1rem;
-}`
+`
 
-const StyledNavLink = ({ to, text }: { to: string, text: string }) => {
-    return (
-        <NavLink style={({ isActive }) => {
-            return {
-                fontWeight: isActive ? 700 : 100,
-                color: SECONDARY.base
-            }
-        }} to={to} >{text}
-        </NavLink>
-    )
-}
+const StyledNavLink = ({ to, text }: { to: string, text: string }) => (
+    <NavLink
+        style={({ isActive }) => ({
+            fontWeight: isActive ? 700 : 100,
+            color: SECONDARY.base,
+        })}
+        to={to}
+    >
+        {text}
+    </NavLink>
+)
 
 const Link = styled.a`
     color: ${SECONDARY.base};
 `
-
-
 
 const H3 = styled.h3`
     color: ${PRIMARY.base};
@@ -64,7 +60,21 @@ const Button = styled.button`
     font-weight: 700;
     margin: 0.5rem;
 
-    ${({ variation }: { variation: 'primary' | 'secondary' | 'tertiary' | 'quaternary' }) => {
+    ${({ variation, disabled }: { variation: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'disabled', disabled?: boolean }) => {
+        if (disabled) {
+            return `
+                color: ${DISABLED.base};
+                border-color: ${DISABLED.base};
+
+                &:hover {
+                    background-color: ${DISABLED.lighten};
+                    color: ${DISABLED.darken};
+                    border-color: ${DISABLED.darken};
+                    cursor: not-allowed;
+                }
+            `
+        }
+
         if (variation === 'primary') {
             return `
                 color: ${PRIMARY.base};
@@ -76,7 +86,7 @@ const Button = styled.button`
                     background-color: ${PRIMARY.lighten};
                 }
             `
-        } else if (variation === "secondary") {
+        } if (variation === 'secondary') {
             return `
                 color: ${SECONDARY.base};
                 border-color: ${SECONDARY.base};
@@ -87,7 +97,7 @@ const Button = styled.button`
                     border-color: ${SECONDARY.darken};
                 }
             `
-        } else if (variation === "tertiary") {
+        } if (variation === 'tertiary') {
             return `
                 color: ${TERTIARY.base};
                 border-color: ${TERTIARY.base};
@@ -98,7 +108,7 @@ const Button = styled.button`
                     border-color: ${TERTIARY.darken};
                 }
             `
-        } else if (variation === "quaternary") {
+        } if (variation === 'quaternary') {
             return `
                 color: ${QUATERNARY.base};
                 border-color: ${QUATERNARY.base};
@@ -142,15 +152,10 @@ const Input = styled.input`
     border: 2px solid;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
-    background-color: white;
+    background-color: transparent;
     font-weight: 700;
     color: ${PRIMARY.base};
     border-color: ${PRIMARY.base};
-
-    &:focus{
-        border-color: ${PRIMARY.darken};
-    }
-
 `
 
 const LabelAndInputWrapper = styled.div`
@@ -176,12 +181,14 @@ type LabelAndInputProps = {
     type?: 'password'
 }
 
-const LabelAndInput = ({ value, name, label, handleChange, type }: LabelAndInputProps) => {
-    return <LabelAndInputWrapper>
+const LabelAndInput = ({
+    value, name, label, handleChange, type,
+}: LabelAndInputProps) => (
+    <LabelAndInputWrapper>
         <Label htmlFor={name}>{label}</Label>
         <Input type={type || 'text'} name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
     </LabelAndInputWrapper>
-}
+)
 
 type ModalProps = {
     children: JSX.Element | JSX.Element[]
@@ -208,42 +215,44 @@ const ModalWrapper = styled.div`
    
 `
 
-const Modal = ({ children, showModal, closeModal, contentLabel }: ModalProps) => {
-    return (
-        <ReactModal
-            isOpen={showModal}
-            onRequestClose={closeModal}
-            contentLabel={contentLabel}
-            style={{
-                overlay: {
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                },
-                content: {
-                    borderColor: PRIMARY.base,
-                    borderRadius: '1.5em',
-                }
-            }}
-        >
-            <ModalWrapper>
-                <HeaderWrapper>
-                    <H1>{contentLabel}</H1>
-                    <FaRegWindowClose onClick={closeModal} size={"2rem"} />
-                </HeaderWrapper>
-                {children}
-            </ModalWrapper>
-        </ReactModal >
-    )
-}
+const Modal = ({
+    children, showModal, closeModal, contentLabel,
+}: ModalProps) => (
+    <ReactModal
+        isOpen={showModal}
+        onRequestClose={closeModal}
+        contentLabel={contentLabel}
+        style={{
+            overlay: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            },
+            content: {
+                borderColor: PRIMARY.base,
+                borderRadius: '1.5em',
+            },
+        }}
+    >
+        <ModalWrapper>
+            <HeaderWrapper>
+                <H1>{contentLabel}</H1>
+                <FaRegWindowClose onClick={closeModal} size="2rem" />
+            </HeaderWrapper>
+            {children}
+        </ModalWrapper>
+    </ReactModal>
+)
 
 const Table = styled.table`
     border: 2px solid;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    border-color: ${PRIMARY.base};
+    padding: 1rem;
     border-collapse: collapse;
     border-radius: 1em;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: ${PRIMARY.lightest};   
+    width: 100%;
 `
 
 const TableHeader = styled.thead`
@@ -255,6 +264,7 @@ const TableBody = styled.tbody`
 `
 
 const TableRow = styled.tr`
+    padding: 10px;
     &:nth-child(2n+1){
         background-color: ${PRIMARY.lightest};   
     }
@@ -271,7 +281,6 @@ const TableHeaderCell = styled.th`
     
 `
 const TableBodyCell = styled.td`
-    border-bottom: 2px solid ${PRIMARY.base};    
     padding: 10px;
     
 `
@@ -293,85 +302,84 @@ const StyleExploration = () => {
 
     const [foo, setFoo] = React.useState<string>('')
     const [bar, setBar] = React.useState<string>('')
-    const [buzz, setBuzz] = React.useState<number>(0)
 
-    return <div>
-        <H1>H1 Header</H1>
-        <H2>H2 Header</H2>
-        <H3>H3 Header</H3>
-        <OrderedList>
-            <ListItem>Hi</ListItem>
-            <ListItem>Hi</ListItem>
-            <ListItem>Hi</ListItem>
-        </OrderedList>
-        <Audio controls />
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderCell>Foo</TableHeaderCell>
-                    <TableHeaderCell>Bar</TableHeaderCell>
-                    <TableHeaderCell>Buzz</TableHeaderCell>
-                    <TableHeaderCell>Bazz</TableHeaderCell>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                </TableRow>
-                <TableRow>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                </TableRow>
-                <TableRow>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                </TableRow>
-                <TableRow>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                </TableRow>
-                <TableRow>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                    <TableBodyCell>daksdkasd</TableBodyCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-        <Paragraph>Plain Text.</Paragraph>
-        <Label htmlFor='Name'>Name:</Label>
-        <Input name="name" placeholder='Name?'></Input>
+    return (
         <div>
-            <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
-            <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
-            <Button variation="tertiary" onClick={() => setShowModal2(true)}>Tertiary Button</Button>
-            <Button variation="quaternary" onClick={() => setShowModal2(true)}>Quaternary Button</Button>
+            <H1>H1 Header</H1>
+            <H2>H2 Header</H2>
+            <H3>H3 Header</H3>
+            <OrderedList>
+                <ListItem>Hi</ListItem>
+                <ListItem>Hi</ListItem>
+                <ListItem>Hi</ListItem>
+            </OrderedList>
+            <Audio controls />
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>Foo</TableHeaderCell>
+                        <TableHeaderCell>Bar</TableHeaderCell>
+                        <TableHeaderCell>Buzz</TableHeaderCell>
+                        <TableHeaderCell>Bazz</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                        <TableBodyCell>daksdkasd</TableBodyCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+            <Paragraph>Plain Text.</Paragraph>
+            <Label htmlFor="Name">Name:</Label>
+            <Input name="name" placeholder="Name?" />
+            <div>
+                <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
+                <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
+                <Button variation="tertiary" onClick={() => setShowModal2(true)}>Tertiary Button</Button>
+                <Button variation="quaternary" onClick={() => setShowModal2(true)}>Quaternary Button</Button>
+            </div>
+            <Modal contentLabel="Demo" showModal={showModal1} closeModal={() => setShowModal1(false)}>
+                <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique, arcu et bibendum pos</Paragraph>
+                <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
+                <Button variation="secondary" onClick={() => setShowModal1(true)}>Secondary Button</Button>
+            </Modal>
+
+            <Modal contentLabel="Input Demo" showModal={showModal2} closeModal={() => setShowModal2(false)}>
+
+                <LabelAndInput name="foo" label="Foo!" value={foo} handleChange={(value) => setFoo(value)} />
+                <LabelAndInput name="bar" label="Bar!" value={bar} handleChange={(value) => setBar(value)} />
+                <Button variation="primary" onClick={() => setShowModal2(true)}>Primary Button</Button>
+                <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
+            </Modal>
         </div>
-        <Modal contentLabel="Demo" showModal={showModal1} closeModal={() => setShowModal1(false)}>
-            <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique, arcu et bibendum posuere, est tellus blandit dolor, a scelerisque massa massa posuere ipsum. Aenean est justo, aliquet quis porttitor vel, eleifend non metus. Suspendisse eu dui at arcu condimentum dictum. Integer suscipit turpis massa, et pellentesque purus interdum et. Donec id pharetra libero, id tincidunt lectus. In fermentum leo sem, et feugiat urna tincidunt vitae. Nulla rutrum condimentum erat quis bibendum.</Paragraph>
-            <Paragraph>Proin ligula velit, scelerisque et dapibus sed, tristique sed orci. Mauris neque ligula, faucibus id ante id, varius fermentum ex. In in ullamcorper felis. Maecenas at eros diam. Aliquam aliquam massa sit amet leo rhoncus, et sodales tellus posuere. Duis a dignissim libero. Quisque eu neque eget felis sagittis sodales. Nam volutpat orci id ligula mollis elementum.</Paragraph>
-            <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
-            <Button variation="secondary" onClick={() => setShowModal1(true)}>Secondary Button</Button>
-        </Modal>
-
-        <Modal contentLabel="Input Demo" showModal={showModal2} closeModal={() => setShowModal2(false)}>
-
-
-            <LabelAndInput name="foo" label='Foo!' value={foo} handleChange={(value) => setFoo(value)} />
-            <LabelAndInput name="bar" label='Bar!' value={bar} handleChange={(value) => setBar(value)} />
-            <Button variation="primary" onClick={() => setShowModal2(true)}>Primary Button</Button>
-            <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
-        </Modal>
-    </div>
+    )
 }
 
 export default StyleExploration
@@ -393,5 +401,9 @@ export {
     UnorderedList,
     ListItem,
     StyledNavLink,
-    Link
+    Link,
+    PRIMARY,
+    SECONDARY,
+    TERTIARY,
+    QUATERNARY,
 }

@@ -1,12 +1,11 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
 
 import { context } from '.'
-import { auth } from '../../firebase'
-import { LabelAndInput, Button, H2 } from '../components/StyleExploration'
-
+import {
+    LabelAndInput, Button, H2, Paragraph,
+} from '../components/StyleExploration'
 
 type EditProfileProps = {
     closeModal: () => void
@@ -14,7 +13,6 @@ type EditProfileProps = {
 
 const EditProfile = ({ closeModal }: EditProfileProps) => {
     const { dispatch, state } = React.useContext(context)
-    const navigate = useNavigate()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>(state.currentUser.firebase.email)
     const [password, setPassword] = React.useState<string>('')
@@ -24,7 +22,7 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
         setIsLoading(true)
 
         if (password !== passwordConfirmation) {
-            dispatch({ type: "ADD_MESSAGE", data: { message: `Passwords don't match` } })
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Passwords don\'t match' } })
             setIsLoading(false)
             return
         }
@@ -39,9 +37,10 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
             closeModal()
         } catch (error) {
             dispatch({
-                type: "ADD_MESSAGE", data: {
-                    message: `Failed to update user: ${error.message}`
-                }
+                type: 'ADD_MESSAGE',
+                data: {
+                    message: `Failed to update user: ${error.message}`,
+                },
             })
         } finally {
             setIsLoading(false)
@@ -52,41 +51,49 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
         <div>
             <h1>Edit Profile</h1>
             <div>
-                <LabelAndInput label="Email" value={email} name="email" handleChange={(email) => setEmail(email)} />
+                <LabelAndInput label="Email" value={email} name="email" handleChange={(data) => setEmail(data)} />
             </div>
 
             <div>
-                <LabelAndInput label="Password" value={password} name="password" handleChange={(password) => setPassword(password)} />
+                <LabelAndInput label="Password" value={password} name="password" handleChange={(data) => setPassword(data)} />
             </div>
 
             <div>
-                <LabelAndInput label="Confirm Password" value={password} name="confirmPassword" handleChange={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)} />
+                <LabelAndInput
+                    label="Confirm Password"
+                    value={password}
+                    name="confirmPassword"
+                    handleChange={(data) => setPasswordConfirmation(data)}
+                />
 
             </div>
 
-            <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Save Changes</Button>
-            <Button variation='secondary' disabled={isLoading} onClick={closeModal}>Cancel</Button>
+            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Save Changes</Button>
+            <Button variation="secondary" disabled={isLoading} onClick={closeModal}>Cancel</Button>
         </div>
     )
 }
 
-
-type ProfileProps = {
-}
-
-const Profile = ({ }: ProfileProps) => {
-    const { state, dispatch } = React.useContext(context)
-    const navigate = useNavigate()
-
+const Profile = () => {
+    const { state } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
 
     return (
         <>
             <div>
                 <H2>Profile</H2>
-                <p>Username: {state.currentUser.panda.username}</p>
-                <p>Email: {state.currentUser.firebase.email}</p>
-                <p>Last Login: {state.currentUser.firebase.metadata.lastSignInTime}</p>
+                <Paragraph>
+                    Username:
+                    {state.currentUser.phraseADay.username}
+                </Paragraph>
+                <Paragraph>
+                    Email:
+                    {state.currentUser.firebase.email}
+                </Paragraph>
+                <Paragraph>
+                    Last Login:
+                    {state.currentUser.firebase.metadata.lastSignInTime}
+                </Paragraph>
             </div>
             <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
             <Modal

@@ -1,7 +1,12 @@
-const dateToString = (key: moment.Moment) => {
-    return key.toISOString().split('T')[0]
+import moment from 'moment'
+
+const dateToString = (key: moment.Moment) => key.toISOString().split('T')[0]
+
+const logger = (message: any) => {
+    console.log(JSON.stringify(message)) // eslint-disable-line
 }
 
-export {
-    dateToString
+export default {
+    dateToString,
+    logger,
 }

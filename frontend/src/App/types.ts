@@ -1,6 +1,12 @@
 import moment from 'moment'
 
-type Worksheet = {
+enum TWorksheetStatus {
+    NEW = 'new',
+    NEEDS_REVIEW = 'needs_review',
+    HAS_REVIEWS = 'has_reviews'
+}
+
+type TWorksheet = {
     id: string
     title: string
     description: string
@@ -8,14 +14,19 @@ type Worksheet = {
     knownLanguage: string
     newLanguage: string
     userId: string
+    status: TWorksheetStatus
 }
 
-type Review = {
-
+type TStudentReview = {
+    reviewEntryId: string
+    writtenFeedback: string
+    oralFeedback: string
+    audioUrl: string
+    knownLanguageText: string
+    newLanguageText: string
 }
 
-
-type WorksheetEntry = {
+type TWorksheetEntry = {
     id: string,
     worksheetId: string,
     knownLanguageText: string
@@ -23,14 +34,15 @@ type WorksheetEntry = {
     audioUrl: string
 }
 
-type PandaAppUser = {
+type TPhraseADayUser = {
     id: string
     username: string
 }
 
 export {
-    Worksheet,
-    WorksheetEntry,
-    PandaAppUser,
-    Review
+    TWorksheet,
+    TWorksheetEntry,
+    TPhraseADayUser,
+    TStudentReview,
+    TWorksheetStatus,
 }

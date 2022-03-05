@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   postgres:
+    container_name: phraseaday-postgres
     image: postgres:10.5
     restart: always
     environment:
@@ -15,8 +16,9 @@ services:
     ports:
         - '5432:5432'
     volumes:
-        - ./postgres-data:/var/lib/postgresql/datacode
+        - ./postgres-data:/var/lib/postgresql/data
   frontend:
+    container_name: phraseaday-frontend
     image: node:16
     volumes: 
       - ./frontend:/app/frontend
@@ -25,6 +27,7 @@ services:
     working_dir: /app/frontend
     command: ["npm", "run", "sd:fe"]
   backend:
+    container_name: phraseaday-backend
     image: node:16
     volumes: 
       - ./backend:/app/backend
