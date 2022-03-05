@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router'
 
 import styled from 'styled-components'
 import { Loading } from 'sharedComponents'
-import { TWorksheet, TWorksheetEntry } from '../../../types'
+import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
 import { useRecorder } from '../../../hooks'
 import {
@@ -79,6 +79,22 @@ mutation AddWorksheetEntry (
 }
 `
 
+const EDIT_WORKSHEET = gql`
+
+mutation editWorksheet (
+    $id: String!
+    $status: String!
+  ) {
+    editWorksheet(
+        id: $id,
+        status: $status,
+    ){
+      id,
+      status
+    }
+}
+`
+
 const DELETE_WORKSHEET_ENTRY = gql`
 mutation DeleteWorksheetEntry (
     $id: String!
@@ -92,9 +108,10 @@ mutation DeleteWorksheetEntry (
 type AddWorksheetEntryModalProps = {
     closeModal: () => void
     worksheet: TWorksheet
+    setWorksheetEntries: React.Dispatch<React.SetStateAction<TWorksheetEntry[]>>
 }
 
-const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModalProps) => {
+const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: AddWorksheetEntryModalProps) => {
     const [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder()
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
@@ -104,16 +121,17 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModa
     const handleSubmit = async () => {
         setIsLoading(true)
         const base64Audio = await objectUrlToBase64(audioURL)
+        const newWorksheetEntry: TWorksheetEntry = {
+            knownLanguageText,
+            newLanguageText,
+            id: uuidv4(),
+            worksheetId: worksheet.id,
+            audioUrl: base64Audio as string,
+        }
         await addWorksheetEntry({
-            variables: {
-                knownLanguageText,
-                newLanguageText,
-                id: uuidv4(),
-                worksheetId: worksheet.id,
-                audioUrl: base64Audio,
-
-            },
+            variables: newWorksheetEntry,
         })
+        setWorksheetEntries((prev) => ([...prev, newWorksheetEntry]))
         setKnownLanguageText('')
         setNewLanguageText('')
         clearAudioUrl()
@@ -171,8 +189,9 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModa
 
 type WorksheetEntryProps = {
     worksheetEntry: TWorksheetEntry
+    worksheetStatus: TWorksheetStatus
 }
-const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
+const WorksheetEntry = ({ worksheetEntry, worksheetStatus }: WorksheetEntryProps) => {
     const {
         id, knownLanguageText, newLanguageText, audioUrl,
     } = worksheetEntry
@@ -183,15 +202,22 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
         await deleteWorksheetEntry({ variables: { id } })
     }
 
+    const Actions: JSX.Element[] = []
+
+    if (worksheetStatus === TWorksheetStatus.NEW) {
+        Actions.push(<ActionButton onClick={handleDelete}>Delete</ActionButton>)
+    }
+
     return (
         <TableRow key={id}>
             <TableBodyCell>{knownLanguageText}</TableBodyCell>
             <TableBodyCell>{newLanguageText}</TableBodyCell>
             <TableBodyCell><audio controls src={audioUrl} /></TableBodyCell>
-            <TableBodyCell>
-
-                <ActionButton onClick={handleDelete}>Delete</ActionButton>
-            </TableBodyCell>
+            {Actions.length ? (
+                <TableBodyCell>
+                    {Actions}
+                </TableBodyCell>
+            ) : null}
         </TableRow>
     )
 }
@@ -202,7 +228,7 @@ const Worksheet = () => {
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
     const [workssheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>()
     const navigate = useNavigate()
-
+    const [editWorksheet] = useMutation<{ editWorksheet: { status: TWorksheetStatus, id: string } }>(EDIT_WORKSHEET)
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     useQuery<{ worksheet: TWorksheet[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
@@ -218,6 +244,11 @@ const Worksheet = () => {
     if (isLoading) return <Loading />
 
     const { title, description, date } = worksheet
+
+    const handleSubmit = async () => {
+        await editWorksheet({ variables: { status: TWorksheetStatus.NEEDS_REVIEW, id: worksheetId } })
+        navigate('/student/dashboard')
+    }
 
     return (
         <div>
@@ -235,22 +266,28 @@ const Worksheet = () => {
                             <TableHeaderCell scope="col">{worksheet.knownLanguage}</TableHeaderCell>
                             <TableHeaderCell scope="col">{worksheet.newLanguage}</TableHeaderCell>
                             <TableHeaderCell scope="col">Recorded</TableHeaderCell>
-                            <TableHeaderCell scope="col">Actions</TableHeaderCell>
+                            {worksheet.status === TWorksheetStatus.NEW && <TableHeaderCell scope="col">Actions</TableHeaderCell>}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {workssheetEntries.map((worksheetEntry) => <WorksheetEntry worksheetEntry={worksheetEntry} />)}
+                        {workssheetEntries.map((worksheetEntry) => (
+                            <WorksheetEntry worksheetStatus={worksheet.status} worksheetEntry={worksheetEntry} />
+                        ))}
                     </TableBody>
                 </Table>
                 <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
             </div>
-            <Button variation="primary" onClick={() => navigate('/user-dashboard')}>Submit for Feedback</Button>
+            <Button variation="primary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}
-                contentLabel="Add Worksheet"
+                contentLabel="Add Worksheet Entry"
             >
-                <AddWorksheetEntryModal worksheet={worksheet} closeModal={() => setShowModal(false)} />
+                <AddWorksheetEntryModal
+                    setWorksheetEntries={setWorksheetEntries}
+                    worksheet={worksheet}
+                    closeModal={() => setShowModal(false)}
+                />
             </Modal>
         </div>
     )

@@ -32,6 +32,7 @@ const addWorksheet = {
         date: { type: new GraphQLNonNull(GraphQLString) },
         knownLanguage: { type: new GraphQLNonNull(GraphQLString) },
         newLanguage: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
@@ -41,6 +42,26 @@ const addWorksheet = {
             .save({
                 ...args,
                 userId: context.authenticatedUserId,
+            })
+
+        return response
+    },
+}
+
+const editWorksheet = {
+    type: WorksheetType,
+    description: 'Edit a Project',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
+
+        const response = await getConnection()
+            .getRepository(entity.Worksheet)
+            .save({
+                ...args,
             })
 
         return response
@@ -173,6 +194,7 @@ const RootMutationType = new GraphQLObjectType({
     description: 'Root Mutation',
     fields: () => ({
         addWorksheet,
+        editWorksheet,
         addWorksheetEntry,
         deleteWorksheetEntry,
         addReview,
