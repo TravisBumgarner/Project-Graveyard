@@ -100,7 +100,6 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModa
 
             }
         })
-        dispatch({ type: "ADD_WORKSHEET_ENTRY", data: { worksheetEntry: response.data.addWorksheetEntry } })
         setKnownLanguageText('')
         setNewLanguageText('')
         clearAudioUrl()
@@ -155,7 +154,6 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
 
     const handleDelete = async () => {
         await deleteWorksheetEntry({ variables: { id } })
-        dispatch({ type: "DELETE_WORKSHEET_ENTRY", data: { id } })
     }
 
     return (
