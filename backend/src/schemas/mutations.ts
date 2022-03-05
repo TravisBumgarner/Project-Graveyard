@@ -82,7 +82,6 @@ const addReview = {
     },
     resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
         // if (!context.authenticatedUserId) return null
-        console.log(args)
         const { reviewEntries, id: reviewId, date, worksheetId } = args
 
         const reviewEntity = new entity.Review()

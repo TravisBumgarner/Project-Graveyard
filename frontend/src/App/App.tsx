@@ -24,7 +24,6 @@ import {
   UserDashboard,
   Context,
   context,
-  Worksheet as WorksheetComponent,
   Signup,
   Profile,
   ReviewDashboard,
@@ -33,10 +32,12 @@ import {
   Error,
   Footer
 } from './components'
-import { PhraseADayUser, Worksheet, WorksheetEntry } from './types';
+import { Worksheet } from './components/UserDashboard/components';
+import { TPhraseADayUser, TWorksheet, TWorksheetEntry } from './types';
 import { auth } from '../firebase';
 import { GlobalStyle } from 'theme';
 import { Paragraph } from './components/StyleExploration';
+import Review from './components/UserDashboard/components/Review';
 
 const HYDRATE_APP = gql`
 query HydrateApp {
@@ -48,6 +49,7 @@ query HydrateApp {
     knownLanguage,
     newLanguage,
     userId,
+    status,
     user {
       username
     }
@@ -65,8 +67,7 @@ query HydrateApp {
 
 const App = () => {
   const { state, dispatch } = React.useContext(context)
-  useQuery<{ worksheet: (Worksheet & { user: PhraseADayUser })[], worksheetEntries: WorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
-
+  useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
   if (state.currentUser === undefined) {
     return <Paragraph>Loading...</Paragraph>
   }
@@ -75,16 +76,17 @@ const App = () => {
     <>
       <Header />
       <Routes>
-        <Route path="/worksheet/:worksheetId" element={<ConditionalRoute authedComponent={<WorksheetComponent />} />} />
-        <Route path="/review/:worksheetId" element={<ConditionalRoute authedComponent={<ReviewWorksheet />} />} />
-        <Route path="/review-dashboard" element={<ConditionalRoute authedComponent={<ReviewDashboard />} />} />
+        <Route path="/reviewer/review/:worksheetId" element={<ConditionalRoute authedComponent={<ReviewWorksheet />} />} />
+        <Route path="/reviewer/dashboard" element={<ConditionalRoute authedComponent={<ReviewDashboard />} />} />
         <Route path="/profile" element={<ConditionalRoute authedComponent={<Profile />} />} />
         <Route path="/signup" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Signup />} />} />
         <Route path="/login" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Login />} />} />
         <Route path="/logout" element={<ConditionalRoute authedComponent={<Logout />} unauthedComponent={<Home />} />} />
         <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<ForgottenPassword />} />} />
         <Route path="/stylesheet" element={<StyleExploration />} />
-        <Route path="/user-dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />
+        <Route path="/student/dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />
+        <Route path="/student/worksheet/:worksheetId" element={<ConditionalRoute authedComponent={<Worksheet />} />} />
+        <Route path="/student/review/:worksheetId" element={<ConditionalRoute authedComponent={<Review />} />} />
         <Route path="/error" element={<Error />} />
         <Route path="/" element={<Home />} />
       </Routes>
@@ -110,7 +112,7 @@ const WrappedApp = () => {
       }
 
       const token = await getIdToken(firebase)
-      const { data: phraseADay }: { data: PhraseADayUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
+      const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
         headers: {
           'Authorization': token ? `Bearer ${token}` : ""
         }

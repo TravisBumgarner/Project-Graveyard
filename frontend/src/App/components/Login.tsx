@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
-import { PhraseADayUser } from '../types'
+import { TPhraseADayUser } from '../types'
 import axios from 'axios'
 import { H2, Button, LabelAndInput, Paragraph } from './StyleExploration'
 
@@ -24,7 +24,7 @@ const Login = ({ }: LoginProps) => {
         try {
             const { user: firebase } = await signInWithEmailAndPassword(auth, email, password)
             const token = await getIdToken(firebase)
-            const { data: phraseADay }: { data: PhraseADayUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
+            const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ""
                 }

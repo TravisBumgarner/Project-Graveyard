@@ -1,23 +1,14 @@
 import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
-import { Link } from 'react-router-dom'
-import { AiOutlineFolder, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
-import styled from 'styled-components'
 
-import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from '../StyleExploration'
+import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, H3, StyledNavLink } from '../StyleExploration'
 import { context } from '..'
-import { PhraseADayUser, Worksheet } from '../../types'
+import { TPhraseADayUser, TWorksheetStatus, TWorksheet } from '../../types'
 import { Button, LabelAndInput } from '../StyleExploration'
-import { Review } from './components'
 
-const ActionButton = styled.button`
-    background-color: transparent;
-    border: 0;
-
-`
 
 const ADD_WORKSHEET = gql`
 mutation AddWorksheet (
@@ -46,7 +37,7 @@ type AddWorksheetProps = {
 
 const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
-    const [addWorksheet] = useMutation<{ addWorksheet: Worksheet & { user: PhraseADayUser } }>(ADD_WORKSHEET)
+    const [addWorksheet] = useMutation<{ addWorksheet: TWorksheet & { user: TPhraseADayUser } }>(ADD_WORKSHEET)
     const [title, setTitle] = React.useState(`Worksheet ${Object.keys(state.worksheets).length + 1}`)
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
@@ -108,13 +99,14 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
     </div>
 }
 
-const Worksheets = () => {
-    const { state, dispatch } = React.useContext(context)
 
-    const [showModal, setShowModal] = React.useState<boolean>(false)
+type NewTableProps = {
+    worksheets: TWorksheet[],
+}
+const NewTable = ({ worksheets }: NewTableProps) => {
     return (
         <div>
-            <H2>Worksheets</H2>
+            <H3>Worksheets in Progress</H3>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -122,30 +114,110 @@ const Worksheets = () => {
                         <TableHeaderCell>From</TableHeaderCell>
                         <TableHeaderCell>To</TableHeaderCell>
                         <TableHeaderCell>Description</TableHeaderCell>
-                        <TableHeaderCell>Actions</TableHeaderCell>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {Object
-                        .values(state.worksheets)
-                        .filter(({ userId }) => userId === state.currentUser.phraseADay.id)
+                    {worksheets
                         .map(({ title, description, id, knownLanguage, newLanguage }) => {
                             return (
                                 <TableRow key={id}>
-                                    <TableBodyCell>{title}</TableBodyCell>
+                                    <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
                                     <TableBodyCell>{knownLanguage}</TableBodyCell>
                                     <TableBodyCell>{newLanguage}</TableBodyCell>
                                     <TableBodyCell>{description}</TableBodyCell>
-                                    <TableBodyCell>
-                                        <ActionButton><Link to={`/worksheet/${id}`}>View</Link></ActionButton>
-                                    </TableBodyCell>
                                 </TableRow>
                             )
                         })
                     }
                 </TableBody>
-
             </Table>
+        </div>
+    )
+}
+
+type NeedsReviewTableProps = {
+    worksheets: TWorksheet[],
+}
+const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => {
+    return (
+        <div>
+            <H3>Worksheets Awaiting Review</H3>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>Title</TableHeaderCell>
+                        <TableHeaderCell>From</TableHeaderCell>
+                        <TableHeaderCell>To</TableHeaderCell>
+                        <TableHeaderCell>Description</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {worksheets
+                        .map(({ title, description, id, knownLanguage, newLanguage }) => {
+                            return (
+                                <TableRow key={id}>
+                                    <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
+                                    <TableBodyCell>{knownLanguage}</TableBodyCell>
+                                    <TableBodyCell>{newLanguage}</TableBodyCell>
+                                    <TableBodyCell>{description}</TableBodyCell>
+                                </TableRow>
+                            )
+                        })
+                    }
+                </TableBody>
+            </Table>
+        </div>
+    )
+}
+
+type HasReviewsTableProps = {
+    worksheets: TWorksheet[],
+}
+const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => {
+    return (
+        <div>
+            <H3>Reviewed Worksheets</H3>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>Title</TableHeaderCell>
+                        <TableHeaderCell>From</TableHeaderCell>
+                        <TableHeaderCell>To</TableHeaderCell>
+                        <TableHeaderCell>Description</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {worksheets
+                        .map(({ title, description, id, knownLanguage, newLanguage }) => {
+                            return (
+                                <TableRow key={id}>
+                                    <TableBodyCell><StyledNavLink to={`/student/review/${id}`} text={title} /></TableBodyCell>
+                                    <TableBodyCell>{knownLanguage}</TableBodyCell>
+                                    <TableBodyCell>{newLanguage}</TableBodyCell>
+                                    <TableBodyCell>{description}</TableBodyCell>
+                                </TableRow>
+                            )
+                        })
+                    }
+                </TableBody>
+            </Table>
+        </div>
+    )
+}
+
+const Worksheets = () => {
+    const { state, dispatch } = React.useContext(context)
+
+    const [showModal, setShowModal] = React.useState<boolean>(false)
+
+    const filterWorksheets = (status: TWorksheetStatus) => {
+        return Object.values(state.worksheets)
+            .filter((worksheet) => worksheet.status === status && worksheet.userId === state.currentUser.phraseADay.id)
+    }
+
+    return (
+        <div>
+            <H2>Worksheets</H2>
             <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
             <Modal
                 isOpen={showModal}
@@ -154,7 +226,9 @@ const Worksheets = () => {
             >
                 <AddWorksheetModal closeModal={() => setShowModal(false)} />
             </Modal>
-
+            <NewTable worksheets={filterWorksheets(TWorksheetStatus.NEW)} />
+            <NeedsReviewTable worksheets={filterWorksheets(TWorksheetStatus.NEEDS_REVIEW)} />
+            <HasReviewsTable worksheets={filterWorksheets(TWorksheetStatus.HAS_REVIEWS)} />
         </div>
     )
 }
@@ -163,7 +237,6 @@ const UserDashboard = () => {
     return (
         <div>
             <Worksheets />
-            <Review worksheetId={'e2856a2a-14a0-4998-b58b-dd733f42e76e'} />
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import Navigation from "./header/components/Navigation";
 import Home from "./Home";
 import UserDashboard from './UserDashboard/UserDashboard'
-import Worksheet from './Worksheet'
 import { Context, context } from "./Context";
 import Signup from "./Signup";
 import Login from "./Login";
@@ -21,7 +20,6 @@ export {
     Navigation,
     Context,
     UserDashboard,
-    Worksheet,
     Signup,
     Login,
     Logout,

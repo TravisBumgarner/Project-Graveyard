@@ -3,6 +3,7 @@ import { Column, Entity, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm'
 import WorksheetEntry from './worksheetEntry'
 import User from './user'
 import Review from './review'
+import { WorksheetStatus } from '../../types'
 
 @Entity()
 export default class Worksheet {
@@ -29,6 +30,13 @@ export default class Worksheet {
 
     @Column({ type: 'date', nullable: false })
     date: string
+
+    @Column({
+        type: "enum",
+        enum: WorksheetStatus,
+        default: WorksheetStatus.NEW
+    })
+    status: WorksheetStatus;
 
     @OneToMany(() => WorksheetEntry, WorksheetEntry => WorksheetEntry.worksheet)
     worksheetEntries: WorksheetEntry[];

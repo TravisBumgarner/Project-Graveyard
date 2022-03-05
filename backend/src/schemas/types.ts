@@ -3,11 +3,13 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLList,
-    GraphQLInt
+    GraphQLInt,
+    GraphQLEnumType
 } from 'graphql'
 import { getConnection } from 'typeorm';
 
 import { entity } from '../db'
+import { WorksheetStatus } from '../types';
 
 const WorksheetType = new GraphQLObjectType({
     name: 'Worksheet',
@@ -20,6 +22,7 @@ const WorksheetType = new GraphQLObjectType({
         date: { type: GraphQLNonNull(GraphQLString) },
         knownLanguage: { type: GraphQLNonNull(GraphQLString) },
         newLanguage: { type: GraphQLNonNull(GraphQLString) },
+        status: { type: GraphQLNonNull(GraphQLString) },
         user: {
             type: UserType,
             resolve: async (worksheet: any) => {

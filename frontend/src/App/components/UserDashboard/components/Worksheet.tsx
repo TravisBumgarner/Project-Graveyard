@@ -1,23 +1,21 @@
 import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
-import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
-import { context } from '.'
-import { WorksheetEntry } from '../types'
-import { dateToString } from '../utilities'
+import { context } from '../../'
+import { TWorksheetEntry } from '../../../types'
+import { dateToString } from '../../../utilities'
 import styled from 'styled-components'
-import { useRecorder } from '../hooks'
-import { Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
+import { useRecorder } from '../../../hooks'
+import { Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './../../StyleExploration'
 
 const ActionButton = styled.button`
     background-color: transparent;
     border: 0;
     cursor: pointer;
-
 `
 
 const objectUrlToBase64 = async (objectUrl: string) => {
@@ -66,7 +64,7 @@ type AddSentenceProps = {
 const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) => {
     const { state, dispatch } = React.useContext(context)
     let [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder();
-    const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(ADD_WORKSHEET_ENTRY)
+    const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
     const handleSubmit = async () => {
@@ -126,13 +124,13 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
 }
 
 type WorksheetEntryProps = {
-    worksheetEntry: WorksheetEntry
+    worksheetEntry: TWorksheetEntry
 }
 const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
     const { state, dispatch } = React.useContext(context)
     const { id, knownLanguageText, newLanguageText, audioUrl } = worksheetEntry
 
-    const [deleteWorksheetEntry] = useMutation<{ addWorksheetEntry: WorksheetEntry }>(DELETE_WORKSHEET_ENTRY)
+    const [deleteWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(DELETE_WORKSHEET_ENTRY)
 
     const handleDelete = async () => {
         await deleteWorksheetEntry({ variables: { id } })

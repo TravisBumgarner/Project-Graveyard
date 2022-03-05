@@ -1,11 +1,8 @@
 import React from 'react'
-import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
-import { Link, useNavigate, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
-import { PhraseADayUser } from '../types'
-import axios from 'axios'
 import { signOut } from 'firebase/auth'
 
 

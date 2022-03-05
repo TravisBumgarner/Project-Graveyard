@@ -1,16 +1,11 @@
 import React from 'react'
 import moment from 'moment'
-import Modal from 'react-modal'
-import { gql, useMutation, useQuery } from '@apollo/client'
-import { v4 as uuidv4 } from 'uuid'
-import { Link } from 'react-router-dom'
-import { AiOutlineFolder, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
-import styled from 'styled-components'
+import { gql, useQuery } from '@apollo/client'
+import { useParams } from 'react-router'
 
 import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, Paragraph } from '../../StyleExploration'
 import { context } from '../../'
-import { PhraseADayUser, Worksheet, StudentReview } from '../../../types'
-import { Button, LabelAndInput } from '../../StyleExploration'
+import { TStudentReview } from '../../../types'
 import { dateToString } from '../../../utilities'
 
 
@@ -28,15 +23,15 @@ query StudentReview($worksheetId: String!)
 `
 
 type ReviewProps = {
-    worksheetId: string
 }
 
-const Review = ({ worksheetId }: ReviewProps) => {
+const Review = ({ }: ReviewProps) => {
     const { state, dispatch } = React.useContext(context)
+    let { worksheetId } = useParams();
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const [review, setReview] = React.useState<StudentReview[]>([])
+    const [review, setReview] = React.useState<TStudentReview[]>([])
     const { title, description, date } = state.worksheets[worksheetId]
-    useQuery<{ studentReview: StudentReview[] }>(STUDENT_REVIEW, {
+    useQuery<{ studentReview: TStudentReview[] }>(STUDENT_REVIEW, {
         variables: {
             worksheetId
         },
@@ -45,7 +40,9 @@ const Review = ({ worksheetId }: ReviewProps) => {
             setIsLoading(false)
         }
     })
-    console.log(review)
+
+    if (isLoading) return <div>Loading...</div>
+
     return (
         <div>
             <H2>{title}</H2>

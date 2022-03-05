@@ -24,8 +24,8 @@ const ALWAYS_VISIBLE_LINKS = [
 ]
 
 const LOGGED_IN_VISIBLE_LINKS = [
-    { text: "User Dashboard", to: "/user-dashboard" },
-    { text: "Review Dashboard", to: "/review-dashboard" },
+    { text: "Student Dashboard", to: "/student/dashboard" },
+    { text: "Reviewer Dashboard", to: "/reviewer/dashboard" },
     { text: "Profile", to: "/profile" },
     { text: "Log Out", to: "/logout" }
 ]

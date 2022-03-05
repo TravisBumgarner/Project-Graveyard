@@ -1,17 +1,17 @@
-import { User as FirebaseUser } from 'firebase/auth'
+import { User as TFirebaseUser } from 'firebase/auth'
 import moment from 'moment'
 import React from 'react'
 
-import { Worksheet, WorksheetEntry, PhraseADayUser } from '../../types'
+import { TWorksheet, TWorksheetEntry, TPhraseADayUser } from '../../types'
 
 type State = {
     message: string
-    worksheets: Record<string, Worksheet & { user: PhraseADayUser }>
-    worksheetEntries: Record<string, WorksheetEntry>
+    worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }>
+    worksheetEntries: Record<string, TWorksheetEntry>
     appHydrated: boolean
     currentUser: {
-        firebase: FirebaseUser,
-        phraseADay: PhraseADayUser
+        firebase: TFirebaseUser,
+        phraseADay: TPhraseADayUser
     } | null | undefined
 }
 
@@ -35,8 +35,8 @@ const context = React.createContext(
 type HydrateApp = {
     type: 'HYDRATE_APP'
     data: {
-        worksheets: (Worksheet & { user: PhraseADayUser })[],
-        worksheetEntries: WorksheetEntry[]
+        worksheets: (TWorksheet & { user: TPhraseADayUser })[],
+        worksheetEntries: TWorksheetEntry[]
     }
 }
 
@@ -44,8 +44,8 @@ type UserSignup = {
     type: 'USER_SIGNED_UP'
     data: {
         currentUser: {
-            firebase: FirebaseUser
-            phraseADay: PhraseADayUser
+            firebase: TFirebaseUser
+            phraseADay: TPhraseADayUser
         }
     }
 }
@@ -54,8 +54,8 @@ type UserLogin = {
     type: 'USER_LOGGED_IN'
     data: {
         currentUser: {
-            firebase: FirebaseUser
-            phraseADay: PhraseADayUser
+            firebase: TFirebaseUser
+            phraseADay: TPhraseADayUser
         }
     }
 }
@@ -70,14 +70,14 @@ type UserSignedOut = {
 type AddWorksheet = {
     type: 'ADD_WORKSHEET'
     data: {
-        worksheet: Worksheet & { user: PhraseADayUser }
+        worksheet: TWorksheet & { user: TPhraseADayUser }
     }
 }
 
 type EditWorksheet = {
     type: 'EDIT_WORKSHEET'
     data: {
-        worksheet: Worksheet & { user: PhraseADayUser }
+        worksheet: TWorksheet & { user: TPhraseADayUser }
     }
 }
 
@@ -91,7 +91,7 @@ type DeleteWorksheet = {
 type AddWorksheetEntry = {
     type: 'ADD_WORKSHEET_ENTRY'
     data: {
-        worksheetEntry: WorksheetEntry
+        worksheetEntry: TWorksheetEntry
     }
 }
 
@@ -105,7 +105,7 @@ type DeleteWorksheetEntry = {
 type GetWorksheets = {
     type: 'GET_WORKSHEETS'
     data: {
-        worksheets: (Worksheet & { user: PhraseADayUser })[],
+        worksheets: (TWorksheet & { user: TPhraseADayUser })[],
 
     }
 }
@@ -149,14 +149,14 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, currentUser: action.data.currentUser }
         }
         case 'HYDRATE_APP': {
-            const worksheets: Record<string, Worksheet & { user: PhraseADayUser }> = {}
+            const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
-            const worksheetEntries: Record<string, WorksheetEntry> = {}
+            const worksheetEntries: Record<string, TWorksheetEntry> = {}
             action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
             return { ...state, worksheets, worksheetEntries, appHydrated: true }
         }
         case 'GET_WORKSHEETS': {
-            const worksheets: Record<string, Worksheet & { user: PhraseADayUser }> = {}
+            const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
             action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
             return { ...state, worksheets }
         }

@@ -240,6 +240,7 @@ const Table = styled.table`
     border-collapse: separate;
     border-spacing: 0;
     background-color: ${PRIMARY.lightest};   
+    width: 100%;
 `
 
 const TableHeader = styled.thead`

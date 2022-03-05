@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
-import { PhraseADayUser } from '../types'
+import { TPhraseADayUser } from '../types'
 import axios from 'axios'
 import { Button, H2, LabelAndInput, Paragraph } from './StyleExploration'
 
@@ -29,7 +29,7 @@ const Singup = ({ }: SignupProps) => {
         try {
             const { user: firebase } = await createUserWithEmailAndPassword(auth, email, password)
             const token = await getIdToken(firebase)
-            const { data: phraseADay }: { data: PhraseADayUser } = await axios.post(__API_ENDPOINT__ + '/whoami', {
+            const { data: phraseADay }: { data: TPhraseADayUser } = await axios.post(__API_ENDPOINT__ + '/whoami', {
                 username
             }, {
                 headers: {

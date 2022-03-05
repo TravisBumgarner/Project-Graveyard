@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
-import { H2, H3, Link, ListItem, OrderedList, Paragraph, UnorderedList } from './StyleExploration'
+import { H2, H3, Link, ListItem, OrderedList, Paragraph } from './StyleExploration'
 import { context } from './Context'
 
 const Home = () => {
-    const { state, dispatch } = React.useContext(context)
+    const { state } = React.useContext(context)
 
 
     return (

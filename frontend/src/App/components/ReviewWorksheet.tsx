@@ -7,7 +7,7 @@ import { useParams } from 'react-router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 import { context } from '.'
-import { WorksheetEntry as WorksheetReviewEntry } from '../types'
+import { TWorksheetEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
@@ -40,7 +40,7 @@ mutation AddReview (
 `;
 
 type WorksheetReviewEntryProps = {
-    worksheetEntry: WorksheetReviewEntry
+    worksheetEntry: TWorksheetEntry
     reviewState: any
     dispatchReview: any
 }
@@ -52,7 +52,6 @@ const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: W
     React.useEffect(() => {
         dispatchReview({ type: "ORAL_FEEDBACK_ACTION", data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
     }, [audioURL])
-    console.log(worksheetEntry)
     return (
         <>
             <TableRow key={id} >
@@ -142,7 +141,6 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
                 ...reviewState[worksheetEntryId],
             }))
         }
-        console.log('variables', variables)
         const response = await addReview({
             variables
         })

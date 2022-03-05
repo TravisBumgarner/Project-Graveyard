@@ -67,7 +67,6 @@ const studentReview = {
                 worksheet_entry."worksheetId" = '${args.worksheetId}'
             ;
             `)
-        console.log(data)
 
 
         return data
