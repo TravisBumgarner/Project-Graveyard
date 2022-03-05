@@ -1,21 +1,21 @@
 # Today
 
-- [ ] Figure out why node is crashing (see dump below)
-- [ ] https://medium.com/@HurricaneJames/graphql-mutations-fb3ad5ae73c4
-- [ ] https://atheros.ai/blog/input-object-type-as-an-argument-for-graphql-mutations-and-queries
-- [ ] Why is database getting deleted 
-    - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
-    - Probably because I keep force quitting with postico open?
 - [x] Get username displayed on the screen
-- [ ] Add a way to give a review
 - [x] Figure out how to do migrations outside/inside a container. (.env points to different localhost then where migrations are run)
 - [x] Fix page refresh always redirecting people to login
 - [x] Figure out broken date picker (or just hide date picker and have date created be set)
-- [ ] Does global context make sense? Maybe requests should be made on page load instead
-- [ ] Page refresh on Worksheet page and review worksheet page is broken
-- [ ] How to handle types with GraphQL?
+- [x] https://medium.com/@HurricaneJames/graphql-mutations-fb3ad5ae73c4
+- [x] https://atheros.ai/blog/input-object-type-as-an-argument-for-graphql-mutations-and-queries
+- [x] Add a way to give a review
+- [x] Does global context make sense? Maybe requests should be made on page load instead
+- [x] Page refresh on Worksheet page and review worksheet page is broken
+- [x] How to handle types with GraphQL?
     - https://www.apollographql.com/docs/apollo-server/data/resolvers/
-- [ ] Get rid of || 'foobar'
+- [ ] Figure out why node is crashing (see dump below)
+- [ ] Why is database getting deleted 
+    - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
+    - Probably because I keep force quitting with postico open?
+- [x] Get rid of || 'foobar'
 - [ ] Disable buttons when submitting
 - [ ] Add student and reviewer routers
 

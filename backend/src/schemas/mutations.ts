@@ -81,13 +81,13 @@ const addReview = {
         }
     },
     resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
-        // if (!context.authenticatedUserId) return null
+        if (!context.authenticatedUserId) return null
         const { reviewEntries, id: reviewId, date, worksheetId } = args
 
         const reviewEntity = new entity.Review()
         reviewEntity.id = reviewId
         reviewEntity.date = date
-        reviewEntity.userId = context.authenticatedUserId || 'foobar'
+        reviewEntity.userId = context.authenticatedUserId
         reviewEntity.worksheetId = worksheetId
 
         const reviewEnetryResponse = await getConnection()

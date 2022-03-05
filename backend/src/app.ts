@@ -9,7 +9,6 @@ import schema from './schemas'
 import { authenticateToken } from './middleware'
 import { getConnection } from 'typeorm';
 import { entity } from './db';
-// import uploadFile from './services/cloudinary'
 
 type ModifiedExpressRequest = express.Request & { authenticatedUserId: string | null, firebaseId: string }
 
@@ -28,7 +27,6 @@ app.use('/graphql', graphqlHTTP((req: ModifiedExpressRequest) => {
 }))
 
 app.get('/', async (req: ModifiedExpressRequest, res: express.Response) => {
-  // await uploadFile()
   res.send('pong!')
 })
 

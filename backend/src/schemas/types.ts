@@ -45,19 +45,6 @@ const ReviewType = new GraphQLObjectType({
         userId: { type: GraphQLNonNull(GraphQLString) },
         worksheetId: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
-        // user: {
-        //     type: UserType,
-        //     resolve: async (worksheet: any) => {
-        //         console.log('userdatarequest', worksheet)
-        //         const data = await getConnection()
-        //             .getRepository(entity.User)
-        //             .createQueryBuilder('user')
-        //             .where({ id: worksheet.userId })
-        //             .getOne()
-        //         console.log('userdata', data)
-        //         return data
-        //     }
-        // },
     })
 })
 

@@ -28,7 +28,7 @@ const worksheet = {
         worksheetId: { type: GraphQLString },
     },
     resolve: async (_parent, args: GetWorksheetArgs, context: Context) => {
-        // if (!context.authenticatedUserId) return []
+        if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.Worksheet)
             .createQueryBuilder('worksheet')
@@ -53,7 +53,7 @@ const studentReview = {
         worksheetId: { type: GraphQLString },
     },
     resolve: async (_parent, args: GetReviewArgs, context: Context) => {
-        // if (!context.authenticatedUserId) return []
+        if (!context.authenticatedUserId) return []
         if (!isUUID(args.worksheetId)) return []
 
         const data = await getConnection()
