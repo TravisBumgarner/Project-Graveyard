@@ -1,11 +1,9 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 
+import { signOut } from 'firebase/auth'
 import { context } from '.'
 import { auth } from '../../firebase'
-import { signOut } from 'firebase/auth'
-
-
 
 type LogoutProps = {
 }
@@ -17,9 +15,9 @@ const Logout = ({ }: LogoutProps) => {
     React.useEffect(() => {
         try {
             signOut(auth)
-            dispatch({ type: "USER_SIGNED_OUT", data: { currentUser: null } })
+            dispatch({ type: 'USER_SIGNED_OUT', data: { currentUser: null } })
         } catch {
-            alert("something went wrong logging out")
+            alert('something went wrong logging out')
         } finally {
             setIsLoading(false)
         }

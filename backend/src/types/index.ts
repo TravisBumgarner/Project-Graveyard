@@ -3,13 +3,12 @@ type Context = {
 }
 
 enum WorksheetStatus {
-    NEW = "new",
-    NEEDS_REVIEW = "needs_review",
-    HAS_REVIEWS = "has_reviews"
+    NEW = 'new',
+    NEEDS_REVIEW = 'needs_review',
+    HAS_REVIEWS = 'has_reviews'
 }
-
 
 export {
-    Context,
-    WorksheetStatus
-}
+  Context,
+  WorksheetStatus,
+};

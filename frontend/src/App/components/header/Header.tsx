@@ -24,18 +24,16 @@ const HeaderWrapper = styled.div`
     }
 `
 
-const Header = () => {
-    return (
-        <HeaderWrapper>
-            <div>
-                <Img src={logo} />
-                <H1>phrase a day</H1>
-            </div>
-            <div>
-                <Navigation />
-            </div>
-        </HeaderWrapper >
-    )
-}
+const Header = () => (
+    <HeaderWrapper>
+        <div>
+            <Img src={logo} />
+            <H1>phrase a day</H1>
+        </div>
+        <div>
+            <Navigation />
+        </div>
+    </HeaderWrapper>
+)
 
 export default Header

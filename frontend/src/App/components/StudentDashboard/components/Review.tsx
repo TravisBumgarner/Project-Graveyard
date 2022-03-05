@@ -1,14 +1,13 @@
 import React from 'react'
-import moment from 'moment'
 import { gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 
-import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, Paragraph } from '../../StyleExploration'
+import { Loading } from 'sharedComponents'
+import {
+    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
+} from '../../StyleExploration'
 import { context } from '../..'
 import { TStudentReview } from '../../../types'
-import { dateToString } from '../../../utilities'
-import { Loading } from 'sharedComponents'
-
 
 const STUDENT_REVIEW = gql`
 query StudentReview($worksheetId: String!)
@@ -19,7 +18,7 @@ query StudentReview($worksheetId: String!)
         id
     }
     studentReview(worksheetId: $worksheetId){
-		writtenFeedback,
+        writtenFeedback,
         oralFeedback,
         audioUrl,
         knownLanguageText,
@@ -28,23 +27,19 @@ query StudentReview($worksheetId: String!)
 }
 `
 
-type ReviewProps = {
-}
-
-const Review = ({ }: ReviewProps) => {
-    const { state, dispatch } = React.useContext(context)
-    let { worksheetId } = useParams();
+const Review = () => {
+    const { worksheetId } = useParams()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [review, setReview] = React.useState<TStudentReview[]>([])
     // const { title, description, date } = state.worksheets[worksheetId]
     useQuery<{ studentReview: TStudentReview[] }>(STUDENT_REVIEW, {
         variables: {
-            worksheetId
+            worksheetId,
         },
         onCompleted: (data) => {
             setReview(data.studentReview)
             setIsLoading(false)
-        }
+        },
     })
 
     if (isLoading) return <Loading />
@@ -68,18 +63,17 @@ const Review = ({ }: ReviewProps) => {
                 </TableHeader>
                 <TableBody>
                     {review
-                        .map(({ knownLanguageText, newLanguageText, oralFeedback, writtenFeedback, audioUrl }, index) => {
-                            return (
-                                <TableRow key={index}>
-                                    <TableBodyCell>{knownLanguageText}</TableBodyCell>
-                                    <TableBodyCell>{newLanguageText}</TableBodyCell>
-                                    <TableBodyCell><audio src={audioUrl} controls /></TableBodyCell>
-                                    <TableBodyCell>{writtenFeedback}</TableBodyCell>
-                                    <TableBodyCell><audio src={oralFeedback} controls /></TableBodyCell>
-                                </TableRow>
-                            )
-                        })
-                    }
+                        .map(({
+                            knownLanguageText, newLanguageText, oralFeedback, writtenFeedback, audioUrl,
+                        }, index) => (
+                            <TableRow key={index}>
+                                <TableBodyCell>{knownLanguageText}</TableBodyCell>
+                                <TableBodyCell>{newLanguageText}</TableBodyCell>
+                                <TableBodyCell><audio src={audioUrl} controls /></TableBodyCell>
+                                <TableBodyCell>{writtenFeedback}</TableBodyCell>
+                                <TableBodyCell><audio src={oralFeedback} controls /></TableBodyCell>
+                            </TableRow>
+                        ))}
                 </TableBody>
 
             </Table>

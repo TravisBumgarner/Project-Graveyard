@@ -1,6 +1,6 @@
-import Context, { context } from "./Context";
+import Context, { context } from './Context'
 
 export {
     Context,
-    context
+    context,
 }

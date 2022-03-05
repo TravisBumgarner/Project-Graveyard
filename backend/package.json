@@ -14,7 +14,9 @@
     "migration:run:docker": "export NODE_ENV=development && docker exec -it phraseaday_backend_1 npm run migration:run:dev",
     "migration:generate:docker": "docker exec -it phraseaday_backend_1 npm run migration:generate",
     "precommit": "echo \"---------------------------- NOTHING TO SEE HERE ON BACKEND ----------------------------\"",
-    "deploy": "npm run build && gcloud config set project worksheets-9b1ad && gcloud builds submit --tag gcr.io/worksheets-9b1ad/backend && gcloud run deploy backend --image gcr.io/worksheets-9b1ad/backend --platform managed --region us-central1"
+    "deploy": "npm run build && gcloud config set project worksheets-9b1ad && gcloud builds submit --tag gcr.io/worksheets-9b1ad/backend && gcloud run deploy backend --image gcr.io/worksheets-9b1ad/backend --platform managed --region us-central1",
+    "lint:run": "npx eslint --ext .ts ./src/**",
+    "lint:fix": "npx eslint --ext .ts ./src/** --fix"
   },
   "keywords": [],
   "license": "ISC",
@@ -37,6 +39,11 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.17",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4"
   }
 }

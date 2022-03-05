@@ -1,12 +1,12 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
 
 import { context } from '.'
-import { auth } from '../../firebase'
-import { LabelAndInput, Button, H2, Paragraph } from '../components/StyleExploration'
-
+import {
+    LabelAndInput, Button, H2, Paragraph,
+} from '../components/StyleExploration'
 
 type EditProfileProps = {
     closeModal: () => void
@@ -24,7 +24,7 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
         setIsLoading(true)
 
         if (password !== passwordConfirmation) {
-            dispatch({ type: "ADD_MESSAGE", data: { message: `Passwords don't match` } })
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Passwords don\'t match' } })
             setIsLoading(false)
             return
         }
@@ -39,9 +39,10 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
             closeModal()
         } catch (error) {
             dispatch({
-                type: "ADD_MESSAGE", data: {
-                    message: `Failed to update user: ${error.message}`
-                }
+                type: 'ADD_MESSAGE',
+                data: {
+                    message: `Failed to update user: ${error.message}`,
+                },
             })
         } finally {
             setIsLoading(false)
@@ -64,12 +65,11 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
 
             </div>
 
-            <Button variation='primary' disabled={isLoading} onClick={handleSubmit}>Save Changes</Button>
-            <Button variation='secondary' disabled={isLoading} onClick={closeModal}>Cancel</Button>
+            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Save Changes</Button>
+            <Button variation="secondary" disabled={isLoading} onClick={closeModal}>Cancel</Button>
         </div>
     )
 }
-
 
 type ProfileProps = {
 }
@@ -84,9 +84,18 @@ const Profile = ({ }: ProfileProps) => {
         <>
             <div>
                 <H2>Profile</H2>
-                <Paragraph>Username: {state.currentUser.phraseADay.username}</Paragraph>
-                <Paragraph>Email: {state.currentUser.firebase.email}</Paragraph>
-                <Paragraph>Last Login: {state.currentUser.firebase.metadata.lastSignInTime}</Paragraph>
+                <Paragraph>
+                    Username:
+                    {state.currentUser.phraseADay.username}
+                </Paragraph>
+                <Paragraph>
+                    Email:
+                    {state.currentUser.firebase.email}
+                </Paragraph>
+                <Paragraph>
+                    Last Login:
+                    {state.currentUser.firebase.metadata.lastSignInTime}
+                </Paragraph>
             </div>
             <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
             <Modal

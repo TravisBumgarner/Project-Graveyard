@@ -1,11 +1,10 @@
 import moment from 'moment'
 
 enum TWorksheetStatus {
-    NEW = "new",
-    NEEDS_REVIEW = "needs_review",
-    HAS_REVIEWS = "has_reviews"
+    NEW = 'new',
+    NEEDS_REVIEW = 'needs_review',
+    HAS_REVIEWS = 'has_reviews'
 }
-
 
 type TWorksheet = {
     id: string
@@ -26,7 +25,6 @@ type TStudentReview = {
     newLanguageText: string
 }
 
-
 type TWorksheetEntry = {
     id: string,
     worksheetId: string,
@@ -40,11 +38,10 @@ type TPhraseADayUser = {
     username: string
 }
 
-
 export {
     TWorksheet,
     TWorksheetEntry,
     TPhraseADayUser,
     TStudentReview,
-    TWorksheetStatus
+    TWorksheetStatus,
 }

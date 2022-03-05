@@ -1,6 +1,6 @@
 import {
-  gql
-} from "@apollo/client";
+    gql,
+} from '@apollo/client'
 
 const GET_PROJECTS = gql`
   query {
@@ -11,8 +11,8 @@ const GET_PROJECTS = gql`
       description
     }
   }
-`;
+`
 
 export {
-  GET_PROJECTS,
+    GET_PROJECTS,
 }

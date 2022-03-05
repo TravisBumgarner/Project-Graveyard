@@ -1,5 +1,5 @@
-import authenticateToken from './authenticateToken'
+import authenticateToken from './authenticateToken';
 
 export {
-    authenticateToken
-}
+  authenticateToken,
+};

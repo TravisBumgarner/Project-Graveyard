@@ -1,7 +1,8 @@
 import { User as TFirebaseUser } from 'firebase/auth'
 import React from 'react'
+import utilities from '../../utilities'
 
-import { TWorksheet, TWorksheetEntry, TPhraseADayUser } from '../../types'
+import { TWorksheetEntry, TPhraseADayUser } from '../../types'
 
 type State = {
     message: string
@@ -17,17 +18,8 @@ const EMPTY_STATE: State = {
     message: null,
     worksheetEntries: {},
     appHydrated: false,
-    currentUser: undefined
+    currentUser: undefined,
 }
-
-const context = React.createContext(
-    {
-        state: EMPTY_STATE,
-        dispatch: () => { }
-    } as {
-        state: State,
-        dispatch: React.Dispatch<Action>
-    })
 
 type UserSignup = {
     type: 'USER_SIGNED_UP'
@@ -74,6 +66,16 @@ type Action =
     | UserSignup
     | UserSignedOut
 
+const context = React.createContext(
+    {
+        state: EMPTY_STATE,
+        dispatch: () => { },
+    } as {
+        state: State,
+        dispatch: React.Dispatch<Action>
+    },
+)
+
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'ADD_MESSAGE': {
@@ -88,7 +90,7 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, currentUser: action.data.currentUser }
         }
         default: {
-            console.error("Swallowing action", action)
+            utilities.logger(`Swallowing action: ${JSON.stringify(action)}`)
             return state
         }
     }
@@ -97,7 +99,7 @@ const reducer = (state: State, action: Action): State => {
 const ResultsContext = ({ children }: { children: React.ReactChild }) => {
     const [state, dispatch] = React.useReducer(reducer, EMPTY_STATE)
 
-    const Provider = context.Provider
+    const { Provider } = context
 
     return (
         <Provider value={{ state, dispatch }}>

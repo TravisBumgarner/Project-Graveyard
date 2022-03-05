@@ -5,7 +5,9 @@ import { Loading } from 'sharedComponents'
 
 import { context } from '.'
 import { TPhraseADayUser, TWorksheet } from '../types'
-import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from './StyleExploration'
+import {
+    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2,
+} from './StyleExploration'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -26,17 +28,17 @@ query GetWorksheets {
 `
 
 const Review = () => {
-    const [worksheets, setWorksheets] = React.useState<Record<string, (TWorksheet & { user: TPhraseADayUser })>>({})
+    const [worksheets, setWorksheets] = React.useState<Record<string,(TWorksheet & { user: TPhraseADayUser })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { state, dispatch } = React.useContext(context)
-    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEETS, {
+    useQuery<{ worksheet:(TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEETS, {
         onCompleted: (data) => {
             const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
-            data.worksheet.forEach(worksheet => worksheets[worksheet.id] = worksheet)
+            data.worksheet.forEach((worksheet) => worksheets[worksheet.id] = worksheet)
             console.log(data.worksheet)
             setWorksheets(worksheets)
             setIsLoading(false)
-        }
+        },
     })
 
     if (isLoading) return <Loading />
@@ -60,21 +62,20 @@ const Review = () => {
                     {Object
                         .values(worksheets)
                         .filter(({ userId }) => !(userId === state.currentUser.phraseADay.id))
-                        .map(({ title, user: { username }, description, id, knownLanguage, newLanguage }) => {
-                            return (
-                                <TableRow key={id}>
-                                    <TableBodyCell>{title}</TableBodyCell>
-                                    <TableBodyCell>{username}</TableBodyCell>
-                                    <TableBodyCell>{knownLanguage}</TableBodyCell>
-                                    <TableBodyCell>{newLanguage}</TableBodyCell>
-                                    <TableBodyCell>{description}</TableBodyCell>
-                                    <TableBodyCell>
-                                        <Link to={`/review/${id}`}>Review</Link>
-                                    </TableBodyCell>
-                                </TableRow>
-                            )
-                        })
-                    }
+                        .map(({
+                            title, user: { username }, description, id, knownLanguage, newLanguage,
+                        }) => (
+                            <TableRow key={id}>
+                                <TableBodyCell>{title}</TableBodyCell>
+                                <TableBodyCell>{username}</TableBodyCell>
+                                <TableBodyCell>{knownLanguage}</TableBodyCell>
+                                <TableBodyCell>{newLanguage}</TableBodyCell>
+                                <TableBodyCell>{description}</TableBodyCell>
+                                <TableBodyCell>
+                                    <Link to={`/review/${id}`}>Review</Link>
+                                </TableBodyCell>
+                            </TableRow>
+                        ))}
                 </TableBody>
 
             </Table>

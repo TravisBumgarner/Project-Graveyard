@@ -1,17 +1,25 @@
 import React from 'react'
 
-import { H2, H3, Link, ListItem, OrderedList, Paragraph } from './StyleExploration'
+import {
+    H2, H3, Link, ListItem, OrderedList, Paragraph,
+} from './StyleExploration'
 import { context } from './Context'
 
 const Home = () => {
     const { state } = React.useContext(context)
 
-
     return (
         <div>
-            <H2>Welcome, {state.currentUser ? state.currentUser.phraseADay.username : "learner"}!</H2>
+            <H2>
+                Welcome,
+                {state.currentUser ? state.currentUser.phraseADay.username : 'learner'}
+                !
+            </H2>
             <H3>Heads Up!</H3>
-            <Paragraph>This application is currently in beta. <Link href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</Link></Paragraph>
+            <Paragraph>
+                This application is currently in beta.
+                <Link href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</Link>
+            </Paragraph>
 
             <H3>Student Instructions</H3>
             <OrderedList>

@@ -3,5 +3,5 @@ import Worksheet from './Worksheet'
 
 export {
     Review,
-    Worksheet
+    Worksheet,
 }

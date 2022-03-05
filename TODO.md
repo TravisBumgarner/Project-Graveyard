@@ -16,9 +16,11 @@
     - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
     - Probably because I keep force quitting with postico open?
 - [x] Get rid of || 'foobar'
+- [ ] Add eslint
 - [ ] Disable buttons when submitting
 - [ ] Add student and reviewer routers
-
+- [ ] Add backend monitoring
+  
 # MVP
 
 - [x] Remove uneeded code

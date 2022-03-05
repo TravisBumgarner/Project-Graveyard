@@ -2,11 +2,13 @@ import React from 'react'
 import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
+import axios from 'axios'
 import { context } from '.'
 import { auth } from '../../firebase'
 import { TPhraseADayUser } from '../types'
-import axios from 'axios'
-import { H2, Button, LabelAndInput, Paragraph } from './StyleExploration'
+import {
+    H2, Button, LabelAndInput, Paragraph,
+} from './StyleExploration'
 
 type LoginProps = {
 }
@@ -24,25 +26,27 @@ const Login = ({ }: LoginProps) => {
         try {
             const { user: firebase } = await signInWithEmailAndPassword(auth, email, password)
             const token = await getIdToken(firebase)
-            const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(__API_ENDPOINT__ + '/whoami', {
+            const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(`${__API_ENDPOINT__}/whoami`, {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : ""
-                }
+                    Authorization: token ? `Bearer ${token}` : '',
+                },
             })
             dispatch({
-                type: "USER_LOGGED_IN", data: {
+                type: 'USER_LOGGED_IN',
+                data: {
                     currentUser: {
                         phraseADay,
-                        firebase
-                    }
-                }
+                        firebase,
+                    },
+                },
             })
             return navigate('/')
         } catch (error) {
             dispatch({
-                type: "ADD_MESSAGE", data: {
-                    message: `Failed to login: ${error.message}`
-                }
+                type: 'ADD_MESSAGE',
+                data: {
+                    message: `Failed to login: ${error.message}`,
+                },
             })
             setIsLoading(false)
         }
@@ -52,19 +56,25 @@ const Login = ({ }: LoginProps) => {
         <div>
             <H2>Log In</H2>
             <div>
-                <LabelAndInput label="Email" name="email" value={email} handleChange={email => setEmail(email)} />
+                <LabelAndInput label="Email" name="email" value={email} handleChange={(email) => setEmail(email)} />
             </div>
 
             <div>
-                <LabelAndInput type="password" label="Password" name="password" value={password} handleChange={password => setPassword(password)} />
+                <LabelAndInput type="password" label="Password" name="password" value={password} handleChange={(password) => setPassword(password)} />
             </div>
 
             <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>
             <div>
-                <Paragraph>Forgot your password? <Link to="/forgottenpassword">Reset it!</Link></Paragraph>
+                <Paragraph>
+                    Forgot your password?
+                    <Link to="/forgottenpassword">Reset it!</Link>
+                </Paragraph>
             </div>
             <div>
-                <Paragraph>Need an account? <Link to="/signup">Sign Up!</Link></Paragraph>
+                <Paragraph>
+                    Need an account?
+                    <Link to="/signup">Sign Up!</Link>
+                </Paragraph>
             </div>
         </div>
     )

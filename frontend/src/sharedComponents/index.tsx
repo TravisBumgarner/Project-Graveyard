@@ -18,15 +18,13 @@ const LoadingWrapper = styled.div`
     }
 `
 
-const Loading = () => {
-    return (
-        <LoadingWrapper>
-            <img src={logo} />
-            <H1>One moment please!</H1>
-        </LoadingWrapper>
-    )
-}
+const Loading = () => (
+    <LoadingWrapper>
+        <img src={logo} />
+        <H1>One moment please!</H1>
+    </LoadingWrapper>
+)
 
 export {
-    Loading
+    Loading,
 }
