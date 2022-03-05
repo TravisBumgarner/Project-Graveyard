@@ -48,7 +48,14 @@ mutation AddWorksheet (
     $knownLanguage: String!
     $newLanguage: String!
   ) {
-    addWorksheet(id: $id, title: $title, description: $description, date: $date, knownLanguage: $knownLanguage, newLanguage: $newLanguage){
+    addWorksheet(
+        id: $id,
+        title: $title,
+        description: $description,
+        date: $date,
+        knownLanguage: $knownLanguage,
+        newLanguage: $newLanguage,
+        status: "${TWorksheetStatus.NEW}"){
       id,
       title,
       description,
@@ -62,7 +69,8 @@ mutation AddWorksheet (
 
 type AddWorksheetProps = {
     closeModal: () => void
-    setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
+    setWorksheets: React.Dispatch<React.SetStateAction<Record<string,
+        TWorksheet>>>
 }
 
 const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => {

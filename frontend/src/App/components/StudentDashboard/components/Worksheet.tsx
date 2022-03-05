@@ -4,11 +4,12 @@ import Modal from 'react-modal'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
-
 import styled from 'styled-components'
+
 import { Loading } from 'sharedComponents'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
+import { context } from '../../Context'
 import { useRecorder } from '../../../hooks'
 import {
     Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
@@ -117,6 +118,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const { dispatch } = React.useContext(context)
 
     const handleSubmit = async () => {
         setIsLoading(true)
@@ -136,6 +138,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
         setNewLanguageText('')
         clearAudioUrl()
         setIsLoading(false)
+        dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
     }
     const handleCancel = () => {
         closeModal()
@@ -260,6 +263,7 @@ const Worksheet = () => {
                 <Paragraph>
                     Date: {utilities.dateToString(moment(date))}
                 </Paragraph>
+                <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -275,7 +279,6 @@ const Worksheet = () => {
                         ))}
                     </TableBody>
                 </Table>
-                <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
             </div>
             <Button variation="primary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal

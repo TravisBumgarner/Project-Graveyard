@@ -14,6 +14,7 @@ import StyleExploration from './StyleExploration'
 import ReviewDashboard from './ReviewDashboard'
 import ReviewWorksheet from './ReviewWorksheet'
 import Error from './Error'
+import AlertMessage from './AlertMessage'
 
 export {
     Home,
@@ -32,5 +33,6 @@ export {
     StyleExploration,
     Error,
     ReviewWorksheet,
-    ReviewDashboard,
+    AlertMessage,
+    ReviewDashboard
 }

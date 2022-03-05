@@ -31,6 +31,7 @@ import {
     ReviewWorksheet,
     Error,
     Footer,
+    AlertMessage,
 } from './components'
 import { Worksheet } from './components/StudentDashboard/components'
 import { TPhraseADayUser } from './types'
@@ -46,6 +47,7 @@ const App = () => {
 
     return (
         <>
+            {state.message ? <AlertMessage /> : null}
             <Header />
             <Routes>
                 <Route
@@ -219,7 +221,7 @@ const WrappedApp = () => {
         }
     }, [state.currentUser])
 
-    if (isLoading) {
+    if (true) {
         return <Loading />
     }
 

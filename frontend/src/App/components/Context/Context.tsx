@@ -5,7 +5,10 @@ import utilities from '../../utilities'
 import { TWorksheetEntry, TPhraseADayUser } from '../../types'
 
 type State = {
-    message: string
+    message: {
+        body: string,
+        timeToLiveMS: number
+    } | null
     worksheetEntries: Record<string, TWorksheetEntry>
     appHydrated: boolean
     currentUser: {
@@ -52,6 +55,7 @@ type AddMessage = {
     type: 'ADD_MESSAGE'
     data: {
         message: string
+        timeToLiveMS?: number
     }
 }
 
@@ -79,10 +83,10 @@ const context = React.createContext(
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'ADD_MESSAGE': {
-            return { ...state, message: action.data.message }
+            return { ...state, message: { body: action.data.message, timeToLiveMS: action.data.timeToLiveMS } }
         }
         case 'DELETE_MESSAGE': {
-            return { ...state, message: '' }
+            return { ...state, message: null }
         }
         case 'USER_SIGNED_OUT':
         case 'USER_LOGGED_IN':

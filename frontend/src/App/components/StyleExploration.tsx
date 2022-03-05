@@ -50,6 +50,20 @@ const H3 = styled.h3`
     color: ${PRIMARY.base};
 `
 
+const AlertMessageWraper = styled.div`
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    font-weight: 700;
+    margin: 0.5rem;
+    color: ${QUATERNARY.base};
+    border-color: ${QUATERNARY.base};
+
+`
+
 const Button = styled.button`
     font-family: 'Comfortaa', cursive;
     font-size: 1rem;
@@ -378,7 +392,9 @@ const StyleExploration = () => {
                 <Button variation="primary" onClick={() => setShowModal2(true)}>Primary Button</Button>
                 <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
             </Modal>
+            <AlertMessageWraper>Words! <Button variation="quaternary">OK!</Button></AlertMessageWraper>
         </div>
+
     )
 }
 
