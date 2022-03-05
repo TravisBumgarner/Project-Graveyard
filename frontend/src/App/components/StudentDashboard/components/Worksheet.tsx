@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router'
 
 import styled from 'styled-components'
 import { Loading } from 'sharedComponents'
-import { context } from '../..'
 import { TWorksheet, TWorksheetEntry } from '../../../types'
 import utilities from '../../../utilities'
 import { useRecorder } from '../../../hooks'
@@ -15,9 +14,9 @@ import {
     Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
 } from '../../StyleExploration'
 
-const GET_WORKSHEET = gql`
-query GetWorksheets {
-  worksheet {
+const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
+query GetWorksheets($worksheetId: String) {
+  worksheet(worksheetId: $worksheetId) {
     title,
     id,
     description,
@@ -30,6 +29,13 @@ query GetWorksheets {
       username
     }
   }
+  worksheetEntries(worksheetId: $worksheetId) {
+   id,
+   knownLanguageText,
+   newLanguageText,
+   audioUrl, 
+  }
+
 }
 `
 
@@ -93,8 +99,10 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModa
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
+    const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
     const handleSubmit = async () => {
+        setIsLoading(true)
         const base64Audio = await objectUrlToBase64(audioURL)
         await addWorksheetEntry({
             variables: {
@@ -109,6 +117,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModa
         setKnownLanguageText('')
         setNewLanguageText('')
         clearAudioUrl()
+        setIsLoading(false)
     }
     const handleCancel = () => {
         closeModal()
@@ -151,7 +160,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModa
                 </div>
 
                 <div>
-                    <Button variation="primary" onClick={handleSubmit}>Submit</Button>
+                    <Button disabled={isLoading} variation="primary" onClick={handleSubmit}>Submit</Button>
                     <Button variation="primary" onClick={handleCancel}>Cancel</Button>
                     <Button variation="primary" onClick={handleClose}>Close</Button>
                 </div>
@@ -189,22 +198,24 @@ const WorksheetEntry = ({ worksheetEntry }: WorksheetEntryProps) => {
 
 const Worksheet = () => {
     const { worksheetId } = useParams()
-    const { state } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
+    const [workssheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>()
     const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEET, {
+    useQuery<{ worksheet: TWorksheet[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
+        variables: {
+            worksheetId
+        },
         onCompleted: (data) => {
             setWorksheet(data.worksheet[0])
+            setWorksheetEntries(data.worksheetEntries)
             setIsLoading(false)
         },
     })
 
     if (isLoading) return <Loading />
-
-    const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
 
     const { title, description, date } = worksheet
 
@@ -228,7 +239,7 @@ const Worksheet = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredWorksheetEntries.map((worksheetEntry) => <WorksheetEntry worksheetEntry={worksheetEntry} />)}
+                        {workssheetEntries.map((worksheetEntry) => <WorksheetEntry worksheetEntry={worksheetEntry} />)}
                     </TableBody>
                 </Table>
                 <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>

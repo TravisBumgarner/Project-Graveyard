@@ -3,7 +3,6 @@ import {
     GraphQLList,
     GraphQLObjectType,
     GraphQLString,
-    GraphQLBoolean,
 
 } from 'graphql'
 
@@ -13,8 +12,6 @@ import { Context } from '../types'
 import { isUUID } from '../utilities'
 
 type GetWorksheetArgs = {
-    userId?: string
-    filterAuthenticatedUser?: boolean
     worksheetId?: string
 }
 
@@ -22,8 +19,6 @@ const worksheet = {
     type: new GraphQLList(WorksheetType),
     description: 'List of Worksheets',
     args: {
-        userId: { type: GraphQLString },
-        filterAuthenticatedUser: { type: GraphQLBoolean },
         worksheetId: { type: GraphQLString },
     },
     resolve: async (_parent, args: GetWorksheetArgs, context: Context) => {
@@ -76,18 +71,28 @@ const studentReview = {
     },
 }
 
+type GetWorksheetEntryArgs = {
+    worksheetId?: string
+}
+
 const worksheetEntries = {
     type: new GraphQLList(WorksheetEntryType),
     description: 'List of All Worksheet Entries',
     args: {
+        worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args, context: Context) => {
+    resolve: async (_parent, args: GetWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return []
 
-        const data = await getConnection()
+        const query = await getConnection()
             .getRepository(entity.WorksheetEntry)
             .createQueryBuilder('worksheet-entries')
-            .getMany()
+
+        if (args.worksheetId) {
+            query.andWhere('worksheet-entries.worksheetId = :worksheetId', { worksheetId: args.worksheetId })
+        }
+
+        const data = await query.getMany()
         return data
     },
 }

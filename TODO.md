@@ -22,8 +22,10 @@
     - Probably because I keep force quitting with postico open?
 - [ ] Disable buttons when submitting
 - [ ] Add student and reviewer routers
+- [ ] Animate loading
 - [ ] Set config of apollo, etc. for prod
 - [ ] Make sure that sentry is actually logging
+- [ ] Figure out some kind of alert for actions
   
 # MVP
 
