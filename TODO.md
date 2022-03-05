@@ -1,5 +1,59 @@
 # Today
 
+- [ ] Figure out why node is crashing (see dump below)
+- [ ] Why is database getting deleted 
+    - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
+    - 2022-03-05 07:59:05.704 UTC [28] WARNING:  could not open statistics file "pg_stat_tmp/global.stat": Operation not permitted
+    - Probably because I keep force quitting with postico open?
+- [ ] Add student and reviewer routers
+- [ ] Set config of apollo, etc. for prod
+- [ ] Make sure that sentry is actually logging
+- [ ] Full styling cleanup
+- [ ] Get rid of children in list with key 
+- [ ] ~~Add edit for WorksheetEntry~~
+- [x] add the idea of users
+    - [ ] Only be able to edit your own work
+    - [x] Need some way for students to share with teachers
+    - [x] Need way for teachers to give feedback
+    - [ ] Setup a new auth for production for Firebase auth so that it doesn't clash with development
+- [ ] Setup way to deploy infra as code for GCP
+- [ ] Firebase for production
+    - [ ] Create a new project
+        - [ ] Remove localhost
+# Post MVP
+- [ ] Export to flash card app
+    - [ ] Be able to choose what to export
+- [ ] Figure out modifying the express.Request type
+- [ ] Include reference to icons
+
+
+# Done
+
+- [x] create a style
+- [x] Remove uneeded code
+- [x] Add more fields for worksheet
+    - [x] I speak _____ and I am learning _______ 
+    - [x] Use ^ these fields to generate UI for worksheetentry
+    - [x] For Example - Written in English, Written in French, Pronounced in French
+- [x] Setup for Postgres instead of SQLlite
+- [x] Figure out how to record and save audio
+- [x] Add user login
+    - [x] With firebase?
+- [x] Add homepage instructions
+- [x] Don't use admin postgres to connect to GCP SQL
+- [x] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
+- [x] Bare minimum of usable UI
+- [x] Figure out file hosting
+- [x] Figure out deployment
+    - [x] Get an api endpoint for backend and add to frontend webpack config for calls
+    - [x] why is null being returned for all data via graphql with gcp
+    - [x] Setup cors
+    - [x] Figure out 8mb deploy bundle
+- [x] Figure out .dotenv on frontend
+- [x] add testing and linting
+- [x] Find some beta testers
+- [x] Add logging
+- [x] is the shouldPermit util a good idea?
 - [x] Get username displayed on the screen
 - [x] Figure out how to do migrations outside/inside a container. (.env points to different localhost then where migrations are run)
 - [x] Fix page refresh always redirecting people to login
@@ -14,62 +68,10 @@
 - [x] Get rid of || 'foobar'
 - [x] Add eslint
 - [x] Add backend monitoring
-- [x] Give names to docker containers
-- [ ] Figure out why node is crashing (see dump below)
-- [ ] Why is database getting deleted 
-    - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
-    - 2022-03-05 07:59:05.704 UTC [28] WARNING:  could not open statistics file "pg_stat_tmp/global.stat": Operation not permitted
-    - Probably because I keep force quitting with postico open?
 - [x] Disable buttons when submitting
-- [ ] Add student and reviewer routers
 - [x] Animate loading
-- [ ] Set config of apollo, etc. for prod
-- [ ] Make sure that sentry is actually logging
-- [ ] Figure out some kind of alert for actions
-  
-# MVP
-
-- [x] Remove uneeded code
-- [ ] ~~Add edit for WorksheetEntry~~
-- [x] Add more fields for worksheet
-    - [x] I speak _____ and I am learning _______ 
-    - [x] Use ^ these fields to generate UI for worksheetentry
-    - [x] For Example - Written in English, Written in French, Pronounced in French
-- [x] Setup for Postgres instead of SQLlite
-- [x] Figure out how to record and save audio
-- [x] Add user login
-    - [x] With firebase?
-- [x] Add homepage instructions
-- [x] Don't use admin postgres to connect to GCP SQL
-- [x] Do I want a private IP with GCP SQL? I might need an organization to do it, whatever that means
-- [x] add the idea of users
-    - [ ] Only be able to edit your own work
-    - [ ] Need some way for students to share with teachers
-    - [ ] Need way for teachers to give feedback
-- [ ] Bare minimum of usable UI
-- [ ] Figure out file hosting
-- [ ] Figure out deployment
-    - [x] Get an api endpoint for backend and add to frontend webpack config for calls
-    - [ ] why is null being returned for all data via graphql with gcp
-    - [ ] Setup cors
-    - [ ] Figure out 8mb deploy bundle
-    - [ ] Setup a new auth for production for Firebase auth so that it doesn't clash with development
-- [ ] Setup way to deploy infra as code for GCP
-# Post MVP
-
-- [ ] create a style
-- [ ] Figure out .dotenv on frontend
-- [ ] Export to flash card app
-    - [ ] Be able to choose what to export
-- [ ] add testing and linting
-- [ ] Find some beta testers
-- [ ] Firebase for production
-    - [ ] Create a new project
-        - [ ] Remove localhost
-- [ ] Add logging
-- [ ] Figure out modifying the express.Request type
-- [ ] is the shouldPermit util a good idea?
-- [ ] Include reference to icons
+- [x] Figure out some kind of alert for actions
+- [x] Give names to docker containers
 
 
 # New Features IDeas
