@@ -6,7 +6,6 @@ import { TWorksheet, TWorksheetEntry, TPhraseADayUser } from '../../types'
 
 type State = {
     message: string
-    worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }>
     worksheetEntries: Record<string, TWorksheetEntry>
     appHydrated: boolean
     currentUser: {
@@ -17,7 +16,6 @@ type State = {
 
 const EMPTY_STATE: State = {
     message: null,
-    worksheets: {},
     worksheetEntries: {},
     appHydrated: false,
     currentUser: undefined
@@ -31,14 +29,6 @@ const context = React.createContext(
         state: State,
         dispatch: React.Dispatch<Action>
     })
-
-type HydrateApp = {
-    type: 'HYDRATE_APP'
-    data: {
-        worksheets: (TWorksheet & { user: TPhraseADayUser })[],
-        worksheetEntries: TWorksheetEntry[]
-    }
-}
 
 type UserSignup = {
     type: 'USER_SIGNED_UP'
@@ -67,27 +57,6 @@ type UserSignedOut = {
     }
 }
 
-type AddWorksheet = {
-    type: 'ADD_WORKSHEET'
-    data: {
-        worksheet: TWorksheet & { user: TPhraseADayUser }
-    }
-}
-
-type EditWorksheet = {
-    type: 'EDIT_WORKSHEET'
-    data: {
-        worksheet: TWorksheet & { user: TPhraseADayUser }
-    }
-}
-
-type DeleteWorksheet = {
-    type: 'DELETE_WORKSHEET'
-    data: {
-        id: string
-    }
-}
-
 type AddWorksheetEntry = {
     type: 'ADD_WORKSHEET_ENTRY'
     data: {
@@ -99,14 +68,6 @@ type DeleteWorksheetEntry = {
     type: 'DELETE_WORKSHEET_ENTRY'
     data: {
         id: string
-    }
-}
-
-type GetWorksheets = {
-    type: 'GET_WORKSHEETS'
-    data: {
-        worksheets: (TWorksheet & { user: TPhraseADayUser })[],
-
     }
 }
 
@@ -127,11 +88,6 @@ type Action =
     | UserLogin
     | UserSignup
     | UserSignedOut
-    | HydrateApp
-    | AddWorksheet
-    | EditWorksheet
-    | DeleteWorksheet
-    | GetWorksheets
     | AddWorksheetEntry
     | DeleteWorksheetEntry
 
@@ -147,27 +103,6 @@ const reducer = (state: State, action: Action): State => {
         case 'USER_LOGGED_IN':
         case 'USER_SIGNED_UP': {
             return { ...state, currentUser: action.data.currentUser }
-        }
-        case 'HYDRATE_APP': {
-            const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
-            action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
-            const worksheetEntries: Record<string, TWorksheetEntry> = {}
-            action.data.worksheetEntries.forEach(worksheetEntry => worksheetEntries[worksheetEntry.id] = { ...worksheetEntry })
-            return { ...state, worksheets, worksheetEntries, appHydrated: true }
-        }
-        case 'GET_WORKSHEETS': {
-            const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
-            action.data.worksheets.forEach(worksheet => worksheets[worksheet.id] = { ...worksheet })
-            return { ...state, worksheets }
-        }
-        case 'ADD_WORKSHEET':
-        case 'EDIT_WORKSHEET': {
-            return { ...state, worksheets: { ...state.worksheets, [action.data.worksheet.id]: { ...action.data.worksheet } } }
-        }
-        case 'DELETE_WORKSHEET': {
-            const modifiedWorksheets = { ...state.worksheets }
-            delete modifiedWorksheets[action.data.id]
-            return { ...state, worksheets: modifiedWorksheets }
         }
         case 'ADD_WORKSHEET_ENTRY': {
             return { ...state, worksheetEntries: { ...state.worksheetEntries, [action.data.worksheetEntry.id]: { ...action.data.worksheetEntry } } }

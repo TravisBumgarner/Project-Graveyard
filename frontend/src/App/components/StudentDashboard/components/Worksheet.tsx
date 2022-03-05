@@ -1,16 +1,34 @@
 import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
-import { context } from '../../'
-import { TWorksheetEntry } from '../../../types'
+import { context } from '../..'
+import { TWorksheet, TWorksheetEntry } from '../../../types'
 import { dateToString } from '../../../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../../../hooks'
-import { Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './../../StyleExploration'
+import { Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from '../../StyleExploration'
+
+const GET_WORKSHEET = gql`
+query GetWorksheets {
+  worksheet {
+    title,
+    id,
+    description,
+    date,
+    knownLanguage,
+    newLanguage,
+    userId,
+    status,
+    user {
+      username
+    }
+  }
+}
+`
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -26,6 +44,7 @@ const objectUrlToBase64 = async (objectUrl: string) => {
         reader.readAsDataURL(blob);
     });
 }
+
 
 const ADD_WORKSHEET_ENTRY = gql`
 
@@ -56,17 +75,18 @@ mutation DeleteWorksheetEntry (
 }
 `;
 
-type AddSentenceProps = {
+type AddWorksheetEntryModalProps = {
     closeModal: () => void
-    worksheetId: string
+    worksheet: TWorksheet
 }
 
-const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) => {
+const AddWorksheetEntryModal = ({ closeModal, worksheet }: AddWorksheetEntryModalProps) => {
     const { state, dispatch } = React.useContext(context)
     let [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder();
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
+
     const handleSubmit = async () => {
         const base64Audio = await objectUrlToBase64(audioURL)
         const response = await addWorksheetEntry({
@@ -74,7 +94,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
                 knownLanguageText,
                 newLanguageText,
                 id: uuidv4(),
-                worksheetId,
+                worksheetId: worksheet.id,
                 audioUrl: base64Audio
 
             }
@@ -96,11 +116,11 @@ const AddWorksheetEntryModal = ({ closeModal, worksheetId }: AddSentenceProps) =
         <H2>New Worksheet Entry</H2>
         <div>
             <div>
-                <LabelAndInput label={state.worksheets[worksheetId].knownLanguage} name="fromLanguage" value={knownLanguageText} handleChange={knownLanguage => setKnownLanguageText(knownLanguage)} />
+                <LabelAndInput label={worksheet.knownLanguage} name="fromLanguage" value={knownLanguageText} handleChange={knownLanguage => setKnownLanguageText(knownLanguage)} />
             </div>
 
             <div>
-                <LabelAndInput label={state.worksheets[worksheetId].newLanguage} name="newLanguage" value={newLanguageText} handleChange={newLanguage => setNewLanguageText(newLanguage)} />
+                <LabelAndInput label={worksheet.newLanguage} name="newLanguage" value={newLanguageText} handleChange={newLanguage => setNewLanguageText(newLanguage)} />
 
             </div>
 
@@ -158,10 +178,25 @@ const Worksheet = ({ }: WorksheetProps) => {
     let { worksheetId } = useParams();
     const { state, dispatch } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
-    const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
+    const [worksheet, setWorksheet] = React.useState<TWorksheet>()
     const navigate = useNavigate()
 
-    const { title, description, knownLanguage, newLanguage, date } = state.worksheets[worksheetId]
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEET, {
+        onCompleted: (data) => {
+            setWorksheet(data.worksheet[0])
+            setIsLoading(false)
+        }
+    })
+
+    if (isLoading) return <div>Loading...</div>
+
+
+    const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
+
+
+    const { title, description, knownLanguage, newLanguage, date } = worksheet
+
     return (
         <div>
             <div>
@@ -171,8 +206,8 @@ const Worksheet = ({ }: WorksheetProps) => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</TableHeaderCell>
+                            <TableHeaderCell scope="col">{worksheet.knownLanguage}</TableHeaderCell>
+                            <TableHeaderCell scope="col">{worksheet.newLanguage}</TableHeaderCell>
                             <TableHeaderCell scope="col">Recorded</TableHeaderCell>
                             <TableHeaderCell scope="col">Actions</TableHeaderCell>
                         </TableRow>
@@ -189,7 +224,7 @@ const Worksheet = ({ }: WorksheetProps) => {
                 onRequestClose={() => setShowModal(false)}
                 contentLabel="Add Worksheet"
             >
-                <AddWorksheetEntryModal worksheetId={worksheetId} closeModal={() => setShowModal(false)} />
+                <AddWorksheetEntryModal worksheet={worksheet} closeModal={() => setShowModal(false)} />
             </Modal>
         </div >
     )

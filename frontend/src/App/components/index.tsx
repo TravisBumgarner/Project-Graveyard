@@ -1,6 +1,6 @@
 import Navigation from "./header/components/Navigation";
 import Home from "./Home";
-import UserDashboard from './UserDashboard/UserDashboard'
+import StudentDashboard from './StudentDashboard'
 import { Context, context } from "./Context";
 import Signup from "./Signup";
 import Login from "./Login";
@@ -19,7 +19,7 @@ export {
     Home,
     Navigation,
     Context,
-    UserDashboard,
+    StudentDashboard,
     Signup,
     Login,
     Logout,

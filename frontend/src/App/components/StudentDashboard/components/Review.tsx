@@ -4,7 +4,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 
 import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, Paragraph } from '../../StyleExploration'
-import { context } from '../../'
+import { context } from '../..'
 import { TStudentReview } from '../../../types'
 import { dateToString } from '../../../utilities'
 
@@ -12,6 +12,11 @@ import { dateToString } from '../../../utilities'
 const STUDENT_REVIEW = gql`
 query StudentReview($worksheetId: String!)
  {
+    worksheet(worksheetId: $worksheetId){
+        title,
+        description,
+        id
+    }
     studentReview(worksheetId: $worksheetId){
 		writtenFeedback,
         oralFeedback,
@@ -30,7 +35,7 @@ const Review = ({ }: ReviewProps) => {
     let { worksheetId } = useParams();
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [review, setReview] = React.useState<TStudentReview[]>([])
-    const { title, description, date } = state.worksheets[worksheetId]
+    // const { title, description, date } = state.worksheets[worksheetId]
     useQuery<{ studentReview: TStudentReview[] }>(STUDENT_REVIEW, {
         variables: {
             worksheetId
@@ -45,14 +50,16 @@ const Review = ({ }: ReviewProps) => {
 
     return (
         <div>
-            <H2>{title}</H2>
+            {/* <H2>{title}</H2>
             <Paragraph> Description: {description}</Paragraph>
-            <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
+            <Paragraph> Date: {dateToString(moment(date))}</Paragraph> */}
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</TableHeaderCell>
-                        <TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</TableHeaderCell>
+                        {/* <TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</TableHeaderCell>
+                        <TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</TableHeaderCell> */}
+                        <TableHeaderCell scope="col">From</TableHeaderCell>
+                        <TableHeaderCell scope="col">To</TableHeaderCell>
                         <TableHeaderCell scope="col">Recorded</TableHeaderCell>
                         <TableHeaderCell>Written Feedback</TableHeaderCell>
                         <TableHeaderCell>Oral Feedback</TableHeaderCell>

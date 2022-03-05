@@ -17,6 +17,7 @@
     - https://www.apollographql.com/docs/apollo-server/data/resolvers/
 - [ ] Get rid of || 'foobar'
 - [ ] Disable buttons when submitting
+- [ ] Add student and reviewer routers
 
 # MVP
 

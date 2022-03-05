@@ -7,12 +7,29 @@ import { useParams } from 'react-router'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 import { context } from '.'
-import { TWorksheetEntry } from '../types'
+import { TPhraseADayUser, TWorksheet, TWorksheetEntry } from '../types'
 import { dateToString } from '../utilities'
 import styled from 'styled-components'
 import { useRecorder } from '../hooks'
 import { Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow } from './StyleExploration'
 
+const GET_WORKSHEET = gql`
+query GetWorksheets {
+  worksheet {
+    title,
+    id,
+    description,
+    date,
+    knownLanguage,
+    newLanguage,
+    userId,
+    status,
+    user {
+      username
+    }
+  }
+}
+`
 
 const ActionButton = styled.button`
     background-color: transparent;
@@ -121,7 +138,22 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
     let { worksheetId } = useParams();
     const { state, dispatch } = React.useContext(context)
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
-    const { title, description, knownLanguage, newLanguage, date, user: { username } } = state.worksheets[worksheetId]
+    const [worksheet, setWorksheet] = React.useState<TWorksheet & { user: TPhraseADayUser }>()
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEET, {
+        variables: {
+            worksheetId
+        },
+        onCompleted: (data) => {
+            setWorksheet(data.worksheet[0])
+            setIsLoading(false)
+        }
+    })
+
+    if (isLoading) return <div>Loading...</div>
+    const { title, description, knownLanguage, newLanguage, date, user: { username } } = worksheet
+
+
     const [reviewState, dispatchReview] = React.useReducer(reviewReducer, filteredWorksheetEntries.reduce((accum, { id }) => {
         accum[id] = {
             writtenFeedback: "",
@@ -156,8 +188,8 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</TableHeaderCell>
+                            <TableHeaderCell scope="col">{worksheet.knownLanguage}</TableHeaderCell>
+                            <TableHeaderCell scope="col">{worksheet.newLanguage}</TableHeaderCell>
                             <TableHeaderCell scope="col">Recorded</TableHeaderCell>
                             <TableHeaderCell scope="col">Written Feedback</TableHeaderCell>
                             <TableHeaderCell scope="col">Oral Feedback</TableHeaderCell>

@@ -5,8 +5,6 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  useQuery,
-  gql,
   createHttpLink,
   NormalizedCacheObject
 } from "@apollo/client";
@@ -21,7 +19,7 @@ import {
   Login,
   Logout,
   Header,
-  UserDashboard,
+  StudentDashboard,
   Context,
   context,
   Signup,
@@ -32,42 +30,16 @@ import {
   Error,
   Footer
 } from './components'
-import { Worksheet } from './components/UserDashboard/components';
-import { TPhraseADayUser, TWorksheet, TWorksheetEntry } from './types';
+import { Worksheet } from './components/StudentDashboard/components';
+import { TPhraseADayUser } from './types';
 import { auth } from '../firebase';
 import { GlobalStyle } from 'theme';
 import { Paragraph } from './components/StyleExploration';
-import Review from './components/UserDashboard/components/Review';
-
-const HYDRATE_APP = gql`
-query HydrateApp {
-  worksheet {
-    title,
-    id,
-    description,
-    date,
-    knownLanguage,
-    newLanguage,
-    userId,
-    status,
-    user {
-      username
-    }
-  }
-  worksheetEntries {
-    id,
-    knownLanguageText,
-    newLanguageText,
-    worksheetId,
-    audioUrl
-  }
-}
-`
-
+import Review from './components/StudentDashboard/components/Review';
 
 const App = () => {
-  const { state, dispatch } = React.useContext(context)
-  useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[] }>(HYDRATE_APP, { onCompleted: (data) => dispatch({ type: "HYDRATE_APP", data: { worksheets: data.worksheet, worksheetEntries: data.worksheetEntries } }) })
+  const { state } = React.useContext(context)
+
   if (state.currentUser === undefined) {
     return <Paragraph>Loading...</Paragraph>
   }
@@ -79,12 +51,12 @@ const App = () => {
         <Route path="/reviewer/review/:worksheetId" element={<ConditionalRoute authedComponent={<ReviewWorksheet />} />} />
         <Route path="/reviewer/dashboard" element={<ConditionalRoute authedComponent={<ReviewDashboard />} />} />
         <Route path="/profile" element={<ConditionalRoute authedComponent={<Profile />} />} />
-        <Route path="/signup" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Signup />} />} />
-        <Route path="/login" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Login />} />} />
+        <Route path="/signup" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<Signup />} />} />
+        <Route path="/login" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<Login />} />} />
         <Route path="/logout" element={<ConditionalRoute authedComponent={<Logout />} unauthedComponent={<Home />} />} />
-        <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<ForgottenPassword />} />} />
+        <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<ForgottenPassword />} />} />
         <Route path="/stylesheet" element={<StyleExploration />} />
-        <Route path="/student/dashboard" element={<ConditionalRoute authedComponent={<UserDashboard />} unauthedComponent={<Home />} />} />
+        <Route path="/student/dashboard" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<Home />} />} />
         <Route path="/student/worksheet/:worksheetId" element={<ConditionalRoute authedComponent={<Worksheet />} />} />
         <Route path="/student/review/:worksheetId" element={<ConditionalRoute authedComponent={<Review />} />} />
         <Route path="/error" element={<Error />} />

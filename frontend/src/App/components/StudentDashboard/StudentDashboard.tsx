@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, H3, StyledNavLink } from '../StyleExploration'
@@ -9,6 +9,23 @@ import { context } from '..'
 import { TPhraseADayUser, TWorksheetStatus, TWorksheet } from '../../types'
 import { Button, LabelAndInput } from '../StyleExploration'
 
+const GET_WORKSHEETS = gql`
+query GetWorksheets {
+  worksheet {
+    title,
+    id,
+    description,
+    date,
+    knownLanguage,
+    newLanguage,
+    userId,
+    status,
+    user {
+      username
+    }
+  }
+}
+`
 
 const ADD_WORKSHEET = gql`
 mutation AddWorksheet (
@@ -33,12 +50,13 @@ mutation AddWorksheet (
 
 type AddWorksheetProps = {
     closeModal: () => void
+    addWorksheet: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
 }
 
-const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
+const AddWorksheetModal = ({ closeModal, addWorksheet: addWorksheetState }: AddWorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
     const [addWorksheet] = useMutation<{ addWorksheet: TWorksheet & { user: TPhraseADayUser } }>(ADD_WORKSHEET)
-    const [title, setTitle] = React.useState(`Worksheet ${Object.keys(state.worksheets).length + 1}`)
+    const [title, setTitle] = React.useState('')
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
     const [newLanguage, setnewLanguage] = React.useState<string>('')
@@ -62,7 +80,7 @@ const AddWorksheetModal = ({ closeModal }: AddWorksheetProps) => {
             }
         })
 
-        dispatch({ type: "ADD_WORKSHEET", data: { worksheet: response.data.addWorksheet } })
+        // dispatch({ type: "ADD_WORKSHEET", data: { worksheet: response.data.addWorksheet } })
         closeModal()
     }
 
@@ -209,9 +227,21 @@ const Worksheets = () => {
     const { state, dispatch } = React.useContext(context)
 
     const [showModal, setShowModal] = React.useState<boolean>(false)
+    const [worksheets, setWorksheets] = React.useState<Record<string, TWorksheet>>({})
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEETS, {
+        onCompleted: (data) => {
+            const worksheets: Record<string, TWorksheet> = {}
+            data.worksheet.forEach(worksheet => worksheets[worksheet.id] = worksheet)
+            setWorksheets(worksheets)
+            setIsLoading(false)
+        }
+    })
+
+    if (isLoading) return <div>Loading...</div>
 
     const filterWorksheets = (status: TWorksheetStatus) => {
-        return Object.values(state.worksheets)
+        return Object.values(worksheets)
             .filter((worksheet) => worksheet.status === status && worksheet.userId === state.currentUser.phraseADay.id)
     }
 
@@ -224,7 +254,7 @@ const Worksheets = () => {
                 onRequestClose={() => setShowModal(false)}
                 contentLabel="Add Worksheet"
             >
-                <AddWorksheetModal closeModal={() => setShowModal(false)} />
+                <AddWorksheetModal setWorksheets={setWorksheets} closeModal={() => setShowModal(false)} />
             </Modal>
             <NewTable worksheets={filterWorksheets(TWorksheetStatus.NEW)} />
             <NeedsReviewTable worksheets={filterWorksheets(TWorksheetStatus.NEEDS_REVIEW)} />
@@ -233,7 +263,7 @@ const Worksheets = () => {
     )
 }
 
-const UserDashboard = () => {
+const StudentDashboard = () => {
     return (
         <div>
             <Worksheets />
@@ -241,4 +271,4 @@ const UserDashboard = () => {
     )
 }
 
-export default UserDashboard
+export default StudentDashboard

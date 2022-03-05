@@ -1,12 +1,45 @@
+import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { context } from '.'
+import { TPhraseADayUser, TWorksheet } from '../types'
 import { Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2 } from './StyleExploration'
 
+const GET_WORKSHEETS = gql`
+query GetWorksheets {
+  worksheet {
+    title,
+    id,
+    description,
+    date,
+    knownLanguage,
+    newLanguage,
+    userId,
+    status,
+    user {
+      username
+    }
+  }
+}
+`
 
 const Review = () => {
-    const { state } = React.useContext(context)
+    const [worksheets, setWorksheets] = React.useState<Record<string, (TWorksheet & { user: TPhraseADayUser })>>({})
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const { state, dispatch } = React.useContext(context)
+    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEETS, {
+        onCompleted: (data) => {
+            const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
+            data.worksheet.forEach(worksheet => worksheets[worksheet.id] = worksheet)
+            console.log(data.worksheet)
+            setWorksheets(worksheets)
+            setIsLoading(false)
+        }
+    })
+
+    if (isLoading) return <div>Loading...</div>
+
     return (
         <div>
             <H2>Review Dashboard</H2>
@@ -24,7 +57,7 @@ const Review = () => {
                 <TableBody>
 
                     {Object
-                        .values(state.worksheets)
+                        .values(worksheets)
                         .filter(({ userId }) => !(userId === state.currentUser.phraseADay.id))
                         .map(({ title, user: { username }, description, id, knownLanguage, newLanguage }) => {
                             return (

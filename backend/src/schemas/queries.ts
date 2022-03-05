@@ -16,6 +16,7 @@ import { isUUID } from '../utilities'
 type GetWorksheetArgs = {
     userId?: string
     filterAuthenticatedUser?: boolean
+    worksheetId?: string
 }
 
 const worksheet = {
@@ -23,16 +24,20 @@ const worksheet = {
     description: 'List of Worksheets',
     args: {
         userId: { type: GraphQLString },
-        filterAuthenticatedUser: { type: GraphQLBoolean }
+        filterAuthenticatedUser: { type: GraphQLBoolean },
+        worksheetId: { type: GraphQLString },
     },
     resolve: async (_parent, args: GetWorksheetArgs, context: Context) => {
-        if (!context.authenticatedUserId) return []
+        // if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.Worksheet)
             .createQueryBuilder('worksheet')
 
+        if (args.worksheetId) {
+            query.andWhere("worksheet.id = :worksheetId", { worksheetId: args.worksheetId })
+        }
         const data = query.getMany()
-
+        console.log(await data)
         return data
     }
 }
