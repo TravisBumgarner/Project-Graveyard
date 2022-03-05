@@ -221,7 +221,7 @@ const WrappedApp = () => {
         }
     }, [state.currentUser])
 
-    if (true) {
+    if (isLoading) {
         return <Loading />
     }
 

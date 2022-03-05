@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-    H2, H3, Link, ListItem, OrderedList, Paragraph,
+    H2, H3, ExternalLink, ListItem, OrderedList, Paragraph,
 } from './StyleExploration'
 import { context } from './Context'
 
@@ -18,7 +18,7 @@ const Home = () => {
             <H3>Heads Up!</H3>
             <Paragraph>
                 This application is currently in beta.
-                <Link href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</Link>
+                <ExternalLink href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</ExternalLink>
             </Paragraph>
 
             <H3>Student Instructions</H3>

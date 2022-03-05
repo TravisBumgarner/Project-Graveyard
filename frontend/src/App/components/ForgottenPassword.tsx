@@ -1,10 +1,10 @@
 import React from 'react'
 import { sendPasswordResetEmail } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { context } from '.'
 import { auth } from '../../firebase'
-import { Button, LabelAndInput } from './StyleExploration'
+import { Button, LabelAndInput, StyledNavLink } from './StyleExploration'
 
 const ForgottenPassword = () => {
     const { dispatch } = React.useContext(context)
@@ -40,7 +40,7 @@ const ForgottenPassword = () => {
             <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Reset Password</Button>
             <div>
                 Need an account?
-                <Link to="/login">Log In!</Link>
+                <StyledNavLink to="/login" text="Log In!" />
             </div>
         </div>
     )

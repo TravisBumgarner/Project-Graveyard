@@ -181,8 +181,8 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
                 </div>
 
                 <div>
-                    <Button disabled={isLoading} variation="primary" onClick={handleSubmit}>Submit</Button>
-                    <Button variation="primary" onClick={handleCancel}>Cancel</Button>
+                    <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
+                    <Button variation="alert" onClick={handleCancel}>Cancel</Button>
                     <Button variation="primary" onClick={handleClose}>Close</Button>
                 </div>
             </div>
@@ -263,7 +263,7 @@ const Worksheet = () => {
                 <Paragraph>
                     Date: {utilities.dateToString(moment(date))}
                 </Paragraph>
-                <Button variation="primary" onClick={() => setShowModal(true)}>Add Entry</Button>
+                <Button variation="secondary" onClick={() => setShowModal(true)}>Add Entry</Button>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -280,7 +280,7 @@ const Worksheet = () => {
                     </TableBody>
                 </Table>
             </div>
-            <Button variation="primary" onClick={handleSubmit}>Submit for Feedback</Button>
+            <Button variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}

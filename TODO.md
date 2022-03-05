@@ -20,9 +20,9 @@
     - `postgres_1  | 2022-03-02 02:34:42.241 UTC [98] LOG:  incomplete startup packet` might be causing postgres to get wiped
     - 2022-03-05 07:59:05.704 UTC [28] WARNING:  could not open statistics file "pg_stat_tmp/global.stat": Operation not permitted
     - Probably because I keep force quitting with postico open?
-- [ ] Disable buttons when submitting
+- [x] Disable buttons when submitting
 - [ ] Add student and reviewer routers
-- [ ] Animate loading
+- [x] Animate loading
 - [ ] Set config of apollo, etc. for prod
 - [ ] Make sure that sentry is actually logging
 - [ ] Figure out some kind of alert for actions

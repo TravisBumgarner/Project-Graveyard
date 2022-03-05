@@ -7,24 +7,24 @@ import { NavLink } from 'react-router-dom'
 
 const colorFactory = (color: string) => ({
     base: color,
-    darkest: darken(0.1, color),
-    darken: darken(0.25, color),
+    darkest: darken(0.25, color),
+    darken: darken(0.10, color),
     lighten: lighten(0.25, color),
     lightest: lighten(0.1, color),
 })
 
 const PRIMARY = colorFactory('#57E2E5')
-const TERTIARY = colorFactory('#45CB85')
 const SECONDARY = colorFactory('#6A7FDB')
-const QUATERNARY = colorFactory('#E08DAC')
+const TERTIARY = colorFactory('#45CB85')
+const ALERT = colorFactory('#E08DAC')
 const DISABLED = colorFactory('#aaaaaa')
 
 const H1 = styled.h1`
-    color: ${PRIMARY.base};
+    color: ${SECONDARY.base};
 `
 
 const H2 = styled.h2`
-    color: ${PRIMARY.base};
+    color: ${SECONDARY.base};
     border-bottom: 2px solid ${PRIMARY.base};
     padding-bottom: 1rem;
     margin-bottom: 1rem;
@@ -34,7 +34,7 @@ const StyledNavLink = ({ to, text }: { to: string, text: string }) => (
     <NavLink
         style={({ isActive }) => ({
             fontWeight: isActive ? 700 : 100,
-            color: SECONDARY.base,
+            color: TERTIARY.base,
         })}
         to={to}
     >
@@ -42,12 +42,12 @@ const StyledNavLink = ({ to, text }: { to: string, text: string }) => (
     </NavLink>
 )
 
-const Link = styled.a`
-    color: ${SECONDARY.base};
+const ExternalLink = styled.a`
+    color: ${TERTIARY.base};
 `
 
 const H3 = styled.h3`
-    color: ${PRIMARY.base};
+    color: ${SECONDARY.base};
 `
 
 const AlertMessageWraper = styled.div`
@@ -59,8 +59,8 @@ const AlertMessageWraper = styled.div`
     background-color: transparent;
     font-weight: 700;
     margin: 0.5rem;
-    color: ${QUATERNARY.base};
-    border-color: ${QUATERNARY.base};
+    color: ${ALERT.base};
+    border-color: ${ALERT.base};
 
 `
 
@@ -74,7 +74,7 @@ const Button = styled.button`
     font-weight: 700;
     margin: 0.5rem;
 
-    ${({ variation, disabled }: { variation: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'disabled', disabled?: boolean }) => {
+    ${({ variation, disabled }: { variation: 'primary' | 'secondary' | 'tertiary' | 'alert' | 'disabled', disabled?: boolean }) => {
         if (disabled) {
             return `
                 color: ${DISABLED.base};
@@ -122,15 +122,15 @@ const Button = styled.button`
                     border-color: ${TERTIARY.darken};
                 }
             `
-        } if (variation === 'quaternary') {
+        } if (variation === 'alert') {
             return `
-                color: ${QUATERNARY.base};
-                border-color: ${QUATERNARY.base};
+                color: ${ALERT.base};
+                border-color: ${ALERT.base};
 
                 &:hover {
-                    background-color: ${QUATERNARY.lighten};
-                    color: ${QUATERNARY.darken};
-                    border-color: ${QUATERNARY.darken};
+                    background-color: ${ALERT.lighten};
+                    color: ${ALERT.darken};
+                    border-color: ${ALERT.darken};
                 }
             `
         }
@@ -290,13 +290,15 @@ const TableRow = styled.tr`
 `
 
 const TableHeaderCell = styled.th`
-    background-color: ${PRIMARY.lighten};    
-    padding: 5px;
+    background-color: ${PRIMARY.lighten};
+    color: ${PRIMARY.darkest}; 
+    padding: 10px;
+    text-align: left;
     
 `
 const TableBodyCell = styled.td`
     padding: 10px;
-    
+    color: ${PRIMARY.darkest};
 `
 
 const OrderedList = styled.ol`
@@ -377,7 +379,7 @@ const StyleExploration = () => {
                 <Button variation="primary" onClick={() => setShowModal1(true)}>Primary Button</Button>
                 <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
                 <Button variation="tertiary" onClick={() => setShowModal2(true)}>Tertiary Button</Button>
-                <Button variation="quaternary" onClick={() => setShowModal2(true)}>Quaternary Button</Button>
+                <Button variation="alert" onClick={() => setShowModal2(true)}>Quaternary Button</Button>
             </div>
             <Modal contentLabel="Demo" showModal={showModal1} closeModal={() => setShowModal1(false)}>
                 <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique, arcu et bibendum pos</Paragraph>
@@ -392,7 +394,7 @@ const StyleExploration = () => {
                 <Button variation="primary" onClick={() => setShowModal2(true)}>Primary Button</Button>
                 <Button variation="secondary" onClick={() => setShowModal2(true)}>Secondary Button</Button>
             </Modal>
-            <AlertMessageWraper>Words! <Button variation="quaternary">OK!</Button></AlertMessageWraper>
+            <AlertMessageWraper>Words! <Button variation="alert">OK!</Button></AlertMessageWraper>
         </div>
 
     )
@@ -417,9 +419,9 @@ export {
     UnorderedList,
     ListItem,
     StyledNavLink,
-    Link,
+    ExternalLink,
     PRIMARY,
     SECONDARY,
     TERTIARY,
-    QUATERNARY,
+    ALERT,
 }

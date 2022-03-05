@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Paragraph, Button, QUATERNARY } from './StyleExploration'
+import { Paragraph, Button, ALERT } from './StyleExploration'
 import { context } from './Context'
 
 const AlertMessagePositioner = styled.div`
@@ -25,7 +25,7 @@ const AlertMessageWrapper = styled.div`
     background-color: transparent;
     font-weight: 700;
     margin: 0.5rem;
-    color: ${QUATERNARY.darkest};
+    color: ${ALERT.darkest};
     display: flex;
     flex-direction: row;
     align-items: center;

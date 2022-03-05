@@ -1,13 +1,13 @@
 import React from 'react'
 import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 import { context } from '.'
 import { auth } from '../../firebase'
 import { TPhraseADayUser } from '../types'
 import {
-    H2, Button, LabelAndInput, Paragraph,
+    H2, Button, LabelAndInput, Paragraph, StyledNavLink,
 } from './StyleExploration'
 
 const Login = () => {
@@ -73,13 +73,13 @@ const Login = () => {
             <div>
                 <Paragraph>
                     Forgot your password?
-                    <Link to="/forgottenpassword">Reset it!</Link>
+                    <StyledNavLink to="/forgottenpassword" text="Reset It!!" />
                 </Paragraph>
             </div>
             <div>
                 <Paragraph>
                     Need an account?
-                    <Link to="/signup">Sign Up!</Link>
+                    <StyledNavLink to="/signup" text="Sign Up!" />
                 </Paragraph>
             </div>
         </div>

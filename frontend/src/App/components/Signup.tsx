@@ -1,13 +1,12 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, getIdToken } from 'firebase/auth'
-import { Link } from 'react-router-dom'
 
 import axios from 'axios'
 import { context } from '.'
 import { auth } from '../../firebase'
 import { TPhraseADayUser } from '../types'
 import {
-    Button, H2, LabelAndInput, Paragraph,
+    Button, H2, LabelAndInput, Paragraph, StyledNavLink,
 } from './StyleExploration'
 
 const Singup = () => {
@@ -101,7 +100,7 @@ const Singup = () => {
             <div>
                 <Paragraph>
                     Already signed up?
-                    <Link to="/login">Log In!</Link>
+                    <StyledNavLink to="/login" text="Log In!" />
                 </Paragraph>
             </div>
         </div>

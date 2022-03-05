@@ -1,12 +1,11 @@
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Loading } from 'sharedComponents'
 
 import { context } from '.'
 import { TPhraseADayUser, TWorksheet } from '../types'
 import {
-    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2,
+    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, StyledNavLink,
 } from './StyleExploration'
 
 const GET_WORKSHEETS = gql`
@@ -71,7 +70,7 @@ const Review = () => {
                                 <TableBodyCell>{newLanguage}</TableBodyCell>
                                 <TableBodyCell>{description}</TableBodyCell>
                                 <TableBodyCell>
-                                    <Link to={`/review/${id}`}>Review</Link>
+                                    <StyledNavLink to={`/review/${id}`} text="Review" />
                                 </TableBodyCell>
                             </TableRow>
                         ))}

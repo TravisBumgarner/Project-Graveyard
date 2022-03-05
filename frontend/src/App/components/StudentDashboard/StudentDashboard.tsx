@@ -110,10 +110,6 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
         closeModal()
     }
 
-    const handleDelete = () => {
-        closeModal()
-    }
-
     return (
         <div>
             <H2>Worksheets</H2>
@@ -148,9 +144,8 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
                         handleChange={(data) => setnewLanguage(data)}
                     />
                 </div>
-                <Button variation="primary" onClick={handleSubmit}>Submit</Button>
-                <Button variation="primary" onClick={handleCancel}>Cancel</Button>
-                <Button variation="primary" onClick={handleDelete}>Delete</Button>
+                <Button variation="secondary" onClick={handleSubmit}>Submit</Button>
+                <Button variation="alert" onClick={handleCancel}>Cancel</Button>
             </div>
         </div>
     )
