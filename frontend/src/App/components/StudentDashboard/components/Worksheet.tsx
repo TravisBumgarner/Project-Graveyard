@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 import styled from 'styled-components'
 
-import { Loading } from 'sharedComponents'
+import { Loading, AudioRecorder } from 'sharedComponents'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
 import { context } from '../../Context'
@@ -170,14 +170,13 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
                     />
                 </div>
 
-                <audio src={audioURL} controls />
                 <div>
-                    <Button variation="primary" onClick={startRecording} disabled={isRecording}>
-                        Record
-                    </Button>
-                    <Button variation="primary" onClick={stopRecording} disabled={!isRecording}>
-                        Stop
-                    </Button>
+                    <AudioRecorder
+                        stopRecording={stopRecording}
+                        audioURL={audioURL}
+                        startRecording={startRecording}
+                        isRecording={isRecording}
+                    />
                 </div>
 
                 <div>

@@ -424,4 +424,5 @@ export {
     SECONDARY,
     TERTIARY,
     ALERT,
+    Label,
 }
