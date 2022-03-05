@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Link } from 'react-router-dom'
 import { Navigation } from './components'
 import logo from '../../../static/logo.png'
 import { H1 } from '../StyleExploration'
@@ -27,8 +28,8 @@ const HeaderWrapper = styled.div`
 const Header = () => (
     <HeaderWrapper>
         <div>
-            <Img src={logo} />
-            <H1>phrase a day</H1>
+            <Link to="/"> <Img src={logo} /></Link>
+            <Link style={{ textDecoration: 'none' }} to="/"> <H1>phrase a day</H1></Link>
         </div>
         <div>
             <Navigation />

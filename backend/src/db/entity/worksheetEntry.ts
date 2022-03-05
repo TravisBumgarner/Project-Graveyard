@@ -1,7 +1,7 @@
 import {
-    Column, Entity, PrimaryColumn, ManyToOne,
+    Column, Entity, PrimaryColumn, ManyToOne, OneToMany
 } from 'typeorm'
-// import ReviewEntry from './reviewEntry'
+import ReviewEntry from './reviewEntry'
 
 import Worksheet from './worksheet'
 
@@ -25,6 +25,7 @@ export default class WorksheetEntry {
     @ManyToOne(() => Worksheet, (Worksheet) => Worksheet.worksheetEntries) // eslint-disable-line
     worksheet: Worksheet
 
-    // @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.worksheetEntry) // eslint-disable-line
-    // worksheetEntries: WorksheetEntry[]
+    @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.worksheetEntry) // eslint-disable-line
+    worksheetEntries: WorksheetEntry[] // eslint-disable-line 
+    // I have no idea if this is a problem
 }

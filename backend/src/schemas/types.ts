@@ -68,7 +68,7 @@ const ReviewForStudentType = new GraphQLObjectType({
 })
 
 const ReviewEntryType = new GraphQLObjectType({
-    name: 'Review Entry',
+    name: 'ReviewEntry',
     description: 'This represents a review entry',
     fields: () => ({
         id: { type: new GraphQLNonNull(GraphQLString) },

@@ -17,6 +17,7 @@ const PRIMARY = colorFactory('#57E2E5')
 const TERTIARY = colorFactory('#45CB85')
 const SECONDARY = colorFactory('#6A7FDB')
 const QUATERNARY = colorFactory('#E08DAC')
+const DISABLED = colorFactory('#aaaaaa')
 
 const H1 = styled.h1`
     color: ${PRIMARY.base};
@@ -59,7 +60,21 @@ const Button = styled.button`
     font-weight: 700;
     margin: 0.5rem;
 
-    ${({ variation }: { variation: 'primary' | 'secondary' | 'tertiary' | 'quaternary' }) => {
+    ${({ variation, disabled }: { variation: 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'disabled', disabled?: boolean }) => {
+        if (disabled) {
+            return `
+                color: ${DISABLED.base};
+                border-color: ${DISABLED.base};
+
+                &:hover {
+                    background-color: ${DISABLED.lighten};
+                    color: ${DISABLED.darken};
+                    border-color: ${DISABLED.darken};
+                    cursor: not-allowed;
+                }
+            `
+        }
+
         if (variation === 'primary') {
             return `
                 color: ${PRIMARY.base};

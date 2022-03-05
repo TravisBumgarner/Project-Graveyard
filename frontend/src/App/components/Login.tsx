@@ -16,10 +16,8 @@ const Login = () => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>('bbb@bbb.com')
     const [password, setPassword] = React.useState<string>('bbbbbb')
-
     const handleSubmit = async () => {
         setIsLoading(true)
-
         try {
             const { user: firebase } = await signInWithEmailAndPassword(auth, email, password)
             const token = await getIdToken(firebase)
