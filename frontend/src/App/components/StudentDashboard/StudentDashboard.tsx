@@ -50,12 +50,12 @@ mutation AddWorksheet (
 
 type AddWorksheetProps = {
     closeModal: () => void
-    addWorksheet: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
+    setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
 }
 
-const AddWorksheetModal = ({ closeModal, addWorksheet: addWorksheetState }: AddWorksheetProps) => {
+const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => {
     const { state, dispatch } = React.useContext(context)
-    const [addWorksheet] = useMutation<{ addWorksheet: TWorksheet & { user: TPhraseADayUser } }>(ADD_WORKSHEET)
+    const [addWorksheet] = useMutation<{ addWorksheet: TWorksheet }>(ADD_WORKSHEET)
     const [title, setTitle] = React.useState('')
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
@@ -68,19 +68,21 @@ const AddWorksheetModal = ({ closeModal, addWorksheet: addWorksheetState }: AddW
             return
         }
 
-        const response = await addWorksheet({
-            variables: {
-                date: moment(),
-                id: uuidv4(),
-                description,
-                title,
-                knownLanguage,
-                newLanguage,
-                userId: state.currentUser.phraseADay.id
-            }
-        })
+        const newWorksheet: TWorksheet = {
+            date: moment(),
+            id: uuidv4(),
+            description,
+            title,
+            knownLanguage,
+            newLanguage,
+            status: TWorksheetStatus.NEW,
+            userId: state.currentUser.phraseADay.id
+        }
 
-        // dispatch({ type: "ADD_WORKSHEET", data: { worksheet: response.data.addWorksheet } })
+        const response = await addWorksheet({
+            variables: newWorksheet
+        })
+        setWorksheets((prev) => ({ ...prev, [newWorksheet.id]: newWorksheet }))
         closeModal()
     }
 
