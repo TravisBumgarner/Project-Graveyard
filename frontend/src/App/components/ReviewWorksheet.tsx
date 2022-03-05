@@ -3,7 +3,6 @@ import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router'
-import styled from 'styled-components'
 
 import { Loading } from 'sharedComponents'
 import { context } from '.'
@@ -32,13 +31,6 @@ query GetWorksheets {
 }
 `
 
-const ActionButton = styled.button`
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-
-`
-
 const ADD_REVIEW = gql`
 mutation AddReview (
     $id: String!
@@ -58,13 +50,12 @@ mutation AddReview (
 `
 
 type WorksheetReviewEntryProps = {
-  worksheetEntry: TWorksheetEntry
-  reviewState: any
-  dispatchReview: any
+    worksheetEntry: TWorksheetEntry
+    reviewState: any
+    dispatchReview: any
 }
 const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: WorksheetReviewEntryProps) => {
     const { id, knownLanguageText, newLanguageText } = worksheetEntry
-    const [showModal, setShowModal] = React.useState<boolean>(false)
     const [audioURL, isRecording, startRecording, stopRecording] = useRecorder()
 
     React.useEffect(() => {
@@ -79,7 +70,13 @@ const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: W
                 <Input
                     value={reviewState[worksheetEntry.id].writtenFeedback}
                     onChange={(event) => {
-                        dispatchReview({ type: 'WRITTEN_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, writtenFeedback: event.target.value } })
+                        dispatchReview({
+                            type: 'WRITTEN_FEEDBACK_ACTION',
+                            data: {
+                                worksheetEntryId: worksheetEntry.id,
+                                writtenFeedback: event.target.value
+                            }
+                        })
                     }}
                 />
             </TableBodyCell>
@@ -101,19 +98,19 @@ const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: W
 type State = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
 type OralFeedbackAction = {
-  type: 'ORAL_FEEDBACK_ACTION',
-  data: {
-    oralFeedback: string
-    worksheetEntryId: string
-  }
+    type: 'ORAL_FEEDBACK_ACTION',
+    data: {
+        oralFeedback: string
+        worksheetEntryId: string
+    }
 }
 
 type WrittenFeedbackAction = {
-  type: 'WRITTEN_FEEDBACK_ACTION',
-  data: {
-    writtenFeedback: string
-    worksheetEntryId: string
-  }
+    type: 'WRITTEN_FEEDBACK_ACTION',
+    data: {
+        writtenFeedback: string
+        worksheetEntryId: string
+    }
 }
 
 const reviewReducer = (state: State, action: OralFeedbackAction | WrittenFeedbackAction): State => {
@@ -130,17 +127,13 @@ const reviewReducer = (state: State, action: OralFeedbackAction | WrittenFeedbac
     }
 }
 
-type ReviewWorksheetProps = {
-
-}
-
-const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
+const ReviewWorksheet = () => {
     const { worksheetId } = useParams()
-    const { state, dispatch } = React.useContext(context)
+    const { state } = React.useContext(context)
     const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
     const [worksheet, setWorksheet] = React.useState<TWorksheet & { user: TPhraseADayUser }>()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    useQuery<{ worksheet:(TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEET, {
+    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEET, {
         variables: {
             worksheetId,
         },
@@ -156,7 +149,7 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
     } = worksheet
 
     const [reviewState, dispatchReview] = React.useReducer(reviewReducer, filteredWorksheetEntries.reduce((accum, { id }) => {
-        accum[id] = {
+        accum[id] = { // eslint-disable-line
             writtenFeedback: '',
             oralFeedback: '',
         }
@@ -174,7 +167,7 @@ const ReviewWorksheet = ({ }: ReviewWorksheetProps) => {
                 ...reviewState[worksheetEntryId],
             })),
         }
-        const response = await addReview({
+        await addReview({
             variables,
         })
     }

@@ -6,7 +6,6 @@ import { Loading } from 'sharedComponents'
 import {
     Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
 } from '../../StyleExploration'
-import { context } from '../..'
 import { TStudentReview } from '../../../types'
 
 const STUDENT_REVIEW = gql`
@@ -22,7 +21,8 @@ query StudentReview($worksheetId: String!)
         oralFeedback,
         audioUrl,
         knownLanguageText,
-        newLanguageText
+        newLanguageText,
+        reviewEntryId
   }
 }
 `
@@ -64,9 +64,9 @@ const Review = () => {
                 <TableBody>
                     {review
                         .map(({
-                            knownLanguageText, newLanguageText, oralFeedback, writtenFeedback, audioUrl,
-                        }, index) => (
-                            <TableRow key={index}>
+                            knownLanguageText, newLanguageText, oralFeedback, writtenFeedback, audioUrl, reviewEntryId
+                        }) => (
+                            <TableRow key={reviewEntryId}>
                                 <TableBodyCell>{knownLanguageText}</TableBodyCell>
                                 <TableBodyCell>{newLanguageText}</TableBodyCell>
                                 <TableBodyCell><audio src={audioUrl} controls /></TableBodyCell>

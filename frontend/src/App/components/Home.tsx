@@ -25,7 +25,7 @@ const Home = () => {
             <OrderedList>
                 <ListItem>Create an account and log in.</ListItem>
                 <ListItem>Navigate to User Dashboard</ListItem>
-                <ListItem>Create a Worksheet with a title, description, the language you know, and the language you're learning.</ListItem>
+                <ListItem>Create a Worksheet with a title, description, the language you know, and the language you are learning.</ListItem>
                 <ListItem>Click on View</ListItem>
                 <ListItem>Begin adding written and recorded entires.</ListItem>
                 <ListItem>When ready submit for your teacher</ListItem>

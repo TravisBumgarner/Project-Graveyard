@@ -1,6 +1,6 @@
 import React from 'react'
 import { createUserWithEmailAndPassword, getIdToken } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import axios from 'axios'
 import { context } from '.'
@@ -10,11 +10,8 @@ import {
     Button, H2, LabelAndInput, Paragraph,
 } from './StyleExploration'
 
-type SignupProps = {}
-
-const Singup = ({ }: SignupProps) => {
+const Singup = () => {
     const { dispatch } = React.useContext(context)
-    const navigate = useNavigate()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>('')
     const [username, setUsername] = React.useState<string>('')
@@ -63,19 +60,41 @@ const Singup = ({ }: SignupProps) => {
         <div>
             <H2>Sign Up</H2>
             <div>
-                <LabelAndInput label="Username" name="username" value={username} handleChange={(username) => setUsername(username)} />
+                <LabelAndInput
+                    label="Username"
+                    name="username"
+                    value={username}
+                    handleChange={(data) => setUsername(data)}
+                />
             </div>
 
             <div>
-                <LabelAndInput label="Email" name="email" value={email} handleChange={(email) => setEmail(email)} />
+                <LabelAndInput
+                    label="Email"
+                    name="email"
+                    value={email}
+                    handleChange={(data) => setEmail(data)}
+                />
             </div>
 
             <div>
-                <LabelAndInput label="Password" type="password" name="password" value={password} handleChange={(password) => setPassword(password)} />
+                <LabelAndInput
+                    label="Password"
+                    type="password"
+                    name="password"
+                    value={password}
+                    handleChange={(data) => setPassword(data)}
+                />
             </div>
 
             <div>
-                <LabelAndInput type="password" label="Confirm Password" name="confirmPassword" value={passwordConfirmation} handleChange={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)} />
+                <LabelAndInput
+                    type="password"
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    value={passwordConfirmation}
+                    handleChange={(data) => setPasswordConfirmation(data)}
+                />
             </div>
 
             <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Sign Up</Button>

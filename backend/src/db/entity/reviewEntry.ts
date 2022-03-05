@@ -1,30 +1,30 @@
 import {
- Column, Entity, PrimaryColumn, ManyToOne,
-} from 'typeorm';
+    Column, Entity, PrimaryColumn, ManyToOne,
+} from 'typeorm'
 
-import Review from './review';
-import WorksheetEntry from './worksheetEntry';
+import Review from './review'
+import WorksheetEntry from './worksheetEntry'
 
 @Entity()
 export default class ReviewEntry {
   @PrimaryColumn({ nullable: false })
-  id: string;
+      id: string
 
   @Column({ nullable: false })
-  reviewId: string;
+      reviewId: string
 
   @Column({ nullable: false })
-  worksheetEntryId: string;
+      worksheetEntryId: string
 
   @Column({ nullable: false })
-  writtenFeedback: string;
+      writtenFeedback: string
 
   @Column({ nullable: false })
-  oralFeedback: string;
+      oralFeedback: string
 
   @ManyToOne(() => Review, (review) => review.reviewEntries)
-  review: Review;
+      review: Review
 
   @ManyToOne(() => WorksheetEntry, (worksheet) => worksheet.worksheetEntries)
-  worksheetEntry: WorksheetEntry;
+      worksheetEntry: WorksheetEntry
 }

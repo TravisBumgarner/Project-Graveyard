@@ -18,6 +18,7 @@ type TWorksheet = {
 }
 
 type TStudentReview = {
+    reviewEntryId: string
     writtenFeedback: string
     oralFeedback: string
     audioUrl: string

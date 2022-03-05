@@ -32,6 +32,16 @@ module.exports = {
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['off'],
         'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
-        'jsx-a11y/media-has-caption': ['off']
+        'jsx-a11y/media-has-caption': ['off'],
+        'no-unused-vars': 'off', // ts does it better
+        '@typescript-eslint/no-unused-vars': 'error', // ts does it better
+        'no-shadow': 'off', // ts does it better
+        '@typescript-eslint/no-shadow': ['error'], // ts does it better
+        'consistent-return': ['off'],
+        'react/require-default-props': ['off'],
+        'no-undef': ['off'], // ts does it better
+        'default-case': ['off'], // ts does it better
+        'no-spaced-func': ['off'],
+        'func-call-spacing': ['off']
     },
 }

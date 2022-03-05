@@ -6,10 +6,7 @@ import { context } from '.'
 import { auth } from '../../firebase'
 import { Button, LabelAndInput } from './StyleExploration'
 
-type ForgottenPasswordProps = {
-}
-
-const ForgottenPassword = ({ }: ForgottenPasswordProps) => {
+const ForgottenPassword = () => {
     const { dispatch } = React.useContext(context)
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>('')
@@ -37,13 +34,12 @@ const ForgottenPassword = ({ }: ForgottenPasswordProps) => {
         <div>
             <h1>Password Reset</h1>
             <div>
-                <LabelAndInput name="email" label="Email" value={email} handleChange={(email) => setEmail(email)} />
+                <LabelAndInput name="email" label="Email" value={email} handleChange={(data) => setEmail(data)} />
             </div>
 
             <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Reset Password</Button>
             <div>
                 Need an account?
-                {' '}
                 <Link to="/login">Log In!</Link>
             </div>
         </div>

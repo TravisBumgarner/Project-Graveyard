@@ -20,7 +20,7 @@ const LoadingWrapper = styled.div`
 
 const Loading = () => (
     <LoadingWrapper>
-        <img src={logo} />
+        <img alt="logo" src={logo} />
         <H1>One moment please!</H1>
     </LoadingWrapper>
 )

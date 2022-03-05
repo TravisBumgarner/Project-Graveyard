@@ -28,15 +28,14 @@ query GetWorksheets {
 `
 
 const Review = () => {
-    const [worksheets, setWorksheets] = React.useState<Record<string,(TWorksheet & { user: TPhraseADayUser })>>({})
+    const [worksheets, setWorksheets] = React.useState<Record<string, (TWorksheet & { user: TPhraseADayUser })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const { state, dispatch } = React.useContext(context)
-    useQuery<{ worksheet:(TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEETS, {
+    const { state } = React.useContext(context)
+    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEETS, {
         onCompleted: (data) => {
-            const worksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
-            data.worksheet.forEach((worksheet) => worksheets[worksheet.id] = worksheet)
-            console.log(data.worksheet)
-            setWorksheets(worksheets)
+            const newWorksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
+            data.worksheet.forEach((worksheet) => { newWorksheets[worksheet.id] = worksheet })
+            setWorksheets(newWorksheets)
             setIsLoading(false)
         },
     })

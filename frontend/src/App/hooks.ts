@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react'
+import utilities from './utilities'
 // https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
+
+async function requestRecorder() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    return new MediaRecorder(stream)
+}
+
 const useRecorder = () => {
     const [audioURL, setAudioURL] = useState<string>('')
     const [isRecording, setIsRecording] = useState<boolean>(false)
@@ -7,7 +14,7 @@ const useRecorder = () => {
     useEffect(() => {
         if (recorder === null) {
             if (isRecording) {
-                requestRecorder().then(setRecorder, console.error)
+                requestRecorder().then(setRecorder, utilities.logger)
             }
             return
         }
@@ -41,8 +48,4 @@ const useRecorder = () => {
     return [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] as const
 }
 
-async function requestRecorder() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    return new MediaRecorder(stream)
-}
 export { useRecorder }

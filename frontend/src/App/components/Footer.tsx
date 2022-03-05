@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
-    H1, Paragraph, Link, PRIMARY,
+    Paragraph, Link, PRIMARY,
 } from './StyleExploration'
 
 const FooterWrapper = styled.div`

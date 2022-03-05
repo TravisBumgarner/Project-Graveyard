@@ -61,8 +61,8 @@ mutation AddWorksheet (
 `
 
 type AddWorksheetProps = {
-  closeModal: () => void
-  setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
+    closeModal: () => void
+    setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
 }
 
 const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => {
@@ -91,7 +91,7 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
             userId: state.currentUser.phraseADay.id,
         }
 
-        const response = await addWorksheet({
+        await addWorksheet({
             variables: newWorksheet,
         })
         setWorksheets((prev) => ({ ...prev, [newWorksheet.id]: newWorksheet }))
@@ -111,19 +111,34 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
             <H2>Worksheets</H2>
             <div>
                 <div>
-                    <LabelAndInput label="Title" name="title" value={title} handleChange={(title) => setTitle(title)} />
+                    <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
                 </div>
 
                 <div>
-                    <LabelAndInput label="Description" name="description" value={description} handleChange={(description) => setDescription(description)} />
+                    <LabelAndInput
+                        label="Description"
+                        name="description"
+                        value={description}
+                        handleChange={(data) => setDescription(data)}
+                    />
                 </div>
 
                 <div>
-                    <LabelAndInput label="From Language" name="knowLanguage" value={knownLanguage} handleChange={(knownLanguage) => setknownLanguage(knownLanguage)} />
+                    <LabelAndInput
+                        label="From Language"
+                        name="knowLanguage"
+                        value={knownLanguage}
+                        handleChange={(data) => setknownLanguage(data)}
+                    />
                 </div>
 
                 <div>
-                    <LabelAndInput label="To Language" name="newLanguage" value={newLanguage} handleChange={(newLanguage) => setnewLanguage(newLanguage)} />
+                    <LabelAndInput
+                        label="To Language"
+                        name="newLanguage"
+                        value={newLanguage}
+                        handleChange={(data) => setnewLanguage(data)}
+                    />
                 </div>
                 <Button variation="primary" onClick={handleSubmit}>Submit</Button>
                 <Button variation="primary" onClick={handleCancel}>Cancel</Button>
@@ -134,7 +149,7 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
 }
 
 type NewTableProps = {
-  worksheets: TWorksheet[],
+    worksheets: TWorksheet[],
 }
 const NewTable = ({ worksheets }: NewTableProps) => (
     <div>
@@ -166,7 +181,7 @@ const NewTable = ({ worksheets }: NewTableProps) => (
 )
 
 type NeedsReviewTableProps = {
-  worksheets: TWorksheet[],
+    worksheets: TWorksheet[],
 }
 const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
     <div>
@@ -198,7 +213,7 @@ const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
 )
 
 type HasReviewsTableProps = {
-  worksheets: TWorksheet[],
+    worksheets: TWorksheet[],
 }
 const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
     <div>
@@ -230,16 +245,16 @@ const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
 )
 
 const Worksheets = () => {
-    const { state, dispatch } = React.useContext(context)
+    const { state } = React.useContext(context)
 
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const [worksheets, setWorksheets] = React.useState<Record<string, TWorksheet>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEETS, {
         onCompleted: (data) => {
-            const worksheets: Record<string, TWorksheet> = {}
-            data.worksheet.forEach((worksheet) => worksheets[worksheet.id] = worksheet)
-            setWorksheets(worksheets)
+            const newWorksheets: Record<string, TWorksheet> = {}
+            data.worksheet.forEach((worksheet) => { newWorksheets[worksheet.id] = worksheet })
+            setWorksheets(newWorksheets)
             setIsLoading(false)
         },
     })

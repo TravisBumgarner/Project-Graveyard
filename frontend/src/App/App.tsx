@@ -9,7 +9,7 @@ import {
     NormalizedCacheObject,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { getIdToken, onAuthStateChanged, User } from 'firebase/auth'
+import { getIdToken, onAuthStateChanged } from 'firebase/auth'
 import axios from 'axios'
 
 import Theme from 'theme'
@@ -48,17 +48,92 @@ const App = () => {
         <>
             <Header />
             <Routes>
-                <Route path="/reviewer/review/:worksheetId" element={<ConditionalRoute authedComponent={<ReviewWorksheet />} />} />
-                <Route path="/reviewer/dashboard" element={<ConditionalRoute authedComponent={<ReviewDashboard />} />} />
-                <Route path="/profile" element={<ConditionalRoute authedComponent={<Profile />} />} />
-                <Route path="/signup" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<Signup />} />} />
-                <Route path="/login" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<Login />} />} />
-                <Route path="/logout" element={<ConditionalRoute authedComponent={<Logout />} unauthedComponent={<Home />} />} />
-                <Route path="/forgottenpassword" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<ForgottenPassword />} />} />
+                <Route
+                    path="/reviewer/review/:worksheetId"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<ReviewWorksheet />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/reviewer/dashboard"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<ReviewDashboard />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/profile"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<Profile />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/signup"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<StudentDashboard />}
+                            unauthedComponent={<Signup />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/login"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<StudentDashboard />}
+                            unauthedComponent={<Login />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/logout"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<Logout />}
+                            unauthedComponent={<Home />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/forgottenpassword"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<StudentDashboard />}
+                            unauthedComponent={<ForgottenPassword />}
+                        />
+                    )}
+                />
                 <Route path="/stylesheet" element={<StyleExploration />} />
-                <Route path="/student/dashboard" element={<ConditionalRoute authedComponent={<StudentDashboard />} unauthedComponent={<Home />} />} />
-                <Route path="/student/worksheet/:worksheetId" element={<ConditionalRoute authedComponent={<Worksheet />} />} />
-                <Route path="/student/review/:worksheetId" element={<ConditionalRoute authedComponent={<Review />} />} />
+                <Route
+                    path="/student/dashboard"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<StudentDashboard />}
+                            unauthedComponent={<Home />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/student/worksheet/:worksheetId"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<Worksheet />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/student/review/:worksheetId"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<Review />}
+                        />
+                    )}
+                />
                 <Route path="/error" element={<Error />} />
                 <Route path="/" element={<Home />} />
             </Routes>
@@ -116,11 +191,11 @@ const WrappedApp = () => {
                 uri: `${__API_ENDPOINT__}/graphql`,
             })
 
-            const client = new ApolloClient({
+            const authedClient = new ApolloClient({
                 cache: new InMemoryCache(),
                 link: authLink.concat(httpLink),
             })
-            setClient(client)
+            setClient(authedClient)
             setIsLoading(false)
         }
 
@@ -129,11 +204,11 @@ const WrappedApp = () => {
                 uri: `${__API_ENDPOINT__}/graphql`,
             })
 
-            const client = new ApolloClient({
+            const unauthedClient = new ApolloClient({
                 cache: new InMemoryCache(),
                 link: httpLink,
             })
-            setClient(client)
+            setClient(unauthedClient)
             setIsLoading(false)
         }
 

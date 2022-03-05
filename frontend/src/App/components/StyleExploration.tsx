@@ -27,7 +27,7 @@ const H2 = styled.h2`
     border-bottom: 2px solid ${PRIMARY.base};
     padding-bottom: 1rem;
     margin-bottom: 1rem;
-}`
+`
 
 const StyledNavLink = ({ to, text }: { to: string, text: string }) => (
     <NavLink

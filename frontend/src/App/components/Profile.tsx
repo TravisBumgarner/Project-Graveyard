@@ -1,6 +1,5 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
 import Modal from 'react-modal'
 
 import { context } from '.'
@@ -14,7 +13,6 @@ type EditProfileProps = {
 
 const EditProfile = ({ closeModal }: EditProfileProps) => {
     const { dispatch, state } = React.useContext(context)
-    const navigate = useNavigate()
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>(state.currentUser.firebase.email)
     const [password, setPassword] = React.useState<string>('')
@@ -53,15 +51,20 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
         <div>
             <h1>Edit Profile</h1>
             <div>
-                <LabelAndInput label="Email" value={email} name="email" handleChange={(email) => setEmail(email)} />
+                <LabelAndInput label="Email" value={email} name="email" handleChange={(data) => setEmail(data)} />
             </div>
 
             <div>
-                <LabelAndInput label="Password" value={password} name="password" handleChange={(password) => setPassword(password)} />
+                <LabelAndInput label="Password" value={password} name="password" handleChange={(data) => setPassword(data)} />
             </div>
 
             <div>
-                <LabelAndInput label="Confirm Password" value={password} name="confirmPassword" handleChange={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)} />
+                <LabelAndInput
+                    label="Confirm Password"
+                    value={password}
+                    name="confirmPassword"
+                    handleChange={(data) => setPasswordConfirmation(data)}
+                />
 
             </div>
 
@@ -71,13 +74,8 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
     )
 }
 
-type ProfileProps = {
-}
-
-const Profile = ({ }: ProfileProps) => {
-    const { state, dispatch } = React.useContext(context)
-    const navigate = useNavigate()
-
+const Profile = () => {
+    const { state } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
 
     return (

@@ -1,5 +1,5 @@
-import * as entity from './entity';
+import * as entity from './entity'
 
-export default {
-  entity,
-};
+export {
+    entity,
+}
