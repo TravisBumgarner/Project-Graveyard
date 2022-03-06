@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
+import { Loading } from 'sharedComponents'
 import { context } from '.'
 import { auth } from '../../firebase'
 import { TPhraseADayUser } from '../types'
@@ -46,6 +47,8 @@ const Login = () => {
             setIsLoading(false)
         }
     }
+
+    if (isLoading) return <Loading />
 
     return (
         <div>

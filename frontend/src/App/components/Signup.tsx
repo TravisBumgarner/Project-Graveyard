@@ -2,6 +2,7 @@ import React from 'react'
 import { createUserWithEmailAndPassword, getIdToken } from 'firebase/auth'
 
 import axios from 'axios'
+import { Loading } from 'sharedComponents'
 import { context } from '.'
 import { auth } from '../../firebase'
 import { TPhraseADayUser } from '../types'
@@ -55,6 +56,9 @@ const Singup = () => {
             setIsLoading(false)
         }
     }
+
+    if (isLoading) return <Loading />
+
     return (
         <div>
             <H2>Sign Up</H2>

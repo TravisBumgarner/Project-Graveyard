@@ -5,24 +5,34 @@ import logo from '../static/logo.png'
 import { H1, Button, Label } from '../App/components/StyleExploration'
 
 const LoadingWrapper = styled.div`
-    width: 100vw;
-    position:fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
     display: flex;
-    position: fixed;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    ${({ fullscreen }: { fullscreen: boolean }) => (fullscreen ? `
+        width: 100vw;
+        position:fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        position: fixed;
+    ` : `
+        margin: 7rem;
+    `)}
+
     img {
-        width: 200px;
-        height: 200px;
-        margin-bottom: 1em;
-    }
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1em;
+}
 `
 
-const Loading = () => {
+type LoadingProps = {
+    fullscreen?: boolean
+}
+
+const Loading = ({ fullscreen }: LoadingProps) => {
     // const rotations = [0, 90, 180, 270]
     const [rotation, setRotation] = React.useState<number>(0)
     React.useEffect(() => {
@@ -33,7 +43,7 @@ const Loading = () => {
         return () => clearInterval(rotationIntervalId)
     }, [])
     return (
-        <LoadingWrapper>
+        <LoadingWrapper fullscreen={fullscreen}>
             <img style={{ transform: `rotate(${rotation}deg)` }} alt="logo" src={logo} />
             <H1>One moment please!</H1>
         </LoadingWrapper>
@@ -41,34 +51,34 @@ const Loading = () => {
 }
 
 const AudioRecorderWrapper = styled.div`
-    margin: 0.5rem;
+margin: 0.5rem;
 
     > div {
-        border-radius: 1rem;
-        border: 2px solid #57E2E5;
-        padding: 0.5rem 1rem;
-        display: flex;
-        justify-content: space-between;
+    border-radius: 1rem;
+    border: 2px solid #57E2E5;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space - between;
 
         audio {
-            flex-grow: 1;
-            margin-left: 1.5rem;
-        }
+        flex-grow: 1;
+        margin-left: 1.5rem;
+    }
 
         div {
-            min-width: 120px;
+        min-width: 120px;
             ${Button} {
-                width: 100%;
-            }
+            width: 100%;
         }
     }
+}
 
 
 
-    ${Label}{
-        display: block;
-        box-sizing: border-box;
-    }
+    ${Label} {
+    display: block;
+    box-sizing: border-box;
+}
 `
 type AudioRecorderProps = {
     startRecording: any

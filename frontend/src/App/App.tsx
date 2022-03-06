@@ -42,7 +42,7 @@ const App = () => {
     const { state } = React.useContext(context)
 
     if (state.currentUser === undefined) {
-        return <Loading />
+        return <Loading fullscreen />
     }
 
     return (
@@ -222,7 +222,7 @@ const WrappedApp = () => {
     }, [state.currentUser])
 
     if (isLoading) {
-        return <Loading />
+        return <Loading fullscreen />
     }
 
     return (

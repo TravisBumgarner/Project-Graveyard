@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <div>
             <H2>
-                Welcome, {state.currentUser ? state.currentUser.phraseADay.username : 'learner'}!
+                Welcome, {state.currentUser ? state.currentUser.phraseADay.username : 'language friend'}!
             </H2>
             <H3>Heads Up!</H3>
             <Paragraph>
