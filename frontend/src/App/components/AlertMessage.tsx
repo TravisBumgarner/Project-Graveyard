@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Paragraph, Button, ALERT } from './StyleExploration'
+import {
+    Paragraph, Button, ALERT, SECONDARY
+} from './StyleExploration'
 import { context } from './Context'
 
 const AlertMessagePositioner = styled.div`
@@ -19,13 +21,14 @@ const AlertMessageWrapper = styled.div`
     display: inline-block;
     font-family: 'Comfortaa',cursive;
     font-size: 1rem;
-    border: 2px solid;
+    border: 2px solid ${SECONDARY.base};
     border-radius: 1rem;
     padding: 0.5rem 1rem;
     background-color: transparent;
     font-weight: 700;
     margin: 0.5rem;
-    color: ${ALERT.darkest};
+    background-color: ${SECONDARY.lightest};
+    color: ${SECONDARY.darkest};
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -57,8 +60,8 @@ const AlertMessage = () => {
     return (
         <AlertMessagePositioner>
             <AlertMessageWrapper timeToLiveMS={state.message.timeToLiveMS}>
-                <Paragraph>FYI! - {state.message.body}</Paragraph>
-                <Button onClick={handleSubmit} variation="primary">Ok!</Button>
+                <Paragraph style={{ color: SECONDARY.base }}>FYI! - {state.message.body}</Paragraph>
+                <Button onClick={handleSubmit} variation="secondary">Ok!</Button>
             </AlertMessageWrapper>
         </AlertMessagePositioner>
     )

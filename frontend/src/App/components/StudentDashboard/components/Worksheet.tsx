@@ -4,7 +4,6 @@ import Modal from 'react-modal'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
-import styled from 'styled-components'
 
 import { Loading, AudioRecorder } from 'sharedComponents'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
@@ -38,12 +37,6 @@ query GetWorksheets($worksheetId: String) {
   }
 
 }
-`
-
-const ActionButton = styled.button`
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
 `
 
 const objectUrlToBase64 = async (objectUrl: string) => {
@@ -192,8 +185,12 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
 type WorksheetEntryProps = {
     worksheetEntry: TWorksheetEntry
     worksheetStatus: TWorksheetStatus
+    worksheetEntries: TWorksheetEntry[]
+    setWorksheetEntries: React.Dispatch<React.SetStateAction<TWorksheetEntry[]>>
 }
-const WorksheetEntry = ({ worksheetEntry, worksheetStatus }: WorksheetEntryProps) => {
+const WorksheetEntry = ({
+    worksheetEntry, worksheetStatus, worksheetEntries, setWorksheetEntries
+}: WorksheetEntryProps) => {
     const {
         id, knownLanguageText, newLanguageText, audioUrl,
     } = worksheetEntry
@@ -201,13 +198,16 @@ const WorksheetEntry = ({ worksheetEntry, worksheetStatus }: WorksheetEntryProps
     const [deleteWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(DELETE_WORKSHEET_ENTRY)
 
     const handleDelete = async () => {
+        const modifiedWorksheetEntries = worksheetEntries.filter((worksheet) => worksheet.id !== id)
+
         await deleteWorksheetEntry({ variables: { id } })
+        setWorksheetEntries(modifiedWorksheetEntries)
     }
 
     const Actions: JSX.Element[] = []
 
     if (worksheetStatus === TWorksheetStatus.NEW) {
-        Actions.push(<ActionButton onClick={handleDelete}>Delete</ActionButton>)
+        Actions.push(<Button key="delete" variation="secondary" onClick={handleDelete}>Delete</Button>)
     }
 
     return (
@@ -217,7 +217,9 @@ const WorksheetEntry = ({ worksheetEntry, worksheetStatus }: WorksheetEntryProps
             <TableBodyCell><audio controls src={audioUrl} /></TableBodyCell>
             {Actions.length ? (
                 <TableBodyCell>
-                    {Actions}
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        {Actions}
+                    </div>
                 </TableBodyCell>
             ) : null}
         </TableRow>
@@ -228,10 +230,11 @@ const Worksheet = () => {
     const { worksheetId } = useParams()
     const [showModal, setShowModal] = React.useState<boolean>(false)
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
-    const [workssheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>()
+    const [worksheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>()
     const navigate = useNavigate()
     const [editWorksheet] = useMutation<{ editWorksheet: { status: TWorksheetStatus, id: string } }>(EDIT_WORKSHEET)
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
+
     useQuery<{ worksheet: TWorksheet[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
             worksheetId
@@ -255,31 +258,39 @@ const Worksheet = () => {
     return (
         <div>
             <div>
-                <H2>{title}</H2>
+                <H2><Button variation="primary" onClick={() => navigate(-1)}>User Dashboard</Button> {'>'} {title} Worksheet</H2>
                 <Paragraph>
                     Description: {description}
                 </Paragraph>
                 <Paragraph>
                     Date: {utilities.dateToString(moment(date))}
                 </Paragraph>
-                <Button variation="secondary" onClick={() => setShowModal(true)}>Add Entry</Button>
+                <Button variation="secondary" onClick={() => setShowModal(true)}>Add Entries</Button>
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell scope="col">{worksheet.knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell scope="col">{worksheet.newLanguage}</TableHeaderCell>
-                            <TableHeaderCell scope="col">Recorded</TableHeaderCell>
-                            {worksheet.status === TWorksheetStatus.NEW && <TableHeaderCell scope="col">Actions</TableHeaderCell>}
+                            <TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
+                            <TableHeaderCell width="35%" scope="col">{worksheet.newLanguage}</TableHeaderCell>
+                            <TableHeaderCell width="20%" scope="col" style={{ textAlign: 'center' }}>Recorded</TableHeaderCell>
+                            {worksheet.status === TWorksheetStatus.NEW
+                                ? (<TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Actions</TableHeaderCell>)
+                                : null}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {workssheetEntries.map((worksheetEntry) => (
-                            <WorksheetEntry worksheetStatus={worksheet.status} worksheetEntry={worksheetEntry} />
+                        {worksheetEntries.map((worksheetEntry) => (
+                            <WorksheetEntry
+                                worksheetEntries={worksheetEntries}
+                                setWorksheetEntries={setWorksheetEntries}
+                                key={worksheetEntry.id}
+                                worksheetStatus={worksheet.status}
+                                worksheetEntry={worksheetEntry}
+                            />
                         ))}
                     </TableBody>
                 </Table>
             </div>
-            <Button variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+            <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}

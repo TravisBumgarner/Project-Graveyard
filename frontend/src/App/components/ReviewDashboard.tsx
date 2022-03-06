@@ -47,12 +47,12 @@ const Review = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHeaderCell>Title</TableHeaderCell>
-                        <TableHeaderCell>Username</TableHeaderCell>
-                        <TableHeaderCell>From</TableHeaderCell>
-                        <TableHeaderCell>To</TableHeaderCell>
-                        <TableHeaderCell>Description</TableHeaderCell>
-                        <TableHeaderCell>Actions</TableHeaderCell>
+                        <TableHeaderCell width="16%">Title</TableHeaderCell>
+                        <TableHeaderCell width="16%">Username</TableHeaderCell>
+                        <TableHeaderCell width="16%">From</TableHeaderCell>
+                        <TableHeaderCell width="16%">To</TableHeaderCell>
+                        <TableHeaderCell width="16%">Description</TableHeaderCell>
+                        <TableHeaderCell width="16%">Actions</TableHeaderCell>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -70,7 +70,7 @@ const Review = () => {
                                 <TableBodyCell>{newLanguage}</TableBodyCell>
                                 <TableBodyCell>{description}</TableBodyCell>
                                 <TableBodyCell>
-                                    <StyledNavLink to={`/review/${id}`} text="Review" />
+                                    <StyledNavLink to={`/reviewer/review/${id}`} text="Review" />
                                 </TableBodyCell>
                             </TableRow>
                         ))}

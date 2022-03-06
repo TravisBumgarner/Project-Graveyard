@@ -160,10 +160,10 @@ const NewTable = ({ worksheets }: NewTableProps) => (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHeaderCell>Title</TableHeaderCell>
-                    <TableHeaderCell>From</TableHeaderCell>
-                    <TableHeaderCell>To</TableHeaderCell>
-                    <TableHeaderCell>Description</TableHeaderCell>
+                    <TableHeaderCell width="20%">Title</TableHeaderCell>
+                    <TableHeaderCell width="20%">From</TableHeaderCell>
+                    <TableHeaderCell width="20%">To</TableHeaderCell>
+                    <TableHeaderCell width="40%">Description</TableHeaderCell>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -192,10 +192,10 @@ const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHeaderCell>Title</TableHeaderCell>
-                    <TableHeaderCell>From</TableHeaderCell>
-                    <TableHeaderCell>To</TableHeaderCell>
-                    <TableHeaderCell>Description</TableHeaderCell>
+                    <TableHeaderCell width="20%">Title</TableHeaderCell>
+                    <TableHeaderCell width="20%">From</TableHeaderCell>
+                    <TableHeaderCell width="20%">To</TableHeaderCell>
+                    <TableHeaderCell width="40%">Description</TableHeaderCell>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -224,10 +224,10 @@ const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHeaderCell>Title</TableHeaderCell>
-                    <TableHeaderCell>From</TableHeaderCell>
-                    <TableHeaderCell>To</TableHeaderCell>
-                    <TableHeaderCell>Description</TableHeaderCell>
+                    <TableHeaderCell width="20%">Title</TableHeaderCell>
+                    <TableHeaderCell width="20%">From</TableHeaderCell>
+                    <TableHeaderCell width="20%">To</TableHeaderCell>
+                    <TableHeaderCell width="40%">Description</TableHeaderCell>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -269,7 +269,7 @@ const Worksheets = () => {
 
     return (
         <div>
-            <H2>Worksheets</H2>
+            <H2>User Dashboard</H2>
             <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
             <Modal
                 isOpen={showModal}

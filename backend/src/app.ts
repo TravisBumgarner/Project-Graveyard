@@ -33,7 +33,7 @@ app.use(authenticateToken)
 
 app.use('/graphql', graphqlHTTP((req: ModifiedExpressRequest) => ({
     schema,
-    graphiql: true,
+    graphiql: process.env.NODE_ENV !== 'production',
     context: { authenticatedUserId: req.authenticatedUserId },
 })))
 

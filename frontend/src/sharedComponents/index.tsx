@@ -6,8 +6,12 @@ import { H1, Button, Label } from '../App/components/StyleExploration'
 
 const LoadingWrapper = styled.div`
     width: 100vw;
+    position:fixed;
+    top: 0;
+    left: 0;
     height: 100vh;
     display: flex;
+    position: fixed;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -15,6 +19,7 @@ const LoadingWrapper = styled.div`
         transform: ${({ rotation }: { rotation: number }) => `rotate(${rotation}deg)`};
         width: 200px;
         height: 200px;
+        margin-bottom: 1em;
     }
 `
 
@@ -22,9 +27,11 @@ const Loading = () => {
     // const rotations = [0, 90, 180, 270]
     const [rotation, setRotation] = React.useState<number>(0)
     React.useEffect(() => {
-        setInterval(() => {
+        const rotationIntervalId = setInterval(() => {
             setRotation((prev) => prev + 1)
         }, 25)
+
+        return () => clearInterval(rotationIntervalId)
     }, [])
     return (
         <LoadingWrapper rotation={rotation}>
@@ -46,6 +53,7 @@ const AudioRecorderWrapper = styled.div`
 
         audio {
             flex-grow: 1;
+            margin-left: 1.5rem;
         }
 
         div {
@@ -76,7 +84,6 @@ const AudioRecorder = ({
     <AudioRecorderWrapper>
         <Label>Audio:</Label>
         <div>
-            <audio src={audioURL} controls />
             <div>
                 {isRecording ? (
                     <Button variation="secondary" onClick={stopRecording} disabled={!isRecording}>
@@ -88,6 +95,7 @@ const AudioRecorder = ({
                     </Button>
                 )}
             </div>
+            <audio src={audioURL} controls />
 
         </div>
     </AudioRecorderWrapper>

@@ -23,7 +23,7 @@ module.exports = {
         semi: ['error', 'never'],
         'import/extensions': ['off'],
         'react/jsx-filename-extension': ['off'],
-        'max-len': ['warn', { code: 140 }],
+        'max-len': ['warn', { code: 150 }],
         indent: ['error', 4, { SwitchCase: 1 }],
         'import/prefer-default-export': ['off'],
         'react/jsx-one-expression-per-line': ['off'],

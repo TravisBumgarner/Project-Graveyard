@@ -11,14 +11,11 @@ const Home = () => {
     return (
         <div>
             <H2>
-                Welcome,
-                {state.currentUser ? state.currentUser.phraseADay.username : 'learner'}
-                !
+                Welcome, {state.currentUser ? state.currentUser.phraseADay.username : 'learner'}!
             </H2>
             <H3>Heads Up!</H3>
             <Paragraph>
-                This application is currently in beta.
-                <ExternalLink href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</ExternalLink>
+                This application is currently in beta. <ExternalLink href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</ExternalLink> {/* eslint-disable-line */}
             </Paragraph>
 
             <H3>Student Instructions</H3>

@@ -1,12 +1,14 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 
 import { Loading } from 'sharedComponents'
+import moment from 'moment'
+import utilities from '../../../utilities'
 import {
-    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow
+    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, Paragraph, StyledNavLink, Button
 } from '../../StyleExploration'
-import { TStudentReview } from '../../../types'
+import { TStudentReview, TWorksheet } from '../../../types'
 
 const STUDENT_REVIEW = gql`
 query StudentReview($worksheetId: String!)
@@ -14,7 +16,8 @@ query StudentReview($worksheetId: String!)
     worksheet(worksheetId: $worksheetId){
         title,
         description,
-        id
+        id,
+        date
     }
     studentReview(worksheetId: $worksheetId){
         writtenFeedback,
@@ -31,34 +34,42 @@ const Review = () => {
     const { worksheetId } = useParams()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [review, setReview] = React.useState<TStudentReview[]>([])
-    // const { title, description, date } = state.worksheets[worksheetId]
-    useQuery<{ studentReview: TStudentReview[] }>(STUDENT_REVIEW, {
+    const [worksheet, setWorksheet] = React.useState<TWorksheet>()
+    const navigate = useNavigate()
+
+    useQuery<{ studentReview: TStudentReview[], worksheet: TWorksheet[] }>(STUDENT_REVIEW, {
         variables: {
             worksheetId,
         },
         onCompleted: (data) => {
             setReview(data.studentReview)
+            setWorksheet(data.worksheet[0])
             setIsLoading(false)
         },
+        onError: (error) => {
+            utilities.logger(error)
+            throw new Error('Something went wrong')
+        }
     })
-
     if (isLoading) return <Loading />
+
+    const { title, description, date } = worksheet
 
     return (
         <div>
-            {/* <H2>{title}</H2>
+            <H2><Button variation="primary" onClick={() => navigate(-1)}>Reviews</Button> {'>'} {title} Worksheet Review</H2>
             <Paragraph> Description: {description}</Paragraph>
-            <Paragraph> Date: {dateToString(moment(date))}</Paragraph> */}
+            <Paragraph> Date: {utilities.dateToString(moment(date))}</Paragraph>
             <Table>
                 <TableHeader>
                     <TableRow>
                         {/* <TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</TableHeaderCell>
                         <TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</TableHeaderCell> */}
-                        <TableHeaderCell scope="col">From</TableHeaderCell>
-                        <TableHeaderCell scope="col">To</TableHeaderCell>
-                        <TableHeaderCell scope="col">Recorded</TableHeaderCell>
-                        <TableHeaderCell>Written Feedback</TableHeaderCell>
-                        <TableHeaderCell>Oral Feedback</TableHeaderCell>
+                        <TableHeaderCell width="20%" scope="col">From</TableHeaderCell>
+                        <TableHeaderCell width="20%" scope="col">To</TableHeaderCell>
+                        <TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Recorded</TableHeaderCell>
+                        <TableHeaderCell width="30%">Written Feedback</TableHeaderCell>
+                        <TableHeaderCell style={{ textAlign: 'center' }} width="10%">Oral Feedback</TableHeaderCell>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

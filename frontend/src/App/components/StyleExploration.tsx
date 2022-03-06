@@ -9,8 +9,8 @@ const colorFactory = (color: string) => ({
     base: color,
     darkest: darken(0.25, color),
     darken: darken(0.10, color),
-    lighten: lighten(0.25, color),
-    lightest: lighten(0.1, color),
+    lighten: lighten(0.1, color),
+    lightest: lighten(0.25, color),
 })
 
 const PRIMARY = colorFactory('#57E2E5')
@@ -20,7 +20,7 @@ const ALERT = colorFactory('#E08DAC')
 const DISABLED = colorFactory('#aaaaaa')
 
 const H1 = styled.h1`
-    color: ${SECONDARY.base};
+    color: ${PRIMARY.base};
 `
 
 const H2 = styled.h2`
@@ -34,7 +34,7 @@ const StyledNavLink = ({ to, text }: { to: string, text: string }) => (
     <NavLink
         style={({ isActive }) => ({
             fontWeight: isActive ? 700 : 100,
-            color: TERTIARY.base,
+            color: TERTIARY.darken,
         })}
         to={to}
     >
@@ -294,6 +294,7 @@ const TableHeaderCell = styled.th`
     color: ${PRIMARY.darkest}; 
     padding: 10px;
     text-align: left;
+    width: ${({ width }: { width: string }) => width};
     
 `
 const TableBodyCell = styled.td`
@@ -333,10 +334,10 @@ const StyleExploration = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHeaderCell>Foo</TableHeaderCell>
-                        <TableHeaderCell>Bar</TableHeaderCell>
-                        <TableHeaderCell>Buzz</TableHeaderCell>
-                        <TableHeaderCell>Bazz</TableHeaderCell>
+                        <TableHeaderCell width="25%">Foo</TableHeaderCell>
+                        <TableHeaderCell width="25%">Bar</TableHeaderCell>
+                        <TableHeaderCell width="25%">Buzz</TableHeaderCell>
+                        <TableHeaderCell width="25%">Bazz</TableHeaderCell>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

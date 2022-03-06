@@ -72,14 +72,12 @@ const Login = () => {
             <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>
             <div>
                 <Paragraph>
-                    Forgot your password?
-                    <StyledNavLink to="/forgottenpassword" text="Reset It!!" />
+                    Forgot your password? <StyledNavLink to="/forgottenpassword" text="Reset It!!" />
                 </Paragraph>
             </div>
             <div>
                 <Paragraph>
-                    Need an account?
-                    <StyledNavLink to="/signup" text="Sign Up!" />
+                    Need an account? <StyledNavLink to="/signup" text="Sign Up!" />
                 </Paragraph>
             </div>
         </div>

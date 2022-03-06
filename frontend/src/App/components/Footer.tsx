@@ -13,8 +13,7 @@ const FooterWrapper = styled.div`
 const Footer = () => (
     <FooterWrapper>
         <Paragraph>
-            This application is currently in beta.
-            <ExternalLink href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</ExternalLink>
+            This application is currently in beta. <ExternalLink href="https://forms.gle/H16iith5PhytP5D9A">Please leave feedback!</ExternalLink>  {/* eslint-disable-line */}
         </Paragraph>
     </FooterWrapper>
 )

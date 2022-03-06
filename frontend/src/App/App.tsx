@@ -34,9 +34,9 @@ import {
     AlertMessage,
 } from './components'
 import { Worksheet } from './components/StudentDashboard/components'
+import Review from './components/StudentDashboard/components/Review'
 import { TPhraseADayUser } from './types'
 import { auth } from '../firebase'
-import Review from './components/StudentDashboard/components/Review'
 
 const App = () => {
     const { state } = React.useContext(context)

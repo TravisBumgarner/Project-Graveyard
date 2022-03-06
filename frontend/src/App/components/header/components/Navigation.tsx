@@ -2,14 +2,18 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { context } from '../..'
-import { StyledNavLink } from '../../StyleExploration'
+import { Button, PRIMARY, StyledNavLink } from '../../StyleExploration'
 
 const StyledNav = styled.ul`
+    position: absolute;
+    width: 240px;
+    border-radius: 1rem;
+    right: 0;
+    display: ${({ showNav }: { showNav: boolean }) => (showNav ? 'block' : 'none')};
     list-style: none;
     flex-direction: row;
-    display: flex;
-    padding: 0;
-
+    padding: 0.5rem;
+    background-color: ${PRIMARY.lightest};
     li {
         padding: 10px;
     }
@@ -33,20 +37,22 @@ const LOGGED_OUT_VISIBLE_LINKS = [
 
 const Navigation = () => {
     const { state } = React.useContext(context)
-
+    const [showNav, setShowNav] = React.useState<boolean>(false)
     const links = [
         ...ALWAYS_VISIBLE_LINKS,
         ...(state.currentUser ? LOGGED_IN_VISIBLE_LINKS : LOGGED_OUT_VISIBLE_LINKS),
     ]
-
     return (
-        <StyledNav>
-            {links.map(({ text, to }) => (
-                <li key={to}>
-                    <StyledNavLink to={to} text={text} />
-                </li>
-            ))}
-        </StyledNav>
+        <div style={{ position: 'relative' }}>
+            <Button variation="primary" onClick={() => setShowNav(!showNav)}>Menu</Button>
+            <StyledNav showNav={showNav}>
+                {links.map(({ text, to }) => (
+                    <li key={to} onClick={() => setShowNav(false)}> {/* eslint-disable-line */}
+                        <StyledNavLink to={to} text={text} />
+                    </li>
+                ))}
+            </StyledNav>
+        </div>
     )
 }
 export default Navigation

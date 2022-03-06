@@ -32,7 +32,7 @@ module.exports = {
     rules: {
         semi: ['error', 'never'],
         'import/extensions': ['off'],
-        'max-len': ['warn', { code: 140 }],
+        'max-len': ['warn', { code: 150 }],
         indent: ['error', 4, { SwitchCase: 1 }],
         'import/prefer-default-export': ['off'],
         'import/no-unresolved': ['off'],

@@ -10,7 +10,6 @@ const Img = styled.img`
     width: 75px;
     height: 75px;
     margin-right: 1em;
-    margin-left: 1em;
     box-sizing: border-box;
 `
 
