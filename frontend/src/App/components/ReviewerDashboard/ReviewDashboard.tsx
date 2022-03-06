@@ -2,11 +2,11 @@ import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import { Loading } from 'sharedComponents'
 
-import { context } from '.'
-import { TPhraseADayUser, TWorksheet } from '../types'
+import { context } from '..'
+import { TPhraseADayUser, TWorksheet } from '../../types'
 import {
     Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, StyledNavLink,
-} from './StyleExploration'
+} from '../StyleExploration'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {

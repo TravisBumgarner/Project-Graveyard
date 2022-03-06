@@ -5,17 +5,18 @@ import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router'
 
 import { Loading } from 'sharedComponents'
-import { context } from '.'
-import { TPhraseADayUser, TWorksheet, TWorksheetEntry } from '../types'
-import utilities from '../utilities'
-import { useRecorder } from '../hooks'
+import {
+    TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
+} from '../../../types'
+import utilities from '../../../utilities'
+import { useRecorder } from '../../../hooks'
 import {
     Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
-} from './StyleExploration'
+} from '../../StyleExploration'
 
-const GET_WORKSHEET = gql`
-query GetWorksheets {
-  worksheet {
+const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
+query GetWorksheets($worksheetId: String) {
+  worksheet(worksheetId: $worksheetId) {
     title,
     id,
     description,
@@ -28,23 +29,38 @@ query GetWorksheets {
       username
     }
   }
+  worksheetEntries(worksheetId: $worksheetId) {
+   id,
+   knownLanguageText,
+   newLanguageText,
+   audioUrl, 
+  }
+
 }
 `
 
 const ADD_REVIEW = gql`
 mutation AddReview (
-    $id: String!
+    $reviewId: String!
     $worksheetId: String!
     $date: String!
     $reviewEntries: [ReviewEntry]
+    $status: String!
   ) {
     addReview(
-        id: $id,
+        id: $reviewId,
         worksheetId: $worksheetId,
         date: $date,
         reviewEntries: $reviewEntries
         ){
       id,
+    }
+    editWorksheet(
+        id: $worksheetId,
+        status: $status,
+    ){
+      id,
+      status
     }
 }
 `
@@ -61,6 +77,7 @@ const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: W
     React.useEffect(() => {
         dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
     }, [audioURL])
+
     return (
         <TableRow key={id}>
             <TableBodyCell>{knownLanguageText}</TableBodyCell>
@@ -68,7 +85,7 @@ const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: W
             <TableBodyCell><audio controls src={worksheetEntry.audioUrl} /></TableBodyCell>
             <TableBodyCell>
                 <Input
-                    value={reviewState[worksheetEntry.id].writtenFeedback}
+                    value={reviewState[id].writtenFeedback}
                     onChange={(event) => {
                         dispatchReview({
                             type: 'WRITTEN_FEEDBACK_ACTION',
@@ -97,6 +114,11 @@ const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: W
 
 type State = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
+type InitialStateAction = {
+    type: 'INITIAL_STATE_ACTION',
+    data: Record<string, { oralFeedback: string, writtenFeedback: string }>
+}
+
 type OralFeedbackAction = {
     type: 'ORAL_FEEDBACK_ACTION',
     data: {
@@ -113,59 +135,68 @@ type WrittenFeedbackAction = {
     }
 }
 
-const reviewReducer = (state: State, action: OralFeedbackAction | WrittenFeedbackAction): State => {
-    const { worksheetEntryId } = action.data
+const reviewReducer = (state: State, action: OralFeedbackAction | WrittenFeedbackAction | InitialStateAction): State => {
     switch (action.type) {
+        case 'INITIAL_STATE_ACTION':
+            return { ...action.data }
         case 'ORAL_FEEDBACK_ACTION': {
+            const { worksheetEntryId } = action.data
             const { oralFeedback } = action.data
             return { ...state, [worksheetEntryId]: { ...state[worksheetEntryId], oralFeedback } }
         }
         case 'WRITTEN_FEEDBACK_ACTION': {
+            const { worksheetEntryId } = action.data
             const { writtenFeedback } = action.data
             return { ...state, [worksheetEntryId]: { ...state[worksheetEntryId], writtenFeedback } }
         }
     }
 }
 
+const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEntries.reduce((accum, { id }) => {
+    accum[id] = { // eslint-disable-line
+        writtenFeedback: '',
+        oralFeedback: '',
+    }
+    return accum
+}, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
+
 const ReviewWorksheet = () => {
     const { worksheetId } = useParams()
-    const { state } = React.useContext(context)
-    const filteredWorksheetEntries = Object.values(state.worksheetEntries).filter((entry) => entry.worksheetId === worksheetId)
     const [worksheet, setWorksheet] = React.useState<TWorksheet & { user: TPhraseADayUser }>()
+    const [worksheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEET, {
+    const [reviewState, dispatchReview] = React.useReducer(reviewReducer, {})
+
+    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
             worksheetId,
         },
         onCompleted: (data) => {
             setWorksheet(data.worksheet[0])
+            setWorksheetEntries(data.worksheetEntries)
+            dispatchReview({ type: 'INITIAL_STATE_ACTION', data: generateReviewState(data.worksheetEntries) })
             setIsLoading(false)
         },
     })
+    const [addReview] = useMutation<any>(ADD_REVIEW)
 
     if (isLoading) return <Loading />
+
     const {
         title, description, knownLanguage, newLanguage, date, user: { username },
     } = worksheet
 
-    const [reviewState, dispatchReview] = React.useReducer(reviewReducer, filteredWorksheetEntries.reduce((accum, { id }) => {
-        accum[id] = { // eslint-disable-line
-            writtenFeedback: '',
-            oralFeedback: '',
-        }
-        return accum
-    }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>))
-    const [addReview] = useMutation<any>(ADD_REVIEW)
     const handleSubmit = async () => {
         const variables = {
             date: moment(),
-            id: uuidv4(),
+            reviewId: uuidv4(),
             worksheetId,
             reviewEntries: Object.keys(reviewState).map((worksheetEntryId) => ({
                 id: uuidv4(),
                 worksheetEntryId,
                 ...reviewState[worksheetEntryId],
             })),
+            status: TWorksheetStatus.HAS_REVIEWS
         }
         await addReview({
             variables,
@@ -173,7 +204,7 @@ const ReviewWorksheet = () => {
     }
     return (
         <div>
-            <div style={{ border: '1px solid black', padding: '10px' }}>
+            <div>
                 <H2>{title}</H2>
                 <Paragraph>
                     {' '}
@@ -201,16 +232,17 @@ const ReviewWorksheet = () => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell scope="col">{worksheet.knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell scope="col">{worksheet.newLanguage}</TableHeaderCell>
-                            <TableHeaderCell scope="col">Recorded</TableHeaderCell>
-                            <TableHeaderCell scope="col">Written Feedback</TableHeaderCell>
-                            <TableHeaderCell scope="col">Oral Feedback</TableHeaderCell>
+                            <TableHeaderCell width="5%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
+                            <TableHeaderCell width="5%" scope="col">{worksheet.newLanguage}</TableHeaderCell>
+                            <TableHeaderCell style={{ textAlign: 'center' }} width="5%" scope="col">Recorded</TableHeaderCell>
+                            <TableHeaderCell width="5%" scope="col">Written Feedback</TableHeaderCell>
+                            <TableHeaderCell style={{ textAlign: 'center' }} width="5%" scope="col">Oral Feedback</TableHeaderCell>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredWorksheetEntries.map((worksheetEntry) => (
+                        {worksheetEntries.map((worksheetEntry) => (
                             <WorksheetReviewEntry
+                                key={worksheetEntry.id}
                                 reviewState={reviewState}
                                 dispatchReview={dispatchReview}
                                 worksheetEntry={worksheetEntry}

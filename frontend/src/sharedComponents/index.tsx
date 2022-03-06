@@ -16,7 +16,6 @@ const LoadingWrapper = styled.div`
     justify-content: center;
     flex-direction: column;
     img {
-        transform: ${({ rotation }: { rotation: number }) => `rotate(${rotation}deg)`};
         width: 200px;
         height: 200px;
         margin-bottom: 1em;
@@ -34,8 +33,8 @@ const Loading = () => {
         return () => clearInterval(rotationIntervalId)
     }, [])
     return (
-        <LoadingWrapper rotation={rotation}>
-            <img alt="logo" src={logo} />
+        <LoadingWrapper>
+            <img style={{ transform: `rotate(${rotation}deg)` }} alt="logo" src={logo} />
             <H1>One moment please!</H1>
         </LoadingWrapper>
     )

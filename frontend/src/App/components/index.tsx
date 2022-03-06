@@ -11,8 +11,7 @@ import ForgottenPassword from './ForgottenPassword'
 import ConditionalRoute from './ConditionalRoute'
 import Profile from './Profile'
 import StyleExploration from './StyleExploration'
-import ReviewDashboard from './ReviewDashboard'
-import ReviewWorksheet from './ReviewWorksheet'
+import ReviewDashboard from './ReviewerDashboard/ReviewDashboard'
 import Error from './Error'
 import AlertMessage from './AlertMessage'
 
@@ -32,7 +31,6 @@ export {
     Profile,
     StyleExploration,
     Error,
-    ReviewWorksheet,
     AlertMessage,
     ReviewDashboard
 }
