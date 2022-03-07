@@ -11,11 +11,9 @@ gcloud config set project   worksheets-9b1ad
 
 ### Backend
 
-gcloud run services update backend --add-cloudsql-instances=worksheets-9b1ad:us-central1:worksheets
+gcloud run services update backend --add-cloudsql-instances=us-central1:phreaseaday-staging
 
-##### Migrations
 
-- Make sure that IP address is listed under Connections -> Authorized Networks in GCP Cloud SQP
 
 ### Frontend
 
@@ -41,4 +39,14 @@ Very helpful for setting up cloud functions with cloud sql:
 https://cloud.google.com/sql/docs/postgres/connect-functions
 
 Will need SQL Auth Proxy running to use 
-./cloud_sql_proxy -instances=core-incentive-342219:us-central1:myinstance=tcp:0.0.0.0:1234
+./cloud_sql_proxy -instances=phraseaday-staging:us-central1:phreaseaday-staging=tcp:0.0.0.0:1234
+
+
+# Adding a Cloud SQL Database
+
+1. Select GCP Project 
+2. Create Database
+3. Add Database in Cloud Run 
+    - It'll give a popup for Cloud SQL Admin to enable that, do it
+
+Notes, might need to figure out how to get NODE_ENV into dockerfile because of sd:be

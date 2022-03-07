@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "worksheets-9b1ad"
-  }
+    "default": "worksheets-9b1ad",
+    "production": "phraseaday-production",
+    "staging": "phraseaday-staging"
+  },
+  "targets": {}
 }

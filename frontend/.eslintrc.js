@@ -42,6 +42,7 @@ module.exports = {
         'no-undef': ['off'], // ts does it better
         'default-case': ['off'], // ts does it better
         'no-spaced-func': ['off'],
-        'func-call-spacing': ['off']
+        'func-call-spacing': ['off'],
+        'import/no-extraneous-dependencies': ['off']
     },
 }

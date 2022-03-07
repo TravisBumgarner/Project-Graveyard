@@ -1,15 +1,12 @@
 # Today
 
-- [x] Set config of apollo, etc. for prod
-- [x] Make sure that sentry is actually logging
 - [ ] Full styling cleanup
-    - [ ] Make navigation a dropdown at small screens
-    - [ ] Clean up all console errors
-    - [ ] Get rid of children in list with key 
+    - [x] Make navigation a dropdown at small screens
+    - [x] Clean up all console errors
+    - [x] Get rid of children in list with key 
     - [ ] standardize styling
     - [ ] Click everything
     - [ ] Get rid of style exploration, or at least hide route
-- [ ] ~~Add edit for WorksheetEntry~~
 - [x] add the idea of users
     - [ ] Only be able to edit your own work
     - [x] Need some way for students to share with teachers
@@ -19,15 +16,23 @@
 - [ ] Firebase for production
     - [ ] Create a new project
         - [ ] Remove localhost
+- [ ] Cleanup local envs
+- [ ] Delete worksheets in firebase
+- [ ] Update login emails, run through login, reset, signup flow
+- [ ] figure a better way to handle service keys
 # Post MVP
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
 - [ ] Figure out modifying the express.Request type
 - [ ] Include reference to icons
-
+- [ ] Analytics
 
 # Done
 
+- [x] Setup domain
+- [x] Set config of apollo, etc. for prod
+- [x] ~~Add edit for WorksheetEntry~~
+- [x] Make sure that sentry is actually logging
 - [x] create a style
 - [x] Remove uneeded code
 - [x] Add more fields for worksheet

@@ -5,6 +5,6 @@ node_modules/
 .DS_Store
 db.sqlite
 public/
-serviceAccountKey.json
+serviceAccountKey-*.json
 postgres-data/
 build/

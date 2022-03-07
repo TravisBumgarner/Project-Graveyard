@@ -2,8 +2,18 @@ import admin, { ServiceAccount } from 'firebase-admin'
 import { getConnection } from 'typeorm'
 
 import { logger } from '../utilities'
-import serviceAccount from './serviceAccountKey.json'
+import serviceAccountProduction from './serviceAccountKey-production.json'
+import serviceAccountStaging from './serviceAccountKey-staging.json'
 import { entity } from '../db'
+
+let serviceAccount
+if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'staging') {
+    serviceAccount = serviceAccountStaging
+} else if (process.env.NODE_ENV) {
+    serviceAccount = serviceAccountProduction
+} else {
+    throw new Error('invalid serviceAccount provided')
+}
 
 const getUserIdFromFirebaseId = async (firebaseId: string) => {
     const data = await getConnection()
