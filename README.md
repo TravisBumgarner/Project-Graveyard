@@ -50,3 +50,17 @@ Will need SQL Auth Proxy running to use
     - It'll give a popup for Cloud SQL Admin to enable that, do it
 
 Notes, might need to figure out how to get NODE_ENV into dockerfile because of sd:be
+
+
+# Initial DB Setup
+
+1. Run cloud_sql to connect to db.
+2. Use  Postico to login to DB
+3. Add postgres `phraseaday`
+4. Now you can run migrations against database from local with env vars in `.env.gcp-proxy-migrations`
+
+# DB Migrations
+
+1. Run cloud_sql to connect to db
+2. Update username/password in `.env.gcp-proxy-migrations` for either staging or prod
+3. `export NODE_ENV=gcp-proxy-migrations && npm run migration:run`

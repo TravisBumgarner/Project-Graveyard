@@ -14,9 +14,13 @@ const StyledNav = styled.ul`
     flex-direction: row;
     padding: 0.5rem;
     background-color: ${PRIMARY.lightest};
+    border: 2px solid rgb(87, 226, 229);
+    margin: 0.5rem;
+
     li {
         padding: 10px;
     }
+}
 `
 
 const ALWAYS_VISIBLE_LINKS = [
@@ -42,6 +46,16 @@ const Navigation = () => {
         ...ALWAYS_VISIBLE_LINKS,
         ...(state.currentUser ? LOGGED_IN_VISIBLE_LINKS : LOGGED_OUT_VISIBLE_LINKS),
     ]
+
+    const handleClose = () => setShowNav(false)
+
+    React.useEffect(() => {
+        if (showNav) {
+            window.addEventListener('click', handleClose)
+        }
+        return () => window.removeEventListener('click', handleClose)
+    }, [showNav])
+
     return (
         <div style={{ position: 'relative' }}>
             <Button variation="primary" onClick={() => setShowNav(!showNav)}>Menu</Button>

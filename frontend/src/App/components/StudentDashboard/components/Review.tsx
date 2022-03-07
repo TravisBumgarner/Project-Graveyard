@@ -6,7 +6,7 @@ import { Loading } from 'sharedComponents'
 import moment from 'moment'
 import utilities from '../../../utilities'
 import {
-    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, Paragraph, StyledNavLink, Button
+    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, Paragraph, Button
 } from '../../StyleExploration'
 import { TStudentReview, TWorksheet } from '../../../types'
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-import Modal from 'react-modal'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -16,6 +15,7 @@ import {
     H3,
     StyledNavLink,
     Button,
+    Modal,
     LabelAndInput,
 } from '../StyleExploration'
 import { context } from '..'
@@ -129,19 +129,19 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
 
                 <div>
                     <LabelAndInput
-                        label="From Language"
-                        name="knowLanguage"
-                        value={knownLanguage}
-                        handleChange={(data) => setknownLanguage(data)}
+                        label="Language you're learning:"
+                        name="newLanguage"
+                        value={newLanguage}
+                        handleChange={(data) => setnewLanguage(data)}
                     />
                 </div>
 
                 <div>
                     <LabelAndInput
-                        label="To Language"
-                        name="newLanguage"
-                        value={newLanguage}
-                        handleChange={(data) => setnewLanguage(data)}
+                        label="Language your'e starting from:"
+                        name="knowLanguage"
+                        value={knownLanguage}
+                        handleChange={(data) => setknownLanguage(data)}
                     />
                 </div>
                 <Button variation="secondary" onClick={handleSubmit}>Submit</Button>
@@ -272,8 +272,8 @@ const Worksheets = () => {
             <H2>User Dashboard</H2>
             <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
             <Modal
-                isOpen={showModal}
-                onRequestClose={() => setShowModal(false)}
+                showModal={showModal}
+                closeModal={() => setShowModal(false)}
                 contentLabel="Add Worksheet"
             >
                 <AddWorksheetModal setWorksheets={setWorksheets} closeModal={() => setShowModal(false)} />

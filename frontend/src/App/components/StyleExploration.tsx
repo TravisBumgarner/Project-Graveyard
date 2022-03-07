@@ -18,6 +18,7 @@ const SECONDARY = colorFactory('#6A7FDB')
 const TERTIARY = colorFactory('#45CB85')
 const ALERT = colorFactory('#E08DAC')
 const DISABLED = colorFactory('#aaaaaa')
+const DARKNESS = colorFactory('#242424')
 
 const H1 = styled.h1`
     color: ${PRIMARY.base};
@@ -73,6 +74,10 @@ const Button = styled.button`
     background-color: transparent;
     font-weight: 700;
     margin: 0.5rem;
+
+    &:hover {
+    cursor: pointer;
+    }
 
     ${({ variation, disabled }: { variation: 'primary' | 'secondary' | 'tertiary' | 'alert' | 'disabled', disabled?: boolean }) => {
         if (disabled) {
@@ -135,11 +140,6 @@ const Button = styled.button`
             `
         }
     }}
-
-    &:hover {
-    cursor: pointer;
-}
-
 `
 
 const Paragraph = styled.p`
@@ -241,10 +241,12 @@ const Modal = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                backgroundColor: DARKNESS.lighten
             },
             content: {
                 borderColor: PRIMARY.base,
                 borderRadius: '1.5em',
+                backgroundColor: DARKNESS.base
             },
         }}
     >
@@ -426,4 +428,6 @@ export {
     TERTIARY,
     ALERT,
     Label,
+    Modal,
+    DARKNESS
 }

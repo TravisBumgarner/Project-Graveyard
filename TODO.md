@@ -1,4 +1,7 @@
-# Today
+# Before first review with French teacher
+
+- [ ] Record sentences
+ # After First Review with French teacher
 
 - [ ] Full styling cleanup
     - [x] Make navigation a dropdown at small screens
@@ -7,19 +10,12 @@
     - [ ] standardize styling
     - [ ] Click everything
     - [ ] Get rid of style exploration, or at least hide route
-- [x] add the idea of users
-    - [ ] Only be able to edit your own work
-    - [x] Need some way for students to share with teachers
-    - [x] Need way for teachers to give feedback
-    - [ ] Setup a new auth for production for Firebase auth so that it doesn't clash with development
-- [ ] Setup way to deploy infra as code for GCP
-- [ ] Firebase for production
-    - [ ] Create a new project
-        - [ ] Remove localhost
-- [ ] Cleanup local envs
-- [ ] Delete worksheets in firebase
+- [ ] Only be able to edit your own work
 - [ ] Update login emails, run through login, reset, signup flow
 - [ ] figure a better way to handle service keys
+- [ ] noImplicitAny issue
+- [ ] Rework audio recorder to be more intuitive
+    - [ ] add progress tracker and such
 # Post MVP
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
@@ -29,6 +25,16 @@
 
 # Done
 
+- [x] Delete worksheets in firebase
+- [x] add the idea of users
+    - [x] Need some way for students to share with teachers
+    - [x] Need way for teachers to give feedback
+    - [x] Setup a new auth for production for Firebase auth so that it doesn't clash with development
+- [ ] ~~Setup way to deploy infra as code for GCP~~
+- [x] Firebase for production
+    - [x] Create a new project
+        - [x] Remove localhost
+- [x] Cleanup local envs
 - [x] Setup domain
 - [x] Set config of apollo, etc. for prod
 - [x] ~~Add edit for WorksheetEntry~~

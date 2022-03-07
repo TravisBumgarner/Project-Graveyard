@@ -62,25 +62,19 @@ const Singup = () => {
     return (
         <div>
             <H2>Sign Up</H2>
-            <div>
+            <form>
                 <LabelAndInput
                     label="Username"
                     name="username"
                     value={username}
                     handleChange={(data) => setUsername(data)}
                 />
-            </div>
-
-            <div>
                 <LabelAndInput
                     label="Email"
                     name="email"
                     value={email}
                     handleChange={(data) => setEmail(data)}
                 />
-            </div>
-
-            <div>
                 <LabelAndInput
                     label="Password"
                     type="password"
@@ -88,9 +82,6 @@ const Singup = () => {
                     value={password}
                     handleChange={(data) => setPassword(data)}
                 />
-            </div>
-
-            <div>
                 <LabelAndInput
                     type="password"
                     label="Confirm Password"
@@ -98,15 +89,11 @@ const Singup = () => {
                     value={passwordConfirmation}
                     handleChange={(data) => setPasswordConfirmation(data)}
                 />
-            </div>
-
-            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Sign Up</Button>
-            <div>
-                <Paragraph>
-                    Already signed up?
-                    <StyledNavLink to="/login" text="Log In!" />
-                </Paragraph>
-            </div>
+                <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Sign Up</Button>
+            </form>
+            <Paragraph>
+                Already signed up? <StyledNavLink to="/login" text="Log In!" />
+            </Paragraph>
         </div>
     )
 }

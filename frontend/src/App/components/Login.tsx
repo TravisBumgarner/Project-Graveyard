@@ -53,16 +53,13 @@ const Login = () => {
     return (
         <div>
             <H2>Log In</H2>
-            <div>
+            <form>
                 <LabelAndInput
                     label="Email"
                     name="email"
                     value={email}
                     handleChange={(data) => setEmail(data)}
                 />
-            </div>
-
-            <div>
                 <LabelAndInput
                     type="password"
                     label="Password"
@@ -70,9 +67,8 @@ const Login = () => {
                     value={password}
                     handleChange={(data) => setPassword(data)}
                 />
-            </div>
-
-            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>
+                <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Log In</Button>
+            </form>
             <div>
                 <Paragraph>
                     Forgot your password? <StyledNavLink to="/forgottenpassword" text="Reset It!!" />

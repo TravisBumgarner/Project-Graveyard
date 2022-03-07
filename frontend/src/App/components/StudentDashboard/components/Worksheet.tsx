@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-import Modal from 'react-modal'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
@@ -11,7 +10,17 @@ import utilities from '../../../utilities'
 import { context } from '../../Context'
 import { useRecorder } from '../../../hooks'
 import {
-    Button, H2, LabelAndInput, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
+    Modal,
+    Button,
+    H2,
+    LabelAndInput,
+    Paragraph,
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableHeader,
+    TableHeaderCell,
+    TableRow,
 } from '../../StyleExploration'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
@@ -292,8 +301,8 @@ const Worksheet = () => {
             </div>
             <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal
-                isOpen={showModal}
-                onRequestClose={() => setShowModal(false)}
+                showModal={showModal}
+                closeModal={() => setShowModal(false)}
                 contentLabel="Add Worksheet Entry"
             >
                 <AddWorksheetEntryModal

@@ -1,5 +1,3 @@
 import ReviewDashboard from './ReviewDashboard'
 
-export default {
-    ReviewDashboard
-}
+export default ReviewDashboard

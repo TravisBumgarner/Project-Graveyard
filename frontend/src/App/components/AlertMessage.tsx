@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
-    Paragraph, Button, ALERT, SECONDARY
+    Paragraph, Button, SECONDARY
 } from './StyleExploration'
 import { context } from './Context'
 

@@ -1,10 +1,9 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
-import Modal from 'react-modal'
 
 import { context } from '.'
 import {
-    LabelAndInput, Button, H2, Paragraph,
+    LabelAndInput, Button, H2, Paragraph, Modal
 } from '../components/StyleExploration'
 
 type EditProfileProps = {
@@ -97,8 +96,8 @@ const Profile = () => {
             </div>
             <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
             <Modal
-                isOpen={showModal}
-                onRequestClose={() => setShowModal(false)}
+                showModal={showModal}
+                closeModal={() => setShowModal(false)}
                 contentLabel="Edit Profile"
             >
                 <EditProfile closeModal={() => setShowModal(false)} />

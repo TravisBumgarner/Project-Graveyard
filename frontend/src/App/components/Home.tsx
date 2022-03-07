@@ -21,18 +21,17 @@ const Home = () => {
             <H3>Student Instructions</H3>
             <OrderedList>
                 <ListItem>Create an account and log in.</ListItem>
-                <ListItem>Navigate to User Dashboard</ListItem>
-                <ListItem>Create a Worksheet with a title, description, the language you know, and the language you are learning.</ListItem>
-                <ListItem>Click on View</ListItem>
+                <ListItem>Navigate to the Student Dashboard.</ListItem>
+                <ListItem>Create a worksheet and open it</ListItem>
                 <ListItem>Begin adding written and recorded entires.</ListItem>
-                <ListItem>When ready submit for your teacher</ListItem>
+                <ListItem>When ready, submit for review!</ListItem>
 
             </OrderedList>
 
-            <H3>Teacher Instructions</H3>
+            <H3>Reviewer Instructions</H3>
             <OrderedList>
                 <ListItem>Create an account and log in.</ListItem>
-                <ListItem>Navigate to Review Dashboard</ListItem>
+                <ListItem>Navigate to the Review Dashboard</ListItem>
                 <ListItem>Find a worksheet to review and give it a review!</ListItem>
             </OrderedList>
 

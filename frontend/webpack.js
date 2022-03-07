@@ -13,7 +13,7 @@ const PLUGIN_VARS = {
         __FIREBASE_CONFIG__: "'staging'"
     },
     production: {
-        __API_ENDPOINT__: "'http://localhost:5001'",
+        __API_ENDPOINT__: "' https://backend-sj2er5ckba-uc.a.run.app/'",
         __FIREBASE_CONFIG__: "'production'"
     }
 }
