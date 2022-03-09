@@ -10,6 +10,13 @@ import {
     Button, H2, LabelAndInput, Paragraph, StyledNavLink,
 } from './StyleExploration'
 
+const userFriendlyError = (code: string) => {
+    const errorLookups: Record<string, string> = {
+    }
+
+    return errorLookups[code] || 'Unknown error occurred'
+}
+
 const Singup = () => {
     const { dispatch } = React.useContext(context)
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -49,7 +56,7 @@ const Singup = () => {
             dispatch({
                 type: 'ADD_MESSAGE',
                 data: {
-                    message: `Failed to create account: ${error.message}`,
+                    message: `Failed to sign up: ${userFriendlyError(error.code)}`
                 },
             })
         } finally {

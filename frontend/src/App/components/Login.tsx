@@ -11,6 +11,15 @@ import {
     H2, Button, LabelAndInput, Paragraph, StyledNavLink,
 } from './StyleExploration'
 
+const userFriendlyError = (code: string) => {
+    const errorLookups: Record<string, string> = {
+        'auth/user-not-found': 'User not found',
+        'auth/wrong-password': 'Wrong password',
+    }
+
+    return errorLookups[code] || 'Unknown error occurred'
+}
+
 const Login = () => {
     const { dispatch } = React.useContext(context)
     const navigate = useNavigate()
@@ -41,8 +50,8 @@ const Login = () => {
             dispatch({
                 type: 'ADD_MESSAGE',
                 data: {
-                    message: `Failed to login: ${error.message}`,
-                },
+                    message: `Failed to log in: ${userFriendlyError(error.code)}`
+                }
             })
             setIsLoading(false)
         }

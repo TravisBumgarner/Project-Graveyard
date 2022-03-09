@@ -293,6 +293,7 @@ const Worksheets = () => {
     const [worksheets, setWorksheets] = React.useState<Record<string, TWorksheet>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEETS, {
+        fetchPolicy: 'no-cache',
         onCompleted: (data) => {
             const newWorksheets: Record<string, TWorksheet> = {}
             data.worksheet.forEach((worksheet) => { newWorksheets[worksheet.id] = worksheet })
@@ -308,7 +309,7 @@ const Worksheets = () => {
 
     return (
         <div>
-            <H2>User Dashboard</H2>
+            <H2>Student Dashboard</H2>
             <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
             <Modal
                 showModal={showModal}

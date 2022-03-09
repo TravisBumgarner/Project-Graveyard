@@ -200,7 +200,7 @@ const LabelAndInput = ({
 }: LabelAndInputProps) => (
     <LabelAndInputWrapper>
         <Label htmlFor={name}>{label}</Label>
-        <Input type={type || 'text'} name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
+        <Input autoComplete="on" type={type || 'text'} name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
     </LabelAndInputWrapper>
 )
 
