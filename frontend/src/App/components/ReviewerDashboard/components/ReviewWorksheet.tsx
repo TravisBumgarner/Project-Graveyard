@@ -13,6 +13,7 @@ import { useRecorder } from '../../../hooks'
 import {
     Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
 } from '../../StyleExploration'
+import { context } from '../../Context'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -161,6 +162,7 @@ const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEn
 }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
 
 const ReviewWorksheet = () => {
+    const { dispatch } = React.useContext(context)
     const { worksheetId } = useParams()
     const [worksheet, setWorksheet] = React.useState<TWorksheet & { user: TPhraseADayUser }>()
     const [worksheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>([])
@@ -187,6 +189,8 @@ const ReviewWorksheet = () => {
     } = worksheet
 
     const handleSubmit = async () => {
+        setIsLoading(true)
+
         const variables = {
             date: moment(),
             reviewId: uuidv4(),
@@ -198,10 +202,17 @@ const ReviewWorksheet = () => {
             })),
             status: TWorksheetStatus.HAS_REVIEWS
         }
-        await addReview({
+        const response = await addReview({
             variables,
         })
+
+        if (response.data.addReview === null) {
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit review', timeToLiveMS: 5000 } })
+        }
+
+        setIsLoading(false)
     }
+
     return (
         <div>
             <div>
@@ -251,7 +262,7 @@ const ReviewWorksheet = () => {
                     </TableBody>
                 </Table>
             </div>
-            <Button variation="primary" onClick={handleSubmit}>Submit Feedback</Button>
+            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Submit Feedback</Button>
         </div>
     )
 }

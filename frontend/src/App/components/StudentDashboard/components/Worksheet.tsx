@@ -132,15 +132,20 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
             worksheetId: worksheet.id,
             audioUrl: base64Audio as string,
         }
-        await addWorksheetEntry({
+        const response = await addWorksheetEntry({
             variables: newWorksheetEntry,
         })
-        setWorksheetEntries((prev) => ([...prev, newWorksheetEntry]))
-        setKnownLanguageText('')
-        setNewLanguageText('')
-        clearAudioUrl()
+
+        if (response.data.addWorksheetEntry === null) {
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit worksheet entry', timeToLiveMS: 5000 } })
+        } else {
+            setWorksheetEntries((prev) => ([...prev, newWorksheetEntry]))
+            setKnownLanguageText('')
+            setNewLanguageText('')
+            clearAudioUrl()
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
+        }
         setIsLoading(false)
-        dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
     }
     const handleCancel = () => {
         closeModal()

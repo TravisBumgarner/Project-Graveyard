@@ -1,6 +1,13 @@
 # Before first review with French teacher
 
-- [ ] Record sentences
+- [x] Record sentences
+- [ ] For each call to mutation, check if response is id (or some other value) or null. And handle accordingly
+- [x] Double submit Worksheet creation bug
+- [ ] Give way to delete new worksheets
+- [ ] After filling out an assignment and submitting it, the new phrases don't show in the pending review section
+- [x] Throw error if response from graphql is null
+- [x] Display date after worksheet submitted. Add column for date created, date submitted, etc.
+- [ ] Set up better error handling for vague error mesages from firebase
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

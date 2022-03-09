@@ -56,13 +56,7 @@ mutation AddWorksheet (
         knownLanguage: $knownLanguage,
         newLanguage: $newLanguage,
         status: "${TWorksheetStatus.NEW}"){
-      id,
-      title,
-      description,
-      date,
-      knownLanguage,
-      newLanguage,
-      userId
+      id
     }
 }
 `
@@ -80,13 +74,14 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
     const [newLanguage, setnewLanguage] = React.useState<string>('')
-    // const [date, setDate] = React.useState<moment.Moment>(moment())
+    const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
     const handleSubmit = async () => {
         if (!title || !description || !knownLanguage || !newLanguage) {
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Please fully complete the form.' } })
             return
         }
+        setIsLoading(true)
 
         const newWorksheet: TWorksheet = {
             date: moment(),
@@ -98,11 +93,15 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
             status: TWorksheetStatus.NEW,
             userId: state.currentUser.phraseADay.id,
         }
-
-        await addWorksheet({
+        const response = await addWorksheet({
             variables: newWorksheet,
         })
-        setWorksheets((prev) => ({ ...prev, [newWorksheet.id]: newWorksheet }))
+        if (response.data.addWorksheet === null) {
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit worksheet', timeToLiveMS: 5000 } })
+        } else {
+            setWorksheets((prev) => ({ ...prev, [newWorksheet.id]: newWorksheet }))
+        }
+        setIsLoading(false)
         closeModal()
     }
 
@@ -144,8 +143,8 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
                         handleChange={(data) => setknownLanguage(data)}
                     />
                 </div>
-                <Button variation="secondary" onClick={handleSubmit}>Submit</Button>
-                <Button variation="alert" onClick={handleCancel}>Cancel</Button>
+                <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
+                <Button disabled={isLoading} variation="alert" onClick={handleCancel}>Cancel</Button>
             </div>
         </div>
     )
@@ -193,18 +192,20 @@ const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
             <TableHeader>
                 <TableRow>
                     <TableHeaderCell width="20%">Title</TableHeaderCell>
-                    <TableHeaderCell width="20%">From</TableHeaderCell>
-                    <TableHeaderCell width="20%">To</TableHeaderCell>
+                    <TableHeaderCell width="10%">Created</TableHeaderCell>
+                    <TableHeaderCell width="15%">From</TableHeaderCell>
+                    <TableHeaderCell width="15%">To</TableHeaderCell>
                     <TableHeaderCell width="40%">Description</TableHeaderCell>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {worksheets
                     .map(({
-                        title, description, id, knownLanguage, newLanguage,
+                        title, description, id, knownLanguage, newLanguage, date
                     }) => (
                         <TableRow key={id}>
                             <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
+                            <TableBodyCell>{date}</TableBodyCell>
                             <TableBodyCell>{knownLanguage}</TableBodyCell>
                             <TableBodyCell>{newLanguage}</TableBodyCell>
                             <TableBodyCell>{description}</TableBodyCell>
@@ -225,18 +226,20 @@ const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
             <TableHeader>
                 <TableRow>
                     <TableHeaderCell width="20%">Title</TableHeaderCell>
-                    <TableHeaderCell width="20%">From</TableHeaderCell>
-                    <TableHeaderCell width="20%">To</TableHeaderCell>
+                    <TableHeaderCell width="10%">Created</TableHeaderCell>
+                    <TableHeaderCell width="15%">From</TableHeaderCell>
+                    <TableHeaderCell width="15%">To</TableHeaderCell>
                     <TableHeaderCell width="40%">Description</TableHeaderCell>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {worksheets
                     .map(({
-                        title, description, id, knownLanguage, newLanguage,
+                        title, description, id, knownLanguage, newLanguage, date
                     }) => (
                         <TableRow key={id}>
                             <TableBodyCell><StyledNavLink to={`/student/review/${id}`} text={title} /></TableBodyCell>
+                            <TableBodyCell>{date}</TableBodyCell>
                             <TableBodyCell>{knownLanguage}</TableBodyCell>
                             <TableBodyCell>{newLanguage}</TableBodyCell>
                             <TableBodyCell>{description}</TableBodyCell>

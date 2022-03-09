@@ -48,6 +48,7 @@ const Review = () => {
                 <TableHeader>
                     <TableRow>
                         <TableHeaderCell width="16%">Title</TableHeaderCell>
+                        <TableHeaderCell width="16%">Created</TableHeaderCell>
                         <TableHeaderCell width="16%">Username</TableHeaderCell>
                         <TableHeaderCell width="16%">From</TableHeaderCell>
                         <TableHeaderCell width="16%">To</TableHeaderCell>
@@ -61,10 +62,11 @@ const Review = () => {
                         .values(worksheets)
                         .filter(({ userId }) => !(userId === state.currentUser.phraseADay.id))
                         .map(({
-                            title, user: { username }, description, id, knownLanguage, newLanguage,
+                            title, user: { username }, date, description, id, knownLanguage, newLanguage,
                         }) => (
                             <TableRow key={id}>
                                 <TableBodyCell>{title}</TableBodyCell>
+                                <TableBodyCell>{date}</TableBodyCell>
                                 <TableBodyCell>{username}</TableBodyCell>
                                 <TableBodyCell>{knownLanguage}</TableBodyCell>
                                 <TableBodyCell>{newLanguage}</TableBodyCell>
