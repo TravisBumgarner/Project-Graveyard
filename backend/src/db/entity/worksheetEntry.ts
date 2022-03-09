@@ -22,7 +22,7 @@ export default class WorksheetEntry {
     @Column({ nullable: false })
     audioUrl: string
 
-    @ManyToOne(() => Worksheet, (Worksheet) => Worksheet.worksheetEntries) // eslint-disable-line
+    @ManyToOne(() => Worksheet, (Worksheet) => Worksheet.worksheetEntries, { onDelete: "CASCADE" }) // eslint-disable-line
     worksheet: Worksheet
 
     @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.worksheetEntry) // eslint-disable-line

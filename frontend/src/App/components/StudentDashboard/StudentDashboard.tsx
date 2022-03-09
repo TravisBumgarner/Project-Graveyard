@@ -61,6 +61,18 @@ mutation AddWorksheet (
 }
 `
 
+const DELETE_WORKSHEET = gql`
+mutation DeleteWorksheet (
+    $id: String!
+  ) {
+    deleteWorksheet(
+        id: $id,
+    ){
+      id
+    }
+    }
+`
+
 type AddWorksheetProps = {
     closeModal: () => void
     setWorksheets: React.Dispatch<React.SetStateAction<Record<string,
@@ -152,35 +164,59 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
 
 type NewTableProps = {
     worksheets: TWorksheet[],
+    setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
 }
-const NewTable = ({ worksheets }: NewTableProps) => (
-    <div>
-        <H3>Worksheets in Progress</H3>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderCell width="20%">Title</TableHeaderCell>
-                    <TableHeaderCell width="20%">From</TableHeaderCell>
-                    <TableHeaderCell width="20%">To</TableHeaderCell>
-                    <TableHeaderCell width="40%">Description</TableHeaderCell>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {worksheets
-                    .map(({
-                        title, description, id, knownLanguage, newLanguage,
-                    }) => (
-                        <TableRow key={id}>
-                            <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
-                            <TableBodyCell>{knownLanguage}</TableBodyCell>
-                            <TableBodyCell>{newLanguage}</TableBodyCell>
-                            <TableBodyCell>{description}</TableBodyCell>
-                        </TableRow>
-                    ))}
-            </TableBody>
-        </Table>
-    </div>
-)
+const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
+    const { dispatch } = React.useContext(context)
+    const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
+
+    const handleDelete = async (id: string) => {
+        const response = await deleteWorksheet({ variables: { id } })
+        if (response.data.deleteWorksheet === null) {
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to delete worksheet', timeToLiveMS: 5000 } })
+        } else {
+            setWorksheets((prev) => {
+                const modifiedWorksheets = { ...prev }
+                delete modifiedWorksheets[id]
+                return modifiedWorksheets
+            })
+        }
+    }
+    return (
+        <div>
+            <H3>Worksheets in Progress</H3>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell width="20%">Title</TableHeaderCell>
+                        <TableHeaderCell width="20%">From</TableHeaderCell>
+                        <TableHeaderCell width="20%">To</TableHeaderCell>
+                        <TableHeaderCell width="30%">Description</TableHeaderCell>
+                        <TableHeaderCell style={{ textAlign: 'center' }} width="10%">Actions</TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {worksheets
+                        .map(({
+                            title, description, id, knownLanguage, newLanguage,
+                        }) => (
+                            <TableRow key={id}>
+                                <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
+                                <TableBodyCell>{knownLanguage}</TableBodyCell>
+                                <TableBodyCell>{newLanguage}</TableBodyCell>
+                                <TableBodyCell>{description}</TableBodyCell>
+                                <TableBodyCell>
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <Button key="delete" variation="secondary" onClick={() => handleDelete(id)}>Delete</Button>
+                                    </div>
+                                </TableBodyCell>
+                            </TableRow>
+                        ))}
+                </TableBody>
+            </Table>
+        </div>
+    )
+}
 
 type NeedsReviewTableProps = {
     worksheets: TWorksheet[],
@@ -281,7 +317,7 @@ const Worksheets = () => {
             >
                 <AddWorksheetModal setWorksheets={setWorksheets} closeModal={() => setShowModal(false)} />
             </Modal>
-            <NewTable worksheets={filterWorksheets(TWorksheetStatus.NEW)} />
+            <NewTable setWorksheets={setWorksheets} worksheets={filterWorksheets(TWorksheetStatus.NEW)} />
             <NeedsReviewTable worksheets={filterWorksheets(TWorksheetStatus.NEEDS_REVIEW)} />
             <HasReviewsTable worksheets={filterWorksheets(TWorksheetStatus.HAS_REVIEWS)} />
         </div>
