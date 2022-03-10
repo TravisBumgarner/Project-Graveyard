@@ -4,6 +4,7 @@
 - [x] Add "Welcome, X" to header. 
 - [x] Prohibit review submission without feedback
 - [x] Change inputs to textareas
+- [x] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
 
 
 # Before first review with French teacher
@@ -16,7 +17,6 @@
 - [ ] Testttssssss
 - [ ] Fix microphone inputs permission crashing site.
 - [ ] Add ability to edit entries so you can add recordings later and such.
-- [ ] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
 - [ ] Make breadcrumb nav Component
 - [ ] Add confirmation to form submitions, like ready for review.
 - [ ] Record button should have better indicator

@@ -9,11 +9,9 @@ import {
     TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
 } from '../../../types'
 import utilities from '../../../utilities'
-import { useRecorder } from '../../../hooks'
-import {
-    Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
-} from '../../StyleExploration'
+import { Button, H2, Paragraph, } from '../../StyleExploration'
 import { context } from '../../Context'
+import { ReviewWorksheetEntry } from './components'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -65,53 +63,6 @@ mutation AddReview (
     }
 }
 `
-
-type WorksheetReviewEntryProps = {
-    worksheetEntry: TWorksheetEntry
-    reviewState: any
-    dispatchReview: any
-}
-const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: WorksheetReviewEntryProps) => {
-    const { id, knownLanguageText, newLanguageText } = worksheetEntry
-    const [audioURL, isRecording, startRecording, stopRecording] = useRecorder()
-
-    React.useEffect(() => {
-        dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
-    }, [audioURL])
-
-    return (
-        <TableRow key={id}>
-            <TableBodyCell>{knownLanguageText}</TableBodyCell>
-            <TableBodyCell>{newLanguageText}</TableBodyCell>
-            <TableBodyCell><audio controls src={worksheetEntry.audioUrl} /></TableBodyCell>
-            <TableBodyCell>
-                <Input
-                    value={reviewState[id].writtenFeedback}
-                    onChange={(event) => {
-                        dispatchReview({
-                            type: 'WRITTEN_FEEDBACK_ACTION',
-                            data: {
-                                worksheetEntryId: worksheetEntry.id,
-                                writtenFeedback: event.target.value
-                            }
-                        })
-                    }}
-                />
-            </TableBodyCell>
-            <TableBodyCell>
-                <audio src={reviewState[worksheetEntry.id].oralFeedback} controls />
-                <div>
-                    <Button variation="primary" onClick={startRecording} disabled={isRecording}>
-                        Record
-                    </Button>
-                    <Button variation="primary" onClick={stopRecording} disabled={!isRecording}>
-                        Stop
-                    </Button>
-                </div>
-            </TableBodyCell>
-        </TableRow>
-    )
-}
 
 type State = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
@@ -246,7 +197,7 @@ const ReviewWorksheet = () => {
                     To:
                     {newLanguage}
                 </Paragraph>
-                <Table>
+                {/* <Table>
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell width="5%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
@@ -256,17 +207,18 @@ const ReviewWorksheet = () => {
                             <TableHeaderCell style={{ textAlign: 'center' }} width="5%" scope="col">Oral Feedback</TableHeaderCell>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        {worksheetEntries.map((worksheetEntry) => (
-                            <WorksheetReviewEntry
-                                key={worksheetEntry.id}
-                                reviewState={reviewState}
-                                dispatchReview={dispatchReview}
-                                worksheetEntry={worksheetEntry}
-                            />
-                        ))}
-                    </TableBody>
-                </Table>
+                    <TableBody> */}
+                {worksheetEntries.map((worksheetEntry) => (
+                    <ReviewWorksheetEntry
+                        key={worksheetEntry.id}
+                        reviewState={reviewState}
+                        dispatchReview={dispatchReview}
+                        worksheetEntry={worksheetEntry}
+                        worksheet={worksheet}
+                    />
+                ))}
+                {/* </TableBody>
+                </Table> */}
             </div>
             <Button variation="primary" disabled={isLoading || !hasReviewerReviewed(reviewState)} onClick={handleSubmit}>Submit Feedback</Button>
         </div>

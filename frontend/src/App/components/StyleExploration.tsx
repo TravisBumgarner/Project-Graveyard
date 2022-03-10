@@ -51,6 +51,10 @@ const H3 = styled.h3`
     color: ${SECONDARY.base};
 `
 
+const H4 = styled.h4`
+    color: ${TERTIARY.base};
+`
+
 const AlertMessageWraper = styled.div`
     font-family: 'Comfortaa', cursive;
     font-size: 1rem;
@@ -438,6 +442,7 @@ export {
     H1,
     H2,
     H3,
+    H4,
     OrderedList,
     UnorderedList,
     ListItem,
