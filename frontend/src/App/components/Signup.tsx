@@ -24,6 +24,7 @@ const Singup = () => {
     const [username, setUsername] = React.useState<string>('')
     const [password, setPassword] = React.useState<string>('')
     const [passwordConfirmation, setPasswordConfirmation] = React.useState<string>('')
+
     const handleSubmit = async () => {
         setIsLoading(true)
         if (password !== passwordConfirmation) {

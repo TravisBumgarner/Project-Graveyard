@@ -112,9 +112,9 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit worksheet', timeToLiveMS: 5000 } })
         } else {
             setWorksheets((prev) => ({ ...prev, [newWorksheet.id]: newWorksheet }))
+            closeModal()
         }
         setIsLoading(false)
-        closeModal()
     }
 
     const handleCancel = () => {

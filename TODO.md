@@ -1,13 +1,26 @@
+# pr-1 (name of PR, and then below things addressed)
+
+- [x] Submit Worksheet Modal doesn't close on error
+- [ ] Add "Welcome, X" to header. 
+
+
 # Before first review with French teacher
 
-- [x] Record sentences
-- [ ] For each call to mutation, check if response is id (or some other value) or null. And handle accordingly
-- [x] Double submit Worksheet creation bug
-- [ ] Give way to delete new worksheets
-- [ ] After filling out an assignment and submitting it, the new phrases don't show in the pending review section
-- [x] Throw error if response from graphql is null
-- [x] Display date after worksheet submitted. Add column for date created, date submitted, etc.
-- [ ] Set up better error handling for vague error mesages from firebase
+- [ ] Add error messages for login/signup
+- [ ] Get rid of anys
+- [ ] Add language dropdown
+- [ ] Request a teacher
+- [ ] Add a friend
+- [ ] Testttssssss
+- [ ] Change inputs to textareas
+- [ ] Fix microphone inputs permission crashing site.
+- [ ] Add ability to edit entries so you can add recordings later and such.
+- [ ] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
+- [ ] Make breadcrumb nav Component
+- [ ] Add confirmation to form submitions, like ready for review.
+- [ ] Record button should have better indicator
+- [ ] Disable recorder when recording is over
+- [ ] Fail if exists in FB but not Postgres
  # After First Review with French teacher
 
 - [ ] Full styling cleanup
@@ -32,6 +45,13 @@
 
 # Done
 
+- [x] Record sentences
+- [x] For each call to mutation, check if response is id (or some other value) or null. And handle accordingly
+- [x] Double submit Worksheet creation bug
+- [x] Give way to delete new worksheets
+- [x] After filling out an assignment and submitting it, the new phrases don't show in the pending review section
+- [x] Throw error if response from graphql is null
+- [x] Display date after worksheet submitted. Add column for date created, date submitted, etc.
 - [x] Delete worksheets in firebase
 - [x] add the idea of users
     - [x] Need some way for students to share with teachers
