@@ -13,6 +13,7 @@ import Profile from './Profile'
 import ReviewDashboard from './ReviewerDashboard'
 import Error from './Error'
 import AlertMessage from './AlertMessage'
+import Worksheet from './Worksheet'
 
 export {
     Home,
@@ -30,5 +31,6 @@ export {
     Profile,
     Error,
     AlertMessage,
-    ReviewDashboard
+    ReviewDashboard,
+    Worksheet
 }

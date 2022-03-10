@@ -62,7 +62,7 @@ const Review = () => {
                             title, user: { username, id: userId }, date, description, id, knownLanguage, newLanguage,
                         }) => (
                             <Table.TableRow key={id}>
-                                <Table.TableBodyCell><StyledNavLink to={`/reviewer/review/${id}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                 <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>

@@ -7,9 +7,9 @@ import { useParams } from 'react-router'
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
 import {
     TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
-} from '../../../types'
-import utilities from '../../../utilities'
-import { context } from '../../Context'
+} from '../../../../types'
+import utilities from '../../../../utilities'
+import { context } from '../../../Context'
 import { ReviewWorksheetEntry } from './components'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`

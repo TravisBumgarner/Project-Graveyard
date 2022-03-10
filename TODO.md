@@ -15,7 +15,8 @@
 - [x] Fix microphone inputs permission crashing site.
 - [x] Fix bug on adding new worksheets
 - [x] Setup profile to show with uuid and fetch data accordingly
-- [ ] Setup OtherUserProfile
+- [x] Setup OtherUserProfile
+- [x] Be able to share Worksheet Urls with others
 
 # Before first review with French teacher
 
@@ -31,7 +32,9 @@
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed
 - [ ] Get rid of tables for individual entries
-- [ ] Make types and context not relative paths
+- [ ] Make types and context and utils not relative paths
+- [ ] get rid of default export in FE utils
+- [ ] Be able to persist URLs after logging in .. redirect user
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

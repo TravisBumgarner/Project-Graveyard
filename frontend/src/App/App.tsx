@@ -30,9 +30,8 @@ import {
     Error,
     Footer,
     AlertMessage,
+    Worksheet
 } from './components'
-import { Worksheet } from './components/StudentDashboard/components'
-import { ReviewWorksheet } from './components/ReviewerDashboard/components'
 import Review from './components/StudentDashboard/components/Review'
 import { TPhraseADayUser } from './types'
 import { auth } from '../firebase'
@@ -50,10 +49,10 @@ const App = () => {
             <Header />
             <Routes>
                 <Route
-                    path="/reviewer/review/:worksheetId"
+                    path="/worksheet/:worksheetId"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<ReviewWorksheet />}
+                            authedComponent={<Worksheet />}
                         />
                     )}
                 />
@@ -115,14 +114,6 @@ const App = () => {
                         <ConditionalRoute
                             authedComponent={<StudentDashboard />}
                             unauthedComponent={<Home />}
-                        />
-                    )}
-                />
-                <Route
-                    path="/student/worksheet/:worksheetId"
-                    element={(
-                        <ConditionalRoute
-                            authedComponent={<Worksheet />}
                         />
                     )}
                 />

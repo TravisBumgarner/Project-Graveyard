@@ -189,7 +189,7 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
                             title, description, id, knownLanguage, newLanguage, date
                         }) => (
                             <Table.TableRow key={id}>
-                                <Table.TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
