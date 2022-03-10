@@ -1,7 +1,9 @@
 # pr-1 (name of PR, and then below things addressed)
 
 - [x] Submit Worksheet Modal doesn't close on error
-- [ ] Add "Welcome, X" to header. 
+- [x] Add "Welcome, X" to header. 
+- [x] Prohibit review submission without feedback
+- [x] Change inputs to textareas
 
 
 # Before first review with French teacher
@@ -12,7 +14,6 @@
 - [ ] Request a teacher
 - [ ] Add a friend
 - [ ] Testttssssss
-- [ ] Change inputs to textareas
 - [ ] Fix microphone inputs permission crashing site.
 - [ ] Add ability to edit entries so you can add recordings later and such.
 - [ ] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
@@ -21,6 +22,10 @@
 - [ ] Record button should have better indicator
 - [ ] Disable recorder when recording is over
 - [ ] Fail if exists in FB but not Postgres
+- [ ] Convert reviewer section to be need reviews, reviewed
+- [ ] Audio recorder should be used everywhere.
+- [ ] Add clear button for audio recorder
+- [ ] Get rid of tables for individual entries
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

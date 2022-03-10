@@ -170,6 +170,22 @@ const Input = styled.input`
     font-weight: 700;
     color: ${PRIMARY.base};
     border-color: ${PRIMARY.base};
+    width: 100%;
+    box-sizing: border-box;
+`
+
+const TextArea = styled.textarea`
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    font-weight: 700;
+    color: ${PRIMARY.base};
+    border-color: ${PRIMARY.base};
+    width: 100%;
+    box-sizing: border-box;
 `
 
 const LabelAndInputWrapper = styled.div`
@@ -192,7 +208,7 @@ type LabelAndInputProps = {
     label: string
     value: string
     handleChange: (value: string) => void
-    type?: 'password'
+    type?: 'textarea' | 'password'
 }
 
 const LabelAndInput = ({
@@ -200,7 +216,11 @@ const LabelAndInput = ({
 }: LabelAndInputProps) => (
     <LabelAndInputWrapper>
         <Label htmlFor={name}>{label}</Label>
-        <Input autoComplete="on" type={type || 'text'} name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
+        {type === 'textarea' ? (
+            <TextArea rows={5} autoComplete="on" name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
+        ) : (
+            <Input autoComplete="on" type={type || 'text'} name={name} onChange={(event) => handleChange(event.target.value)} value={value} />
+        )}
     </LabelAndInputWrapper>
 )
 

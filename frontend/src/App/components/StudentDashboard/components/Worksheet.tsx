@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
 import { Loading, AudioRecorder } from 'sharedComponents'
+import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
 import { context } from '../../Context'
@@ -108,6 +109,15 @@ mutation DeleteWorksheetEntry (
 }
 `
 
+const WrittenWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+
+    > div {
+        width: 50%;
+    }
+`
+
 type AddWorksheetEntryModalProps = {
     closeModal: () => void
     worksheet: TWorksheet
@@ -159,23 +169,22 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
         <div>
             <H2>New Worksheet Entry</H2>
             <div>
-                <div>
+                <WrittenWrapper>
                     <LabelAndInput
                         label={worksheet.knownLanguage}
                         name="fromLanguage"
                         value={knownLanguageText}
                         handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
+                        type="textarea"
                     />
-                </div>
-
-                <div>
                     <LabelAndInput
                         label={worksheet.newLanguage}
                         name="newLanguage"
                         value={newLanguageText}
                         handleChange={(newLanguage) => setNewLanguageText(newLanguage)}
+                        type="textarea"
                     />
-                </div>
+                </WrittenWrapper>
 
                 <div>
                     <AudioRecorder
