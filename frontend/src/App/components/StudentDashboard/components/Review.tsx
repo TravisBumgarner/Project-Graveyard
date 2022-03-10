@@ -1,11 +1,11 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useParams, useNavigate } from 'react-router'
+import moment from 'moment'
 
 import { Loading, Table, Heading, Paragraph, Button } from 'sharedComponents'
-import moment from 'moment'
-import utilities from '../../../utilities'
-import { TStudentReview, TWorksheet } from '../../../types'
+import { logger, dateToString } from 'utilities'
+import { TStudentReview, TWorksheet } from 'types'
 
 const STUDENT_REVIEW = gql`
 query StudentReview($worksheetId: String!)
@@ -44,7 +44,7 @@ const Review = () => {
             setIsLoading(false)
         },
         onError: (error) => {
-            utilities.logger(error)
+            logger(error)
             throw new Error('Something went wrong')
         }
     })
@@ -56,7 +56,7 @@ const Review = () => {
         <div>
             <Heading.H2><Button variation="primary" onClick={() => navigate(-1)}>Reviews</Button> {'>'} {title} Worksheet Review</Heading.H2>
             <Paragraph> Description: {description}</Paragraph>
-            <Paragraph> Date: {utilities.dateToString(moment(date))}</Paragraph>
+            <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>

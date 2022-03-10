@@ -23,10 +23,10 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => {
         <BreadcrumbsWrapper>
             {
                 breadcrumbs.map(({ text, to }) => (
-                    <>
+                    <div key={to}>
                         <StyledNavLink to={to} text={text} />
                         <Paragraph>{' > '}</Paragraph>
-                    </>
+                    </div>
                 ))
             }
         </BreadcrumbsWrapper>

@@ -2,9 +2,9 @@ import styled from 'styled-components'
 import React from 'react'
 
 import { Button } from 'sharedComponents'
+import { logger } from 'utilities'
 import { Label } from './LabelAndInput'
 import colors from './colors'
-import utilities from '../App/utilities'
 
 // https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
 
@@ -76,7 +76,7 @@ const AudioRecorder = ({
     React.useEffect(() => {
         if (recorder === null) {
             if (isRecording) {
-                requestRecorder().then(setRecorder, utilities.logger)
+                requestRecorder().then(setRecorder, logger)
             }
             return
         }

@@ -9,11 +9,9 @@ const logger = (message: any) => {
     console.log(JSON.stringify(message)) // eslint-disable-line
 }
 
-export default {
+export {
     dateToString,
     logger,
-}
-export {
     AtLeast,
     Exactly
 }

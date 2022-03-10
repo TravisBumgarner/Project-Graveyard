@@ -14,6 +14,8 @@ import axios from 'axios'
 
 import Theme from 'theme'
 import { Loading } from 'sharedComponents'
+import { TPhraseADayUser } from 'types'
+import { context } from 'context'
 import {
     ForgottenPassword,
     Home,
@@ -23,7 +25,6 @@ import {
     Header,
     StudentDashboard,
     Context,
-    context,
     Signup,
     Profile,
     ReviewDashboard,
@@ -33,7 +34,6 @@ import {
     Worksheet
 } from './components'
 import Review from './components/StudentDashboard/components/Review'
-import { TPhraseADayUser } from './types'
 import { auth } from '../firebase'
 
 const App = () => {

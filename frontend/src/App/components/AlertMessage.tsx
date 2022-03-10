@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Paragraph, Button, colors } from 'sharedComponents'
-import { context } from './Context'
+import { context } from 'context'
 
 const AlertMessagePositioner = styled.div`
     z-index: 999;

@@ -2,7 +2,7 @@ import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 
 import { Heading, Loading, Paragraph } from 'sharedComponents'
-import { TPhraseADayUser } from '../../../types'
+import { TPhraseADayUser } from 'types'
 
 const GET_USER = gql`
 query GetUser($userId: String) {

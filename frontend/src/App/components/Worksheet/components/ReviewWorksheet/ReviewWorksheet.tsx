@@ -5,11 +5,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router'
 
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
+import { dateToString } from 'utilities'
 import {
     TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
-} from '../../../../types'
-import utilities from '../../../../utilities'
-import { context } from '../../../Context'
+} from 'types'
+import { context } from 'context'
 import { ReviewWorksheetEntry } from './components'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
@@ -187,7 +187,7 @@ const ReviewWorksheet = () => {
                 <Paragraph>
                     {' '}
                     Date:
-                    {utilities.dateToString(moment(date))}
+                    {dateToString(moment(date))}
                 </Paragraph>
                 <Paragraph>
                     {' '}

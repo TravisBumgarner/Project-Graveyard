@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors } from 'sharedComponents'
-import { TWorksheet, TWorksheetEntry, } from '../../../../../types'
+import { TWorksheet, TWorksheetEntry, } from 'types'
 
 const ReviewWorksheetEntryWrapper = styled.div`
     padding: 1rem;

@@ -2,8 +2,8 @@ import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import { Loading, Heading, Table, StyledNavLink } from 'sharedComponents'
 
-import { context } from '..'
-import { TPhraseADayUser, TWorksheet } from '../../types'
+import { TPhraseADayUser, TWorksheet } from 'types'
+import { context } from '.'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {

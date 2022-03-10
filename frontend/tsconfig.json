@@ -16,7 +16,9 @@
         "sharedComponents": ["src/sharedComponents"],
         "sharedTypes": ["src/sharedTypes/index.ts"],
         "theme": ["src/theme.js"],
-        "utilities": ["src/utilities"],
+        "utilities": ["src/utilities.ts"],
+        "types": ["src/types.ts"],
+        "context": ["src/Context/"],
       }
     }
   }

@@ -4,9 +4,9 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Loading, Table, Heading, StyledNavLink, Button, Modal, LabelAndInput, } from 'sharedComponents'
-import utilities from '../../utilities'
+import { dateToString } from 'utilities'
+import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from '..'
-import { TWorksheetStatus, TWorksheet } from '../../types'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -83,7 +83,7 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
         setIsLoading(true)
 
         const newWorksheet: TWorksheet = {
-            date: utilities.dateToString(moment()),
+            date: dateToString(moment()),
             id: uuidv4(),
             description,
             title,

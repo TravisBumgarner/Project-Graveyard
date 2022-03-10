@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Loading, Heading, Button, LabelAndInput, Paragraph, StyledNavLink } from 'sharedComponents'
 import { context } from '.'
 import { auth } from '../../firebase'
-import { TPhraseADayUser } from '../types'
+import { TPhraseADayUser } from 'types'
 
 const userFriendlyError = (code: string) => {
     const errorLookups: Record<string, string> = {

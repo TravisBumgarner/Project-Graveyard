@@ -6,9 +6,9 @@ import { useNavigate, useParams } from 'react-router'
 
 import { Loading, AudioRecorder, Modal, Button, Heading, LabelAndInput, Paragraph, Table, Breadcrumbs } from 'sharedComponents'
 import styled from 'styled-components'
-import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
-import utilities from '../../../utilities'
-import { context } from '../../Context'
+import { dateToString } from 'utilities'
+import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from 'types'
+import { context } from 'context'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -270,7 +270,7 @@ const Worksheet = () => {
                     Description: {description}
                 </Paragraph>
                 <Paragraph>
-                    Date: {utilities.dateToString(moment(date))}
+                    Date: {dateToString(moment(date))}
                 </Paragraph>
                 <Button variation="secondary" onClick={() => setShowModal(true)}>Add Entries</Button>
                 <Table.Table>

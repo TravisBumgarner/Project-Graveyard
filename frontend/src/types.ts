@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 enum TWorksheetStatus {
     NEW = 'new',
     NEEDS_REVIEW = 'needs_review',
@@ -10,7 +8,7 @@ type TWorksheet = {
     id: string
     title: string
     description: string
-    date: moment.Moment
+    date: string
     knownLanguage: string
     newLanguage: string
     userId: string
