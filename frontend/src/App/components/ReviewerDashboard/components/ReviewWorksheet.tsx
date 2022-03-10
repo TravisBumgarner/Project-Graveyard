@@ -161,6 +161,12 @@ const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEn
     return accum
 }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
 
+const hasReviewerReviewed = (reviewState: State) => (
+    Object
+        .values(reviewState)
+        .some(({ oralFeedback, writtenFeedback }) => oralFeedback.length || writtenFeedback.length)
+)
+
 const ReviewWorksheet = () => {
     const { dispatch } = React.useContext(context)
     const { worksheetId } = useParams()
@@ -262,7 +268,7 @@ const ReviewWorksheet = () => {
                     </TableBody>
                 </Table>
             </div>
-            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Submit Feedback</Button>
+            <Button variation="primary" disabled={isLoading || !hasReviewerReviewed(reviewState)} onClick={handleSubmit}>Submit Feedback</Button>
         </div>
     )
 }
