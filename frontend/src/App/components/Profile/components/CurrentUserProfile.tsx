@@ -2,7 +2,7 @@ import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
 
 import { LabelAndInput, Button, Heading, Paragraph, Modal } from 'sharedComponents'
-import { context } from '.'
+import { context } from '../..'
 
 type EditProfileProps = {
     closeModal: () => void
@@ -71,7 +71,7 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
     )
 }
 
-const Profile = () => {
+const CurrentUserProfile = () => {
     const { state } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
 
@@ -80,16 +80,13 @@ const Profile = () => {
             <div>
                 <Heading.H2>Profile</Heading.H2>
                 <Paragraph>
-                    Username:
-                    {state.currentUser.phraseADay.username}
+                    Username: {state.currentUser.phraseADay.username}
                 </Paragraph>
                 <Paragraph>
-                    Email:
-                    {state.currentUser.firebase.email}
+                    Email: {state.currentUser.firebase.email}
                 </Paragraph>
                 <Paragraph>
-                    Last Login:
-                    {state.currentUser.firebase.metadata.lastSignInTime}
+                    Last Login: {state.currentUser.firebase.metadata.lastSignInTime}
                 </Paragraph>
             </div>
             <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
@@ -104,4 +101,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default CurrentUserProfile

@@ -17,7 +17,8 @@ query GetWorksheets {
     userId,
     status,
     user {
-      username
+      username,
+      id
     }
   }
 }
@@ -46,7 +47,7 @@ const Review = () => {
                     <Table.TableRow>
                         <Table.TableHeaderCell width="16%">Title</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="16%">Created</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">Username</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">User</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="16%">From</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="16%">To</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="16%">Description</Table.TableHeaderCell>
@@ -59,12 +60,12 @@ const Review = () => {
                         .values(worksheets)
                         .filter(({ userId }) => !(userId === state.currentUser.phraseADay.id))
                         .map(({
-                            title, user: { username }, date, description, id, knownLanguage, newLanguage,
+                            title, user: { username, id: userId }, date, description, id, knownLanguage, newLanguage,
                         }) => (
                             <Table.TableRow key={id}>
                                 <Table.TableBodyCell>{title}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{username}</Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{description}</Table.TableBodyCell>

@@ -169,7 +169,6 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
             })
         }
     }
-    console.log(worksheets)
     return (
         <div>
             <Heading.H3>Worksheets in Progress</Heading.H3>

@@ -13,7 +13,9 @@
 - [x] Make breadcrumb nav Component
 - [x] Merge Audio Hook into AudioRecorder
 - [x] Fix microphone inputs permission crashing site.
-
+- [x] Fix bug on adding new worksheets
+- [x] Setup profile to show with uuid and fetch data accordingly
+- [ ] Setup OtherUserProfile
 
 # Before first review with French teacher
 
@@ -29,6 +31,7 @@
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed
 - [ ] Get rid of tables for individual entries
+- [ ] Make types and context not relative paths
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

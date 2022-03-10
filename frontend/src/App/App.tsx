@@ -66,7 +66,7 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path="/profile"
+                    path="/profile/:userId"
                     element={(
                         <ConditionalRoute
                             authedComponent={<Profile />}
