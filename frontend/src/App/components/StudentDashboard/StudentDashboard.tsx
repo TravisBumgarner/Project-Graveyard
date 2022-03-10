@@ -175,8 +175,9 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
                 <Table.TableHeader>
                     <Table.TableRow>
                         <Table.TableHeaderCell width="20%">Title</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="20%">From</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="20%">To</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="30%">Description</Table.TableHeaderCell>
                         <Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%">Actions</Table.TableHeaderCell>
                     </Table.TableRow>
@@ -184,10 +185,11 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
                 <Table.TableBody>
                     {worksheets
                         .map(({
-                            title, description, id, knownLanguage, newLanguage,
+                            title, description, id, knownLanguage, newLanguage, date
                         }) => (
                             <Table.TableRow key={id}>
                                 <Table.TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{description}</Table.TableBodyCell>
@@ -217,7 +219,8 @@ const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
                     <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
                     <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
                     <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="40%">Description</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="30%">Description</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="10%" />
                 </Table.TableRow>
             </Table.TableHeader>
             <Table.TableBody>
@@ -251,7 +254,8 @@ const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
                     <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
                     <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
                     <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="40%">Description</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="30%">Description</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="10%" />
                 </Table.TableRow>
             </Table.TableHeader>
             <Table.TableBody>
