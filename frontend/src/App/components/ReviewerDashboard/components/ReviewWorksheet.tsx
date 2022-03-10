@@ -4,12 +4,11 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router'
 
-import { Loading } from 'sharedComponents'
+import { Loading, Button, Heading, Paragraph } from 'sharedComponents'
 import {
     TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
 } from '../../../types'
 import utilities from '../../../utilities'
-import { Button, H2, Paragraph, } from '../../StyleExploration'
 import { context } from '../../Context'
 import { ReviewWorksheetEntry } from './components'
 
@@ -173,7 +172,7 @@ const ReviewWorksheet = () => {
     return (
         <div>
             <div>
-                <H2>{title}</H2>
+                <Heading.H2>{title}</Heading.H2>
                 <Paragraph>
                     {' '}
                     Student:

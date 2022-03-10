@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-    Paragraph, ExternalLink, PRIMARY,
-} from './StyleExploration'
+import { Paragraph, ExternalLink, colors } from 'sharedComponents'
 
 const FooterWrapper = styled.div`
-        border-top: 2px solid ${PRIMARY.base};
+        border-top: 2px solid ${colors.PRIMARY.base};
         margin-top: 2em;
 `
 

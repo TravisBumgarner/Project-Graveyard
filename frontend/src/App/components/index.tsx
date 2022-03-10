@@ -10,7 +10,6 @@ import Footer from './Footer'
 import ForgottenPassword from './ForgottenPassword'
 import ConditionalRoute from './ConditionalRoute'
 import Profile from './Profile'
-import StyleExploration from './StyleExploration'
 import ReviewDashboard from './ReviewerDashboard'
 import Error from './Error'
 import AlertMessage from './AlertMessage'
@@ -29,7 +28,6 @@ export {
     ForgottenPassword,
     ConditionalRoute,
     Profile,
-    StyleExploration,
     Error,
     AlertMessage,
     ReviewDashboard

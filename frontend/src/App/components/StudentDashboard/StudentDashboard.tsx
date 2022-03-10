@@ -3,21 +3,7 @@ import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
-import { Loading } from 'sharedComponents'
-import {
-    Table,
-    TableHeader,
-    TableBody,
-    TableBodyCell,
-    TableHeaderCell,
-    TableRow,
-    H2,
-    H3,
-    StyledNavLink,
-    Button,
-    Modal,
-    LabelAndInput,
-} from '../StyleExploration'
+import { Loading, Table, Heading, StyledNavLink, Button, Modal, LabelAndInput, } from 'sharedComponents'
 import { context } from '..'
 import { TWorksheetStatus, TWorksheet } from '../../types'
 
@@ -123,7 +109,7 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
 
     return (
         <div>
-            <H2>Worksheets</H2>
+            <Heading.H2>Worksheets</Heading.H2>
             <div>
                 <div>
                     <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
@@ -184,36 +170,36 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
     }
     return (
         <div>
-            <H3>Worksheets in Progress</H3>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHeaderCell width="20%">Title</TableHeaderCell>
-                        <TableHeaderCell width="20%">From</TableHeaderCell>
-                        <TableHeaderCell width="20%">To</TableHeaderCell>
-                        <TableHeaderCell width="30%">Description</TableHeaderCell>
-                        <TableHeaderCell style={{ textAlign: 'center' }} width="10%">Actions</TableHeaderCell>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+            <Heading.H3>Worksheets in Progress</Heading.H3>
+            <Table.Table>
+                <Table.TableHeader>
+                    <Table.TableRow>
+                        <Table.TableHeaderCell width="20%">Title</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="20%">From</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="20%">To</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="30%">Description</Table.TableHeaderCell>
+                        <Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%">Actions</Table.TableHeaderCell>
+                    </Table.TableRow>
+                </Table.TableHeader>
+                <Table.TableBody>
                     {worksheets
                         .map(({
                             title, description, id, knownLanguage, newLanguage,
                         }) => (
-                            <TableRow key={id}>
-                                <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
-                                <TableBodyCell>{knownLanguage}</TableBodyCell>
-                                <TableBodyCell>{newLanguage}</TableBodyCell>
-                                <TableBodyCell>{description}</TableBodyCell>
-                                <TableBodyCell>
+                            <Table.TableRow key={id}>
+                                <Table.TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                                <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <Button key="delete" variation="secondary" onClick={() => handleDelete(id)}>Delete</Button>
                                     </div>
-                                </TableBodyCell>
-                            </TableRow>
+                                </Table.TableBodyCell>
+                            </Table.TableRow>
                         ))}
-                </TableBody>
-            </Table>
+                </Table.TableBody>
+            </Table.Table>
         </div>
     )
 }
@@ -223,32 +209,32 @@ type NeedsReviewTableProps = {
 }
 const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
     <div>
-        <H3>Worksheets Awaiting Review</H3>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderCell width="20%">Title</TableHeaderCell>
-                    <TableHeaderCell width="10%">Created</TableHeaderCell>
-                    <TableHeaderCell width="15%">From</TableHeaderCell>
-                    <TableHeaderCell width="15%">To</TableHeaderCell>
-                    <TableHeaderCell width="40%">Description</TableHeaderCell>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
+        <Heading.H3>Worksheets Awaiting Review</Heading.H3>
+        <Table.Table>
+            <Table.TableHeader>
+                <Table.TableRow>
+                    <Table.TableHeaderCell width="20%">Title</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="40%">Description</Table.TableHeaderCell>
+                </Table.TableRow>
+            </Table.TableHeader>
+            <Table.TableBody>
                 {worksheets
                     .map(({
                         title, description, id, knownLanguage, newLanguage, date
                     }) => (
-                        <TableRow key={id}>
-                            <TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></TableBodyCell>
-                            <TableBodyCell>{date}</TableBodyCell>
-                            <TableBodyCell>{knownLanguage}</TableBodyCell>
-                            <TableBodyCell>{newLanguage}</TableBodyCell>
-                            <TableBodyCell>{description}</TableBodyCell>
-                        </TableRow>
+                        <Table.TableRow key={id}>
+                            <Table.TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                            <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                            <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                            <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                            <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                        </Table.TableRow>
                     ))}
-            </TableBody>
-        </Table>
+            </Table.TableBody>
+        </Table.Table>
     </div>
 )
 
@@ -257,32 +243,32 @@ type HasReviewsTableProps = {
 }
 const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
     <div>
-        <H3>Reviewed Worksheets</H3>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderCell width="20%">Title</TableHeaderCell>
-                    <TableHeaderCell width="10%">Created</TableHeaderCell>
-                    <TableHeaderCell width="15%">From</TableHeaderCell>
-                    <TableHeaderCell width="15%">To</TableHeaderCell>
-                    <TableHeaderCell width="40%">Description</TableHeaderCell>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
+        <Heading.H3>Reviewed Worksheets</Heading.H3>
+        <Table.Table>
+            <Table.TableHeader>
+                <Table.TableRow>
+                    <Table.TableHeaderCell width="20%">Title</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
+                    <Table.TableHeaderCell width="40%">Description</Table.TableHeaderCell>
+                </Table.TableRow>
+            </Table.TableHeader>
+            <Table.TableBody>
                 {worksheets
                     .map(({
                         title, description, id, knownLanguage, newLanguage, date
                     }) => (
-                        <TableRow key={id}>
-                            <TableBodyCell><StyledNavLink to={`/student/review/${id}`} text={title} /></TableBodyCell>
-                            <TableBodyCell>{date}</TableBodyCell>
-                            <TableBodyCell>{knownLanguage}</TableBodyCell>
-                            <TableBodyCell>{newLanguage}</TableBodyCell>
-                            <TableBodyCell>{description}</TableBodyCell>
-                        </TableRow>
+                        <Table.TableRow key={id}>
+                            <Table.TableBodyCell><StyledNavLink to={`/student/review/${id}`} text={title} /></Table.TableBodyCell>
+                            <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                            <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                            <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                            <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                        </Table.TableRow>
                     ))}
-            </TableBody>
-        </Table>
+            </Table.TableBody>
+        </Table.Table>
     </div>
 )
 
@@ -309,7 +295,7 @@ const Worksheets = () => {
 
     return (
         <div>
-            <H2>Student Dashboard</H2>
+            <Heading.H2>Student Dashboard</Heading.H2>
             <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
             <Modal
                 showModal={showModal}

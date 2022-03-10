@@ -1,12 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
-import { Loading } from 'sharedComponents'
+import { Loading, Heading, Table, StyledNavLink } from 'sharedComponents'
 
 import { context } from '..'
 import { TPhraseADayUser, TWorksheet } from '../../types'
-import {
-    Table, TableHeader, TableBody, TableBodyCell, TableHeaderCell, TableRow, H2, StyledNavLink,
-} from '../StyleExploration'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -43,20 +40,20 @@ const Review = () => {
 
     return (
         <div>
-            <H2>Review Dashboard</H2>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHeaderCell width="16%">Title</TableHeaderCell>
-                        <TableHeaderCell width="16%">Created</TableHeaderCell>
-                        <TableHeaderCell width="16%">Username</TableHeaderCell>
-                        <TableHeaderCell width="16%">From</TableHeaderCell>
-                        <TableHeaderCell width="16%">To</TableHeaderCell>
-                        <TableHeaderCell width="16%">Description</TableHeaderCell>
-                        <TableHeaderCell width="16%">Actions</TableHeaderCell>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+            <Heading.H2>Review Dashboard</Heading.H2>
+            <Table.Table>
+                <Table.TableHeader>
+                    <Table.TableRow>
+                        <Table.TableHeaderCell width="16%">Title</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">Created</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">Username</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">From</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">To</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">Description</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="16%">Actions</Table.TableHeaderCell>
+                    </Table.TableRow>
+                </Table.TableHeader>
+                <Table.TableBody>
 
                     {Object
                         .values(worksheets)
@@ -64,21 +61,21 @@ const Review = () => {
                         .map(({
                             title, user: { username }, date, description, id, knownLanguage, newLanguage,
                         }) => (
-                            <TableRow key={id}>
-                                <TableBodyCell>{title}</TableBodyCell>
-                                <TableBodyCell>{date}</TableBodyCell>
-                                <TableBodyCell>{username}</TableBodyCell>
-                                <TableBodyCell>{knownLanguage}</TableBodyCell>
-                                <TableBodyCell>{newLanguage}</TableBodyCell>
-                                <TableBodyCell>{description}</TableBodyCell>
-                                <TableBodyCell>
+                            <Table.TableRow key={id}>
+                                <Table.TableBodyCell>{title}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{username}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                                <Table.TableBodyCell>
                                     <StyledNavLink to={`/reviewer/review/${id}`} text="Review" />
-                                </TableBodyCell>
-                            </TableRow>
+                                </Table.TableBodyCell>
+                            </Table.TableRow>
                         ))}
-                </TableBody>
+                </Table.TableBody>
 
-            </Table>
+            </Table.Table>
         </div>
     )
 }

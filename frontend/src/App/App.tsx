@@ -27,7 +27,6 @@ import {
     Signup,
     Profile,
     ReviewDashboard,
-    StyleExploration,
     Error,
     Footer,
     AlertMessage,
@@ -110,7 +109,6 @@ const App = () => {
                         />
                     )}
                 />
-                <Route path="/stylesheet" element={<StyleExploration />} />
                 <Route
                     path="/student/dashboard"
                     element={(

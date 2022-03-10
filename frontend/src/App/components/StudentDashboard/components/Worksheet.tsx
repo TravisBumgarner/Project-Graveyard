@@ -4,25 +4,12 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
-import { Loading, AudioRecorder } from 'sharedComponents'
+import { Loading, AudioRecorder, Modal, Button, Heading, LabelAndInput, Paragraph, Table } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
 import { context } from '../../Context'
 import { useRecorder } from '../../../hooks'
-import {
-    Modal,
-    Button,
-    H2,
-    LabelAndInput,
-    Paragraph,
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableHeader,
-    TableHeaderCell,
-    TableRow,
-} from '../../StyleExploration'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -167,7 +154,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
 
     return (
         <div>
-            <H2>New Worksheet Entry</H2>
+            <Heading.H2>New Worksheet Entry</Heading.H2>
             <div>
                 <WrittenWrapper>
                     <LabelAndInput
@@ -234,18 +221,18 @@ const WorksheetEntry = ({
     }
 
     return (
-        <TableRow key={id}>
-            <TableBodyCell>{knownLanguageText}</TableBodyCell>
-            <TableBodyCell>{newLanguageText}</TableBodyCell>
-            <TableBodyCell><audio controls src={audioUrl} /></TableBodyCell>
+        <Table.TableRow key={id}>
+            <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell>
+            <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell>
+            <Table.TableBodyCell><audio controls src={audioUrl} /></Table.TableBodyCell>
             {Actions.length ? (
-                <TableBodyCell>
+                <Table.TableBodyCell>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         {Actions}
                     </div>
-                </TableBodyCell>
+                </Table.TableBodyCell>
             ) : null}
-        </TableRow>
+        </Table.TableRow>
     )
 }
 
@@ -281,7 +268,7 @@ const Worksheet = () => {
     return (
         <div>
             <div>
-                <H2><Button variation="primary" onClick={() => navigate(-1)}>User Dashboard</Button> {'>'} {title} Worksheet</H2>
+                <Heading.H2><Button variation="primary" onClick={() => navigate(-1)}>User Dashboard</Button> {'>'} {title} Worksheet</Heading.H2>
                 <Paragraph>
                     Description: {description}
                 </Paragraph>
@@ -289,18 +276,18 @@ const Worksheet = () => {
                     Date: {utilities.dateToString(moment(date))}
                 </Paragraph>
                 <Button variation="secondary" onClick={() => setShowModal(true)}>Add Entries</Button>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell width="35%" scope="col">{worksheet.newLanguage}</TableHeaderCell>
-                            <TableHeaderCell width="20%" scope="col" style={{ textAlign: 'center' }}>Recorded</TableHeaderCell>
+                <Table.Table>
+                    <Table.TableHeader>
+                        <Table.TableRow>
+                            <Table.TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</Table.TableHeaderCell>
+                            <Table.TableHeaderCell width="35%" scope="col">{worksheet.newLanguage}</Table.TableHeaderCell>
+                            <Table.TableHeaderCell width="20%" scope="col" style={{ textAlign: 'center' }}>Recorded</Table.TableHeaderCell>
                             {worksheet.status === TWorksheetStatus.NEW
-                                ? (<TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Actions</TableHeaderCell>)
+                                ? (<Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Actions</Table.TableHeaderCell>)
                                 : null}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
+                        </Table.TableRow>
+                    </Table.TableHeader>
+                    <Table.TableBody>
                         {worksheetEntries.map((worksheetEntry) => (
                             <WorksheetEntry
                                 worksheetEntries={worksheetEntries}
@@ -310,8 +297,8 @@ const Worksheet = () => {
                                 worksheetEntry={worksheetEntry}
                             />
                         ))}
-                    </TableBody>
-                </Table>
+                    </Table.TableBody>
+                </Table.Table>
             </div>
             <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal

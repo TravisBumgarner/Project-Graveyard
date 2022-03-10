@@ -5,6 +5,7 @@
 - [x] Prohibit review submission without feedback
 - [x] Change inputs to textareas
 - [x] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
+- [x] Refactor style exploration into shared components
 
 
 # Before first review with French teacher

@@ -3,13 +3,10 @@ import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
-import { Loading } from 'sharedComponents'
+import { Loading, Heading, Button, LabelAndInput, Paragraph, StyledNavLink } from 'sharedComponents'
 import { context } from '.'
 import { auth } from '../../firebase'
 import { TPhraseADayUser } from '../types'
-import {
-    H2, Button, LabelAndInput, Paragraph, StyledNavLink,
-} from './StyleExploration'
 
 const userFriendlyError = (code: string) => {
     const errorLookups: Record<string, string> = {
@@ -61,7 +58,7 @@ const Login = () => {
 
     return (
         <div>
-            <H2>Log In</H2>
+            <Heading.H2>Log In</Heading.H2>
             <form>
                 <LabelAndInput
                     label="Email"

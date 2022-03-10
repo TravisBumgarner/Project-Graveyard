@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Button, colors, StyledNavLink } from 'sharedComponents'
 import { context } from '../..'
-import { Button, PRIMARY, StyledNavLink } from '../../StyleExploration'
 
 const StyledNav = styled.ul`
     position: absolute;
@@ -13,14 +13,13 @@ const StyledNav = styled.ul`
     list-style: none;
     flex-direction: row;
     padding: 0.5rem;
-    background-color: ${PRIMARY.lightest};
+    background-color: ${colors.PRIMARY.lightest};
     border: 2px solid rgb(87, 226, 229);
     margin: 0.5rem;
 
     li {
         padding: 10px;
     }
-}
 `
 
 const ALWAYS_VISIBLE_LINKS = [
