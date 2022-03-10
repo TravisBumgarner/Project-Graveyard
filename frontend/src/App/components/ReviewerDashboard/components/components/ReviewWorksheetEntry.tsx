@@ -32,7 +32,7 @@ const ReviewWorksheetEntry = ({
     worksheet, worksheetEntry, reviewState, dispatchReview
 }: ReviewWorksheetEntryProps) => {
     const { id, knownLanguageText, newLanguageText } = worksheetEntry
-    const [audioURL, isRecording, startRecording, stopRecording] = useRecorder()
+    const [audioURL, setAudioURL, isRecording, startRecording, stopRecording] = useRecorder()
 
     React.useEffect(() => {
         dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
@@ -75,6 +75,7 @@ const ReviewWorksheetEntry = ({
                 audioURL={audioURL}
                 startRecording={startRecording}
                 isRecording={isRecording}
+                clearAudioURL={() => setAudioURL('')}
             />
 
         </ReviewWorksheetEntryWrapper>

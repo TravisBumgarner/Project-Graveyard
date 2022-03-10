@@ -45,7 +45,7 @@ const useRecorder = () => {
         setAudioURL('')
     }
 
-    return [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] as const
+    return [audioURL, setAudioURL, isRecording, startRecording, stopRecording, clearAudioUrl] as const
 }
 
 export { useRecorder }

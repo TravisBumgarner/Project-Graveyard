@@ -112,7 +112,7 @@ type AddWorksheetEntryModalProps = {
 }
 
 const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: AddWorksheetEntryModalProps) => {
-    const [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder()
+    const [audioURL, setAudioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder()
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
@@ -179,6 +179,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
                         audioURL={audioURL}
                         startRecording={startRecording}
                         isRecording={isRecording}
+                        clearAudioURL={() => setAudioURL('')}
                     />
                 </div>
 

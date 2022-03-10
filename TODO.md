@@ -7,25 +7,26 @@
 - [x] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
 - [x] Refactor style exploration into shared components
 
+- [x] Audio recorder should be used everywhere.
+- [x] Add clear button for audio recorder
+- [x] Record button should have better indicator
+
 
 # Before first review with French teacher
 
+- [ ] Fix microphone inputs permission crashing site.
 - [ ] Add error messages for login/signup
 - [ ] Get rid of anys
 - [ ] Add language dropdown
 - [ ] Request a teacher
 - [ ] Add a friend
 - [ ] Testttssssss
-- [ ] Fix microphone inputs permission crashing site.
 - [ ] Add ability to edit entries so you can add recordings later and such.
 - [ ] Make breadcrumb nav Component
 - [ ] Add confirmation to form submitions, like ready for review.
-- [ ] Record button should have better indicator
 - [ ] Disable recorder when recording is over
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed
-- [ ] Audio recorder should be used everywhere.
-- [ ] Add clear button for audio recorder
 - [ ] Get rid of tables for individual entries
  # After First Review with French teacher
 
