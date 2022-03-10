@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
 import { context } from '../../Context'
-import { useRecorder } from '../../../hooks'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -112,13 +111,13 @@ type AddWorksheetEntryModalProps = {
 }
 
 const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: AddWorksheetEntryModalProps) => {
-    const [audioURL, setAudioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder()
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const { dispatch } = React.useContext(context)
-
+    const [audioURL, setAudioURL] = React.useState<string>('')
+    console.log(audioURL)
     const handleSubmit = async () => {
         setIsLoading(true)
         const base64Audio = await objectUrlToBase64(audioURL)
@@ -139,7 +138,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
             setWorksheetEntries((prev) => ([...prev, newWorksheetEntry]))
             setKnownLanguageText('')
             setNewLanguageText('')
-            clearAudioUrl()
+            setAudioURL('')
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
         }
         setIsLoading(false)
@@ -175,11 +174,8 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
 
                 <div>
                     <AudioRecorder
-                        stopRecording={stopRecording}
                         audioURL={audioURL}
-                        startRecording={startRecording}
-                        isRecording={isRecording}
-                        clearAudioURL={() => setAudioURL('')}
+                        setAudioURL={setAudioURL}
                     />
                 </div>
 

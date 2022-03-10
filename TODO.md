@@ -11,13 +11,13 @@
 - [x] Add clear button for audio recorder
 - [x] Record button should have better indicator
 - [x] Make breadcrumb nav Component
+- [x] Merge Audio Hook into AudioRecorder
+- [x] Fix microphone inputs permission crashing site.
 
 
 # Before first review with French teacher
 
-- [ ] Merge Audio Hook into AudioRecorder
 - [ ] Disable recorder when recording is over
-- [ ] Fix microphone inputs permission crashing site.
 - [ ] Add ability to edit entries so you can add recordings later and such.
 - [ ] Add error messages for login/signup
 - [ ] Get rid of anys

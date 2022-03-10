@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors } from 'sharedComponents'
 import { TWorksheet, TWorksheetEntry, } from '../../../../types'
-import { useRecorder } from '../../../../hooks'
 
 const ReviewWorksheetEntryWrapper = styled.div`
     padding: 1rem;
@@ -32,7 +31,7 @@ const ReviewWorksheetEntry = ({
     worksheet, worksheetEntry, reviewState, dispatchReview
 }: ReviewWorksheetEntryProps) => {
     const { id, knownLanguageText, newLanguageText } = worksheetEntry
-    const [audioURL, setAudioURL, isRecording, startRecording, stopRecording] = useRecorder()
+    const [audioURL, setAudioURL] = React.useState<string>('')
 
     React.useEffect(() => {
         dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
@@ -71,11 +70,8 @@ const ReviewWorksheetEntry = ({
                 }}
             />
             <AudioRecorder
-                stopRecording={stopRecording}
                 audioURL={audioURL}
-                startRecording={startRecording}
-                isRecording={isRecording}
-                clearAudioURL={() => setAudioURL('')}
+                setAudioURL={setAudioURL}
             />
 
         </ReviewWorksheetEntryWrapper>

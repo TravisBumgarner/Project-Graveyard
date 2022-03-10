@@ -4,6 +4,14 @@ import React from 'react'
 import { Button } from 'sharedComponents'
 import { Label } from './LabelAndInput'
 import colors from './colors'
+import utilities from '../App/utilities'
+
+// https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
+
+async function requestRecorder() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    return new MediaRecorder(stream)
+}
 
 const AudioRecorderWrapper = styled.div`
     margin: 0.5rem;
@@ -55,39 +63,75 @@ const Pulsing = styled.div`
 `
 
 type AudioRecorderProps = {
-    startRecording: () => void
-    isRecording: boolean
     audioURL: string
-    stopRecording: () => void
-    clearAudioURL: () => void
+    setAudioURL: React.Dispatch<React.SetStateAction<string>>
 }
 
 const AudioRecorder = ({
-    startRecording, isRecording, audioURL, stopRecording, clearAudioURL,
-}: AudioRecorderProps) => (
-    <AudioRecorderWrapper>
-        <Label>Audio:</Label>
-        <div>
-            <div>
-                {isRecording ? (
-                    <Button variation="secondary" onClick={stopRecording} disabled={!isRecording}>
-                        Stop <Pulsing>●</Pulsing>
-                    </Button>
-                ) : (
-                    <Button variation="secondary" onClick={startRecording} disabled={isRecording}>
-                        Record
-                    </Button>
-                )}
-                {
-                    audioURL ? (
-                        <Button onClick={clearAudioURL} variation="alert">Clear</Button>
-                    ) : null
-                }
-            </div>
-            <audio src={audioURL} controls />
+    setAudioURL, audioURL
+}: AudioRecorderProps) => {
+    const [isRecording, setIsRecording] = React.useState<boolean>(false)
+    const [recorder, setRecorder] = React.useState(null)
 
-        </div>
-    </AudioRecorderWrapper>
-)
+    React.useEffect(() => {
+        if (recorder === null) {
+            if (isRecording) {
+                requestRecorder().then(setRecorder, utilities.logger)
+            }
+            return
+        }
+
+        if (isRecording) {
+            recorder.start()
+        } else {
+            recorder.stop()
+        }
+
+        const handleData = (e: any) => {
+            setAudioURL(URL.createObjectURL(e.data))
+        }
+
+        recorder.addEventListener('dataavailable', handleData)
+        return () => recorder.removeEventListener('dataavailable', handleData)
+    }, [recorder, isRecording])
+
+    const startRecording = () => {
+        setIsRecording(true)
+    }
+
+    const stopRecording = async () => {
+        setIsRecording(false)
+    }
+
+    const clearAudioURL = () => {
+        setAudioURL('')
+    }
+
+    return (
+        <AudioRecorderWrapper>
+            <Label>Audio:</Label>
+            <div>
+                <div>
+                    {isRecording ? (
+                        <Button variation="secondary" onClick={stopRecording} disabled={!isRecording}>
+                            Stop <Pulsing>●</Pulsing>
+                        </Button>
+                    ) : (
+                        <Button variation="secondary" onClick={startRecording} disabled={isRecording}>
+                            Record
+                        </Button>
+                    )}
+                    {
+                        audioURL ? (
+                            <Button onClick={clearAudioURL} variation="alert">Clear</Button>
+                        ) : null
+                    }
+                </div>
+                <audio src={audioURL} controls />
+
+            </div>
+        </AudioRecorderWrapper>
+    )
+}
 
 export default AudioRecorder
