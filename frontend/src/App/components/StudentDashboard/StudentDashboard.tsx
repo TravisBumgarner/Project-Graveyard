@@ -4,6 +4,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Loading, Table, Heading, StyledNavLink, Button, Modal, LabelAndInput, } from 'sharedComponents'
+import utilities from '../../utilities'
 import { context } from '..'
 import { TWorksheetStatus, TWorksheet } from '../../types'
 
@@ -82,7 +83,7 @@ const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => 
         setIsLoading(true)
 
         const newWorksheet: TWorksheet = {
-            date: moment(),
+            date: utilities.dateToString(moment()),
             id: uuidv4(),
             description,
             title,
@@ -168,6 +169,7 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
             })
         }
     }
+    console.log(worksheets)
     return (
         <div>
             <Heading.H3>Worksheets in Progress</Heading.H3>
