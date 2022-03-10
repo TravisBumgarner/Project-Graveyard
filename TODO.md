@@ -10,21 +10,22 @@
 - [x] Audio recorder should be used everywhere.
 - [x] Add clear button for audio recorder
 - [x] Record button should have better indicator
+- [x] Make breadcrumb nav Component
 
 
 # Before first review with French teacher
 
+- [ ] Merge Audio Hook into AudioRecorder
+- [ ] Disable recorder when recording is over
 - [ ] Fix microphone inputs permission crashing site.
+- [ ] Add ability to edit entries so you can add recordings later and such.
 - [ ] Add error messages for login/signup
 - [ ] Get rid of anys
 - [ ] Add language dropdown
 - [ ] Request a teacher
 - [ ] Add a friend
 - [ ] Testttssssss
-- [ ] Add ability to edit entries so you can add recordings later and such.
-- [ ] Make breadcrumb nav Component
 - [ ] Add confirmation to form submitions, like ready for review.
-- [ ] Disable recorder when recording is over
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed
 - [ ] Get rid of tables for individual entries

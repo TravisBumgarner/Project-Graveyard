@@ -4,7 +4,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
-import { Loading, AudioRecorder, Modal, Button, Heading, LabelAndInput, Paragraph, Table } from 'sharedComponents'
+import { Loading, AudioRecorder, Modal, Button, Heading, LabelAndInput, Paragraph, Table, Breadcrumbs } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
 import utilities from '../../../utilities'
@@ -186,7 +186,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
                 <div>
                     <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
                     <Button variation="alert" onClick={handleCancel}>Cancel</Button>
-                    <Button variation="primary" onClick={handleClose}>Close</Button>
+                    <Button disabled={isLoading} variation="primary" onClick={handleClose}>Close</Button>
                 </div>
             </div>
         </div>
@@ -269,7 +269,7 @@ const Worksheet = () => {
     return (
         <div>
             <div>
-                <Heading.H2><Button variation="primary" onClick={() => navigate(-1)}>User Dashboard</Button> {'>'} {title} Worksheet</Heading.H2>
+                <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/student/dashboard', text: 'Student Dashboard' }]} /> {title} Worksheet</Heading.H2>
                 <Paragraph>
                     Description: {description}
                 </Paragraph>

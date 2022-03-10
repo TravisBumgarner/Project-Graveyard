@@ -10,6 +10,7 @@ import Paragraph from './Paragraph'
 import Modal from './Modal'
 import colors from './colors'
 import LabelAndInput from './LabelAndInput'
+import Breadcrumbs from './Breadcrumbs'
 
 export {
     Loading,
@@ -23,5 +24,6 @@ export {
     List,
     Modal,
     colors,
-    LabelAndInput
+    LabelAndInput,
+    Breadcrumbs
 }

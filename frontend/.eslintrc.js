@@ -44,6 +44,7 @@ module.exports = {
         'no-spaced-func': ['off'],
         'func-call-spacing': ['off'],
         'import/no-extraneous-dependencies': ['off'],
-        'object-curly-newline': ['off']
+        'object-curly-newline': ['off'],
+        'arrow-body-style': ['off']
     },
 }
