@@ -2,9 +2,9 @@ import React from 'react'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
+import { Button, LabelAndInput, StyledNavLink } from 'sharedComponents'
 import { context } from '.'
 import { auth } from '../../firebase'
-import { Button, LabelAndInput, StyledNavLink } from './StyleExploration'
 
 const ForgottenPassword = () => {
     const { dispatch } = React.useContext(context)

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Button, colors, StyledNavLink } from 'sharedComponents'
 import { context } from '../..'
-import { Button, PRIMARY, StyledNavLink } from '../../StyleExploration'
 
 const StyledNav = styled.ul`
     position: absolute;
@@ -13,35 +13,35 @@ const StyledNav = styled.ul`
     list-style: none;
     flex-direction: row;
     padding: 0.5rem;
-    background-color: ${PRIMARY.lightest};
+    background-color: ${colors.PRIMARY.lightest};
     border: 2px solid rgb(87, 226, 229);
     margin: 0.5rem;
 
     li {
         padding: 10px;
     }
-}
 `
-
-const ALWAYS_VISIBLE_LINKS = [
-    { text: 'Home', to: '/' },
-]
-
-const LOGGED_IN_VISIBLE_LINKS = [
-    { text: 'Student Dashboard', to: '/student/dashboard' },
-    { text: 'Reviewer Dashboard', to: '/reviewer/dashboard' },
-    { text: 'Profile', to: '/profile' },
-    { text: 'Log Out', to: '/logout' },
-]
-
-const LOGGED_OUT_VISIBLE_LINKS = [
-    { text: 'Log In', to: '/login' },
-    { text: 'Sign Up', to: '/signup' },
-]
 
 const Navigation = () => {
     const { state } = React.useContext(context)
     const [showNav, setShowNav] = React.useState<boolean>(false)
+
+    const ALWAYS_VISIBLE_LINKS = [
+        { text: 'Home', to: '/' },
+    ]
+
+    const LOGGED_IN_VISIBLE_LINKS = [
+        { text: 'Student Dashboard', to: '/student/dashboard' },
+        { text: 'Reviewer Dashboard', to: '/reviewer/dashboard' },
+        { text: 'Profile', to: `/profile/${state.currentUser.phraseADay.id}` },
+        { text: 'Log Out', to: '/logout' },
+    ]
+
+    const LOGGED_OUT_VISIBLE_LINKS = [
+        { text: 'Log In', to: '/login' },
+        { text: 'Sign Up', to: '/signup' },
+    ]
+
     const links = [
         ...ALWAYS_VISIBLE_LINKS,
         ...(state.currentUser ? LOGGED_IN_VISIBLE_LINKS : LOGGED_OUT_VISIBLE_LINKS),

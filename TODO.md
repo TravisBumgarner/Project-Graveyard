@@ -1,13 +1,18 @@
 # Before first review with French teacher
 
-- [x] Record sentences
-- [ ] For each call to mutation, check if response is id (or some other value) or null. And handle accordingly
-- [x] Double submit Worksheet creation bug
-- [ ] Give way to delete new worksheets
-- [ ] After filling out an assignment and submitting it, the new phrases don't show in the pending review section
-- [x] Throw error if response from graphql is null
-- [x] Display date after worksheet submitted. Add column for date created, date submitted, etc.
-- [ ] Set up better error handling for vague error mesages from firebase
+- [ ] Disable recorder when recording is over
+- [ ] Add ability to edit entries so you can add recordings later and such.
+- [ ] Add error messages for login/signup
+- [ ] Get rid of anys
+- [ ] Add language dropdown
+- [ ] Request a teacher
+- [ ] Add a friend
+- [ ] Testttssssss
+- [ ] Add confirmation to form submitions, like ready for review.
+- [ ] Fail if exists in FB but not Postgres
+- [ ] Convert reviewer section to be need reviews, reviewed
+- [ ] Get rid of tables for individual entries
+- [ ] Be able to persist URLs after logging in .. redirect user
  # After First Review with French teacher
 
 - [ ] Full styling cleanup
@@ -32,6 +37,13 @@
 
 # Done
 
+- [x] Record sentences
+- [x] For each call to mutation, check if response is id (or some other value) or null. And handle accordingly
+- [x] Double submit Worksheet creation bug
+- [x] Give way to delete new worksheets
+- [x] After filling out an assignment and submitting it, the new phrases don't show in the pending review section
+- [x] Throw error if response from graphql is null
+- [x] Display date after worksheet submitted. Add column for date created, date submitted, etc.
 - [x] Delete worksheets in firebase
 - [x] add the idea of users
     - [x] Need some way for students to share with teachers

@@ -4,24 +4,11 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
-import { Loading, AudioRecorder } from 'sharedComponents'
-import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from '../../../types'
-import utilities from '../../../utilities'
-import { context } from '../../Context'
-import { useRecorder } from '../../../hooks'
-import {
-    Modal,
-    Button,
-    H2,
-    LabelAndInput,
-    Paragraph,
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableHeader,
-    TableHeaderCell,
-    TableRow,
-} from '../../StyleExploration'
+import { Loading, AudioRecorder, Modal, Button, Heading, LabelAndInput, Paragraph, Table, Breadcrumbs } from 'sharedComponents'
+import styled from 'styled-components'
+import { dateToString } from 'utilities'
+import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from 'types'
+import { context } from 'context'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -108,6 +95,15 @@ mutation DeleteWorksheetEntry (
 }
 `
 
+const WrittenWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+
+    > div {
+        width: 50%;
+    }
+`
+
 type AddWorksheetEntryModalProps = {
     closeModal: () => void
     worksheet: TWorksheet
@@ -115,13 +111,13 @@ type AddWorksheetEntryModalProps = {
 }
 
 const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: AddWorksheetEntryModalProps) => {
-    const [audioURL, isRecording, startRecording, stopRecording, clearAudioUrl] = useRecorder()
     const [addWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(ADD_WORKSHEET_ENTRY)
     const [knownLanguageText, setKnownLanguageText] = React.useState<string>('')
     const [newLanguageText, setNewLanguageText] = React.useState<string>('')
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const { dispatch } = React.useContext(context)
-
+    const [audioURL, setAudioURL] = React.useState<string>('')
+    console.log(audioURL)
     const handleSubmit = async () => {
         setIsLoading(true)
         const base64Audio = await objectUrlToBase64(audioURL)
@@ -142,7 +138,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
             setWorksheetEntries((prev) => ([...prev, newWorksheetEntry]))
             setKnownLanguageText('')
             setNewLanguageText('')
-            clearAudioUrl()
+            setAudioURL('')
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
         }
         setIsLoading(false)
@@ -157,39 +153,36 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
 
     return (
         <div>
-            <H2>New Worksheet Entry</H2>
+            <Heading.H2>New Worksheet Entry</Heading.H2>
             <div>
-                <div>
+                <WrittenWrapper>
                     <LabelAndInput
                         label={worksheet.knownLanguage}
                         name="fromLanguage"
                         value={knownLanguageText}
                         handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
+                        type="textarea"
                     />
-                </div>
-
-                <div>
                     <LabelAndInput
                         label={worksheet.newLanguage}
                         name="newLanguage"
                         value={newLanguageText}
                         handleChange={(newLanguage) => setNewLanguageText(newLanguage)}
+                        type="textarea"
                     />
-                </div>
+                </WrittenWrapper>
 
                 <div>
                     <AudioRecorder
-                        stopRecording={stopRecording}
                         audioURL={audioURL}
-                        startRecording={startRecording}
-                        isRecording={isRecording}
+                        setAudioURL={setAudioURL}
                     />
                 </div>
 
                 <div>
                     <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
                     <Button variation="alert" onClick={handleCancel}>Cancel</Button>
-                    <Button variation="primary" onClick={handleClose}>Close</Button>
+                    <Button disabled={isLoading} variation="primary" onClick={handleClose}>Close</Button>
                 </div>
             </div>
         </div>
@@ -225,18 +218,18 @@ const WorksheetEntry = ({
     }
 
     return (
-        <TableRow key={id}>
-            <TableBodyCell>{knownLanguageText}</TableBodyCell>
-            <TableBodyCell>{newLanguageText}</TableBodyCell>
-            <TableBodyCell><audio controls src={audioUrl} /></TableBodyCell>
+        <Table.TableRow key={id}>
+            <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell>
+            <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell>
+            <Table.TableBodyCell><audio controls src={audioUrl} /></Table.TableBodyCell>
             {Actions.length ? (
-                <TableBodyCell>
+                <Table.TableBodyCell>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         {Actions}
                     </div>
-                </TableBodyCell>
+                </Table.TableBodyCell>
             ) : null}
-        </TableRow>
+        </Table.TableRow>
     )
 }
 
@@ -272,26 +265,26 @@ const Worksheet = () => {
     return (
         <div>
             <div>
-                <H2><Button variation="primary" onClick={() => navigate(-1)}>User Dashboard</Button> {'>'} {title} Worksheet</H2>
+                <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/student/dashboard', text: 'Student Dashboard' }]} /> {title} Worksheet</Heading.H2>
                 <Paragraph>
                     Description: {description}
                 </Paragraph>
                 <Paragraph>
-                    Date: {utilities.dateToString(moment(date))}
+                    Date: {dateToString(moment(date))}
                 </Paragraph>
                 <Button variation="secondary" onClick={() => setShowModal(true)}>Add Entries</Button>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell width="35%" scope="col">{worksheet.newLanguage}</TableHeaderCell>
-                            <TableHeaderCell width="20%" scope="col" style={{ textAlign: 'center' }}>Recorded</TableHeaderCell>
+                <Table.Table>
+                    <Table.TableHeader>
+                        <Table.TableRow>
+                            <Table.TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</Table.TableHeaderCell>
+                            <Table.TableHeaderCell width="35%" scope="col">{worksheet.newLanguage}</Table.TableHeaderCell>
+                            <Table.TableHeaderCell width="20%" scope="col" style={{ textAlign: 'center' }}>Recorded</Table.TableHeaderCell>
                             {worksheet.status === TWorksheetStatus.NEW
-                                ? (<TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Actions</TableHeaderCell>)
+                                ? (<Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Actions</Table.TableHeaderCell>)
                                 : null}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
+                        </Table.TableRow>
+                    </Table.TableHeader>
+                    <Table.TableBody>
                         {worksheetEntries.map((worksheetEntry) => (
                             <WorksheetEntry
                                 worksheetEntries={worksheetEntries}
@@ -301,8 +294,8 @@ const Worksheet = () => {
                                 worksheetEntry={worksheetEntry}
                             />
                         ))}
-                    </TableBody>
-                </Table>
+                    </Table.TableBody>
+                </Table.Table>
             </div>
             <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
             <Modal

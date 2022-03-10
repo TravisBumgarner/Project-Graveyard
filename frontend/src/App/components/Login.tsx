@@ -3,13 +3,19 @@ import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
-import { Loading } from 'sharedComponents'
+import { Loading, Heading, Button, LabelAndInput, Paragraph, StyledNavLink } from 'sharedComponents'
 import { context } from '.'
 import { auth } from '../../firebase'
-import { TPhraseADayUser } from '../types'
-import {
-    H2, Button, LabelAndInput, Paragraph, StyledNavLink,
-} from './StyleExploration'
+import { TPhraseADayUser } from 'types'
+
+const userFriendlyError = (code: string) => {
+    const errorLookups: Record<string, string> = {
+        'auth/user-not-found': 'User not found',
+        'auth/wrong-password': 'Wrong password',
+    }
+
+    return errorLookups[code] || 'Unknown error occurred'
+}
 
 const Login = () => {
     const { dispatch } = React.useContext(context)
@@ -41,8 +47,8 @@ const Login = () => {
             dispatch({
                 type: 'ADD_MESSAGE',
                 data: {
-                    message: `Failed to login: ${error.message}`,
-                },
+                    message: `Failed to log in: ${userFriendlyError(error.code)}`
+                }
             })
             setIsLoading(false)
         }
@@ -52,7 +58,7 @@ const Login = () => {
 
     return (
         <div>
-            <H2>Log In</H2>
+            <Heading.H2>Log In</Heading.H2>
             <form>
                 <LabelAndInput
                     label="Email"

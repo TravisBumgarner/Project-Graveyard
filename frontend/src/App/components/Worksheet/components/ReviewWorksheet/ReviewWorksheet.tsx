@@ -4,16 +4,13 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router'
 
-import { Loading } from 'sharedComponents'
+import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
+import { dateToString } from 'utilities'
 import {
     TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
-} from '../../../types'
-import utilities from '../../../utilities'
-import { useRecorder } from '../../../hooks'
-import {
-    Button, H2, Input, Paragraph, Table, TableBody, TableBodyCell, TableHeader, TableHeaderCell, TableRow,
-} from '../../StyleExploration'
-import { context } from '../../Context'
+} from 'types'
+import { context } from 'context'
+import { ReviewWorksheetEntry } from './components'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -66,53 +63,6 @@ mutation AddReview (
 }
 `
 
-type WorksheetReviewEntryProps = {
-    worksheetEntry: TWorksheetEntry
-    reviewState: any
-    dispatchReview: any
-}
-const WorksheetReviewEntry = ({ worksheetEntry, reviewState, dispatchReview }: WorksheetReviewEntryProps) => {
-    const { id, knownLanguageText, newLanguageText } = worksheetEntry
-    const [audioURL, isRecording, startRecording, stopRecording] = useRecorder()
-
-    React.useEffect(() => {
-        dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
-    }, [audioURL])
-
-    return (
-        <TableRow key={id}>
-            <TableBodyCell>{knownLanguageText}</TableBodyCell>
-            <TableBodyCell>{newLanguageText}</TableBodyCell>
-            <TableBodyCell><audio controls src={worksheetEntry.audioUrl} /></TableBodyCell>
-            <TableBodyCell>
-                <Input
-                    value={reviewState[id].writtenFeedback}
-                    onChange={(event) => {
-                        dispatchReview({
-                            type: 'WRITTEN_FEEDBACK_ACTION',
-                            data: {
-                                worksheetEntryId: worksheetEntry.id,
-                                writtenFeedback: event.target.value
-                            }
-                        })
-                    }}
-                />
-            </TableBodyCell>
-            <TableBodyCell>
-                <audio src={reviewState[worksheetEntry.id].oralFeedback} controls />
-                <div>
-                    <Button variation="primary" onClick={startRecording} disabled={isRecording}>
-                        Record
-                    </Button>
-                    <Button variation="primary" onClick={stopRecording} disabled={!isRecording}>
-                        Stop
-                    </Button>
-                </div>
-            </TableBodyCell>
-        </TableRow>
-    )
-}
-
 type State = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
 type InitialStateAction = {
@@ -160,6 +110,12 @@ const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEn
     }
     return accum
 }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
+
+const hasReviewerReviewed = (reviewState: State) => (
+    Object
+        .values(reviewState)
+        .some(({ oralFeedback, writtenFeedback }) => oralFeedback.length || writtenFeedback.length)
+)
 
 const ReviewWorksheet = () => {
     const { dispatch } = React.useContext(context)
@@ -216,7 +172,8 @@ const ReviewWorksheet = () => {
     return (
         <div>
             <div>
-                <H2>{title}</H2>
+                <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/reviewer/dashboard', text: 'Reviewer Dashboard' }]} /> {title} Worksheet</Heading.H2>
+
                 <Paragraph>
                     {' '}
                     Student:
@@ -230,7 +187,7 @@ const ReviewWorksheet = () => {
                 <Paragraph>
                     {' '}
                     Date:
-                    {utilities.dateToString(moment(date))}
+                    {dateToString(moment(date))}
                 </Paragraph>
                 <Paragraph>
                     {' '}
@@ -240,7 +197,7 @@ const ReviewWorksheet = () => {
                     To:
                     {newLanguage}
                 </Paragraph>
-                <Table>
+                {/* <Table>
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell width="5%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
@@ -250,19 +207,20 @@ const ReviewWorksheet = () => {
                             <TableHeaderCell style={{ textAlign: 'center' }} width="5%" scope="col">Oral Feedback</TableHeaderCell>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        {worksheetEntries.map((worksheetEntry) => (
-                            <WorksheetReviewEntry
-                                key={worksheetEntry.id}
-                                reviewState={reviewState}
-                                dispatchReview={dispatchReview}
-                                worksheetEntry={worksheetEntry}
-                            />
-                        ))}
-                    </TableBody>
-                </Table>
+                    <TableBody> */}
+                {worksheetEntries.map((worksheetEntry) => (
+                    <ReviewWorksheetEntry
+                        key={worksheetEntry.id}
+                        reviewState={reviewState}
+                        dispatchReview={dispatchReview}
+                        worksheetEntry={worksheetEntry}
+                        worksheet={worksheet}
+                    />
+                ))}
+                {/* </TableBody>
+                </Table> */}
             </div>
-            <Button variation="primary" disabled={isLoading} onClick={handleSubmit}>Submit Feedback</Button>
+            <Button variation="primary" disabled={isLoading || !hasReviewerReviewed(reviewState)} onClick={handleSubmit}>Submit Feedback</Button>
         </div>
     )
 }

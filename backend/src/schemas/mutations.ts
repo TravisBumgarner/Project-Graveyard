@@ -137,6 +137,26 @@ const addReview = {
     },
 }
 
+const deleteWorksheet = {
+    type: WorksheetType,
+    description: 'Delete a Worksheet',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, { id }: Exactly<AddWorksheetArgs, 'id'>, context) => {
+        if (!context.authenticatedUserId) return null
+
+        await getConnection()
+            .getRepository(entity.Worksheet)
+            .delete({
+                id,
+            })
+        return {
+            id,
+        }
+    },
+}
+
 type AddWorksheetEntryArgs = {
     knownLanguageText: string
     newLanguageText: string
@@ -195,6 +215,7 @@ const RootMutationType = new GraphQLObjectType({
     fields: () => ({
         addWorksheet,
         editWorksheet,
+        deleteWorksheet,
         addWorksheetEntry,
         deleteWorksheetEntry,
         addReview,

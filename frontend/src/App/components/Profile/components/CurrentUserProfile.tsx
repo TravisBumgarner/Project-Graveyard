@@ -1,10 +1,8 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
 
-import { context } from '.'
-import {
-    LabelAndInput, Button, H2, Paragraph, Modal
-} from '../components/StyleExploration'
+import { LabelAndInput, Button, Heading, Paragraph, Modal } from 'sharedComponents'
+import { context } from '../..'
 
 type EditProfileProps = {
     closeModal: () => void
@@ -48,7 +46,7 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
 
     return (
         <div>
-            <h1>Edit Profile</h1>
+            <Heading.H1>Edit Profile</Heading.H1>
             <div>
                 <LabelAndInput label="Email" value={email} name="email" handleChange={(data) => setEmail(data)} />
             </div>
@@ -73,25 +71,22 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
     )
 }
 
-const Profile = () => {
+const CurrentUserProfile = () => {
     const { state } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
 
     return (
         <>
             <div>
-                <H2>Profile</H2>
+                <Heading.H2>Profile</Heading.H2>
                 <Paragraph>
-                    Username:
-                    {state.currentUser.phraseADay.username}
+                    Username: {state.currentUser.phraseADay.username}
                 </Paragraph>
                 <Paragraph>
-                    Email:
-                    {state.currentUser.firebase.email}
+                    Email: {state.currentUser.firebase.email}
                 </Paragraph>
                 <Paragraph>
-                    Last Login:
-                    {state.currentUser.firebase.metadata.lastSignInTime}
+                    Last Login: {state.currentUser.firebase.metadata.lastSignInTime}
                 </Paragraph>
             </div>
             <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
@@ -106,4 +101,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default CurrentUserProfile

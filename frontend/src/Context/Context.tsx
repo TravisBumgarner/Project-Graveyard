@@ -1,8 +1,8 @@
 import { User as TFirebaseUser } from 'firebase/auth'
 import React from 'react'
-import utilities from '../../utilities'
+import { logger } from 'utilities'
 
-import { TWorksheetEntry, TPhraseADayUser } from '../../types'
+import { TWorksheetEntry, TPhraseADayUser } from 'types'
 
 type State = {
     message: {
@@ -94,7 +94,7 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, currentUser: action.data.currentUser }
         }
         default: {
-            utilities.logger(`Swallowing action: ${JSON.stringify(action)}`)
+            logger(`Swallowing action: ${JSON.stringify(action)}`)
             return state
         }
     }

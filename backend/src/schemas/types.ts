@@ -92,5 +92,5 @@ const WorksheetEntryType = new GraphQLObjectType({
 })
 
 export {
-    WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType, ReviewForStudentType,
+    WorksheetType, WorksheetEntryType, ReviewType, ReviewEntryType, ReviewForStudentType, UserType
 }

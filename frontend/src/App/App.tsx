@@ -14,6 +14,8 @@ import axios from 'axios'
 
 import Theme from 'theme'
 import { Loading } from 'sharedComponents'
+import { TPhraseADayUser } from 'types'
+import { context } from 'context'
 import {
     ForgottenPassword,
     Home,
@@ -23,19 +25,15 @@ import {
     Header,
     StudentDashboard,
     Context,
-    context,
     Signup,
     Profile,
     ReviewDashboard,
-    StyleExploration,
     Error,
     Footer,
     AlertMessage,
+    Worksheet
 } from './components'
-import { Worksheet } from './components/StudentDashboard/components'
-import { ReviewWorksheet } from './components/ReviewerDashboard/components'
 import Review from './components/StudentDashboard/components/Review'
-import { TPhraseADayUser } from './types'
 import { auth } from '../firebase'
 
 const App = () => {
@@ -51,10 +49,10 @@ const App = () => {
             <Header />
             <Routes>
                 <Route
-                    path="/reviewer/review/:worksheetId"
+                    path="/worksheet/:worksheetId"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<ReviewWorksheet />}
+                            authedComponent={<Worksheet />}
                         />
                     )}
                 />
@@ -67,7 +65,7 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path="/profile"
+                    path="/profile/:userId"
                     element={(
                         <ConditionalRoute
                             authedComponent={<Profile />}
@@ -110,21 +108,12 @@ const App = () => {
                         />
                     )}
                 />
-                <Route path="/stylesheet" element={<StyleExploration />} />
                 <Route
                     path="/student/dashboard"
                     element={(
                         <ConditionalRoute
                             authedComponent={<StudentDashboard />}
                             unauthedComponent={<Home />}
-                        />
-                    )}
-                />
-                <Route
-                    path="/student/worksheet/:worksheetId"
-                    element={(
-                        <ConditionalRoute
-                            authedComponent={<Worksheet />}
                         />
                     )}
                 />

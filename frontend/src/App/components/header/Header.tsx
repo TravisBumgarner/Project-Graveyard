@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
+import { Heading, Paragraph } from 'sharedComponents'
+import { context } from 'context'
 import { Navigation } from './components'
 import logo from '../../../static/logo.png'
-import { H1 } from '../StyleExploration'
 
 const Img = styled.img`
     width: 75px;
@@ -18,22 +19,28 @@ const HeaderWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    & > div:first-child {
+    & > div:first-child, & > div:nth-child(2) {
         display: flex;
         align-items: center;
     }
+
+
 `
 
-const Header = () => (
-    <HeaderWrapper>
-        <div>
-            <Link to="/"> <Img src={logo} /></Link>
-            <Link style={{ textDecoration: 'none' }} to="/"> <H1>phrase a day</H1></Link>
-        </div>
-        <div>
-            <Navigation />
-        </div>
-    </HeaderWrapper>
-)
+const Header = () => {
+    const { state } = React.useContext(context)
+    return (
+        <HeaderWrapper>
+            <div>
+                <Link to="/"> <Img src={logo} /></Link>
+                <Link style={{ textDecoration: 'none' }} to="/"> <Heading.H1>phrase a day</Heading.H1></Link>
+            </div>
+            <div>
+                <Paragraph>Welcome, {state.currentUser ? state.currentUser.phraseADay.username : 'language friend'}!</Paragraph>
+                <Navigation />
+            </div>
+        </HeaderWrapper>
+    )
+}
 
 export default Header

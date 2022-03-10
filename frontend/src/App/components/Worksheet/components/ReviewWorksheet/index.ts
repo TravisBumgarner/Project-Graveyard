@@ -1,5 +1,3 @@
 import ReviewWorksheet from './ReviewWorksheet'
 
-export {
-    ReviewWorksheet
-}
+export default ReviewWorksheet

@@ -47,5 +47,7 @@ module.exports = {
         'default-case': ['off'], // ts does it better
         'no-spaced-func': ['off'],
         'func-call-spacing': ['off'],
+        'object-curly-newline': ['off'],
+        'arrow-body-style': ['off']
     },
 }

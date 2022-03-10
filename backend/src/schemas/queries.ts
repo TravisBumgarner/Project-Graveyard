@@ -7,9 +7,33 @@ import {
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewForStudentType } from './types'
+import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType } from './types'
 import { Context } from '../types'
 import { isUUID } from '../utilities'
+
+type GetUserArgs = {
+    userId?: string
+}
+
+const user = {
+    type: new GraphQLList(UserType),
+    description: 'List of Users',
+    args: {
+        userId: { type: GraphQLString },
+    },
+    resolve: async (_parent, args: GetUserArgs, context: Context) => {
+        if (!context.authenticatedUserId) return []
+        const query = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+
+        if (args.userId) {
+            query.andWhere('user.id = :userId', { userId: args.userId })
+        }
+        const data = query.getMany()
+        return data
+    },
+}
 
 type GetWorksheetArgs = {
     worksheetId?: string
@@ -104,6 +128,7 @@ const RootQueryType = new GraphQLObjectType({
         worksheet,
         worksheetEntries,
         studentReview,
+        user
     }),
 })
 
