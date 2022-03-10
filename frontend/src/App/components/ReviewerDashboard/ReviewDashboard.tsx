@@ -45,13 +45,12 @@ const Review = () => {
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>
-                        <Table.TableHeaderCell width="16%">Title</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">Created</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">User</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">From</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">To</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">Description</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="16%">Actions</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">Title</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">Created</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">User</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="25%">Description</Table.TableHeaderCell>
                     </Table.TableRow>
                 </Table.TableHeader>
                 <Table.TableBody>
@@ -63,15 +62,12 @@ const Review = () => {
                             title, user: { username, id: userId }, date, description, id, knownLanguage, newLanguage,
                         }) => (
                             <Table.TableRow key={id}>
-                                <Table.TableBodyCell>{title}</Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink to={`/reviewer/review/${id}`} text={title} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                 <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{description}</Table.TableBodyCell>
-                                <Table.TableBodyCell>
-                                    <StyledNavLink to={`/reviewer/review/${id}`} text="Review" />
-                                </Table.TableBodyCell>
                             </Table.TableRow>
                         ))}
                 </Table.TableBody>
