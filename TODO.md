@@ -1,26 +1,3 @@
-# pr-1 (name of PR, and then below things addressed)
-
-- [x] Submit Worksheet Modal doesn't close on error
-- [x] Add "Welcome, X" to header. 
-- [x] Prohibit review submission without feedback
-- [x] Change inputs to textareas
-- [x] The record section takes up too much room. ... Perhaps two rows per entry? With audio and actions on next line?
-- [x] Refactor style exploration into shared components
-
-- [x] Audio recorder should be used everywhere.
-- [x] Add clear button for audio recorder
-- [x] Record button should have better indicator
-- [x] Make breadcrumb nav Component
-- [x] Merge Audio Hook into AudioRecorder
-- [x] Fix microphone inputs permission crashing site.
-- [x] Fix bug on adding new worksheets
-- [x] Setup profile to show with uuid and fetch data accordingly
-- [x] Setup OtherUserProfile
-- [x] Be able to share Worksheet Urls with others
-- [x] Fix command line bugs
-- [x] Make types and context and utils not relative paths
-- [x] get rid of default export in FE utils
-
 # Before first review with French teacher
 
 - [ ] Disable recorder when recording is over
