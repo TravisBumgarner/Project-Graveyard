@@ -36,11 +36,12 @@ mutation DeleteWorksheet (
     }
 `
 
-type NewTableProps = {
+type WorksheetTableProps = {
     worksheets: TWorksheet[],
-    setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>
+    setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>,
+    tableType: TWorksheetStatus
 }
-const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
+const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTableProps) => {
     const { dispatch } = React.useContext(context)
     const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     const navigate = useNavigate()
@@ -48,6 +49,29 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
 
     const confirmDelete = () => {
         setShowDeleteModal(true)
+    }
+
+    const titleLookup = {
+        [TWorksheetStatus.NEW]: 'Worksheets in Progress',
+        [TWorksheetStatus.NEEDS_REVIEW]: 'Worksheets Awaiting Review',
+        [TWorksheetStatus.HAS_REVIEWS]: 'Worksheets With Reviews',
+    }
+
+    const actionsLookup = ({ id }: {
+        id: string
+    }) => {
+        return {
+            [TWorksheetStatus.NEW]: [
+                <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
+                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+            ],
+            [TWorksheetStatus.NEEDS_REVIEW]: [
+                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+            ],
+            [TWorksheetStatus.HAS_REVIEWS]: [
+                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+            ],
+        }[tableType]
     }
 
     const handleDelete = async (id: string) => {
@@ -64,7 +88,7 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
     }
     return (
         <div>
-            <Heading.H3>Worksheets in Progress</Heading.H3>
+            <Heading.H3>{titleLookup[tableType]}</Heading.H3>
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>
@@ -81,31 +105,28 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
                         .map(({
                             title, description, id, knownLanguage, newLanguage, date
                         }) => (
-                            <>
+                            <Table.TableRow key={id}>
+                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                                <Table.TableBodyCell>
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                        {actionsLookup({ id })}
+                                    </div>
+                                </Table.TableBodyCell>
                                 <Modal
-                                    contentLabel="Delete Worksheet"
+                                    contentLabel="Delete Worksheet?"
                                     showModal={showDeleteModal}
                                     closeModal={() => setShowDeleteModal(false)}
                                 >
                                     <>
-                                        <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
                                         <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                                        <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
                                     </>
                                 </Modal>
-                                <Table.TableRow key={id}>
-                                    <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
-                                    <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                    <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
-                                    <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
-                                    <Table.TableBodyCell>{description}</Table.TableBodyCell>
-                                    <Table.TableBodyCell>
-                                        <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                            <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>
-                                            <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
-                                        </div>
-                                    </Table.TableBodyCell>
-                                </Table.TableRow>
-                            </>
+                            </Table.TableRow>
                         ))}
                 </Table.TableBody>
             </Table.Table>
@@ -113,76 +134,6 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
         </div>
     )
 }
-
-type NeedsReviewTableProps = {
-    worksheets: TWorksheet[],
-}
-const NeedsReviewTable = ({ worksheets }: NeedsReviewTableProps) => (
-    <div>
-        <Heading.H3>Worksheets Awaiting Review</Heading.H3>
-        <Table.Table>
-            <Table.TableHeader>
-                <Table.TableRow>
-                    <Table.TableHeaderCell width="20%">Title</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="30%">Description</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="10%" />
-                </Table.TableRow>
-            </Table.TableHeader>
-            <Table.TableBody>
-                {worksheets
-                    .map(({
-                        title, description, id, knownLanguage, newLanguage, date
-                    }) => (
-                        <Table.TableRow key={id}>
-                            <Table.TableBodyCell><StyledNavLink to={`/student/worksheet/${id}`} text={title} /></Table.TableBodyCell>
-                            <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                            <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
-                            <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
-                            <Table.TableBodyCell>{description}</Table.TableBodyCell>
-                        </Table.TableRow>
-                    ))}
-            </Table.TableBody>
-        </Table.Table>
-    </div>
-)
-
-type HasReviewsTableProps = {
-    worksheets: TWorksheet[],
-}
-const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
-    <div>
-        <Heading.H3>Reviewed Worksheets</Heading.H3>
-        <Table.Table>
-            <Table.TableHeader>
-                <Table.TableRow>
-                    <Table.TableHeaderCell width="20%">Title</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="10%">Created</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="30%">Description</Table.TableHeaderCell>
-                    <Table.TableHeaderCell width="10%" />
-                </Table.TableRow>
-            </Table.TableHeader>
-            <Table.TableBody>
-                {worksheets
-                    .map(({
-                        title, description, id, knownLanguage, newLanguage, date
-                    }) => (
-                        <Table.TableRow key={id}>
-                            <Table.TableBodyCell><StyledNavLink to={`/student/review/${id}`} text={title} /></Table.TableBodyCell>
-                            <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                            <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
-                            <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
-                            <Table.TableBodyCell>{description}</Table.TableBodyCell>
-                        </Table.TableRow>
-                    ))}
-            </Table.TableBody>
-        </Table.Table>
-    </div>
-)
 
 const Worksheets = () => {
     const { state } = React.useContext(context)
@@ -208,9 +159,21 @@ const Worksheets = () => {
         <div>
             <Heading.H2>Student Dashboard</Heading.H2>
             <Button variation="primary" onClick={() => navigate('/worksheet/new')}>Add Worksheet</Button>
-            <NewTable setWorksheets={setWorksheets} worksheets={filterWorksheets(TWorksheetStatus.NEW)} />
-            <NeedsReviewTable worksheets={filterWorksheets(TWorksheetStatus.NEEDS_REVIEW)} />
-            <HasReviewsTable worksheets={filterWorksheets(TWorksheetStatus.HAS_REVIEWS)} />
+            <WorksheetTable
+                tableType={TWorksheetStatus.NEW}
+                setWorksheets={setWorksheets}
+                worksheets={filterWorksheets(TWorksheetStatus.NEW)}
+            />
+            <WorksheetTable
+                tableType={TWorksheetStatus.NEEDS_REVIEW}
+                setWorksheets={setWorksheets}
+                worksheets={filterWorksheets(TWorksheetStatus.NEEDS_REVIEW)}
+            />
+            <WorksheetTable
+                tableType={TWorksheetStatus.HAS_REVIEWS}
+                setWorksheets={setWorksheets}
+                worksheets={filterWorksheets(TWorksheetStatus.HAS_REVIEWS)}
+            />
         </div>
     )
 }

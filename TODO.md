@@ -25,6 +25,7 @@
 - [ ] Add a beta banner
 - [ ] If graphql query fails, stop loading and throw error
 - [ ] Don't add audio url when audio doesn't exist
+- [ ] make sure people can't post to endpoints that they shouldn't be
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

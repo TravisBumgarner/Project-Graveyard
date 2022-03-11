@@ -20,6 +20,9 @@ const HeaderWrapper = styled.div`
     svg {
         cursor: pointer;
         fill: ${colors.PRIMARY.base};
+        position: relative;
+        right: -13px;
+        top: -14px;
 
     &:hover {
         fill: ${colors.PRIMARY.darken};
@@ -48,7 +51,9 @@ const Modal = ({
             content: {
                 borderColor: colors.PRIMARY.base,
                 borderRadius: '1.5em',
-                backgroundColor: colors.DARKNESS.base
+                backgroundColor: colors.DARKNESS.base,
+                position: 'static',
+                maxWidth: '80vw'
             },
         }}
     >

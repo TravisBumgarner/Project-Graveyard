@@ -72,7 +72,7 @@ const AddWorksheet = () => {
 
     return (
         <div>
-            <Heading.H2>Worksheets</Heading.H2>
+            <Heading.H2>Add a Worksheet</Heading.H2>
             <div>
                 <div>
                     <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
@@ -104,6 +104,7 @@ const AddWorksheet = () => {
                         handleChange={(data) => setknownLanguage(data)}
                     />
                 </div>
+                <Button disabled={isLoading} variation="alert" onClick={() => navigate('/student/dashboard')}>Cancel</Button>
                 <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
             </div>
         </div>

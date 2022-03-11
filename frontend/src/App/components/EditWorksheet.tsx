@@ -103,7 +103,7 @@ const EditWorksheet = () => {
 
     return (
         <div>
-            <Heading.H2>Worksheets</Heading.H2>
+            <Heading.H2>Edit {title} Worksheet</Heading.H2>
             <div>
                 <div>
                     <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
