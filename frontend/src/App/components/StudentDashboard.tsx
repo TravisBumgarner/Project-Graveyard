@@ -1,12 +1,10 @@
 import React from 'react'
-import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
-import { v4 as uuidv4 } from 'uuid'
 
-import { Loading, Table, Heading, StyledNavLink, Button, Modal, LabelAndInput, } from 'sharedComponents'
-import { dateToString } from 'utilities'
+import { Loading, Table, Heading, StyledNavLink, Button } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet } from 'types'
-import { context } from '..'
+import { context } from 'context'
+import { useNavigate } from 'react-router'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -26,28 +24,6 @@ query GetWorksheets {
 }
 `
 
-const ADD_WORKSHEET = gql`
-mutation AddWorksheet (
-    $title: String!
-    $description: String!,
-    $id: String!
-    $date: String!
-    $knownLanguage: String!
-    $newLanguage: String!
-  ) {
-    addWorksheet(
-        id: $id,
-        title: $title,
-        description: $description,
-        date: $date,
-        knownLanguage: $knownLanguage,
-        newLanguage: $newLanguage,
-        status: "${TWorksheetStatus.NEW}"){
-      id
-    }
-}
-`
-
 const DELETE_WORKSHEET = gql`
 mutation DeleteWorksheet (
     $id: String!
@@ -59,95 +35,6 @@ mutation DeleteWorksheet (
     }
     }
 `
-
-type AddWorksheetProps = {
-    closeModal: () => void
-    setWorksheets: React.Dispatch<React.SetStateAction<Record<string,
-        TWorksheet>>>
-}
-
-const AddWorksheetModal = ({ closeModal, setWorksheets }: AddWorksheetProps) => {
-    const { state, dispatch } = React.useContext(context)
-    const [addWorksheet] = useMutation<{ addWorksheet: TWorksheet }>(ADD_WORKSHEET)
-    const [title, setTitle] = React.useState('')
-    const [description, setDescription] = React.useState<string>('')
-    const [knownLanguage, setknownLanguage] = React.useState<string>('')
-    const [newLanguage, setnewLanguage] = React.useState<string>('')
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
-
-    const handleSubmit = async () => {
-        if (!title || !description || !knownLanguage || !newLanguage) {
-            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Please fully complete the form.' } })
-            return
-        }
-        setIsLoading(true)
-
-        const newWorksheet: TWorksheet = {
-            date: dateToString(moment()),
-            id: uuidv4(),
-            description,
-            title,
-            knownLanguage,
-            newLanguage,
-            status: TWorksheetStatus.NEW,
-            userId: state.currentUser.phraseADay.id,
-        }
-        const response = await addWorksheet({
-            variables: newWorksheet,
-        })
-        if (response.data.addWorksheet === null) {
-            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit worksheet', timeToLiveMS: 5000 } })
-        } else {
-            setWorksheets((prev) => ({ ...prev, [newWorksheet.id]: newWorksheet }))
-            closeModal()
-        }
-        setIsLoading(false)
-    }
-
-    const handleCancel = () => {
-        closeModal()
-    }
-
-    return (
-        <div>
-            <Heading.H2>Worksheets</Heading.H2>
-            <div>
-                <div>
-                    <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
-                </div>
-
-                <div>
-                    <LabelAndInput
-                        label="Description"
-                        name="description"
-                        value={description}
-                        handleChange={(data) => setDescription(data)}
-                    />
-                </div>
-
-                <div>
-                    <LabelAndInput
-                        label="Language you're learning:"
-                        name="newLanguage"
-                        value={newLanguage}
-                        handleChange={(data) => setnewLanguage(data)}
-                    />
-                </div>
-
-                <div>
-                    <LabelAndInput
-                        label="Language your'e starting from:"
-                        name="knowLanguage"
-                        value={knownLanguage}
-                        handleChange={(data) => setknownLanguage(data)}
-                    />
-                </div>
-                <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
-                <Button disabled={isLoading} variation="alert" onClick={handleCancel}>Cancel</Button>
-            </div>
-        </div>
-    )
-}
 
 type NewTableProps = {
     worksheets: TWorksheet[],
@@ -279,8 +166,7 @@ const HasReviewsTable = ({ worksheets }: HasReviewsTableProps) => (
 
 const Worksheets = () => {
     const { state } = React.useContext(context)
-
-    const [showModal, setShowModal] = React.useState<boolean>(false)
+    const navigate = useNavigate()
     const [worksheets, setWorksheets] = React.useState<Record<string, TWorksheet>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEETS, {
@@ -301,14 +187,7 @@ const Worksheets = () => {
     return (
         <div>
             <Heading.H2>Student Dashboard</Heading.H2>
-            <Button variation="primary" onClick={() => setShowModal(true)}>Add Worksheet</Button>
-            <Modal
-                showModal={showModal}
-                closeModal={() => setShowModal(false)}
-                contentLabel="Add Worksheet"
-            >
-                <AddWorksheetModal setWorksheets={setWorksheets} closeModal={() => setShowModal(false)} />
-            </Modal>
+            <Button variation="primary" onClick={() => navigate('/worksheet/new')}>Add Worksheet</Button>
             <NewTable setWorksheets={setWorksheets} worksheets={filterWorksheets(TWorksheetStatus.NEW)} />
             <NeedsReviewTable worksheets={filterWorksheets(TWorksheetStatus.NEEDS_REVIEW)} />
             <HasReviewsTable worksheets={filterWorksheets(TWorksheetStatus.HAS_REVIEWS)} />

@@ -32,9 +32,10 @@ import {
     Footer,
     AlertMessage,
     Worksheet,
-    Users
+    Users,
+    Review,
+    AddWorksheet
 } from './components'
-import Review from './components/StudentDashboard/components/Review'
 import { auth } from '../firebase'
 
 const App = () => {
@@ -49,6 +50,14 @@ const App = () => {
             {state.message ? <AlertMessage /> : null}
             <Header />
             <Routes>
+                <Route
+                    path="/worksheet/new"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<AddWorksheet />}
+                        />
+                    )}
+                />
                 <Route
                     path="/worksheet/:worksheetId"
                     element={(

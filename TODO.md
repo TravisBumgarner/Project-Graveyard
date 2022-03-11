@@ -2,9 +2,10 @@
 
 - [x] Add users page
 - [x] Add friends relationship
-- [ ] Add query/mutation for following/unfollowing and getting friends
+- [x] Convert add worksheet to page
 # Before first review with French teacher
 
+- [ ] Add query/mutation for following/unfollowing and getting friends
 - [ ] Disable recorder when recording is over
 - [ ] Add ability to edit entries so you can add recordings later and such.
 - [ ] Add error messages for login/signup
@@ -20,6 +21,7 @@
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] Add a beta banner
 - [ ] If graphql query fails, stop loading and throw error
+- [ ] Get rid of modals, besides for confirmations on form submits
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

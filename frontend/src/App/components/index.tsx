@@ -15,6 +15,8 @@ import Error from './Error'
 import AlertMessage from './AlertMessage'
 import Worksheet from './Worksheet'
 import Users from './Users'
+import Review from './Review'
+import AddWorksheet from './AddWorksheet'
 
 export {
     Home,
@@ -34,5 +36,7 @@ export {
     AlertMessage,
     ReviewDashboard,
     Worksheet,
-    Users
+    Users,
+    Review,
+    AddWorksheet
 }
