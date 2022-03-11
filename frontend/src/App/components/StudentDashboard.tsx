@@ -43,6 +43,7 @@ type NewTableProps = {
 const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
     const { dispatch } = React.useContext(context)
     const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
+    const navigate = useNavigate()
 
     const handleDelete = async (id: string) => {
         const response = await deleteWorksheet({ variables: { id } })
@@ -83,7 +84,8 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
                                 <Table.TableBodyCell>{description}</Table.TableBodyCell>
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Button key="delete" variation="secondary" onClick={() => handleDelete(id)}>Delete</Button>
+                                        <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>
+                                        <Button key="delete" variation="alert" onClick={() => handleDelete(id)}>Delete</Button>
                                     </div>
                                 </Table.TableBodyCell>
                             </Table.TableRow>

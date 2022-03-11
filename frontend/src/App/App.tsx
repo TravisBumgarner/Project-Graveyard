@@ -34,7 +34,8 @@ import {
     Worksheet,
     Users,
     Review,
-    AddWorksheet
+    AddWorksheet,
+    EditWorksheet
 } from './components'
 import { auth } from '../firebase'
 
@@ -55,6 +56,14 @@ const App = () => {
                     element={(
                         <ConditionalRoute
                             authedComponent={<AddWorksheet />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/worksheet/edit/:worksheetId"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<EditWorksheet />}
                         />
                     )}
                 />

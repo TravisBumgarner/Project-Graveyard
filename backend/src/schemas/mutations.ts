@@ -52,7 +52,12 @@ const editWorksheet = {
     type: WorksheetType,
     description: 'Edit a Project',
     args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
         id: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        date: { type: new GraphQLNonNull(GraphQLString) },
+        knownLanguage: { type: new GraphQLNonNull(GraphQLString) },
+        newLanguage: { type: new GraphQLNonNull(GraphQLString) },
         status: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
@@ -62,6 +67,7 @@ const editWorksheet = {
             .getRepository(entity.Worksheet)
             .save({
                 ...args,
+                userId: context.authenticatedUserId,
             })
 
         return response

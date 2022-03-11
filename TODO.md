@@ -3,6 +3,7 @@
 - [x] Add users page
 - [x] Add friends relationship
 - [x] Convert add worksheet to page
+- [x] Add edit worksheet page
 # Before first review with French teacher
 
 - [ ] Add query/mutation for following/unfollowing and getting friends
