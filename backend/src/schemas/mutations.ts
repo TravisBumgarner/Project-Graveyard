@@ -1,4 +1,4 @@
-import { getConnection } from 'typeorm'
+import { getConnection, getRepository } from 'typeorm'
 import {
     GraphQLString,
     GraphQLNonNull,
@@ -8,10 +8,82 @@ import {
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewType } from './types'
-import { Exactly } from '../utilities'
+import { WorksheetType, WorksheetEntryType, ReviewType, UserType } from './types'
+import { Exactly, logger } from '../utilities'
 import { Context } from '../types'
 import cloudinary from '../services/cloudinary'
+
+type AddFriendArgs = {
+    friendId: string
+}
+
+const addFriend = {
+    type: UserType,
+    description: 'Add a Friend',
+    args: {
+        friendId: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
+
+        const user = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
+            .getOne()
+
+        const follower = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: args.friendId })
+            .getOne()
+
+        if (user && follower) {
+            const response = await getRepository(entity.User)
+                .createQueryBuilder()
+                .relation(entity.User, 'followers')
+                .of(user)
+                .add(follower)
+            return response
+        }
+        logger('Something went wrong adding follower')
+        return []
+    },
+}
+
+const removeFriend = {
+    type: UserType,
+    description: 'Remove a Friend',
+    args: {
+        friendId: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
+
+        const user = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
+            .getOne()
+
+        const follower = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: args.friendId })
+            .getOne()
+
+        if (user && follower) {
+            const response = await getRepository(entity.User)
+                .createQueryBuilder()
+                .relation(entity.User, 'followers')
+                .of(user)
+                .remove(follower)
+            return response
+        }
+        logger('Something went wrong removing follower')
+        return []
+    },
+}
 
 type AddWorksheetArgs = {
     title: string
@@ -209,7 +281,6 @@ const editWorksheetEntry = {
         if (!context.authenticatedUserId) return null
 
         const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
-        console.log('argggs', args)
         return getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
@@ -243,6 +314,8 @@ const RootMutationType = new GraphQLObjectType({
     name: 'Mutation',
     description: 'Root Mutation',
     fields: () => ({
+        addFriend,
+        removeFriend,
         addWorksheet,
         editWorksheet,
         deleteWorksheet,

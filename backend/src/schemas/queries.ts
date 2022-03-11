@@ -1,4 +1,4 @@
-import { getConnection } from 'typeorm'
+import { getConnection, getRepository } from 'typeorm'
 import {
     GraphQLList,
     GraphQLNonNull,
@@ -40,17 +40,23 @@ const friend = {
     type: new GraphQLList(UserType),
     description: 'List of Friends',
     args: {
-        userId: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (_parent, args: null, context: Context) => {
         if (!context.authenticatedUserId) return []
 
-        const data = await getConnection()
+        const currentUser = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
-            .getMany()
+            .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
+            .getOne()
 
-        return data
+        const friends = await getRepository(entity.User)
+            .createQueryBuilder()
+            .relation(entity.User, 'followers')
+            .of(currentUser)
+            .loadMany()
+
+        return friends
     },
 }
 
