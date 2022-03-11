@@ -4,25 +4,27 @@
 - [x] Add friends relationship
 - [x] Convert add worksheet to page
 - [x] Add edit worksheet page
+- [ ] Get rid of modals, besides for confirmations on form submits
+- [X] Add ability to edit entries so you can add recordings later and such.
+- [ ] Add confirmation to form submitions, like ready for review.
+
 # Before first review with French teacher
 
 - [ ] Add query/mutation for following/unfollowing and getting friends
 - [ ] Disable recorder when recording is over
-- [ ] Add ability to edit entries so you can add recordings later and such.
 - [ ] Add error messages for login/signup
 - [ ] Get rid of anys
 - [ ] Add language dropdown
 - [ ] Request a teacher
 - [ ] Add a friend
 - [ ] Testttssssss
-- [ ] Add confirmation to form submitions, like ready for review.
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed
 - [ ] Get rid of tables for individual entries
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] Add a beta banner
 - [ ] If graphql query fails, stop loading and throw error
-- [ ] Get rid of modals, besides for confirmations on form submits
+- [ ] Don't add audio url when audio doesn't exist
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

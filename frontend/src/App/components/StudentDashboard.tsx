@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 
-import { Loading, Table, Heading, StyledNavLink, Button } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button, Modal } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
 import { useNavigate } from 'react-router'
@@ -44,6 +44,11 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
     const { dispatch } = React.useContext(context)
     const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     const navigate = useNavigate()
+    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
+
+    const confirmDelete = () => {
+        setShowDeleteModal(true)
+    }
 
     const handleDelete = async (id: string) => {
         const response = await deleteWorksheet({ variables: { id } })
@@ -76,22 +81,35 @@ const NewTable = ({ worksheets, setWorksheets }: NewTableProps) => {
                         .map(({
                             title, description, id, knownLanguage, newLanguage, date
                         }) => (
-                            <Table.TableRow key={id}>
-                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
-                                <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{description}</Table.TableBodyCell>
-                                <Table.TableBodyCell>
-                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>
-                                        <Button key="delete" variation="alert" onClick={() => handleDelete(id)}>Delete</Button>
-                                    </div>
-                                </Table.TableBodyCell>
-                            </Table.TableRow>
+                            <>
+                                <Modal
+                                    contentLabel="Delete Worksheet"
+                                    showModal={showDeleteModal}
+                                    closeModal={() => setShowDeleteModal(false)}
+                                >
+                                    <>
+                                        <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
+                                        <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                                    </>
+                                </Modal>
+                                <Table.TableRow key={id}>
+                                    <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                    <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>
+                                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                            <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>
+                                            <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+                                        </div>
+                                    </Table.TableBodyCell>
+                                </Table.TableRow>
+                            </>
                         ))}
                 </Table.TableBody>
             </Table.Table>
+
         </div>
     )
 }

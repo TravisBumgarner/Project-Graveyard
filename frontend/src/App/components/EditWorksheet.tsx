@@ -1,7 +1,6 @@
 import React from 'react'
 import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
-import { v4 as uuidv4 } from 'uuid'
 
 import { Heading, Button, LabelAndInput, Loading, } from 'sharedComponents'
 import { dateToString } from 'utilities'
@@ -51,6 +50,7 @@ const EditWorksheet = () => {
     const [description, setDescription] = React.useState<string>('')
     const [knownLanguage, setknownLanguage] = React.useState<string>('')
     const [newLanguage, setnewLanguage] = React.useState<string>('')
+    const [id, setId] = React.useState<string>('')
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const navigate = useNavigate()
     const { worksheetId } = useParams()
@@ -64,7 +64,8 @@ const EditWorksheet = () => {
             setDescription(data.worksheet[0].description)
             setknownLanguage(data.worksheet[0].knownLanguage)
             setnewLanguage(data.worksheet[0].newLanguage)
-
+            setnewLanguage(data.worksheet[0].newLanguage)
+            setId(data.worksheet[0].id)
             setIsLoading(false)
         },
     })
@@ -78,7 +79,7 @@ const EditWorksheet = () => {
 
         const editedWorksheet: TWorksheet = {
             date: dateToString(moment()),
-            id: uuidv4(),
+            id,
             description,
             title,
             knownLanguage,
