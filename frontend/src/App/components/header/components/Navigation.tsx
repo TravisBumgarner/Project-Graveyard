@@ -34,6 +34,7 @@ const Navigation = () => {
         { text: 'Student Dashboard', to: '/student/dashboard' },
         { text: 'Reviewer Dashboard', to: '/reviewer/dashboard' },
         { text: 'Profile', to: `/profile/${state.currentUser.phraseADay.id}` },
+        { text: 'Users', to: '/users' },
         { text: 'Log Out', to: '/logout' },
     ]
 

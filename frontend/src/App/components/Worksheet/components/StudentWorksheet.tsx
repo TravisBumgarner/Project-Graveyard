@@ -117,7 +117,7 @@ const AddWorksheetEntryModal = ({ closeModal, worksheet, setWorksheetEntries }: 
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const { dispatch } = React.useContext(context)
     const [audioURL, setAudioURL] = React.useState<string>('')
-    console.log(audioURL)
+
     const handleSubmit = async () => {
         setIsLoading(true)
         const base64Audio = await objectUrlToBase64(audioURL)

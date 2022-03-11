@@ -31,7 +31,8 @@ import {
     Error,
     Footer,
     AlertMessage,
-    Worksheet
+    Worksheet,
+    Users
 } from './components'
 import Review from './components/StudentDashboard/components/Review'
 import { auth } from '../firebase'
@@ -113,6 +114,15 @@ const App = () => {
                     element={(
                         <ConditionalRoute
                             authedComponent={<StudentDashboard />}
+                            unauthedComponent={<Home />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/users"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<Users />}
                             unauthedComponent={<Home />}
                         />
                     )}
