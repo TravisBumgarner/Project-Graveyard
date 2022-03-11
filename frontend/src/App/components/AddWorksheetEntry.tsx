@@ -86,7 +86,7 @@ const AddWorksheetEntry = () => {
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        const base64Audio = await objectUrlToBase64(audioURL)
+        const base64Audio = audioURL.length ? await objectUrlToBase64(audioURL) : ''
         const newWorksheetEntry: TWorksheetEntry = {
             knownLanguageText,
             newLanguageText,

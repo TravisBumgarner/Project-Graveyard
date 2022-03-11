@@ -11,8 +11,11 @@
 - [x] Add query/mutation for following/unfollowing and getting friends
 - [x] Get rid of anys
 
+- [ ] Don't add audio url when audio doesn't exist
+
 # Before first review with French teacher
 - [ ] Disable recorder when recording is over
+- [ ] Does oral feedback actually work??
 - [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed
@@ -20,7 +23,6 @@
 - [ ] Request a teacher
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] If graphql query fails, stop loading and throw error
-- [ ] Don't add audio url when audio doesn't exist
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth
  # After First Review with French teacher

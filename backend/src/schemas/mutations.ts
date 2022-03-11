@@ -255,8 +255,17 @@ const addWorksheetEntry = {
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
-        const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+        let url: string
+        if (args.audioUrl.length) {
+            const response = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+            if (response === undefined) {
+                throw new Error(`Response from cloudilary for ${JSON.stringify(`${args.worksheetId}/${args.id}.webm${args.audioUrl}`)}`)
+            } else {
+                url = response
+            }
+        } else {
+            url = ''
+        }
 
         return getConnection()
             .getRepository(entity.WorksheetEntry)
@@ -280,7 +289,17 @@ const editWorksheetEntry = {
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
 
-        const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+        let url: string
+        if (args.audioUrl.length) {
+            const response = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+            if (response === undefined) {
+                throw new Error(`Response from cloudilary for ${JSON.stringify(`${args.worksheetId}/${args.id}.webm${args.audioUrl}`)}`)
+            } else {
+                url = response
+            }
+        } else {
+            url = ''
+        }
         return getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
