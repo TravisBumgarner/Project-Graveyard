@@ -18,6 +18,8 @@ import Users from './Users'
 import Review from './Review'
 import AddWorksheet from './AddWorksheet'
 import EditWorksheet from './EditWorksheet'
+import AddWorksheetEntry from './AddWorksheetEntry'
+import EditWorksheetEntry from './EditWorksheetEntry'
 
 export {
     Home,
@@ -40,5 +42,7 @@ export {
     Users,
     Review,
     AddWorksheet,
-    EditWorksheet
+    EditWorksheet,
+    AddWorksheetEntry,
+    EditWorksheetEntry
 }

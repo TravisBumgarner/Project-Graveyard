@@ -195,6 +195,30 @@ const addWorksheetEntry = {
     },
 }
 
+const editWorksheetEntry = {
+    type: WorksheetEntryType,
+    description: 'Edit a Worksheet Entry',
+    args: {
+        knownLanguageText: { type: new GraphQLNonNull(GraphQLString) },
+        newLanguageText: { type: new GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetId: { type: new GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
+
+        const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+        console.log('argggs', args)
+        return getConnection()
+            .getRepository(entity.WorksheetEntry)
+            .save({
+                ...args,
+                audioUrl: url,
+            })
+    },
+}
+
 const deleteWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Delete a Worksheet Entry',
@@ -223,6 +247,7 @@ const RootMutationType = new GraphQLObjectType({
         editWorksheet,
         deleteWorksheet,
         addWorksheetEntry,
+        editWorksheetEntry,
         deleteWorksheetEntry,
         addReview,
     }),
