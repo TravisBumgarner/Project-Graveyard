@@ -87,7 +87,7 @@ const AudioRecorder = ({
             recorder.stop()
         }
 
-        const handleData = (e: any) => {
+        const handleData = (e: { data: Blob | MediaSource }) => {
             setAudioURL(URL.createObjectURL(e.data))
         }
 

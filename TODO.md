@@ -9,10 +9,10 @@
 - [x] Add confirmation to form submitions, like ready for review.
 - [x] Add a friend
 - [x] Add query/mutation for following/unfollowing and getting friends
+- [x] Get rid of anys
 
 # Before first review with French teacher
 - [ ] Disable recorder when recording is over
-- [ ] Get rid of anys
 - [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed

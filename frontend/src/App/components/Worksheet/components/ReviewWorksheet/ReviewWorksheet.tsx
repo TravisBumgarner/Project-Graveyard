@@ -7,7 +7,7 @@ import { useParams } from 'react-router'
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
 import { dateToString } from 'utilities'
 import {
-    TPhraseADayUser, TWorksheet, TWorksheetEntry, TWorksheetStatus
+    TPhraseADayUser, TStudentReview, TWorksheet, TWorksheetEntry, TWorksheetStatus
 } from 'types'
 import { context } from 'context'
 import { ReviewWorksheetEntry } from './components'
@@ -63,7 +63,7 @@ mutation AddReview (
 }
 `
 
-type State = Record<string, { oralFeedback: string, writtenFeedback: string }>
+type ReviewState = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
 type InitialStateAction = {
     type: 'INITIAL_STATE_ACTION',
@@ -86,7 +86,8 @@ type WrittenFeedbackAction = {
     }
 }
 
-const reviewReducer = (state: State, action: OralFeedbackAction | WrittenFeedbackAction | InitialStateAction): State => {
+type ReviewAction = OralFeedbackAction | WrittenFeedbackAction | InitialStateAction
+const reviewReducer = (state: ReviewState, action: ReviewAction): ReviewState => {
     switch (action.type) {
         case 'INITIAL_STATE_ACTION':
             return { ...action.data }
@@ -111,7 +112,7 @@ const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEn
     return accum
 }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
 
-const hasReviewerReviewed = (reviewState: State) => (
+const hasReviewerReviewed = (reviewState: ReviewState) => (
     Object
         .values(reviewState)
         .some(({ oralFeedback, writtenFeedback }) => oralFeedback.length || writtenFeedback.length)
@@ -136,7 +137,7 @@ const ReviewWorksheet = () => {
             setIsLoading(false)
         },
     })
-    const [addReview] = useMutation<any>(ADD_REVIEW)
+    const [addReview] = useMutation<{ addReview: TStudentReview }>(ADD_REVIEW)
 
     if (isLoading) return <Loading />
 
@@ -226,3 +227,4 @@ const ReviewWorksheet = () => {
 }
 
 export default ReviewWorksheet
+export { ReviewAction, ReviewState }

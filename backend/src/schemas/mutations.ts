@@ -189,7 +189,7 @@ const addReview = {
         reviewEntity.userId = context.authenticatedUserId
         reviewEntity.worksheetId = worksheetId
 
-        const reviewEnetryResponse = await getConnection()
+        const reviewEntryResponse = await getConnection()
             .getRepository(entity.Review)
             .save(reviewEntity)
 
@@ -211,7 +211,7 @@ const addReview = {
             .getRepository(entity.ReviewEntry)
             .save(reviewEntryEntities)
 
-        return reviewEnetryResponse
+        return reviewEntryResponse
     },
 }
 
