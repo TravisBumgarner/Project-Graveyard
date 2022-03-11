@@ -1,3 +1,8 @@
+# PR-5 
+
+- [x] Add users page
+- [x] Add friends relationship
+- [ ] Add query/mutation for following/unfollowing and getting friends
 # Before first review with French teacher
 
 - [ ] Disable recorder when recording is over
@@ -13,6 +18,8 @@
 - [ ] Convert reviewer section to be need reviews, reviewed
 - [ ] Get rid of tables for individual entries
 - [ ] Be able to persist URLs after logging in .. redirect user
+- [ ] Add a beta banner
+- [ ] If graphql query fails, stop loading and throw error
  # After First Review with French teacher
 
 - [ ] Full styling cleanup

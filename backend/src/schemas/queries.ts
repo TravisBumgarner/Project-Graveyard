@@ -1,6 +1,7 @@
 import { getConnection } from 'typeorm'
 import {
     GraphQLList,
+    GraphQLNonNull,
     GraphQLObjectType,
     GraphQLString,
 
@@ -31,6 +32,24 @@ const user = {
             query.andWhere('user.id = :userId', { userId: args.userId })
         }
         const data = query.getMany()
+        return data
+    },
+}
+
+const friend = {
+    type: new GraphQLList(UserType),
+    description: 'List of Friends',
+    args: {
+        userId: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (_parent, args: null, context: Context) => {
+        if (!context.authenticatedUserId) return []
+
+        const data = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .getMany()
+
         return data
     },
 }
@@ -128,7 +147,8 @@ const RootQueryType = new GraphQLObjectType({
         worksheet,
         worksheetEntries,
         studentReview,
-        user
+        user,
+        friend
     }),
 })
 

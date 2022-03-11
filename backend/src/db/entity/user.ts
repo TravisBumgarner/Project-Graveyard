@@ -1,6 +1,4 @@
-import {
-    Column, Entity, PrimaryColumn, OneToMany,
-} from 'typeorm'
+import { Column, Entity, PrimaryColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm'
 import Worksheet from './worksheet'
 
 @Entity()
@@ -16,4 +14,11 @@ export default class User {
 
     @OneToMany(() => Worksheet, (Worksheet) => Worksheet.user) // eslint-disable-line
     Worksheets: Worksheet[]
+
+    @ManyToMany(() => User, (user) => user.following)
+    @JoinTable()
+    followers: User[] // eslint-disable-line no-use-before-define
+
+    @ManyToMany(() => User, (user) => user.followers)
+    following: User[] // eslint-disable-line no-use-before-define
 }

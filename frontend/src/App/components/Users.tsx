@@ -1,26 +1,36 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 
-import { Loading, Table, Heading, StyledNavLink } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
+import { context } from 'context'
 
 const GET_USERS = gql`
-query GetUsers {
+query GetUsers($userId: String!) {
     user {
         id,
         username
+    },
+    friend(userId: $userId) {
+        id
     }
 }
 `
 
 const Users = () => {
-    const [users, setUsers] = React.useState<TPhraseADayUser[]>([])
+    const { state } = React.useContext(context)
+    const [users, setUsers] = React.useState<(TPhraseADayUser)[]>([])
+    const [friends, setFriends] = React.useState<string[]>([])
+
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
-    useQuery<{ user: TPhraseADayUser[] }>(GET_USERS, {
-        fetchPolicy: 'no-cache',
+    useQuery<{ user: TPhraseADayUser[], friend: TPhraseADayUser[] }>(GET_USERS, {
+        variables: {
+            userId: state.currentUser.phraseADay.id
+        },
         onCompleted: (data) => {
-            setUsers(data.user)
+            setUsers(data.user.filter((user) => user.id !== state.currentUser.phraseADay.id))
+            setFriends(data.friend.map(({ id }) => id))
             setIsLoading(false)
         },
     })
@@ -44,7 +54,9 @@ const Users = () => {
                         }) => (
                             <Table.TableRow key={id}>
                                 <Table.TableBodyCell><StyledNavLink to={`/profile/${id}`} text={username} /></Table.TableBodyCell>
-                                <Table.TableBodyCell>actions</Table.TableBodyCell>
+                                <Table.TableBodyCell>
+                                    <Button variation="secondary">{friends.includes(id) ? 'Unfollow' : 'Follow'}</Button>
+                                </Table.TableBodyCell>
                             </Table.TableRow>
                         ))}
                 </Table.TableBody>
