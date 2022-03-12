@@ -13,12 +13,12 @@
 - [x] Don't add audio url when audio doesn't exist
 - [x] Does editing a worksheet entry actually work?
     - [x] Figure out why I can't update audio
-- [ ] Does oral feedback actually work??
-    - [ ] No lol
+- [x] Does oral feedback actually work??
+    - [x] No lol
     - [x] Recactor base64 function into utilities
 - [x] Fixed bug with Navigation URLs
-- [ ] Redirect after review submission is off
-- [ ] Why do reviews dissapear
+- [x] Redirect after review submission is off
+- [x] Why do reviews dissapear
     - User ID is getting overwritten
 
 # Before first review with French teacher

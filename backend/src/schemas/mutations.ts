@@ -139,7 +139,6 @@ const editWorksheet = {
             .getRepository(entity.Worksheet)
             .save({
                 ...args,
-                userId: context.authenticatedUserId,
             })
 
         return response

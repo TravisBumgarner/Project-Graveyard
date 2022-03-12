@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router'
+import { Navigate, useNavigate, useParams } from 'react-router'
 
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
 import { dateToString, objectUrlToBase64 } from 'utilities'
@@ -136,6 +136,7 @@ const ReviewWorksheet = () => {
             setIsLoading(false)
         },
     })
+    const navigate = useNavigate()
     const [addReview] = useMutation<{ addReview: TStudentReview }>(ADD_REVIEW)
 
     if (isLoading) return <Loading />
@@ -169,17 +170,17 @@ const ReviewWorksheet = () => {
             status: TWorksheetStatus.HAS_REVIEWS,
         }
 
-        console.log(variables)
-
         const response = await addReview({
             variables: await variables,
         })
 
         if (response.data.addReview === null) {
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit review', timeToLiveMS: 5000 } })
+            setIsLoading(false)
+        } else {
+            setIsLoading(false)
+            navigate('/reviewer/dashboard')
         }
-
-        setIsLoading(false)
     }
 
     return (
