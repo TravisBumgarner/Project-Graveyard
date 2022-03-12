@@ -13,10 +13,19 @@ import { Exactly, logger } from '../utilities'
 import { Context } from '../types'
 import cloudinary from '../services/cloudinary'
 
+const getUrlForFile = async (uploadUrl: string, oralFeedback: string) => {
+    if (oralFeedback.includes('cloudinary')) {
+        return oralFeedback
+    } if (oralFeedback.length === 0) {
+        return ''
+    }
+    const url = await cloudinary.uploadFile(uploadUrl, oralFeedback) || ''
+    return url
+}
+
 type AddFriendArgs = {
     friendId: string
 }
-
 const addFriend = {
     type: UserType,
     description: 'Add a Friend',
@@ -25,13 +34,11 @@ const addFriend = {
     },
     resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
         const user = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
             .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
             .getOne()
-
         const follower = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
@@ -50,7 +57,6 @@ const addFriend = {
         return []
     },
 }
-
 const removeFriend = {
     type: UserType,
     description: 'Remove a Friend',
@@ -59,13 +65,11 @@ const removeFriend = {
     },
     resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
         const user = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
             .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
             .getOne()
-
         const follower = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
@@ -93,7 +97,6 @@ type AddWorksheetArgs = {
     knownLanguage: string
     newLanguage: string
 }
-
 const addWorksheet = {
     type: WorksheetType,
     description: 'Add a Project',
@@ -108,7 +111,6 @@ const addWorksheet = {
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
         const response = await getConnection()
             .getRepository(entity.Worksheet)
             .save({
@@ -119,7 +121,6 @@ const addWorksheet = {
         return response
     },
 }
-
 const editWorksheet = {
     type: WorksheetType,
     description: 'Edit a Project',
@@ -134,7 +135,6 @@ const editWorksheet = {
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
         const response = await getConnection()
             .getRepository(entity.Worksheet)
             .save({
@@ -179,42 +179,39 @@ const addReview = {
     },
     resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
+
         const {
             reviewEntries, id: reviewId, date, worksheetId,
         } = args
-
         const reviewEntity = new entity.Review()
         reviewEntity.id = reviewId
         reviewEntity.date = date
         reviewEntity.userId = context.authenticatedUserId
         reviewEntity.worksheetId = worksheetId
-
         const reviewEntryResponse = await getConnection()
             .getRepository(entity.Review)
             .save(reviewEntity)
 
-        const reviewEntryEntities: entity.ReviewEntry[] = []
-        reviewEntries.forEach(({
+        await reviewEntries.map(async ({
             id, writtenFeedback, oralFeedback, worksheetEntryId,
         }) => {
+            const url = await getUrlForFile(`${reviewId}/${id}.webm`, oralFeedback)
+
             const reviewEntryEntity = new entity.ReviewEntry()
             reviewEntryEntity.id = id
             reviewEntryEntity.writtenFeedback = writtenFeedback
-            reviewEntryEntity.oralFeedback = oralFeedback
+            reviewEntryEntity.oralFeedback = url
             reviewEntryEntity.worksheetEntryId = worksheetEntryId
             reviewEntryEntity.reviewId = reviewId
 
-            reviewEntryEntities.push(reviewEntryEntity)
+            await getConnection()
+                .getRepository(entity.ReviewEntry)
+                .save(reviewEntryEntity)
         })
 
-        await getConnection()
-            .getRepository(entity.ReviewEntry)
-            .save(reviewEntryEntities)
-
         return reviewEntryResponse
-    },
+    }
 }
-
 const deleteWorksheet = {
     type: WorksheetType,
     description: 'Delete a Worksheet',
@@ -242,7 +239,6 @@ type AddWorksheetEntryArgs = {
     worksheetId: string
     audioUrl: string
 }
-
 const addWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Add a Worksheet Entry',
@@ -257,12 +253,7 @@ const addWorksheetEntry = {
         if (!context.authenticatedUserId) return null
         let url: string
         if (args.audioUrl.length) {
-            const response = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
-            if (response === undefined) {
-                throw new Error(`Response from cloudilary for ${JSON.stringify(`${args.worksheetId}/${args.id}.webm${args.audioUrl}`)}`)
-            } else {
-                url = response
-            }
+            url = await cloudinary.uploadFile(`${args.worksheetId} / ${args.id}.webm`, args.audioUrl) || ''
         } else {
             url = ''
         }
@@ -275,7 +266,6 @@ const addWorksheetEntry = {
             })
     },
 }
-
 const editWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Edit a Worksheet Entry',
@@ -291,7 +281,7 @@ const editWorksheetEntry = {
 
         let url: string
         if (args.audioUrl) {
-            const response = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+            const response = await cloudinary.uploadFile(`${args.worksheetId} /${args.id}.webm`, args.audioUrl)
             if (response === undefined) {
                 throw new Error(`Response from cloudilary for ${JSON.stringify(`${args.worksheetId}/${args.id}.webm${args.audioUrl}`)}`)
             } else {
@@ -308,7 +298,6 @@ const editWorksheetEntry = {
             })
     },
 }
-
 const deleteWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Delete a Worksheet Entry',
@@ -328,7 +317,6 @@ const deleteWorksheetEntry = {
         }
     },
 }
-
 const RootMutationType = new GraphQLObjectType({
     name: 'Mutation',
     description: 'Root Mutation',

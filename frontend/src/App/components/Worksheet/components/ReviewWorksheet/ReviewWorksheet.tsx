@@ -125,7 +125,6 @@ const ReviewWorksheet = () => {
     const [worksheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [reviewState, dispatchReview] = React.useReducer(reviewReducer, {})
-
     useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
             worksheetId,
@@ -140,6 +139,7 @@ const ReviewWorksheet = () => {
     const [addReview] = useMutation<{ addReview: TStudentReview }>(ADD_REVIEW)
 
     if (isLoading) return <Loading />
+    console.log('worksheet entries', worksheet.id)
 
     const {
         title, description, knownLanguage, newLanguage, date, user: { username },
@@ -148,19 +148,31 @@ const ReviewWorksheet = () => {
     const handleSubmit = async () => {
         setIsLoading(true)
 
+        const reviewEntries = Object.keys(reviewState).map(async (worksheetEntryId) => {
+            const base64Audio = reviewState[worksheetEntryId].oralFeedback.length
+                ? await objectUrlToBase64(reviewState[worksheetEntryId].oralFeedback)
+                : ''
+
+            return {
+                id: uuidv4(),
+                worksheetEntryId,
+                oralFeedback: base64Audio as string,
+                writtenFeedback: reviewState[worksheetEntryId].writtenFeedback
+            }
+        })
+
         const variables = {
             date: moment(),
             reviewId: uuidv4(),
             worksheetId,
-            reviewEntries: Object.keys(reviewState).map((worksheetEntryId) => ({
-                id: uuidv4(),
-                worksheetEntryId,
-                ...reviewState[worksheetEntryId],
-            })),
-            status: TWorksheetStatus.HAS_REVIEWS
+            reviewEntries: await Promise.all(reviewEntries),
+            status: TWorksheetStatus.HAS_REVIEWS,
         }
+
+        console.log(variables)
+
         const response = await addReview({
-            variables,
+            variables: await variables,
         })
 
         if (response.data.addReview === null) {
@@ -176,39 +188,17 @@ const ReviewWorksheet = () => {
                 <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/reviewer/dashboard', text: 'Reviewer Dashboard' }]} /> {title} Worksheet</Heading.H2>
 
                 <Paragraph>
-                    {' '}
-                    Student:
-                    {username}
+                    Student: {username}
                 </Paragraph>
                 <Paragraph>
-                    {' '}
-                    Description:
-                    {description}
+                    Description: {description}
                 </Paragraph>
                 <Paragraph>
-                    {' '}
-                    Date:
-                    {dateToString(moment(date))}
+                    Date: {dateToString(moment(date))}
                 </Paragraph>
                 <Paragraph>
-                    {' '}
-                    From:
-                    {knownLanguage}
-                    {' '}
-                    To:
-                    {newLanguage}
+                    From: {knownLanguage} To: {newLanguage}
                 </Paragraph>
-                {/* <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell width="5%" scope="col">{worksheet.knownLanguage}</TableHeaderCell>
-                            <TableHeaderCell width="5%" scope="col">{worksheet.newLanguage}</TableHeaderCell>
-                            <TableHeaderCell style={{ textAlign: 'center' }} width="5%" scope="col">Recorded</TableHeaderCell>
-                            <TableHeaderCell width="5%" scope="col">Written Feedback</TableHeaderCell>
-                            <TableHeaderCell style={{ textAlign: 'center' }} width="5%" scope="col">Oral Feedback</TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody> */}
                 {worksheetEntries.map((worksheetEntry) => (
                     <ReviewWorksheetEntry
                         key={worksheetEntry.id}
@@ -218,8 +208,7 @@ const ReviewWorksheet = () => {
                         worksheet={worksheet}
                     />
                 ))}
-                {/* </TableBody>
-                </Table> */}
+
             </div>
             <Button variation="primary" disabled={isLoading || !hasReviewerReviewed(reviewState)} onClick={handleSubmit}>Submit Feedback</Button>
         </div>

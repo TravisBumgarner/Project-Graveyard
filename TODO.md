@@ -16,7 +16,10 @@
 - [ ] Does oral feedback actually work??
     - [ ] No lol
     - [x] Recactor base64 function into utilities
-- [ ] Fixed bug with Navigation URLs
+- [x] Fixed bug with Navigation URLs
+- [ ] Redirect after review submission is off
+- [ ] Why do reviews dissapear
+    - User ID is getting overwritten
 
 # Before first review with French teacher
 - [ ] Disable recorder when recording is over
