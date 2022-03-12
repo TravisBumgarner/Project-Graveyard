@@ -13,13 +13,13 @@ import { Exactly, logger } from '../utilities'
 import { Context } from '../types'
 import cloudinary from '../services/cloudinary'
 
-const getUrlForFile = async (uploadUrl: string, oralFeedback: string) => {
-    if (oralFeedback.includes('cloudinary')) {
-        return oralFeedback
-    } if (oralFeedback.length === 0) {
+const getUrlForFile = async (uploadUrl: string, audioData: string) => {
+    if (audioData.includes('cloudinary')) {
+        return audioData
+    } if (audioData.length === 0) {
         return ''
     }
-    const url = await cloudinary.uploadFile(uploadUrl, oralFeedback) || ''
+    const url = await cloudinary.uploadFile(uploadUrl, audioData) || ''
     return url
 }
 
@@ -251,12 +251,7 @@ const addWorksheetEntry = {
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-        let url: string
-        if (args.audioUrl.length) {
-            url = await cloudinary.uploadFile(`${args.worksheetId} / ${args.id}.webm`, args.audioUrl) || ''
-        } else {
-            url = ''
-        }
+        const url = await getUrlForFile(`${args.worksheetId} / ${args.id}.webm`, args.audioUrl)
 
         return getConnection()
             .getRepository(entity.WorksheetEntry)
@@ -279,17 +274,8 @@ const editWorksheetEntry = {
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
 
-        let url: string
-        if (args.audioUrl) {
-            const response = await cloudinary.uploadFile(`${args.worksheetId} /${args.id}.webm`, args.audioUrl)
-            if (response === undefined) {
-                throw new Error(`Response from cloudilary for ${JSON.stringify(`${args.worksheetId}/${args.id}.webm${args.audioUrl}`)}`)
-            } else {
-                url = response
-            }
-        } else {
-            url = ''
-        }
+        const url = await getUrlForFile(`${args.worksheetId} /${args.id}.webm`, args.audioUrl)
+
         return getConnection()
             .getRepository(entity.WorksheetEntry)
             .save({
