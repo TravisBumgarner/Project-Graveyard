@@ -1,12 +1,13 @@
 import React from 'react'
 import { useMutation, gql, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate, useParams } from 'react-router'
 
 import { AudioRecorder, Breadcrumbs, Button, Heading, LabelAndInput, Loading } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
-import { useNavigate, useParams } from 'react-router'
+import { objectUrlToBase64 } from 'utilities'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets($worksheetId: String!) {
@@ -44,15 +45,6 @@ mutation AddWorksheetEntry (
     }
 }
 `
-
-const objectUrlToBase64 = async (objectUrl: string) => {
-    const blob = await fetch(objectUrl).then((r) => r.blob())
-    return new Promise((resolve) => {
-        const reader = new FileReader()
-        reader.onloadend = () => resolve(reader.result)
-        reader.readAsDataURL(blob)
-    })
-}
 
 const WrittenWrapper = styled.div`
 display: flex;

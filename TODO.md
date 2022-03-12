@@ -13,10 +13,12 @@
 - [x] Don't add audio url when audio doesn't exist
 - [x] Does editing a worksheet entry actually work?
     - [x] Figure out why I can't update audio
+- [ ] Does oral feedback actually work??
+    - [ ] No lol
+    - [x] Recactor base64 function into utilities
 
 # Before first review with French teacher
 - [ ] Disable recorder when recording is over
-- [ ] Does oral feedback actually work??
 - [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Convert reviewer section to be need reviews, reviewed

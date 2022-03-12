@@ -9,9 +9,19 @@ const logger = (message: any) => {
     console.log(JSON.stringify(message)) // eslint-disable-line
 }
 
+const objectUrlToBase64 = async (objectUrl: string) => {
+    const blob = await fetch(objectUrl).then((r) => r.blob())
+    return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onloadend = () => resolve(reader.result)
+        reader.readAsDataURL(blob)
+    })
+}
+
 export {
     dateToString,
     logger,
     AtLeast,
-    Exactly
+    Exactly,
+    objectUrlToBase64
 }

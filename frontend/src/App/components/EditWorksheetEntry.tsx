@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
 import { useNavigate, useParams } from 'react-router'
+import { objectUrlToBase64 } from 'utilities'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets(
@@ -59,15 +60,6 @@ mutation EditWorksheetEntry (
     }
 }
 `
-
-const objectUrlToBase64 = async (objectUrl: string) => {
-    const blob = await fetch(objectUrl).then((r) => r.blob())
-    return new Promise((resolve) => {
-        const reader = new FileReader()
-        reader.onloadend = () => resolve(reader.result)
-        reader.readAsDataURL(blob)
-    })
-}
 
 const WrittenWrapper = styled.div`
 display: flex;

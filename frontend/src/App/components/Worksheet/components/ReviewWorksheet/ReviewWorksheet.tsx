@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router'
 
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
-import { dateToString } from 'utilities'
+import { dateToString, objectUrlToBase64 } from 'utilities'
 import {
     TPhraseADayUser, TStudentReview, TWorksheet, TWorksheetEntry, TWorksheetStatus
 } from 'types'
