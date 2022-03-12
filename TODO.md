@@ -16,6 +16,7 @@
 - [ ] Does oral feedback actually work??
     - [ ] No lol
     - [x] Recactor base64 function into utilities
+- [ ] Fixed bug with Navigation URLs
 
 # Before first review with French teacher
 - [ ] Disable recorder when recording is over

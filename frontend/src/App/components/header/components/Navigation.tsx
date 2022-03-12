@@ -29,7 +29,7 @@ const ALWAYS_VISIBLE_LINKS = [
 const loggedInLinks = (userId: string) => ([
     { text: 'Student Dashboard', to: '/student/dashboard' },
     { text: 'Reviewer Dashboard', to: '/reviewer/dashboard' },
-    { text: 'Profile', to: `/profile/${state.currentUser.phraseADay.id}` },
+    { text: 'Profile', to: `/profile/${userId}` },
     { text: 'Users', to: '/users' },
     { text: 'Log Out', to: '/logout' },
 ])
