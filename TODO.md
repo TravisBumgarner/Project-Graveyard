@@ -22,6 +22,7 @@
     - User ID is getting overwritten
 
 # Before first review with French teacher
+- [ ] Need to figure out sp:be
 - [ ] Disable recorder when recording is over
 - [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
