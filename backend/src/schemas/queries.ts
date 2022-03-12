@@ -1,6 +1,7 @@
-import { getConnection } from 'typeorm'
+import { getConnection, getRepository } from 'typeorm'
 import {
     GraphQLList,
+    GraphQLNonNull,
     GraphQLObjectType,
     GraphQLString,
 
@@ -32,6 +33,30 @@ const user = {
         }
         const data = query.getMany()
         return data
+    },
+}
+
+const friend = {
+    type: new GraphQLList(UserType),
+    description: 'List of Friends',
+    args: {
+    },
+    resolve: async (_parent, args: null, context: Context) => {
+        if (!context.authenticatedUserId) return []
+
+        const currentUser = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
+            .getOne()
+
+        const friends = await getRepository(entity.User)
+            .createQueryBuilder()
+            .relation(entity.User, 'followers')
+            .of(currentUser)
+            .loadMany()
+
+        return friends
     },
 }
 
@@ -97,12 +122,14 @@ const studentReview = {
 
 type GetWorksheetEntryArgs = {
     worksheetId?: string
+    id?: string
 }
 
 const worksheetEntries = {
     type: new GraphQLList(WorksheetEntryType),
     description: 'List of All Worksheet Entries',
     args: {
+        id: { type: GraphQLString },
         worksheetId: { type: GraphQLString },
     },
     resolve: async (_parent, args: GetWorksheetEntryArgs, context: Context) => {
@@ -114,6 +141,10 @@ const worksheetEntries = {
 
         if (args.worksheetId) {
             query.andWhere('worksheet-entries.worksheetId = :worksheetId', { worksheetId: args.worksheetId })
+        }
+
+        if (args.id) {
+            query.andWhere('worksheet-entries.id = :id', { id: args.id })
         }
 
         const data = await query.getMany()
@@ -128,7 +159,8 @@ const RootQueryType = new GraphQLObjectType({
         worksheet,
         worksheetEntries,
         studentReview,
-        user
+        user,
+        friend
     }),
 })
 

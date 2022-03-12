@@ -31,9 +31,14 @@ import {
     Error,
     Footer,
     AlertMessage,
-    Worksheet
+    Worksheet,
+    Users,
+    Review,
+    AddWorksheet,
+    EditWorksheet,
+    AddWorksheetEntry,
+    EditWorksheetEntry
 } from './components'
-import Review from './components/StudentDashboard/components/Review'
 import { auth } from '../firebase'
 
 const App = () => {
@@ -48,6 +53,38 @@ const App = () => {
             {state.message ? <AlertMessage /> : null}
             <Header />
             <Routes>
+                <Route
+                    path="/worksheet/new"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<AddWorksheet />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/worksheet/:worksheetId/add"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<AddWorksheetEntry />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/worksheet/:worksheetId/:worksheetEntryId/edit"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<EditWorksheetEntry />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/worksheet/edit/:worksheetId"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<EditWorksheet />}
+                        />
+                    )}
+                />
                 <Route
                     path="/worksheet/:worksheetId"
                     element={(
@@ -113,6 +150,15 @@ const App = () => {
                     element={(
                         <ConditionalRoute
                             authedComponent={<StudentDashboard />}
+                            unauthedComponent={<Home />}
+                        />
+                    )}
+                />
+                <Route
+                    path="/users"
+                    element={(
+                        <ConditionalRoute
+                            authedComponent={<Users />}
                             unauthedComponent={<Home />}
                         />
                     )}

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors } from 'sharedComponents'
 import { TWorksheet, TWorksheetEntry, } from 'types'
+import { ReviewAction, ReviewState } from '../ReviewWorksheet'
 
 const ReviewWorksheetEntryWrapper = styled.div`
     padding: 1rem;
@@ -23,8 +24,8 @@ const WrittenTextWrapper = styled.div`
 type ReviewWorksheetEntryProps = {
     worksheet: TWorksheet
     worksheetEntry: TWorksheetEntry
-    reviewState: any
-    dispatchReview: any
+    reviewState: ReviewState
+    dispatchReview: React.Dispatch<ReviewAction>
 }
 
 const ReviewWorksheetEntry = ({

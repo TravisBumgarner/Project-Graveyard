@@ -61,6 +61,6 @@ Notes, might need to figure out how to get NODE_ENV into dockerfile because of s
 
 # DB Migrations
 
-1. Run cloud_sql to connect to db
+1. Run staging (`npm run cloudsql:staging`) or production (`npm run cloudsql:production`) cloudsql
 2. Update username/password in `.env.gcp-proxy-migrations` for either staging or prod
-3. `export NODE_ENV=gcp-proxy-migrations && npm run migration:run`
+3. `npm run migration:run:gcp-sql-proxy`

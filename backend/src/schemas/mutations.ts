@@ -1,4 +1,4 @@
-import { getConnection } from 'typeorm'
+import { getConnection, getRepository } from 'typeorm'
 import {
     GraphQLString,
     GraphQLNonNull,
@@ -8,10 +8,86 @@ import {
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewType } from './types'
-import { Exactly } from '../utilities'
+import { WorksheetType, WorksheetEntryType, ReviewType, UserType } from './types'
+import { Exactly, logger } from '../utilities'
 import { Context } from '../types'
 import cloudinary from '../services/cloudinary'
+
+const getUrlForFile = async (uploadUrl: string, audioData: string) => {
+    if (audioData.includes('cloudinary')) {
+        return audioData
+    } if (audioData.length === 0) {
+        return ''
+    }
+    const url = await cloudinary.uploadFile(uploadUrl, audioData) || ''
+    return url
+}
+
+type AddFriendArgs = {
+    friendId: string
+}
+const addFriend = {
+    type: UserType,
+    description: 'Add a Friend',
+    args: {
+        friendId: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
+        const user = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
+            .getOne()
+        const follower = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: args.friendId })
+            .getOne()
+
+        if (user && follower) {
+            const response = await getRepository(entity.User)
+                .createQueryBuilder()
+                .relation(entity.User, 'followers')
+                .of(user)
+                .add(follower)
+            return response
+        }
+        logger('Something went wrong adding follower')
+        return []
+    },
+}
+const removeFriend = {
+    type: UserType,
+    description: 'Remove a Friend',
+    args: {
+        friendId: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
+        const user = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
+            .getOne()
+        const follower = await getConnection()
+            .getRepository(entity.User)
+            .createQueryBuilder('user')
+            .andWhere('user.id = :userId', { userId: args.friendId })
+            .getOne()
+
+        if (user && follower) {
+            const response = await getRepository(entity.User)
+                .createQueryBuilder()
+                .relation(entity.User, 'followers')
+                .of(user)
+                .remove(follower)
+            return response
+        }
+        logger('Something went wrong removing follower')
+        return []
+    },
+}
 
 type AddWorksheetArgs = {
     title: string
@@ -21,7 +97,6 @@ type AddWorksheetArgs = {
     knownLanguage: string
     newLanguage: string
 }
-
 const addWorksheet = {
     type: WorksheetType,
     description: 'Add a Project',
@@ -36,7 +111,6 @@ const addWorksheet = {
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
         const response = await getConnection()
             .getRepository(entity.Worksheet)
             .save({
@@ -47,17 +121,20 @@ const addWorksheet = {
         return response
     },
 }
-
 const editWorksheet = {
     type: WorksheetType,
     description: 'Edit a Project',
     args: {
+        title: { type: GraphQLString },
         id: { type: new GraphQLNonNull(GraphQLString) },
-        status: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLString },
+        date: { type: GraphQLString },
+        knownLanguage: { type: GraphQLString },
+        newLanguage: { type: GraphQLString },
+        status: { type: GraphQLString },
     },
     resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
         const response = await getConnection()
             .getRepository(entity.Worksheet)
             .save({
@@ -101,42 +178,39 @@ const addReview = {
     },
     resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
+
         const {
             reviewEntries, id: reviewId, date, worksheetId,
         } = args
-
         const reviewEntity = new entity.Review()
         reviewEntity.id = reviewId
         reviewEntity.date = date
         reviewEntity.userId = context.authenticatedUserId
         reviewEntity.worksheetId = worksheetId
-
-        const reviewEnetryResponse = await getConnection()
+        const reviewEntryResponse = await getConnection()
             .getRepository(entity.Review)
             .save(reviewEntity)
 
-        const reviewEntryEntities: entity.ReviewEntry[] = []
-        reviewEntries.forEach(({
+        await reviewEntries.map(async ({
             id, writtenFeedback, oralFeedback, worksheetEntryId,
         }) => {
+            const url = await getUrlForFile(`${reviewId}/${id}.webm`, oralFeedback)
+
             const reviewEntryEntity = new entity.ReviewEntry()
             reviewEntryEntity.id = id
             reviewEntryEntity.writtenFeedback = writtenFeedback
-            reviewEntryEntity.oralFeedback = oralFeedback
+            reviewEntryEntity.oralFeedback = url
             reviewEntryEntity.worksheetEntryId = worksheetEntryId
             reviewEntryEntity.reviewId = reviewId
 
-            reviewEntryEntities.push(reviewEntryEntity)
+            await getConnection()
+                .getRepository(entity.ReviewEntry)
+                .save(reviewEntryEntity)
         })
 
-        await getConnection()
-            .getRepository(entity.ReviewEntry)
-            .save(reviewEntryEntities)
-
-        return reviewEnetryResponse
-    },
+        return reviewEntryResponse
+    }
 }
-
 const deleteWorksheet = {
     type: WorksheetType,
     description: 'Delete a Worksheet',
@@ -164,7 +238,6 @@ type AddWorksheetEntryArgs = {
     worksheetId: string
     audioUrl: string
 }
-
 const addWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Add a Worksheet Entry',
@@ -177,8 +250,7 @@ const addWorksheetEntry = {
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
-
-        const url = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
+        const url = await getUrlForFile(`${args.worksheetId} / ${args.id}.webm`, args.audioUrl)
 
         return getConnection()
             .getRepository(entity.WorksheetEntry)
@@ -188,7 +260,29 @@ const addWorksheetEntry = {
             })
     },
 }
+const editWorksheetEntry = {
+    type: WorksheetEntryType,
+    description: 'Edit a Worksheet Entry',
+    args: {
+        knownLanguageText: { type: new GraphQLNonNull(GraphQLString) },
+        newLanguageText: { type: new GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetId: { type: new GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: GraphQLString },
+    },
+    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
+        if (!context.authenticatedUserId) return null
 
+        const url = await getUrlForFile(`${args.worksheetId} /${args.id}.webm`, args.audioUrl)
+
+        return getConnection()
+            .getRepository(entity.WorksheetEntry)
+            .save({
+                ...args,
+                audioUrl: url,
+            })
+    },
+}
 const deleteWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Delete a Worksheet Entry',
@@ -208,15 +302,17 @@ const deleteWorksheetEntry = {
         }
     },
 }
-
 const RootMutationType = new GraphQLObjectType({
     name: 'Mutation',
     description: 'Root Mutation',
     fields: () => ({
+        addFriend,
+        removeFriend,
         addWorksheet,
         editWorksheet,
         deleteWorksheet,
         addWorksheetEntry,
+        editWorksheetEntry,
         deleteWorksheetEntry,
         addReview,
     }),

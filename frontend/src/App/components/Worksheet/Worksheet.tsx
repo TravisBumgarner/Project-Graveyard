@@ -4,10 +4,9 @@ import { gql, useQuery } from '@apollo/client'
 
 import { Loading } from 'sharedComponents'
 import { Exactly } from 'utilities'
+import { TPhraseADayUser } from 'types'
 import { context } from '..'
 import { StudentWorksheet, ReviewWorksheet } from './components'
-
-import { TPhraseADayUser } from 'types'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets($worksheetId: String!) {

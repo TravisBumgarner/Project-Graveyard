@@ -18,7 +18,9 @@
         "deploy:staging": "export NODE_ENV=staging && npm run build && gcloud config set project phraseaday-staging && gcloud builds submit --tag gcr.io/phraseaday-staging/backend && gcloud run deploy backend --image gcr.io/phraseaday-staging/backend --platform managed --region us-central1",
         "deploy:production": "export NODE_ENV=production && npm run build && gcloud config set project phraseaday-production && gcloud builds submit --tag gcr.io/phraseaday-production/backend && gcloud run deploy backend --image gcr.io/phraseaday-production/backend --platform managed --region us-central1",
         "lint:run": "npx eslint --ext .ts ./src/**",
-        "lint:fix": "npx eslint --ext .ts ./src/** --fix"
+        "lint:fix": "npx eslint --ext .ts ./src/** --fix",
+        "cloudsql:staging": "../../cloud_sql_proxy -instances=phraseaday-staging:us-central1:phreaseaday-staging=tcp:0.0.0.0:1234",
+        "cloudsql:production": "../../cloud_sql_proxy -instances=phraseaday-production:us-central1:phraseaday-production=tcp:0.0.0.0:1234"
     },
     "keywords": [],
     "license": "ISC",
