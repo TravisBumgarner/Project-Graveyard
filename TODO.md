@@ -10,8 +10,9 @@
 - [x] Add a friend
 - [x] Add query/mutation for following/unfollowing and getting friends
 - [x] Get rid of anys
-
-- [ ] Don't add audio url when audio doesn't exist
+- [x] Don't add audio url when audio doesn't exist
+- [x] Does editing a worksheet entry actually work?
+    - [x] Figure out why I can't update audio
 
 # Before first review with French teacher
 - [ ] Disable recorder when recording is over

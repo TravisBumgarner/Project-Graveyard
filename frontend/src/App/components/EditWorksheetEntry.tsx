@@ -42,7 +42,7 @@ mutation EditWorksheetEntry (
     $newLanguageText: String!
     $id: String!
     $worksheetId: String!
-    $audioUrl: String!
+    $audioUrl: String
   ) {
     editWorksheetEntry(
         id: $id,
@@ -107,16 +107,17 @@ const EditWorksheetEntry = () => {
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        const base64Audio = audioURL.length ? await objectUrlToBase64(audioURL) : ''
-        const newWorksheetEntry: TWorksheetEntry = {
+        const editedWorksheetEntry: Partial<TWorksheetEntry> = {
             knownLanguageText,
             newLanguageText,
             id,
             worksheetId: worksheet.id,
-            audioUrl: base64Audio as string,
+        }
+        if (audioURL.slice(0, 4) === 'blob') {
+            editedWorksheetEntry.audioUrl = await objectUrlToBase64(audioURL) as string
         }
         const response = await editWorksheetEntry({
-            variables: newWorksheetEntry,
+            variables: editedWorksheetEntry,
         })
 
         if (response.data.editWorksheetEntry === null) {

@@ -284,13 +284,13 @@ const editWorksheetEntry = {
         newLanguageText: { type: new GraphQLNonNull(GraphQLString) },
         id: { type: new GraphQLNonNull(GraphQLString) },
         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
-        audioUrl: { type: new GraphQLNonNull(GraphQLString) },
+        audioUrl: { type: GraphQLString },
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
         if (!context.authenticatedUserId) return null
 
         let url: string
-        if (args.audioUrl.length) {
+        if (args.audioUrl) {
             const response = await cloudinary.uploadFile(`${args.worksheetId}/${args.id}.webm`, args.audioUrl)
             if (response === undefined) {
                 throw new Error(`Response from cloudilary for ${JSON.stringify(`${args.worksheetId}/${args.id}.webm${args.audioUrl}`)}`)
