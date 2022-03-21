@@ -1,18 +1,21 @@
-# Before first review with French teacher
-- [ ] Need to figure out sp:be
-- [ ] Disable recorder when recording is over
-- [ ] Add language dropdown
-- [ ] Fail if exists in FB but not Postgres
+# PR6
+
 - [ ] Convert reviewer section to be need reviews, reviewed
-- [ ] Get rid of tables for individual entries
-- [ ] Request a teacher
-- [ ] Be able to persist URLs after logging in .. redirect user
+- [ ] Bug - New Worksheets showing up reviewer dashboard
 - [ ] If graphql query fails, stop loading and throw error
+- [ ] Request a teacher
+- [ ] Get rid of tables for individual entries
+- [ ] Only be able to edit your own work
+- [ ] Add language dropdown
+
+# Before first review with French teacher
+- [ ] Disable recorder when recording is over
+- [ ] Fail if exists in FB but not Postgres
+- [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth
  # After First Review with French teacher
 
-- [ ] Only be able to edit your own work
 - [ ] Update login emails, run through login, reset, signup flow
 - [ ] figure a better way to handle service keys
 - [ ] noImplicitAny issue
