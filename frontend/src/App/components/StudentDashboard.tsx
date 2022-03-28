@@ -3,8 +3,11 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
 import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
-import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview } from 'types'
+import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview, TReviewStatus } from 'types'
 import { context } from 'context'
+import { uuid4 } from '@sentry/utils'
+import moment from 'moment'
+import { dateToString } from 'utilities'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -38,6 +41,20 @@ const GET_POTENTIAL_REVIEWERS = gql`
     }
 `
 
+const UPSERT_REVIEW = gql`
+    mutation UpsertReview (
+        $id: String!
+        $worksheetId: String!
+        $reviewerId: String!
+        $status: String!
+        $date: String!
+    ) {
+        upsertReview(id: $id, reviewerId: $reviewerId, worksheetId: $worksheetId, status: $status, date: $date) {
+            reviewerId
+        }
+    }
+`
+
 const DELETE_WORKSHEET = gql`
 mutation DeleteWorksheet (
     $id: String!
@@ -57,6 +74,9 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
     const [allReviewers, setAllReviewers] = React.useState<Record<string, TPhraseADayUser>>({})
     const [selectedReviewers, setSelectedReviewers] = React.useState<string[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const { dispatch } = React.useContext(context)
+
+    const [upsertReview] = useMutation<{ upsertReview: TReview }>(UPSERT_REVIEW)
 
     useQuery<{ friend: TPhraseADayUser[], review: TReview[] }>(GET_POTENTIAL_REVIEWERS, {
         variables: {
@@ -64,6 +84,7 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
         },
         fetchPolicy: 'no-cache',
         onCompleted: (data) => {
+            console.log(data)
             const newSelectedReviewers = data.review.map(({ reviewerId }) => reviewerId)
             setSelectedReviewers(newSelectedReviewers)
 
@@ -85,11 +106,22 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
         // setIsLoadingFollowerUpdate(false)
     }
 
-    const handleAddReviewer = async (reviewerId: string) => {
-        // setIsLoadingFollowerUpdate(true)
-        // await removeFriend({
-        //     variables: { reviewerId }
-        // })
+    const handleAddReview = async (reviewerId: string) => {
+        const response = await upsertReview({
+            variables: {
+                id: uuid4(),
+                date: dateToString(moment()),
+                reviewerId,
+                worksheetId,
+                status: TReviewStatus.REVIEW_REQUESTED
+            }
+        })
+        if (response.data.upsertReview === null) {
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to add reviewer', timeToLiveMS: 5000 } })
+        } else {
+            setSelectedReviewers((prev) => ([...prev, reviewerId]))
+        }
+
         setSelectedReviewers((prev) => {
             const modifiedFriends = prev.filter((value) => value !== reviewerId)
             return modifiedFriends
@@ -118,7 +150,7 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <Button
-                                            onClick={() => (selectedReviewers.includes(id) ? handleRemoveReviewer(id) : handleAddReviewer(id))}
+                                            onClick={() => (selectedReviewers.includes(id) ? handleRemoveReviewer(id) : handleAddReview(id))}
                                             variation="secondary"
                                         // disabled={isLoadingFollowerUpdate}
                                         >{selectedReviewers.includes(id) ? 'Remove Reviewer' : 'Add Reviewer'}

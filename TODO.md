@@ -15,6 +15,7 @@
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth
+- [ ] Generate new content IDs on the backend
  # After First Review with French teacher
 
 - [ ] Update login emails, run through login, reset, signup flow
