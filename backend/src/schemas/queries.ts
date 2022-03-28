@@ -101,7 +101,7 @@ const review = {
             .createQueryBuilder('review')
 
         if (args.worksheetId) {
-            query.andWhere('review.reviewerId = :reviewerId', { reviewerId: context.authenticatedUserId })
+            query.andWhere('review.worksheetId = :worksheetId', { worksheetId: args.worksheetId })
         }
         const data = query.getMany()
         return data

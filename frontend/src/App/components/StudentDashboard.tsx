@@ -77,7 +77,7 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
     const { dispatch } = React.useContext(context)
 
     const [upsertReview] = useMutation<{ upsertReview: TReview }>(UPSERT_REVIEW)
-
+    console.log('worksheetid', worksheetId)
     useQuery<{ friend: TPhraseADayUser[], review: TReview[] }>(GET_POTENTIAL_REVIEWERS, {
         variables: {
             worksheetId
