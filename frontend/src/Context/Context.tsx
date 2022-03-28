@@ -14,7 +14,8 @@ type State = {
     currentUser: {
         firebase: TFirebaseUser,
         phraseADay: TPhraseADayUser
-    } | null | undefined
+    } | null | undefined,
+    hasErrored: boolean
 }
 
 const EMPTY_STATE: State = {
@@ -22,6 +23,11 @@ const EMPTY_STATE: State = {
     worksheetEntries: {},
     appHydrated: false,
     currentUser: undefined,
+    hasErrored: false
+}
+
+type HasErrored = {
+    type: 'HAS_ERRORED'
 }
 
 type UserSignup = {
@@ -69,6 +75,7 @@ type Action =
     | UserLogin
     | UserSignup
     | UserSignedOut
+    | HasErrored
 
 const context = React.createContext(
     {
@@ -82,6 +89,9 @@ const context = React.createContext(
 
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
+        case 'HAS_ERRORED': {
+            return { ...state, hasErrored: true }
+        }
         case 'ADD_MESSAGE': {
             return { ...state, message: { body: action.data.message, timeToLiveMS: action.data.timeToLiveMS } }
         }

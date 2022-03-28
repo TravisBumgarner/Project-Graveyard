@@ -32,7 +32,7 @@ import {
     Footer,
     AlertMessage,
     Worksheet,
-    Users,
+    Friends,
     Review,
     AddWorksheet,
     EditWorksheet,
@@ -43,6 +43,10 @@ import { auth } from '../firebase'
 
 const App = () => {
     const { state } = React.useContext(context)
+
+    if (state.hasErrored) {
+        return <Error />
+    }
 
     if (state.currentUser === undefined) {
         return <Loading fullscreen />
@@ -155,10 +159,10 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path="/users"
+                    path="/friends"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<Users />}
+                            authedComponent={<Friends />}
                             unauthedComponent={<Home />}
                         />
                     )}
@@ -186,31 +190,37 @@ const WrappedApp = () => {
 
     React.useEffect(() => {
         onAuthStateChanged(auth, async (firebase) => {
-            if (!firebase) {
+            try {
+                if (!firebase) {
+                    dispatch({
+                        type: 'USER_LOGGED_IN',
+                        data: {
+                            currentUser: null,
+                        },
+                    })
+                    return
+                }
+
+                const token = await getIdToken(firebase)
+                const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(`${__API_ENDPOINT__}/whoami`, {
+                    headers: {
+                        Authorization: token ? `Bearer ${token}` : '',
+                    },
+                })
                 dispatch({
                     type: 'USER_LOGGED_IN',
                     data: {
-                        currentUser: null,
+                        currentUser: {
+                            phraseADay,
+                            firebase,
+                        },
                     },
                 })
-                return
+            } catch (error) {
+                console.log(error)
+                console.log('caught')
+                dispatch({ type: 'HAS_ERRORED' })
             }
-
-            const token = await getIdToken(firebase)
-            const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(`${__API_ENDPOINT__}/whoami`, {
-                headers: {
-                    Authorization: token ? `Bearer ${token}` : '',
-                },
-            })
-            dispatch({
-                type: 'USER_LOGGED_IN',
-                data: {
-                    currentUser: {
-                        phraseADay,
-                        firebase,
-                    },
-                },
-            })
         })
     }, [])
 

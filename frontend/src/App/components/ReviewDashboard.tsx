@@ -26,7 +26,7 @@ query GetWorksheets {
 `
 
 type ReviewTableProps = {
-    worksheets: TWorksheet[],
+    worksheets: (TWorksheet & { user: TPhraseADayUser })[],
     // setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>,
     tableType: TReviewStatus
 }
@@ -90,11 +90,12 @@ const ReviewTable = ({ worksheets, tableType }: ReviewTableProps) => {
                 <Table.TableBody>
                     {worksheets
                         .map(({
-                            title, id, knownLanguage, newLanguage, date
+                            title, id, knownLanguage, newLanguage, date, user: { username }
                         }) => (
                             <Table.TableRow key={id}>
                                 <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{username}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                 {/* <Table.TableBodyCell>{description}</Table.TableBodyCell> */}

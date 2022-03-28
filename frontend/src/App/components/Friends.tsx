@@ -86,7 +86,7 @@ const Users = () => {
 
     return (
         <div>
-            <Heading.H2>Users</Heading.H2>
+            <Heading.H2>Friends</Heading.H2>
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>

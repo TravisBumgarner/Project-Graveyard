@@ -30,7 +30,7 @@ const loggedInLinks = (userId: string) => ([
     { text: 'Student Dashboard', to: '/student/dashboard' },
     { text: 'Reviewer Dashboard', to: '/reviewer/dashboard' },
     { text: 'Profile', to: `/profile/${userId}` },
-    { text: 'Users', to: '/users' },
+    { text: 'Friends', to: '/friends' },
     { text: 'Log Out', to: '/logout' },
 ])
 

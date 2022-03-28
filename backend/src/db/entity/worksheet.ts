@@ -5,7 +5,7 @@ import {
 import WorksheetEntry from './worksheetEntry'
 import User from './user'
 import Review from './review'
-import { WorksheetStatus } from '../../types'
+import { TWorksheetStatus } from '../../types'
 
 @Entity()
 export default class Worksheet {
@@ -35,10 +35,10 @@ export default class Worksheet {
 
     @Column({
         type: 'enum',
-        enum: WorksheetStatus,
-        default: WorksheetStatus.NEW,
+        enum: TWorksheetStatus,
+        default: TWorksheetStatus.NEW,
     })
-    status: WorksheetStatus
+    status: TWorksheetStatus
 
     @OneToMany(() => WorksheetEntry, (WorksheetEntry) => WorksheetEntry.worksheet) // eslint-disable-line
     worksheetEntries: WorksheetEntry[]

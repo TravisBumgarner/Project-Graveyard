@@ -2,7 +2,7 @@ import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
-import { Loading, Table, Heading, StyledNavLink, Button, Modal } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
 
@@ -62,21 +62,22 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
     }) => {
         return {
             [TWorksheetStatus.NEW]: [
-                <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
-                <Button key="request-review" variation="secondary" onClick={() => console.log('requesting review')}>Request Review</Button>,
-                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+                <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
+                <Button fullWidth key="request-review" variation="secondary" onClick={() => console.log('requesting review')}>Request Review</Button>,
+                <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.NEEDS_REVIEW]: [
                 <Button
+                    fullWidth
                     key="request-another-review"
                     variation="secondary"
                     onClick={() => console.log('requesting another review')}
                 >Request Another Review
                 </Button>,
-                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+                <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.HAS_REVIEWS]: [
-                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+                <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
         }[tableType]
     }
@@ -120,7 +121,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                                 <Table.TableBodyCell>{description}</Table.TableBodyCell>
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        {actionsLookup({ id })}
+                                        <DropdownMenu title="Actions">{actionsLookup({ id })}</DropdownMenu>
                                     </div>
                                 </Table.TableBodyCell>
                                 <Modal

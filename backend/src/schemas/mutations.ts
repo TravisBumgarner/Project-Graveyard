@@ -245,7 +245,7 @@ const editReview = {
     resolve: async (parent: undefined, args: EditReviewArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const response = await getConnection()
-            .getRepository(entity.Worksheet)
+            .getRepository(entity.Review)
             .save({
                 ...args,
             })
