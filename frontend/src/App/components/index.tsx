@@ -10,7 +10,7 @@ import Footer from './Footer'
 import ForgottenPassword from './ForgottenPassword'
 import ConditionalRoute from './ConditionalRoute'
 import Profile from './Profile'
-import ReviewDashboard from './ReviewDashboard'
+import ReviewerDashboard from './ReviewerDashboard'
 import Error from './Error'
 import AlertMessage from './AlertMessage'
 import Worksheet from './Worksheet'
@@ -37,7 +37,7 @@ export {
     Profile,
     Error,
     AlertMessage,
-    ReviewDashboard,
+    ReviewerDashboard,
     Worksheet,
     Friends,
     Review,

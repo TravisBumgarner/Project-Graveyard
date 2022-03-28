@@ -7,7 +7,7 @@ import { Navigate, useNavigate, useParams } from 'react-router'
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
 import { dateToString, objectUrlToBase64 } from 'utilities'
 import {
-    TPhraseADayUser, TStudentReview, TWorksheet, TWorksheetEntry, TWorksheetStatus
+    TPhraseADayUser, TReviewEntry, TWorksheet, TWorksheetEntry, TWorksheetStatus
 } from 'types'
 import { context } from 'context'
 import { ReviewWorksheetEntry } from './components'
@@ -137,7 +137,7 @@ const ReviewWorksheet = () => {
         },
     })
     const navigate = useNavigate()
-    const [addReview] = useMutation<{ addReview: TStudentReview }>(ADD_REVIEW)
+    const [addReview] = useMutation<{ addReview: TReviewEntry }>(ADD_REVIEW)
 
     if (isLoading) return <Loading />
     console.log('worksheet entries', worksheet.id)

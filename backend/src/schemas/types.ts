@@ -47,7 +47,7 @@ const ReviewType = new GraphQLObjectType({
     description: 'This represents a review',
     fields: () => ({
         id: { type: new GraphQLNonNull(GraphQLString) },
-        userId: { type: new GraphQLNonNull(GraphQLString) },
+        reviewerId: { type: new GraphQLNonNull(GraphQLString) },
         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
         date: { type: new GraphQLNonNull(GraphQLString) },
     }),

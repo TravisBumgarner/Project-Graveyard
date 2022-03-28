@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import { Loading, Table, Heading, Paragraph, Button } from 'sharedComponents'
 import { logger, dateToString } from 'utilities'
-import { TStudentReview, TWorksheet } from 'types'
+import { TReviewEntry, TWorksheet } from 'types'
 
 const STUDENT_REVIEW = gql`
 query StudentReview($worksheetId: String!)
@@ -30,16 +30,16 @@ query StudentReview($worksheetId: String!)
 const Review = () => {
     const { worksheetId } = useParams()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const [review, setReview] = React.useState<TStudentReview[]>([])
+    const [reviewEntries, setReviewEntries] = React.useState<TReviewEntry[]>([])
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
     const navigate = useNavigate()
 
-    useQuery<{ studentReview: TStudentReview[], worksheet: TWorksheet[] }>(STUDENT_REVIEW, {
+    useQuery<{ studentReview: TReviewEntry[], worksheet: TWorksheet[] }>(STUDENT_REVIEW, {
         variables: {
             worksheetId,
         },
         onCompleted: (data) => {
-            setReview(data.studentReview)
+            setReviewEntries(data.studentReview)
             setWorksheet(data.worksheet[0])
             setIsLoading(false)
         },
@@ -70,7 +70,7 @@ const Review = () => {
                     </Table.TableRow>
                 </Table.TableHeader>
                 <Table.TableBody>
-                    {review
+                    {reviewEntries
                         .map(({
                             knownLanguageText, newLanguageText, oralFeedback, writtenFeedback, audioUrl, reviewEntryId
                         }) => (

@@ -9,6 +9,7 @@
 - [ ] Add language dropdown
 
 # Before first review with French teacher
+- [ ] Links don't redirect on page load `/login` should redirect and change url but it dont.
 - [ ] Disable recorder when recording is over
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Be able to persist URLs after logging in .. redirect user

@@ -21,13 +21,21 @@ type TWorksheet = {
     status: TWorksheetStatus
 }
 
-type TStudentReview = {
+type TReviewEntry = {
     reviewEntryId: string
     writtenFeedback: string
     oralFeedback: string
     audioUrl: string
     knownLanguageText: string
     newLanguageText: string
+}
+
+type TReview = {
+    id: string
+    reviewerId: string
+    worksheetId: string
+    date: string
+    status: TReviewStatus
 }
 
 type TWorksheetEntry = {
@@ -47,7 +55,8 @@ export {
     TWorksheet,
     TWorksheetEntry,
     TPhraseADayUser,
-    TStudentReview,
+    TReviewEntry,
     TWorksheetStatus,
-    TReviewStatus
+    TReviewStatus,
+    TReview
 }

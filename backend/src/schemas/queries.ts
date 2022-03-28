@@ -7,7 +7,7 @@ import {
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType } from './types'
+import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType, ReviewType } from './types'
 import { TContext } from '../types'
 import { isUUID } from '../utilities'
 
@@ -83,22 +83,26 @@ const worksheet = {
     },
 }
 
+type ReviewArgs = {
+    worksheetId?: string
+}
+
 const review = {
-    type: new GraphQLList(WorksheetType),
+    type: new GraphQLList(ReviewType),
     description: 'List of Reviews',
     args: {
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: null, context: TContext) => {
+    resolve: async (_parent, args: ReviewArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
 
         const query = await getConnection()
             .getRepository(entity.Review)
             .createQueryBuilder('review')
 
-        // if (args.worksheetId) {
-        query.andWhere('review.reviewerId = :reviewerId', { reviewerId: context.authenticatedUserId })
-        // }
+        if (args.worksheetId) {
+            query.andWhere('review.reviewerId = :reviewerId', { reviewerId: context.authenticatedUserId })
+        }
         const data = query.getMany()
         return data
     },

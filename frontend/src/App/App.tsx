@@ -27,7 +27,7 @@ import {
     Context,
     Signup,
     Profile,
-    ReviewDashboard,
+    ReviewerDashboard,
     Error,
     Footer,
     AlertMessage,
@@ -101,7 +101,7 @@ const App = () => {
                     path="/reviewer/dashboard"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<ReviewDashboard />}
+                            authedComponent={<ReviewerDashboard />}
                         />
                     )}
                 />

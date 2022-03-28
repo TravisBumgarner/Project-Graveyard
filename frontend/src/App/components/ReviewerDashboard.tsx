@@ -123,7 +123,7 @@ const ReviewTable = ({ worksheets, tableType }: ReviewTableProps) => {
     )
 }
 
-const ReviewDashboard = () => {
+const ReviewerDashboard = () => {
     const [worksheets, setWorksheets] = React.useState<Record<string, (TWorksheet & { user: TPhraseADayUser })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     // const { state } = React.useContext(context)
@@ -145,7 +145,7 @@ const ReviewDashboard = () => {
 
     return (
         <div>
-            <Heading.H2>Student Dashboard</Heading.H2>
+            <Heading.H2>Reviewer Dashboard</Heading.H2>
             <Button variation="primary" onClick={() => navigate('/worksheet/new')}>Add Worksheet</Button>
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_REQUESTED}
@@ -166,4 +166,4 @@ const ReviewDashboard = () => {
     )
 }
 
-export default ReviewDashboard
+export default ReviewerDashboard

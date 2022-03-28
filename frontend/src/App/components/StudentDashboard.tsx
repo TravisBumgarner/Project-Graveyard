@@ -3,7 +3,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
 import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
-import { TWorksheetStatus, TWorksheet, TPhraseADayUser } from 'types'
+import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview } from 'types'
 import { context } from 'context'
 
 const GET_WORKSHEETS = gql`
@@ -25,10 +25,15 @@ query GetWorksheets {
 `
 
 const GET_POTENTIAL_REVIEWERS = gql`
-    query GetPotentailWorksheets {
+    query GetReviewDetails (
+        $worksheetId: String!
+    ) {
         friend {
             username,
             id
+        },
+        review(worksheetId: $worksheetId) {
+            reviewerId
         }
     }
 `
@@ -45,22 +50,86 @@ mutation DeleteWorksheet (
     }
 `
 
-const ReviewersModal = () => {
-    const [potentialReviewers, setPotentialReviewers] = React.useState<TPhraseADayUser[]>([])
+type ReviewersModalProps = {
+    worksheetId: string
+}
+const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
+    const [allReviewers, setAllReviewers] = React.useState<Record<string, TPhraseADayUser>>({})
+    const [selectedReviewers, setSelectedReviewers] = React.useState<string[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
-    useQuery<{ friend: TPhraseADayUser[] }>(GET_POTENTIAL_REVIEWERS, {
+    useQuery<{ friend: TPhraseADayUser[], review: TReview[] }>(GET_POTENTIAL_REVIEWERS, {
+        variables: {
+            worksheetId
+        },
         fetchPolicy: 'no-cache',
         onCompleted: (data) => {
-            setPotentialReviewers(data.friend)
+            const newSelectedReviewers = data.review.map(({ reviewerId }) => reviewerId)
+            setSelectedReviewers(newSelectedReviewers)
+
+            const newAllReviewers: Record<string, TPhraseADayUser> = {}
+            data.friend.forEach((friend) => {
+                newAllReviewers[friend.id] = friend
+            })
+            setAllReviewers(newAllReviewers)
             setIsLoading(false)
         },
     })
 
+    const handleRemoveReviewer = async (reviewerId: string) => {
+        // setIsLoadingFollowerUpdate(true)
+        // await addFriend({
+        //     variables: { reviewerId }
+        // })
+        setSelectedReviewers((prev) => [...prev, reviewerId])
+        // setIsLoadingFollowerUpdate(false)
+    }
+
+    const handleAddReviewer = async (reviewerId: string) => {
+        // setIsLoadingFollowerUpdate(true)
+        // await removeFriend({
+        //     variables: { reviewerId }
+        // })
+        setSelectedReviewers((prev) => {
+            const modifiedFriends = prev.filter((value) => value !== reviewerId)
+            return modifiedFriends
+        })
+        // setIsLoadingFollowerUpdate(false)
+    }
+
     if (isLoading) return <Loading />
 
     return (
-        <p>{JSON.stringify(potentialReviewers)}</p>
+        <div>
+            <Table.Table>
+                <Table.TableHeader>
+                    <Table.TableRow>
+                        <Table.TableHeaderCell width="20%">Username</Table.TableHeaderCell>
+                        <Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%">Action</Table.TableHeaderCell>
+                    </Table.TableRow>
+                </Table.TableHeader>
+                <Table.TableBody>
+                    {Object.values(allReviewers)
+                        .map(({
+                            id, username
+                        }) => (
+                            <Table.TableRow key={id}>
+                                <Table.TableBodyCell><StyledNavLink to={`/profile/${id}`} text={username} /></Table.TableBodyCell>
+                                <Table.TableBodyCell>
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <Button
+                                            onClick={() => (selectedReviewers.includes(id) ? handleRemoveReviewer(id) : handleAddReviewer(id))}
+                                            variation="secondary"
+                                        // disabled={isLoadingFollowerUpdate}
+                                        >{selectedReviewers.includes(id) ? 'Remove Reviewer' : 'Add Reviewer'}
+                                        </Button>
+                                    </div>
+                                </Table.TableBodyCell>
+                            </Table.TableRow>
+                        ))}
+                </Table.TableBody>
+            </Table.Table>
+        </div>
     )
 }
 
@@ -74,7 +143,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
     const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     const navigate = useNavigate()
     const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
-    const [showReviewRequestModal, setShowReviewRequestModal] = React.useState<boolean>(false)
+    const [reviewRequestModal, setReviewRequestModal] = React.useState<{ id?: string, showModal: boolean }>({ showModal: false })
 
     const confirmDelete = () => {
         setShowDeleteModal(true)
@@ -92,7 +161,13 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
         return {
             [TWorksheetStatus.NEW]: [
                 <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
-                <Button fullWidth key="request-review" variation="secondary" onClick={() => setShowReviewRequestModal(true)}>Request Reviews</Button>,
+                <Button
+                    fullWidth
+                    key="request-review"
+                    variation="secondary"
+                    onClick={() => setReviewRequestModal({ showModal: true, id })}
+                >Request Reviews
+                </Button>,
                 <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.NEEDS_REVIEW]: [
@@ -100,7 +175,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                     fullWidth
                     key="request-review"
                     variation="secondary"
-                    onClick={() => setShowReviewRequestModal(true)}
+                    onClick={() => setReviewRequestModal({ showModal: true, id })}
                 >Request Reviews
                 </Button>,
                 <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
@@ -151,25 +226,25 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <DropdownMenu title="Actions">{actionsLookup({ id })}</DropdownMenu>
+                                        <Modal
+                                            contentLabel="Delete Worksheet?"
+                                            showModal={showDeleteModal}
+                                            closeModal={() => setShowDeleteModal(false)}
+                                        >
+                                            <>
+                                                <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                                                <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
+                                            </>
+                                        </Modal>
+                                        <Modal
+                                            contentLabel="Request Reviewers"
+                                            showModal={reviewRequestModal.showModal}
+                                            closeModal={() => setReviewRequestModal({ showModal: false })}
+                                        >
+                                            <ReviewersModal worksheetId={reviewRequestModal.id} />
+                                        </Modal>
                                     </div>
                                 </Table.TableBodyCell>
-                                <Modal
-                                    contentLabel="Delete Worksheet?"
-                                    showModal={showDeleteModal}
-                                    closeModal={() => setShowDeleteModal(false)}
-                                >
-                                    <>
-                                        <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                                        <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
-                                    </>
-                                </Modal>
-                                <Modal
-                                    contentLabel="Request Reviewers"
-                                    showModal={showReviewRequestModal}
-                                    closeModal={() => setShowReviewRequestModal(false)}
-                                >
-                                    <ReviewersModal />
-                                </Modal>
                             </Table.TableRow>
                         ))}
                 </Table.TableBody>
