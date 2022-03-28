@@ -3,34 +3,38 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 
 import { Loading, Heading, Table, StyledNavLink, Button, Modal } from 'sharedComponents'
-import { TPhraseADayUser, TWorksheet, TReviewStatus } from 'types'
+import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
+import { logger } from 'utilities'
+import { context } from '.'
 // import { context } from '.'
 
-const GET_WORKSHEETS = gql`
-query GetWorksheets {
-  worksheet {
-    title,
-    id,
-    description,
-    date,
-    knownLanguage,
-    newLanguage,
-    userId,
+const GET_REVIEWS = gql`
+query GetReviews($reviewerId: String) {
+  review(reviewerId: $reviewerId) {
+    id
+    reviewerId,
+    worksheetId,
     status,
-    user {
-      username,
-      id
+    worksheet {
+        newLanguage,
+        knownLanguage,
+        title,
+        date,
+        user {
+            id,
+            username
+        }
     }
   }
 }
 `
 
 type ReviewTableProps = {
-    worksheets: (TWorksheet & { user: TPhraseADayUser })[],
+    reviews: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[],
     // setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>,
     tableType: TReviewStatus
 }
-const ReviewTable = ({ worksheets, tableType }: ReviewTableProps) => {
+const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
     // const { dispatch } = React.useContext(context)
     // const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     // const navigate = useNavigate()
@@ -88,14 +92,14 @@ const ReviewTable = ({ worksheets, tableType }: ReviewTableProps) => {
                     </Table.TableRow>
                 </Table.TableHeader>
                 <Table.TableBody>
-                    {worksheets
+                    {reviews
                         .map(({
-                            title, id, knownLanguage, newLanguage, date, user: { username }
+                            id, worksheet: { title, knownLanguage, newLanguage, date, user: { username, id: userId } }
                         }) => (
                             <Table.TableRow key={id}>
                                 <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{username}</Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                 {/* <Table.TableBodyCell>{description}</Table.TableBodyCell> */}
@@ -124,25 +128,32 @@ const ReviewTable = ({ worksheets, tableType }: ReviewTableProps) => {
 }
 
 const ReviewerDashboard = () => {
-    const [worksheets, setWorksheets] = React.useState<Record<string, (TWorksheet & { user: TPhraseADayUser })>>({})
+    const [reviews, setReviews] = React.useState<Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     // const { state } = React.useContext(context)
     const navigate = useNavigate()
+    const { dispatch } = React.useContext(context)
 
-    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[] }>(GET_WORKSHEETS, {
+    useQuery<{ review: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[] }>(GET_REVIEWS, {
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
+        },
         onCompleted: (data) => {
-            const newWorksheets: Record<string, TWorksheet & { user: TPhraseADayUser }> = {}
-            data.worksheet.forEach((worksheet) => { newWorksheets[worksheet.id] = worksheet })
-            setWorksheets(newWorksheets)
+            const newReviews: Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })> = {}
+            data.review.forEach((review) => { newReviews[review.id] = review })
+            setReviews(newReviews)
             setIsLoading(false)
         },
     })
 
     if (isLoading) return <Loading />
 
-    // const filterWorksheets = (status: TReviewStatus) => Object.values(reviews)
-    //     .filter((review) => review.status === status && review.userId === state.currentUser.phraseADay.id)
+    const filterReviews = (status: TReviewStatus) => Object.values(reviews)
+        .filter((review) => review.status === status)
 
+    console.log('all', reviews)
+    console.log(filterReviews(TReviewStatus.REVIEW_REQUESTED))
     return (
         <div>
             <Heading.H2>Reviewer Dashboard</Heading.H2>
@@ -150,17 +161,17 @@ const ReviewerDashboard = () => {
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_REQUESTED}
                 // setWorksheets={setWorksheets}
-                worksheets={Object.values(worksheets)}
+                reviews={filterReviews(TReviewStatus.REVIEW_REQUESTED)}
             />
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_IN_PROGRESS}
                 // setWorksheets={setWorksheets}
-                worksheets={[]}
+                reviews={filterReviews(TReviewStatus.REVIEW_IN_PROGRESS)}
             />
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_COMPLETED}
                 // setWorksheets={setWorksheets}
-                worksheets={[]}
+                reviews={filterReviews(TReviewStatus.REVIEW_COMPLETED)}
             />
         </div>
     )

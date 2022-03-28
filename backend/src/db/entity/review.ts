@@ -28,10 +28,10 @@ export default class Review {
     })
     status: TReviewStatus
 
-    @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.review) // eslint-disable-line
+    @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.review, { onDelete: "CASCADE" }) // eslint-disable-line
     reviewEntries: ReviewEntry[]
 
-    @ManyToOne(() => Worksheet, (Worksheet) => Worksheet.reviews) // eslint-disable-line
+    @ManyToOne(() => Worksheet, (Worksheet) => Worksheet.reviews, { onDelete: "CASCADE" }) // eslint-disable-line
     worksheet: Worksheet
 
     @ManyToOne(() => User, (user) => user.Worksheets)

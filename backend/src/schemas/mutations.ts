@@ -260,6 +260,26 @@ const upsertReview = {
     },
 }
 
+const deleteReview = {
+    type: ReviewType,
+    description: 'Delete a Review',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: Exactly<UpsertReviewArgs, 'id'>, context: TContext) => {
+        if (!context.authenticatedUserId) return null
+
+        await getConnection()
+            .getRepository(entity.Review)
+            .delete({
+                id: args.id,
+            })
+        return {
+            id: args.id,
+        }
+    },
+}
+
 type AddReviewEntryArgs = {
     id: string
     reviewId: string
@@ -323,7 +343,7 @@ const deleteReviewEntry = {
         if (!context.authenticatedUserId) return null
 
         await getConnection()
-            .getRepository(entity.ReviewEntry)
+            .getRepository(entity.Worksheet)
             .delete({
                 id,
             })
@@ -423,7 +443,8 @@ const RootMutationType = new GraphQLObjectType({
         addReviewEntry,
         editReviewEntry,
         deleteReviewEntry,
-        upsertReview
+        upsertReview,
+        deleteReview,
     }),
 })
 

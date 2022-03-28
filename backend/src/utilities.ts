@@ -1,3 +1,5 @@
+import Sentry from '@sentry/node'
+
 type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>
 type Exactly<T, K extends keyof T> = Pick<T, K>
 
@@ -7,6 +9,7 @@ const isUUID = (str: string) => {
 }
 
 const logger = (message: any) => {
+    Sentry.captureException(JSON.stringify(message))
     console.log(JSON.stringify(message)) // eslint-disable-line
 }
 

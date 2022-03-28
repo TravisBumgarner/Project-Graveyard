@@ -5,7 +5,7 @@
 - [ ] If graphql query fails, stop loading and throw error
 - [ ] Request a teacher
 - [ ] Get rid of tables for individual entries
-- [ ] Only be able to edit your own work
+- [ ] Only be able to edit your own work, delete, etc.
 - [ ] Add language dropdown
 
 # Before first review with French teacher
@@ -16,6 +16,7 @@
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth
 - [ ] Generate new content IDs on the backend
+- [ ] start sharing types
  # After First Review with French teacher
 
 - [ ] Update login emails, run through login, reset, signup flow

@@ -85,6 +85,7 @@ const worksheet = {
 
 type ReviewArgs = {
     worksheetId?: string
+    reviewerId?: string
 }
 
 const review = {
@@ -92,9 +93,14 @@ const review = {
     description: 'List of Reviews',
     args: {
         worksheetId: { type: GraphQLString },
+        reviewerId: { type: GraphQLString },
+        status: { type: GraphQLString },
+        id: { type: GraphQLString },
+        date: { type: GraphQLString },
     },
     resolve: async (_parent, args: ReviewArgs, context: TContext) => {
-        if (!context.authenticatedUserId) return []
+        // if (!context.authenticatedUserId) return []
+        // if (args.reviewerId && args.reviewerId !== context.authenticatedUserId) return [] // Don't let someone request other reviews
 
         const query = await getConnection()
             .getRepository(entity.Review)
@@ -103,6 +109,11 @@ const review = {
         if (args.worksheetId) {
             query.andWhere('review.worksheetId = :worksheetId', { worksheetId: args.worksheetId })
         }
+
+        if (args.reviewerId) {
+            query.andWhere('review.reviewerId = :reviewerId', { reviewerId: args.reviewerId })
+        }
+
         const data = query.getMany()
         return data
     },

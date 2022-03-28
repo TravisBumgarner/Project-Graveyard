@@ -7,7 +7,7 @@ import { AudioRecorder, Breadcrumbs, Button, Heading, LabelAndInput, Loading } f
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
-import { objectUrlToBase64 } from 'utilities'
+import { logger, objectUrlToBase64 } from 'utilities'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets($worksheetId: String!) {
@@ -74,6 +74,10 @@ const AddWorksheetEntry = () => {
             setWorksheet(data.worksheet[0])
             setIsLoading(false)
         },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
+        },
     })
 
     const handleSubmit = async () => {
@@ -116,17 +120,17 @@ const AddWorksheetEntry = () => {
             <div>
                 <WrittenWrapper>
                     <LabelAndInput
-                        label={worksheet.knownLanguage}
-                        name="fromLanguage"
-                        value={knownLanguageText}
-                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
-                        type="textarea"
-                    />
-                    <LabelAndInput
                         label={worksheet.newLanguage}
                         name="newLanguage"
                         value={newLanguageText}
                         handleChange={(newLanguage) => setNewLanguageText(newLanguage)}
+                        type="textarea"
+                    />
+                    <LabelAndInput
+                        label={worksheet.knownLanguage}
+                        name="fromLanguage"
+                        value={knownLanguageText}
+                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
                         type="textarea"
                     />
                 </WrittenWrapper>

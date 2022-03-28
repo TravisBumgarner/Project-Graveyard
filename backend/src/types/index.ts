@@ -14,8 +14,17 @@ enum TReviewStatus {
     REVIEW_COMPLETED = 'review_completed'
 }
 
+type TReview = {
+    id: string
+    reviewerId: string
+    worksheetId: string
+    date: string
+    status: TReviewStatus
+}
+
 export {
     TContext,
     TWorksheetStatus,
-    TReviewStatus
+    TReviewStatus,
+    TReview
 }

@@ -15,10 +15,10 @@ export default class User {
     @OneToMany(() => Worksheet, (Worksheet) => Worksheet.user) // eslint-disable-line
     Worksheets: Worksheet[]
 
-    @ManyToMany(() => User, (user) => user.following)
+    @ManyToMany(() => User, (user) => user.following, { onDelete: 'CASCADE' })
     @JoinTable()
     followers: User[] // eslint-disable-line no-use-before-define
 
-    @ManyToMany(() => User, (user) => user.followers)
+    @ManyToMany(() => User, (user) => user.followers, { onDelete: 'CASCADE' })
     following: User[] // eslint-disable-line no-use-before-define
 }

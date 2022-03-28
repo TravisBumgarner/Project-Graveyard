@@ -27,7 +27,7 @@ export default class Worksheet {
     @Column({ nullable: false })
     userId: string
 
-    @OneToMany(() => Review, (Review) => Review.worksheet) // eslint-disable-line
+    @OneToMany(() => Review, (Review) => Review.worksheet, { onDelete: "CASCADE" }) // eslint-disable-line
     reviews: Review[]
 
     @Column({ type: 'date', nullable: false })
@@ -40,7 +40,7 @@ export default class Worksheet {
     })
     status: TWorksheetStatus
 
-    @OneToMany(() => WorksheetEntry, (WorksheetEntry) => WorksheetEntry.worksheet) // eslint-disable-line
+    @OneToMany(() => WorksheetEntry, (WorksheetEntry) => WorksheetEntry.worksheet, { onDelete: 'CASCADE' }) // eslint-disable-line
     worksheetEntries: WorksheetEntry[]
 
     @ManyToOne(() => User, (user) => user.Worksheets)

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Navigate, useNavigate, useParams } from 'react-router'
 
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
-import { dateToString, objectUrlToBase64 } from 'utilities'
+import { dateToString, logger, objectUrlToBase64 } from 'utilities'
 import {
     TPhraseADayUser, TReviewEntry, TWorksheet, TWorksheetEntry, TWorksheetStatus
 } from 'types'
@@ -134,6 +134,10 @@ const ReviewWorksheet = () => {
             setWorksheetEntries(data.worksheetEntries)
             dispatchReview({ type: 'INITIAL_STATE_ACTION', data: generateReviewState(data.worksheetEntries) })
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
     const navigate = useNavigate()

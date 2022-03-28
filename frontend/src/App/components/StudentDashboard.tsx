@@ -7,7 +7,7 @@ import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview, TReviewStatus }
 import { context } from 'context'
 import { uuid4 } from '@sentry/utils'
 import moment from 'moment'
-import { dateToString } from 'utilities'
+import { dateToString, Exactly, logger } from 'utilities'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -55,6 +55,16 @@ const UPSERT_REVIEW = gql`
     }
 `
 
+const DELETE_REVIEW = gql`
+    mutation DeleteReview (
+        $id: String!
+    ) {
+        deleteReview(id: $id) {
+            id
+        }
+    }
+`
+
 const DELETE_WORKSHEET = gql`
 mutation DeleteWorksheet (
     $id: String!
@@ -95,15 +105,30 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
             setAllReviewers(newAllReviewers)
             setIsLoading(false)
         },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
+        },
     })
 
-    const handleRemoveReviewer = async (reviewerId: string) => {
-        // setIsLoadingFollowerUpdate(true)
-        // await addFriend({
-        //     variables: { reviewerId }
-        // })
-        setSelectedReviewers((prev) => [...prev, reviewerId])
-        // setIsLoadingFollowerUpdate(false)
+    const handleRemoveReview = async (reviewerId: string) => {
+        const [deleteReview] = useMutation<{ deleteReview: Exactly<TReview, 'id'> }>(DELETE_REVIEW)
+
+        const response = await deleteReview({
+            variables: {
+                id: uuid4(),
+            }
+        })
+        if (response.data.deleteReview === null) {
+            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to delete reviewer', timeToLiveMS: 5000 } })
+        } else {
+            setSelectedReviewers((prev) => ([...prev, reviewerId]))
+        }
+
+        setSelectedReviewers((prev) => {
+            const modifiedFriends = prev.filter((value) => value !== reviewerId)
+            return modifiedFriends
+        })
     }
 
     const handleAddReview = async (reviewerId: string) => {
@@ -150,7 +175,7 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <Button
-                                            onClick={() => (selectedReviewers.includes(id) ? handleRemoveReviewer(id) : handleAddReview(id))}
+                                            onClick={() => (selectedReviewers.includes(id) ? handleRemoveReview(id) : handleAddReview(id))}
                                             variation="secondary"
                                         // disabled={isLoadingFollowerUpdate}
                                         >{selectedReviewers.includes(id) ? 'Remove Reviewer' : 'Add Reviewer'}
@@ -291,6 +316,8 @@ const Worksheets = () => {
     const navigate = useNavigate()
     const [worksheets, setWorksheets] = React.useState<Record<string, TWorksheet>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const { dispatch } = React.useContext(context)
+    
     useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEETS, {
         fetchPolicy: 'no-cache',
         onCompleted: (data) => {
@@ -298,6 +325,10 @@ const Worksheets = () => {
             data.worksheet.forEach((worksheet) => { newWorksheets[worksheet.id] = worksheet })
             setWorksheets(newWorksheets)
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
 

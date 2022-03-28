@@ -4,6 +4,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { Loading, Table, Heading, StyledNavLink, Button } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
+import { logger } from 'utilities'
 
 const GET_USERS = gql`
 query GetUsers {
@@ -45,6 +46,7 @@ const Users = () => {
     const { state } = React.useContext(context)
     const [users, setUsers] = React.useState<(TPhraseADayUser)[]>([])
     const [friends, setFriends] = React.useState<string[]>([])
+    const { dispatch } = React.useContext(context)
 
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [isLoadingFollowerUpdate, setIsLoadingFollowerUpdate] = React.useState<boolean>(false)
@@ -56,6 +58,10 @@ const Users = () => {
             setUsers(data.user.filter((user) => user.id !== state.currentUser.phraseADay.id))
             setFriends(data.friend.map(({ id }) => id))
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
     const [addFriend] = useMutation<{ addFriend: TPhraseADayUser }>(ADD_FRIEND)

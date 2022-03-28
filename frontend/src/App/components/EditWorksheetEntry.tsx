@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
 import { useNavigate, useParams } from 'react-router'
-import { objectUrlToBase64 } from 'utilities'
+import { logger, objectUrlToBase64 } from 'utilities'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets(
@@ -94,6 +94,10 @@ const EditWorksheetEntry = () => {
             setAudioURL(data.worksheetEntries[0].audioUrl)
             setId(data.worksheetEntries[0].id)
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
 
