@@ -3,14 +3,12 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
-    GraphQLInputObjectType,
-    GraphQLList,
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewType, UserType } from './types'
+import { WorksheetType, WorksheetEntryType, ReviewType, UserType, ReviewEntryType } from './types'
 import { Exactly, logger } from '../utilities'
-import { Context } from '../types'
+import { TContext, TReviewStatus } from '../types'
 import cloudinary from '../services/cloudinary'
 
 const getUrlForFile = async (uploadUrl: string, audioData: string) => {
@@ -32,7 +30,7 @@ const addFriend = {
     args: {
         friendId: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
+    resolve: async (parent: undefined, args: AddFriendArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const user = await getConnection()
             .getRepository(entity.User)
@@ -63,7 +61,7 @@ const removeFriend = {
     args: {
         friendId: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddFriendArgs, context: Context) => {
+    resolve: async (parent: undefined, args: AddFriendArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const user = await getConnection()
             .getRepository(entity.User)
@@ -109,7 +107,7 @@ const addWorksheet = {
         newLanguage: { type: new GraphQLNonNull(GraphQLString) },
         status: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
+    resolve: async (parent: undefined, args: AddWorksheetArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const response = await getConnection()
             .getRepository(entity.Worksheet)
@@ -133,7 +131,7 @@ const editWorksheet = {
         newLanguage: { type: GraphQLString },
         status: { type: GraphQLString },
     },
-    resolve: async (parent: undefined, args: AddWorksheetArgs, context: Context) => {
+    resolve: async (parent: undefined, args: AddWorksheetArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const response = await getConnection()
             .getRepository(entity.Worksheet)
@@ -145,72 +143,73 @@ const editWorksheet = {
     },
 }
 
-type AddReviewArgs = {
-    id: string
-    date: string
-    worksheetId: string
-    reviewEntries: {
-        id: string
-        worksheetEntryId: string
-        oralFeedback: string
-        writtenFeedback: string
-    }[]
-}
+// type AddReviewArgs = {
+//     id: string
+//     date: string
+//     worksheetId: string
+//     reviewEntries: {
+//         id: string
+//         worksheetEntryId: string
+//         oralFeedback: string
+//         writtenFeedback: string
+//     }[]
+// }
 
-const addReview = {
-    type: ReviewType,
-    description: 'Add a Review',
-    args: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
-        date: { type: new GraphQLNonNull(GraphQLString) },
-        worksheetId: { type: new GraphQLNonNull(GraphQLString) },
-        reviewEntries: {
-            type: new GraphQLList(new GraphQLInputObjectType({
-                name: 'ReviewEntry',
-                fields: () => ({
-                    id: { type: GraphQLString },
-                    worksheetEntryId: { type: GraphQLString },
-                    oralFeedback: { type: GraphQLString },
-                    writtenFeedback: { type: GraphQLString },
-                }),
-            })),
-        },
-    },
-    resolve: async (parent: undefined, args: AddReviewArgs, context: Context) => {
-        if (!context.authenticatedUserId) return null
+// const addReview = {
+//     type: ReviewType,
+//     description: 'Add a Review',
+//     args: {
+//         id: { type: new GraphQLNonNull(GraphQLString) },
+//         date: { type: new GraphQLNonNull(GraphQLString) },
+//         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
+//         reviewEntries: {
+//             type: new GraphQLList(new GraphQLInputObjectType({
+//                 name: 'ReviewEntry',
+//                 fields: () => ({
+//                     id: { type: GraphQLString },
+//                     worksheetEntryId: { type: GraphQLString },
+//                     oralFeedback: { type: GraphQLString },
+//                     writtenFeedback: { type: GraphQLString },
+//                 }),
+//             })),
+//         },
+//     },
+//     resolve: async (parent: undefined, args: AddReviewArgs, context: TContext) => {
+//         if (!context.authenticatedUserId) return null
 
-        const {
-            reviewEntries, id: reviewId, date, worksheetId,
-        } = args
-        const reviewEntity = new entity.Review()
-        reviewEntity.id = reviewId
-        reviewEntity.date = date
-        reviewEntity.userId = context.authenticatedUserId
-        reviewEntity.worksheetId = worksheetId
-        const reviewEntryResponse = await getConnection()
-            .getRepository(entity.Review)
-            .save(reviewEntity)
+//         const {
+//             reviewEntries, id: reviewId, date, worksheetId,
+//         } = args
+//         const reviewEntity = new entity.Review()
+//         reviewEntity.id = reviewId
+//         reviewEntity.date = date
+//         reviewEntity.reviewerId = context.authenticatedUserId
+//         reviewEntity.worksheetId = worksheetId
+//         const reviewEntryResponse = await getConnection()
+//             .getRepository(entity.Review)
+//             .save(reviewEntity)
 
-        await reviewEntries.map(async ({
-            id, writtenFeedback, oralFeedback, worksheetEntryId,
-        }) => {
-            const url = await getUrlForFile(`${reviewId}/${id}.webm`, oralFeedback)
+//         await reviewEntries.map(async ({
+//             id, writtenFeedback, oralFeedback, worksheetEntryId,
+//         }) => {
+//             const url = await getUrlForFile(`${reviewId}/${id}.webm`, oralFeedback)
 
-            const reviewEntryEntity = new entity.ReviewEntry()
-            reviewEntryEntity.id = id
-            reviewEntryEntity.writtenFeedback = writtenFeedback
-            reviewEntryEntity.oralFeedback = url
-            reviewEntryEntity.worksheetEntryId = worksheetEntryId
-            reviewEntryEntity.reviewId = reviewId
+//             const reviewEntryEntity = new entity.ReviewEntry()
+//             reviewEntryEntity.id = id
+//             reviewEntryEntity.writtenFeedback = writtenFeedback
+//             reviewEntryEntity.oralFeedback = url
+//             reviewEntryEntity.worksheetEntryId = worksheetEntryId
+//             reviewEntryEntity.reviewId = reviewId
 
-            await getConnection()
-                .getRepository(entity.ReviewEntry)
-                .save(reviewEntryEntity)
-        })
+//             await getConnection()
+//                 .getRepository(entity.ReviewEntry)
+//                 .save(reviewEntryEntity)
+//         })
 
-        return reviewEntryResponse
-    }
-}
+//         return reviewEntryResponse
+//     }
+// }
+
 const deleteWorksheet = {
     type: WorksheetType,
     description: 'Delete a Worksheet',
@@ -222,6 +221,103 @@ const deleteWorksheet = {
 
         await getConnection()
             .getRepository(entity.Worksheet)
+            .delete({
+                id,
+            })
+        return {
+            id,
+        }
+    },
+}
+
+type EditReviewArgs = {
+    id: string
+    status: TReviewStatus
+}
+
+const editReview = {
+    type: ReviewType,
+    description: 'Edit a Review',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: GraphQLString },
+    },
+    resolve: async (parent: undefined, args: EditReviewArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return null
+        const response = await getConnection()
+            .getRepository(entity.Worksheet)
+            .save({
+                ...args,
+            })
+
+        return response
+    },
+}
+
+type AddReviewEntryArgs = {
+    id: string
+    reviewId: string
+    worksheetEntryId: string
+    oralFeedback: string
+    writtenFeedback: string
+}
+
+const addReviewEntry = {
+    type: ReviewEntryType,
+    description: 'Add a Review Entry',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetEntryId: { type: new GraphQLNonNull(GraphQLString) },
+        oralFeedback: { type: new GraphQLNonNull(GraphQLString) },
+        writtenFeedback: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddReviewEntryArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return null
+        const url = await getUrlForFile(`${args.reviewId}/${args.id}.webm`, args.oralFeedback)
+
+        return getConnection()
+            .getRepository(entity.ReviewEntry)
+            .save({
+                ...args,
+                audioUrl: url,
+            })
+    },
+}
+
+const editReviewEntry = {
+    type: ReviewEntryType,
+    description: 'Edit a Review Entry',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetEntryId: { type: new GraphQLNonNull(GraphQLString) },
+        oralFeedback: { type: new GraphQLNonNull(GraphQLString) },
+        writtenFeedback: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, args: AddReviewEntryArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return null
+
+        const url = await getUrlForFile(`${args.reviewId} /${args.id}.webm`, args.oralFeedback)
+
+        return getConnection()
+            .getRepository(entity.ReviewEntry)
+            .save({
+                ...args,
+                audioUrl: url,
+            })
+    },
+}
+
+const deleteReviewEntry = {
+    type: ReviewEntryType,
+    description: 'Delete a Review Entry',
+    args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve: async (parent: undefined, { id }: Exactly<AddReviewEntryArgs, 'id'>, context) => {
+        if (!context.authenticatedUserId) return null
+
+        await getConnection()
+            .getRepository(entity.ReviewEntry)
             .delete({
                 id,
             })
@@ -248,7 +344,7 @@ const addWorksheetEntry = {
         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
         audioUrl: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
+    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const url = await getUrlForFile(`${args.worksheetId} / ${args.id}.webm`, args.audioUrl)
 
@@ -260,6 +356,7 @@ const addWorksheetEntry = {
             })
     },
 }
+
 const editWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Edit a Worksheet Entry',
@@ -270,7 +367,7 @@ const editWorksheetEntry = {
         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
         audioUrl: { type: GraphQLString },
     },
-    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: Context) => {
+    resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
 
         const url = await getUrlForFile(`${args.worksheetId} /${args.id}.webm`, args.audioUrl)
@@ -283,6 +380,7 @@ const editWorksheetEntry = {
             })
     },
 }
+
 const deleteWorksheetEntry = {
     type: WorksheetEntryType,
     description: 'Delete a Worksheet Entry',
@@ -302,6 +400,7 @@ const deleteWorksheetEntry = {
         }
     },
 }
+
 const RootMutationType = new GraphQLObjectType({
     name: 'Mutation',
     description: 'Root Mutation',
@@ -314,7 +413,11 @@ const RootMutationType = new GraphQLObjectType({
         addWorksheetEntry,
         editWorksheetEntry,
         deleteWorksheetEntry,
-        addReview,
+        // addReview,
+        addReviewEntry,
+        editReviewEntry,
+        deleteReviewEntry,
+        editReview
     }),
 })
 

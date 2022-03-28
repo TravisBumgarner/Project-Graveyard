@@ -1,7 +1,6 @@
 import { getConnection, getRepository } from 'typeorm'
 import {
     GraphQLList,
-    GraphQLNonNull,
     GraphQLObjectType,
     GraphQLString,
 
@@ -9,7 +8,7 @@ import {
 
 import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType } from './types'
-import { Context } from '../types'
+import { TContext } from '../types'
 import { isUUID } from '../utilities'
 
 type GetUserArgs = {
@@ -22,7 +21,7 @@ const user = {
     args: {
         userId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetUserArgs, context: Context) => {
+    resolve: async (_parent, args: GetUserArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.User)
@@ -41,7 +40,7 @@ const friend = {
     description: 'List of Friends',
     args: {
     },
-    resolve: async (_parent, args: null, context: Context) => {
+    resolve: async (_parent, args: null, context: TContext) => {
         if (!context.authenticatedUserId) return []
 
         const currentUser = await getConnection()
@@ -70,7 +69,7 @@ const worksheet = {
     args: {
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetWorksheetArgs, context: Context) => {
+    resolve: async (_parent, args: GetWorksheetArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.Worksheet)
@@ -84,7 +83,28 @@ const worksheet = {
     },
 }
 
-type GetReviewArgs = {
+const review = {
+    type: new GraphQLList(WorksheetType),
+    description: 'List of Reviews',
+    args: {
+        worksheetId: { type: GraphQLString },
+    },
+    resolve: async (_parent, args: null, context: TContext) => {
+        if (!context.authenticatedUserId) return []
+
+        const query = await getConnection()
+            .getRepository(entity.Review)
+            .createQueryBuilder('review')
+
+        // if (args.worksheetId) {
+        query.andWhere('review.reviewerId = :reviewerId', { reviewerId: context.authenticatedUserId })
+        // }
+        const data = query.getMany()
+        return data
+    },
+}
+
+type GetStudentReviewArgs = {
     worksheetId: string
 }
 
@@ -94,7 +114,7 @@ const studentReview = {
     args: {
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetReviewArgs, context: Context) => {
+    resolve: async (_parent, args: GetStudentReviewArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
         if (!isUUID(args.worksheetId)) return []
 
@@ -132,7 +152,7 @@ const worksheetEntries = {
         id: { type: GraphQLString },
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetWorksheetEntryArgs, context: Context) => {
+    resolve: async (_parent, args: GetWorksheetEntryArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
 
         const query = await getConnection()
@@ -160,7 +180,8 @@ const RootQueryType = new GraphQLObjectType({
         worksheetEntries,
         studentReview,
         user,
-        friend
+        friend,
+        review
     }),
 })
 

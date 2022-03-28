@@ -1,10 +1,10 @@
 import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
+import { useNavigate } from 'react-router'
 
 import { Loading, Table, Heading, StyledNavLink, Button, Modal } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
-import { useNavigate } from 'react-router'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -63,9 +63,16 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
         return {
             [TWorksheetStatus.NEW]: [
                 <Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
+                <Button key="request-review" variation="secondary" onClick={() => console.log('requesting review')}>Request Review</Button>,
                 <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.NEEDS_REVIEW]: [
+                <Button
+                    key="request-another-review"
+                    variation="secondary"
+                    onClick={() => console.log('requesting another review')}
+                >Request Another Review
+                </Button>,
                 <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.HAS_REVIEWS]: [

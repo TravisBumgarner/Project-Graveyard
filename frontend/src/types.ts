@@ -4,6 +4,12 @@ enum TWorksheetStatus {
     HAS_REVIEWS = 'has_reviews'
 }
 
+enum TReviewStatus {
+    REVIEW_REQUESTED = 'review_requested',
+    REVIEW_IN_PROGRESS = 'review_in_progress',
+    REVIEW_COMPLETED = 'review_completed'
+}
+
 type TWorksheet = {
     id: string
     title: string
@@ -43,4 +49,5 @@ export {
     TPhraseADayUser,
     TStudentReview,
     TWorksheetStatus,
+    TReviewStatus
 }

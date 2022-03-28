@@ -1,6 +1,7 @@
 import {
     Column, Entity, PrimaryColumn, OneToMany, ManyToOne,
 } from 'typeorm'
+import { TReviewStatus } from '../../types'
 
 import ReviewEntry from './reviewEntry'
 import User from './user'
@@ -12,13 +13,20 @@ export default class Review {
     id: string
 
     @Column({ nullable: false })
-    userId: string
+    reviewerId: string
 
     @Column({ nullable: false })
     worksheetId: string
 
     @Column({ type: 'date', nullable: false })
     date: string
+
+    @Column({
+        type: 'enum',
+        enum: TReviewStatus,
+        default: TReviewStatus.REVIEW_REQUESTED,
+    })
+    status: TReviewStatus
 
     @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.review) // eslint-disable-line
     reviewEntries: ReviewEntry[]
@@ -27,5 +35,5 @@ export default class Review {
     worksheet: Worksheet
 
     @ManyToOne(() => User, (user) => user.Worksheets)
-    user: User
+    reviewer: User
 }
