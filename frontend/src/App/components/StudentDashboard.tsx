@@ -3,7 +3,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
 import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
-import { TWorksheetStatus, TWorksheet } from 'types'
+import { TWorksheetStatus, TWorksheet, TPhraseADayUser } from 'types'
 import { context } from 'context'
 
 const GET_WORKSHEETS = gql`
@@ -24,6 +24,15 @@ query GetWorksheets {
 }
 `
 
+const GET_POTENTIAL_REVIEWERS = gql`
+    query GetPotentailWorksheets {
+        friend {
+            username,
+            id
+        }
+    }
+`
+
 const DELETE_WORKSHEET = gql`
 mutation DeleteWorksheet (
     $id: String!
@@ -36,6 +45,25 @@ mutation DeleteWorksheet (
     }
 `
 
+const ReviewersModal = () => {
+    const [potentialReviewers, setPotentialReviewers] = React.useState<TPhraseADayUser[]>([])
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+
+    useQuery<{ friend: TPhraseADayUser[] }>(GET_POTENTIAL_REVIEWERS, {
+        fetchPolicy: 'no-cache',
+        onCompleted: (data) => {
+            setPotentialReviewers(data.friend)
+            setIsLoading(false)
+        },
+    })
+
+    if (isLoading) return <Loading />
+
+    return (
+        <p>{JSON.stringify(potentialReviewers)}</p>
+    )
+}
+
 type WorksheetTableProps = {
     worksheets: TWorksheet[],
     setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>,
@@ -46,6 +74,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
     const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     const navigate = useNavigate()
     const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
+    const [showReviewRequestModal, setShowReviewRequestModal] = React.useState<boolean>(false)
 
     const confirmDelete = () => {
         setShowDeleteModal(true)
@@ -63,16 +92,16 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
         return {
             [TWorksheetStatus.NEW]: [
                 <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
-                <Button fullWidth key="request-review" variation="secondary" onClick={() => console.log('requesting review')}>Request Review</Button>,
+                <Button fullWidth key="request-review" variation="secondary" onClick={() => setShowReviewRequestModal(true)}>Request Reviews</Button>,
                 <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.NEEDS_REVIEW]: [
                 <Button
                     fullWidth
-                    key="request-another-review"
+                    key="request-review"
                     variation="secondary"
-                    onClick={() => console.log('requesting another review')}
-                >Request Another Review
+                    onClick={() => setShowReviewRequestModal(true)}
+                >Request Reviews
                 </Button>,
                 <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
@@ -133,6 +162,13 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                                         <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
                                         <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
                                     </>
+                                </Modal>
+                                <Modal
+                                    contentLabel="Request Reviewers"
+                                    showModal={showReviewRequestModal}
+                                    closeModal={() => setShowReviewRequestModal(false)}
+                                >
+                                    <ReviewersModal />
                                 </Modal>
                             </Table.TableRow>
                         ))}
