@@ -1,9 +1,9 @@
 # PR6
 
 - [ ] Convert reviewer section to be need reviews, reviewed
-- [ ] Bug - New Worksheets showing up reviewer dashboard
-- [ ] If graphql query fails, stop loading and throw error
-- [ ] Request a teacher
+- [x] Bug - New Worksheets showing up reviewer dashboard
+- [x] If graphql query fails, stop loading and throw error
+- [x] Request a teacher
 - [ ] Get rid of tables for individual entries
 - [ ] Only be able to edit your own work, delete, etc.
 - [ ] Add language dropdown
@@ -13,10 +13,8 @@
 - [ ] Disable recorder when recording is over
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Be able to persist URLs after logging in .. redirect user
-- [ ] make sure people can't post to endpoints that they shouldn't be
-    - [ ] Don't get userid from request, get it from auth
 - [ ] Generate new content IDs on the backend
-- [ ] start sharing types
+- [ ] start sharing types between fe/be
  # After First Review with French teacher
 
 - [ ] Update login emails, run through login, reset, signup flow

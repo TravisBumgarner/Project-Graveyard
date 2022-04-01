@@ -54,7 +54,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
     const actionsLookup = (): JSX.Element[] => {
         return {
             [TReviewStatus.REVIEW_REQUESTED]: [
-                <Button fullWidth key="add" variation="secondary" onClick={() => console.log('Add review')}>Add Review</Button>,
+                <Button fullWidth key="add" variation="secondary" onClick={() => console.log('begin')}>Begin Review</Button>,
             ],
             [TReviewStatus.REVIEW_IN_PROGRESS]: [
                 <Button fullWidth key="edit" variation="alert" onClick={() => confirmDelete()}>Edit</Button>,

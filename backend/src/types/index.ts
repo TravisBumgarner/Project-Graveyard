@@ -11,7 +11,8 @@ enum TWorksheetStatus {
 enum TReviewStatus {
     REVIEW_REQUESTED = 'review_requested',
     REVIEW_IN_PROGRESS = 'review_in_progress',
-    REVIEW_COMPLETED = 'review_completed'
+    REVIEW_COMPLETED = 'review_completed',
+    REVIEW_REJECTED = 'review_rejected'
 }
 
 type TReview = {
