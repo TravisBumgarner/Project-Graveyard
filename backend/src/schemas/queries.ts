@@ -78,7 +78,7 @@ const worksheet = {
         if (args.worksheetId) {
             query.andWhere('worksheet.id = :worksheetId', { worksheetId: args.worksheetId })
         }
-        const data = query.getMany()
+        const data = await query.getMany()
         return data
     },
 }

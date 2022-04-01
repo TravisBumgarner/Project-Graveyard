@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
-import { Loading, Heading, Table, StyledNavLink, Button, Modal } from 'sharedComponents'
+import { Loading, Heading, Table, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
 import { logger } from 'utilities'
 import { context } from '.'
@@ -16,6 +16,7 @@ query GetReviews($reviewerId: String) {
     worksheetId,
     status,
     worksheet {
+        id,
         newLanguage,
         knownLanguage,
         title,
@@ -53,11 +54,11 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
     const actionsLookup = (): JSX.Element[] => {
         return {
             [TReviewStatus.REVIEW_REQUESTED]: [
-                <Button key="add" variation="secondary" onClick={() => console.log('Add review')}>Add</Button>,
+                <Button fullWidth key="add" variation="secondary" onClick={() => console.log('Add review')}>Add Review</Button>,
             ],
             [TReviewStatus.REVIEW_IN_PROGRESS]: [
-                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Edit</Button>,
-                <Button key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+                <Button fullWidth key="edit" variation="alert" onClick={() => confirmDelete()}>Edit</Button>,
+                <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TReviewStatus.REVIEW_COMPLETED]: [],
         }[tableType]
@@ -94,10 +95,10 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                 <Table.TableBody>
                     {reviews
                         .map(({
-                            id, worksheet: { title, knownLanguage, newLanguage, date, user: { username, id: userId } }
+                            id, worksheet: { id: worksheetId, title, knownLanguage, newLanguage, date, user: { username, id: userId } }
                         }) => (
                             <Table.TableRow key={id}>
-                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${worksheetId}`} text={title} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                 <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
@@ -105,7 +106,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                                 {/* <Table.TableBodyCell>{description}</Table.TableBodyCell> */}
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        {actionsLookup()}
+                                        <DropdownMenu title="Actions">{actionsLookup()}</DropdownMenu>
                                     </div>
                                 </Table.TableBodyCell>
                                 <Modal
@@ -152,12 +153,9 @@ const ReviewerDashboard = () => {
     const filterReviews = (status: TReviewStatus) => Object.values(reviews)
         .filter((review) => review.status === status)
 
-    console.log('all', reviews)
-    console.log(filterReviews(TReviewStatus.REVIEW_REQUESTED))
     return (
         <div>
             <Heading.H2>Reviewer Dashboard</Heading.H2>
-            <Button variation="primary" onClick={() => navigate('/worksheet/new')}>Add Worksheet</Button>
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_REQUESTED}
                 // setWorksheets={setWorksheets}

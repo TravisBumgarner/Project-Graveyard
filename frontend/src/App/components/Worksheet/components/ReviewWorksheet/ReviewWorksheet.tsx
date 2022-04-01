@@ -130,6 +130,7 @@ const ReviewWorksheet = () => {
             worksheetId,
         },
         onCompleted: (data) => {
+            console.log('data', data)
             setWorksheet(data.worksheet[0])
             setWorksheetEntries(data.worksheetEntries)
             dispatchReview({ type: 'INITIAL_STATE_ACTION', data: generateReviewState(data.worksheetEntries) })

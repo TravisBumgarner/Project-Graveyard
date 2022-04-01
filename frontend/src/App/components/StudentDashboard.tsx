@@ -2,12 +2,12 @@ import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
-import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu, Paragraph } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview, TReviewStatus } from 'types'
 import { context } from 'context'
 import { uuid4 } from '@sentry/utils'
 import moment from 'moment'
-import { dateToString, Exactly, logger } from 'utilities'
+import { dateToString, logger } from 'utilities'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets {
@@ -55,15 +55,15 @@ const UPSERT_REVIEW = gql`
     }
 `
 
-const DELETE_REVIEW = gql`
-    mutation DeleteReview (
-        $id: String!
-    ) {
-        deleteReview(id: $id) {
-            id
-        }
-    }
-`
+// const DELETE_REVIEW = gql`
+//     mutation DeleteReview (
+//         $id: String!
+//     ) {
+//         deleteReview(id: $id) {
+//             id
+//         }
+//     }
+// `
 
 const DELETE_WORKSHEET = gql`
 mutation DeleteWorksheet (
@@ -87,14 +87,12 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
     const { dispatch } = React.useContext(context)
 
     const [upsertReview] = useMutation<{ upsertReview: TReview }>(UPSERT_REVIEW)
-    console.log('worksheetid', worksheetId)
     useQuery<{ friend: TPhraseADayUser[], review: TReview[] }>(GET_POTENTIAL_REVIEWERS, {
         variables: {
             worksheetId
         },
         fetchPolicy: 'no-cache',
         onCompleted: (data) => {
-            console.log(data)
             const newSelectedReviewers = data.review.map(({ reviewerId }) => reviewerId)
             setSelectedReviewers(newSelectedReviewers)
 
@@ -110,26 +108,6 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
             dispatch({ type: 'HAS_ERRORED' })
         },
     })
-
-    const handleRemoveReview = async (reviewerId: string) => {
-        const [deleteReview] = useMutation<{ deleteReview: Exactly<TReview, 'id'> }>(DELETE_REVIEW)
-
-        const response = await deleteReview({
-            variables: {
-                id: uuid4(),
-            }
-        })
-        if (response.data.deleteReview === null) {
-            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to delete reviewer', timeToLiveMS: 5000 } })
-        } else {
-            setSelectedReviewers((prev) => ([...prev, reviewerId]))
-        }
-
-        setSelectedReviewers((prev) => {
-            const modifiedFriends = prev.filter((value) => value !== reviewerId)
-            return modifiedFriends
-        })
-    }
 
     const handleAddReview = async (reviewerId: string) => {
         const response = await upsertReview({
@@ -174,12 +152,16 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
                                 <Table.TableBodyCell><StyledNavLink to={`/profile/${id}`} text={username} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Button
-                                            onClick={() => (selectedReviewers.includes(id) ? handleRemoveReview(id) : handleAddReview(id))}
-                                            variation="secondary"
-                                        // disabled={isLoadingFollowerUpdate}
-                                        >{selectedReviewers.includes(id) ? 'Remove Reviewer' : 'Add Reviewer'}
-                                        </Button>
+                                        {!selectedReviewers.includes(id)
+                                            ? (
+                                                <Button
+                                                    onClick={() => (handleAddReview(id))}
+                                                    variation="secondary"
+                                                >Add Reviewer
+                                                </Button>
+                                            ) : (
+                                                <Paragraph>Requested</Paragraph>
+                                            )}
                                     </div>
                                 </Table.TableBodyCell>
                             </Table.TableRow>
@@ -317,7 +299,7 @@ const Worksheets = () => {
     const [worksheets, setWorksheets] = React.useState<Record<string, TWorksheet>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-    
+
     useQuery<{ worksheet: TWorksheet[] }>(GET_WORKSHEETS, {
         fetchPolicy: 'no-cache',
         onCompleted: (data) => {
