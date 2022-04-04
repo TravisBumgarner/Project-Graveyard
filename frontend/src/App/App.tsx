@@ -217,8 +217,6 @@ const WrappedApp = () => {
                     },
                 })
             } catch (error) {
-                console.log(error)
-                console.log('caught')
                 dispatch({ type: 'HAS_ERRORED' })
             }
         })

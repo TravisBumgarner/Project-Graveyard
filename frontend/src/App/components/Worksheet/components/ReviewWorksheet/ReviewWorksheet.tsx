@@ -1,13 +1,29 @@
 import React from 'react'
 import moment from 'moment'
-import { gql, useMutation, useQuery } from '@apollo/client'
-import { v4 as uuidv4 } from 'uuid'
-import { Navigate, useNavigate, useParams } from 'react-router'
+import {
+    gql,
+    // useMutation,
+    useQuery
+} from '@apollo/client'
+import {
+    // useNavigate,
+    useParams
+} from 'react-router'
 
 import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
-import { dateToString, logger, objectUrlToBase64 } from 'utilities'
 import {
-    TPhraseADayUser, TReviewEntry, TWorksheet, TWorksheetEntry, TWorksheetStatus
+    dateToString,
+    Exactly,
+    logger,
+    // objectUrlToBase64
+} from 'utilities'
+import {
+    TPhraseADayUser,
+    TReview,
+    // TReviewEntry,
+    TWorksheet,
+    TWorksheetEntry,
+    // TWorksheetStatus
 } from 'types'
 import { context } from 'context'
 import { ReviewWorksheetEntry } from './components'
@@ -33,41 +49,51 @@ query GetWorksheets($worksheetId: String) {
    newLanguageText,
    audioUrl, 
   }
+  review(worksheetId: $worksheetId){
+      id
+  }
 
 }
 `
 
-const ADD_REVIEW = gql`
-mutation AddReview (
-    $reviewId: String!
-    $worksheetId: String!
-    $date: String!
-    $reviewEntries: [ReviewEntry]
-    $status: String!
-  ) {
-    addReview(
-        id: $reviewId,
-        worksheetId: $worksheetId,
-        date: $date,
-        reviewEntries: $reviewEntries
-        ){
-      id,
-    }
-    editWorksheet(
-        id: $worksheetId,
-        status: $status,
-    ){
-      id,
-      status
-    }
-}
-`
+// const ADD_REVIEW = gql`
+// mutation AddReview (
+//     $reviewId: String!
+//     $worksheetId: String!
+//     $date: String!
+//     $reviewEntries: [ReviewEntry]
+//     $status: String!
+//   ) {
+//     addReview(
+//         id: $reviewId,
+//         worksheetId: $worksheetId,
+//         date: $date,
+//         reviewEntries: $reviewEntries
+//         ){
+//       id,
+//     }
+//     editWorksheet(
+//         id: $worksheetId,
+//         status: $status,
+//     ){
+//       id,
+//       status
+//     }
+// }
+// `
 
 type ReviewState = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
 type InitialStateAction = {
     type: 'INITIAL_STATE_ACTION',
     data: Record<string, { oralFeedback: string, writtenFeedback: string }>
+}
+
+type ClearFeedbackAction = {
+    type: 'CLEAR_FEEDBACK_ACTION',
+    data: {
+        worksheetEntryId: string
+    }
 }
 
 type OralFeedbackAction = {
@@ -86,11 +112,22 @@ type WrittenFeedbackAction = {
     }
 }
 
-type ReviewAction = OralFeedbackAction | WrittenFeedbackAction | InitialStateAction
+type ReviewAction =
+    | OralFeedbackAction
+    | WrittenFeedbackAction
+    | InitialStateAction
+    | ClearFeedbackAction
+
 const reviewReducer = (state: ReviewState, action: ReviewAction): ReviewState => {
     switch (action.type) {
         case 'INITIAL_STATE_ACTION':
             return { ...action.data }
+        case 'CLEAR_FEEDBACK_ACTION': {
+            const { worksheetEntryId } = action.data
+            const newState = { ...state, [worksheetEntryId]: { writtenFeedback: '', oralFeedback: '' } }
+            console.log(newState)
+            return newState
+        }
         case 'ORAL_FEEDBACK_ACTION': {
             const { worksheetEntryId } = action.data
             const { oralFeedback } = action.data
@@ -112,27 +149,30 @@ const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEn
     return accum
 }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
 
-const hasReviewerReviewed = (reviewState: ReviewState) => (
-    Object
-        .values(reviewState)
-        .some(({ oralFeedback, writtenFeedback }) => oralFeedback.length || writtenFeedback.length)
-)
+// const hasReviewerReviewed = (reviewState: ReviewState) => (
+//     Object
+//         .values(reviewState)
+//         .some(({ oralFeedback, writtenFeedback }) => oralFeedback.length || writtenFeedback.length)
+// )
 
 const ReviewWorksheet = () => {
     const { dispatch } = React.useContext(context)
     const { worksheetId } = useParams()
     const [worksheet, setWorksheet] = React.useState<TWorksheet & { user: TPhraseADayUser }>()
+    const [review, setReview] = React.useState<Exactly<TReview, 'id'>>()
     const [worksheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [reviewState, dispatchReview] = React.useReducer(reviewReducer, {})
-    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
+    const [currentWorksheetEntryIndex, setCurrentWorksheetEntryIndex] = React.useState<number>(0)
+    useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[], review: TReview[] }>(
+        GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
             worksheetId,
         },
         onCompleted: (data) => {
-            console.log('data', data)
             setWorksheet(data.worksheet[0])
             setWorksheetEntries(data.worksheetEntries)
+            setReview(data.review[0])
             dispatchReview({ type: 'INITIAL_STATE_ACTION', data: generateReviewState(data.worksheetEntries) })
             setIsLoading(false)
         },
@@ -141,52 +181,33 @@ const ReviewWorksheet = () => {
             dispatch({ type: 'HAS_ERRORED' })
         },
     })
-    const navigate = useNavigate()
-    const [addReview] = useMutation<{ addReview: TReviewEntry }>(ADD_REVIEW)
+    // const navigate = useNavigate()
+    // const [addReview] = useMutation<{ addReview: TReviewEntry }>(ADD_REVIEW)
+
+    const getNextWorksheetEntry = (direction: 'left' | 'right') => {
+        const first = 0
+        const last = worksheetEntries.length - 1
+        let next
+
+        if (direction === 'left') {
+            next = currentWorksheetEntryIndex - 1
+            if (next < first) {
+                next = last
+            }
+        } else {
+            next = currentWorksheetEntryIndex + 1
+            if (next > last) {
+                next = first
+            }
+        }
+        setCurrentWorksheetEntryIndex(next)
+    }
 
     if (isLoading) return <Loading />
-    console.log('worksheet entries', worksheet.id)
 
     const {
         title, description, knownLanguage, newLanguage, date, user: { username },
     } = worksheet
-
-    const handleSubmit = async () => {
-        setIsLoading(true)
-
-        const reviewEntries = Object.keys(reviewState).map(async (worksheetEntryId) => {
-            const base64Audio = reviewState[worksheetEntryId].oralFeedback.length
-                ? await objectUrlToBase64(reviewState[worksheetEntryId].oralFeedback)
-                : ''
-
-            return {
-                id: uuidv4(),
-                worksheetEntryId,
-                oralFeedback: base64Audio as string,
-                writtenFeedback: reviewState[worksheetEntryId].writtenFeedback
-            }
-        })
-
-        const variables = {
-            date: moment(),
-            reviewId: uuidv4(),
-            worksheetId,
-            reviewEntries: await Promise.all(reviewEntries),
-            status: TWorksheetStatus.HAS_REVIEWS,
-        }
-
-        const response = await addReview({
-            variables: await variables,
-        })
-
-        if (response.data.addReview === null) {
-            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit review', timeToLiveMS: 5000 } })
-            setIsLoading(false)
-        } else {
-            setIsLoading(false)
-            navigate('/reviewer/dashboard')
-        }
-    }
 
     return (
         <div>
@@ -205,18 +226,17 @@ const ReviewWorksheet = () => {
                 <Paragraph>
                     From: {knownLanguage} To: {newLanguage}
                 </Paragraph>
-                {worksheetEntries.map((worksheetEntry) => (
-                    <ReviewWorksheetEntry
-                        key={worksheetEntry.id}
-                        reviewState={reviewState}
-                        dispatchReview={dispatchReview}
-                        worksheetEntry={worksheetEntry}
-                        worksheet={worksheet}
-                    />
-                ))}
-
+                <ReviewWorksheetEntry
+                    reviewId={review.id}
+                    key={worksheetEntries[currentWorksheetEntryIndex].id}
+                    reviewState={reviewState}
+                    dispatchReview={dispatchReview}
+                    worksheetEntry={worksheetEntries[currentWorksheetEntryIndex]}
+                    worksheet={worksheet}
+                />
             </div>
-            <Button variation="primary" disabled={isLoading || !hasReviewerReviewed(reviewState)} onClick={handleSubmit}>Submit Feedback</Button>
+            <Button variation="primary" disabled={isLoading} onClick={() => getNextWorksheetEntry('left')}>Previous</Button>
+            <Button variation="primary" disabled={isLoading} onClick={() => getNextWorksheetEntry('right')}>Next</Button>
         </div>
     )
 }

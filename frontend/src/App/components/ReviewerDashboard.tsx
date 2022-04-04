@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
-import { useNavigate } from 'react-router'
+// import { useNavigate } from 'react-router'
 
 import { Loading, Heading, Table, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
@@ -132,7 +132,7 @@ const ReviewerDashboard = () => {
     const [reviews, setReviews] = React.useState<Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     // const { state } = React.useContext(context)
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const { dispatch } = React.useContext(context)
 
     useQuery<{ review: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[] }>(GET_REVIEWS, {

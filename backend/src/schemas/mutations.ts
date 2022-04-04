@@ -293,6 +293,7 @@ const addReviewEntry = {
     description: 'Add a Review Entry',
     args: {
         id: { type: new GraphQLNonNull(GraphQLString) },
+        reviewId: { type: new GraphQLNonNull(GraphQLString) },
         worksheetEntryId: { type: new GraphQLNonNull(GraphQLString) },
         oralFeedback: { type: new GraphQLNonNull(GraphQLString) },
         writtenFeedback: { type: new GraphQLNonNull(GraphQLString) },

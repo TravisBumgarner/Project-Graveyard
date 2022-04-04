@@ -24,13 +24,11 @@ const Worksheet = () => {
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
     const [worksheetUserId, setWorksheetUserId] = React.useState<string>(null)
-    console.log('worksheetid', worksheetId)
     useQuery<{ worksheet: { user: Exactly<TPhraseADayUser, 'id'> }[] }>(GET_WORKSHEETS, {
         variables: {
             worksheetId
         },
         onCompleted: (data) => {
-            console.log('worksheet', data)
             setWorksheetUserId(data.worksheet[0].user.id)
             setIsLoading(false)
         },
