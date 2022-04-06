@@ -7,7 +7,7 @@ import {
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType, ReviewType } from './types'
+import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType, ReviewType, ReviewEntryType } from './types'
 import { TContext } from '../types'
 import { isUUID } from '../utilities'
 
@@ -99,8 +99,8 @@ const review = {
         date: { type: GraphQLString },
     },
     resolve: async (_parent, args: ReviewArgs, context: TContext) => {
-        // if (!context.authenticatedUserId) return []
-        // if (args.reviewerId && args.reviewerId !== context.authenticatedUserId) return [] // Don't let someone request other reviews
+        if (!context.authenticatedUserId) return []
+        if (args.reviewerId && args.reviewerId !== context.authenticatedUserId) return [] // Don't let someone request other reviews
 
         const query = await getConnection()
             .getRepository(entity.Review)
@@ -115,6 +115,38 @@ const review = {
         }
 
         const data = query.getMany()
+        return data
+    },
+}
+
+type GetReviewEntryArgs = {
+    reviewId?: string
+    id?: string
+}
+
+const reviewEntries = {
+    type: new GraphQLList(ReviewEntryType),
+    description: 'List of Review Entries',
+    args: {
+        id: { type: GraphQLString },
+        reviewId: { type: GraphQLString },
+    },
+    resolve: async (_parent, args: GetReviewEntryArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return []
+
+        const query = await getConnection()
+            .getRepository(entity.ReviewEntry)
+            .createQueryBuilder('review-entries')
+
+        if (args.reviewId) {
+            query.andWhere('review-entries.reviewId = :reviewId', { reviewId: args.reviewId })
+        }
+
+        if (args.id) {
+            query.andWhere('review-entries.id = :id', { id: args.id })
+        }
+
+        const data = await query.getMany()
         return data
     },
 }
@@ -196,7 +228,8 @@ const RootQueryType = new GraphQLObjectType({
         studentReview,
         user,
         friend,
-        review
+        review,
+        reviewEntries
     }),
 })
 

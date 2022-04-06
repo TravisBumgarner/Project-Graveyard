@@ -3,14 +3,16 @@ import styled from 'styled-components'
 import {
     gql,
     useMutation,
+    useQuery,
 } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
 import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors, Button, Loading } from 'sharedComponents'
-import { TReviewEntry, TWorksheet, TWorksheetEntry, } from 'types'
+import { TReview, TReviewEntry, TWorksheet, TWorksheetEntry, } from 'types'
 import { objectUrlToBase64 } from 'utilities'
 import { context } from 'context'
-import { ReviewAction, ReviewState } from '../ReviewWorksheet'
+import { consoleSandbox } from '@sentry/utils'
+// import { ReviewAction, ReviewState } from '../ReviewWorksheet'
 
 const ReviewWorksheetEntryWrapper = styled.div`
     padding: 1rem;
@@ -27,12 +29,6 @@ const WrittenTextWrapper = styled.div`
         width: 50%;
     }
 `
-
-// id: string
-// reviewId: string
-// worksheetEntryId: string
-// oralFeedback: string
-// writtenFeedback: string
 
 const ADD_REVIEW_ENTRY = gql`
 mutation AddReviewEntry (
@@ -51,64 +47,92 @@ mutation AddReviewEntry (
         ){
       id,
     }
-    # editWorksheet(
-    #     id: $worksheetId,
-    #     status: $status,
-    # ){
-    #   id,
-    #   status
-    # }
+}
+`
+
+const GET_WORKSHEET_ENTRY_AND_REVIEW_ENTRY = gql`
+query GetWorksheetEntryAndReviewEntry (
+    $worksheetEntryId: String!
+    $reviewEntryId: String!
+  ) {
+    reviewEntry(
+        id: $reviewEntryId,
+        ){
+      id,
+    }
+    worksheetEntry(
+        id: $worksheetEntryId,
+        ){
+      id,
+    }
 }
 `
 
 type ReviewWorksheetEntryProps = {
     worksheet: TWorksheet
     worksheetEntry: TWorksheetEntry
-    reviewState: ReviewState
+    // reviewState: ReviewState
     reviewId: string,
-    dispatchReview: React.Dispatch<ReviewAction>
+    // dispatchReview: React.Dispatch<ReviewAction>
 }
 
 const ReviewWorksheetEntry = ({
-    worksheet, worksheetEntry, reviewState, dispatchReview, reviewId
+    worksheet, worksheetEntry, reviewId
 }: ReviewWorksheetEntryProps) => {
     const { id, knownLanguageText, newLanguageText } = worksheetEntry
     const [audioURL, setAudioURL] = React.useState<string>('')
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
-    const { dispatch } = React.useContext(context)
-
+    // const { dispatch } = React.useContext(context)
+    console.log(reviewId)
     React.useEffect(() => {
-        dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
+        console.log('new audio url', audioURL)
+        // dispatchReview({ type: 'ORAL_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id, oralFeedback: audioURL } })
     }, [audioURL])
 
-    const [addReviewEntry] = useMutation<{ addReviewEntry: TReviewEntry }>(ADD_REVIEW_ENTRY)
+    // useQuery<{ reviewEntry: TReviewEntry[], worksheetEntry: TWorksheetEntry[] }>(GET_WORKSHEET_ENTRY_AND_REVIEW_ENTRY, {
+    //     variables: {
+    //         worksheetEntryId,
+    //         reviewEntryId
+    //     },
+    //     onCompleted: (data) => {
+    //         setWorksheetUserId(data.worksheet[0].user.id)
+    //         setIsLoading(false)
+    //     },
+    //     onError: (error) => {
+    //         logger(JSON.stringify(error))
+    //         dispatch({ type: 'HAS_ERRORED' })
+    //     },
+    // })
+
+    // const [addReviewEntry] = useMutation<{ addReviewEntry: TReviewEntry }>(ADD_REVIEW_ENTRY)
 
     const handleSubmit = async () => {
         setIsLoading(true)
 
-        const base64Audio = reviewState[id].oralFeedback.length
-            ? await objectUrlToBase64(reviewState[id].oralFeedback)
-            : ''
+        // const base64Audio = reviewState[id].oralFeedback.length
+        //     ? await objectUrlToBase64(reviewState[id].oralFeedback)
+        //     : ''
 
-        const variables = {
-            id: uuidv4(),
-            reviewId,
-            worksheetEntryId: id,
-            oralFeedback: base64Audio as string,
-            writtenFeedback: reviewState[id].writtenFeedback
-        }
-        console.log(variables)
-        const response = await addReviewEntry({
-            variables,
-        })
-
-        if (response.data.addReviewEntry === null) {
-            dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit review entry', timeToLiveMS: 5000 } })
-            setIsLoading(false)
-        } else {
-            setIsLoading(false)
-            // navigate('/reviewer/dashboard')
-        }
+        // const variables = {
+        //     id: uuidv4(),
+        //     reviewId,
+        //     worksheetEntryId: id,
+        //     oralFeedback: base64Audio as string,
+        //     writtenFeedback: reviewState[id].writtenFeedback
+        // }
+        // console.log(variables)
+        // const response = await addReviewEntry({
+        //     variables,
+        // })
+        console.log('done')
+        setIsLoading(false)
+        // if (response.data.addReviewEntry === null) {
+        //     dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to submit review entry', timeToLiveMS: 5000 } })
+        //     setIsLoading(false)
+        // } else {
+        //     setIsLoading(false)
+        //     // navigate('/reviewer/dashboard')
+        // }
     }
 
     if (isLoading) return <Loading />
@@ -133,15 +157,16 @@ const ReviewWorksheetEntry = ({
                 type="textarea"
                 name="writtenFeedback"
                 label="Written Feedback"
-                value={reviewState[id].writtenFeedback}
+                value="Fake written feedback"
                 handleChange={(value) => {
-                    dispatchReview({
-                        type: 'WRITTEN_FEEDBACK_ACTION',
-                        data: {
-                            worksheetEntryId: worksheetEntry.id,
-                            writtenFeedback: value
-                        }
-                    })
+                    console.log(value)
+                    // dispatchReview({
+                    //     type: 'WRITTEN_FEEDBACK_ACTION',
+                    //     data: {
+                    //         worksheetEntryId: worksheetEntry.id,
+                    //         writtenFeedback: value
+                    //     }
+                    // })
                 }}
             />
             <AudioRecorder
@@ -150,7 +175,7 @@ const ReviewWorksheetEntry = ({
             />
             <Button
                 variation="alert"
-                onClick={() => dispatchReview({ type: 'CLEAR_FEEDBACK_ACTION', data: { worksheetEntryId: worksheetEntry.id } })}
+                onClick={() => console.log('clearing data')}
             >
                 Clear Feedback
             </Button>

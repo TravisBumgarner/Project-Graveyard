@@ -2,11 +2,11 @@ import React from 'react'
 import moment from 'moment'
 import {
     gql,
-    // useMutation,
+    useMutation,
     useQuery
 } from '@apollo/client'
 import {
-    // useNavigate,
+    useNavigate,
     useParams
 } from 'react-router'
 
@@ -45,9 +45,9 @@ query GetWorksheets($worksheetId: String) {
   }
   worksheetEntries(worksheetId: $worksheetId) {
    id,
-   knownLanguageText,
-   newLanguageText,
-   audioUrl, 
+#    knownLanguageText,
+#    newLanguageText,
+#    audioUrl, 
   }
   review(worksheetId: $worksheetId){
       id
@@ -82,72 +82,72 @@ query GetWorksheets($worksheetId: String) {
 // }
 // `
 
-type ReviewState = Record<string, { oralFeedback: string, writtenFeedback: string }>
+// type ReviewState = Record<string, { oralFeedback: string, writtenFeedback: string }>
 
-type InitialStateAction = {
-    type: 'INITIAL_STATE_ACTION',
-    data: Record<string, { oralFeedback: string, writtenFeedback: string }>
-}
+// type InitialStateAction = {
+//     type: 'INITIAL_STATE_ACTION',
+//     data: Record<string, { oralFeedback: string, writtenFeedback: string }>
+// }
 
-type ClearFeedbackAction = {
-    type: 'CLEAR_FEEDBACK_ACTION',
-    data: {
-        worksheetEntryId: string
-    }
-}
+// type ClearFeedbackAction = {
+//     type: 'CLEAR_FEEDBACK_ACTION',
+//     data: {
+//         worksheetEntryId: string
+//     }
+// }
 
-type OralFeedbackAction = {
-    type: 'ORAL_FEEDBACK_ACTION',
-    data: {
-        oralFeedback: string
-        worksheetEntryId: string
-    }
-}
+// type OralFeedbackAction = {
+//     type: 'ORAL_FEEDBACK_ACTION',
+//     data: {
+//         oralFeedback: string
+//         worksheetEntryId: string
+//     }
+// }
 
-type WrittenFeedbackAction = {
-    type: 'WRITTEN_FEEDBACK_ACTION',
-    data: {
-        writtenFeedback: string
-        worksheetEntryId: string
-    }
-}
+// type WrittenFeedbackAction = {
+//     type: 'WRITTEN_FEEDBACK_ACTION',
+//     data: {
+//         writtenFeedback: string
+//         worksheetEntryId: string
+//     }
+// }
 
-type ReviewAction =
-    | OralFeedbackAction
-    | WrittenFeedbackAction
-    | InitialStateAction
-    | ClearFeedbackAction
+// type ReviewAction =
+//     | OralFeedbackAction
+//     | WrittenFeedbackAction
+//     | InitialStateAction
+//     | ClearFeedbackAction
 
-const reviewReducer = (state: ReviewState, action: ReviewAction): ReviewState => {
-    switch (action.type) {
-        case 'INITIAL_STATE_ACTION':
-            return { ...action.data }
-        case 'CLEAR_FEEDBACK_ACTION': {
-            const { worksheetEntryId } = action.data
-            const newState = { ...state, [worksheetEntryId]: { writtenFeedback: '', oralFeedback: '' } }
-            console.log(newState)
-            return newState
-        }
-        case 'ORAL_FEEDBACK_ACTION': {
-            const { worksheetEntryId } = action.data
-            const { oralFeedback } = action.data
-            return { ...state, [worksheetEntryId]: { ...state[worksheetEntryId], oralFeedback } }
-        }
-        case 'WRITTEN_FEEDBACK_ACTION': {
-            const { worksheetEntryId } = action.data
-            const { writtenFeedback } = action.data
-            return { ...state, [worksheetEntryId]: { ...state[worksheetEntryId], writtenFeedback } }
-        }
-    }
-}
+// const reviewReducer = (state: ReviewState, action: ReviewAction): ReviewState => {
+//     switch (action.type) {
+//         case 'INITIAL_STATE_ACTION':
+//             return { ...action.data }
+//         case 'CLEAR_FEEDBACK_ACTION': {
+//             const { worksheetEntryId } = action.data
+//             const newState = { ...state, [worksheetEntryId]: { writtenFeedback: '', oralFeedback: '' } }
+//             console.log(newState)
+//             return newState
+//         }
+//         case 'ORAL_FEEDBACK_ACTION': {
+//             const { worksheetEntryId } = action.data
+//             const { oralFeedback } = action.data
+//             return { ...state, [worksheetEntryId]: { ...state[worksheetEntryId], oralFeedback } }
+//         }
+//         case 'WRITTEN_FEEDBACK_ACTION': {
+//             const { worksheetEntryId } = action.data
+//             const { writtenFeedback } = action.data
+//             return { ...state, [worksheetEntryId]: { ...state[worksheetEntryId], writtenFeedback } }
+//         }
+//     }
+// }
 
-const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEntries.reduce((accum, { id }) => {
-    accum[id] = { // eslint-disable-line
-        writtenFeedback: '',
-        oralFeedback: '',
-    }
-    return accum
-}, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
+// const generateReviewState = (worksheetEntries: TWorksheetEntry[]) => worksheetEntries.reduce((accum, { id }) => {
+//     accum[id] = { // eslint-disable-line
+//         writtenFeedback: '',
+//         oralFeedback: '',
+//     }
+//     return accum
+// }, {} as Record<string, { oralFeedback: string, writtenFeedback: string }>)
 
 // const hasReviewerReviewed = (reviewState: ReviewState) => (
 //     Object
@@ -162,7 +162,7 @@ const ReviewWorksheet = () => {
     const [review, setReview] = React.useState<Exactly<TReview, 'id'>>()
     const [worksheetEntries, setWorksheetEntries] = React.useState<TWorksheetEntry[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const [reviewState, dispatchReview] = React.useReducer(reviewReducer, {})
+    // const [reviewState, dispatchReview] = React.useReducer(reviewReducer, {})
     const [currentWorksheetEntryIndex, setCurrentWorksheetEntryIndex] = React.useState<number>(0)
     useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[], review: TReview[] }>(
         GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
@@ -170,10 +170,11 @@ const ReviewWorksheet = () => {
             worksheetId,
         },
         onCompleted: (data) => {
+            console.log('woo', data)
             setWorksheet(data.worksheet[0])
             setWorksheetEntries(data.worksheetEntries)
             setReview(data.review[0])
-            dispatchReview({ type: 'INITIAL_STATE_ACTION', data: generateReviewState(data.worksheetEntries) })
+            // dispatchReview({ type: 'INITIAL_STATE_ACTION', data: generateReviewState(data.worksheetEntries) })
             setIsLoading(false)
         },
         onError: (error) => {
@@ -181,7 +182,7 @@ const ReviewWorksheet = () => {
             dispatch({ type: 'HAS_ERRORED' })
         },
     })
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     // const [addReview] = useMutation<{ addReview: TReviewEntry }>(ADD_REVIEW)
 
     const getNextWorksheetEntry = (direction: 'left' | 'right') => {
@@ -229,8 +230,8 @@ const ReviewWorksheet = () => {
                 <ReviewWorksheetEntry
                     reviewId={review.id}
                     key={worksheetEntries[currentWorksheetEntryIndex].id}
-                    reviewState={reviewState}
-                    dispatchReview={dispatchReview}
+                    // reviewState={reviewState}
+                    // dispatchReview={dispatchReview}
                     worksheetEntry={worksheetEntries[currentWorksheetEntryIndex]}
                     worksheet={worksheet}
                 />
@@ -242,4 +243,4 @@ const ReviewWorksheet = () => {
 }
 
 export default ReviewWorksheet
-export { ReviewAction, ReviewState }
+// export { ReviewAction, ReviewState }

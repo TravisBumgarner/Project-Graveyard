@@ -2,8 +2,8 @@
 
 - [ ] Convert reviewer section to be need reviews, reviewed
     - [x] Add items to dropdown menu on review dashboard
-    - [ ] Get review to move to doing when first entry submitted
     - [ ] Fix issue with review entry showing up multiple times on backend
+    - [ ] Get review to move to doing when first entry submitted
     - [ ] Add submit review
 - [x] Bug - New Worksheets showing up reviewer dashboard
 - [x] If graphql query fails, stop loading and throw error
