@@ -15,7 +15,7 @@ import Error from './Error'
 import AlertMessage from './AlertMessage'
 import Worksheet from './Worksheet'
 import Friends from './Friends'
-import Review from './Review'
+// import Review from './Review'
 import AddWorksheet from './AddWorksheet'
 import EditWorksheet from './EditWorksheet'
 import AddWorksheetEntry from './AddWorksheetEntry'
@@ -40,7 +40,7 @@ export {
     ReviewerDashboard,
     Worksheet,
     Friends,
-    Review,
+    // Review,
     AddWorksheet,
     EditWorksheet,
     AddWorksheetEntry,

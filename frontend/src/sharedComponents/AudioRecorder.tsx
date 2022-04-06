@@ -63,12 +63,12 @@ const Pulsing = styled.div`
 `
 
 type AudioRecorderProps = {
-    audioURL: string
-    setAudioURL: React.Dispatch<React.SetStateAction<string>>
+    audioUrl: string
+    setAudioUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
 const AudioRecorder = ({
-    setAudioURL, audioURL
+    setAudioUrl, audioUrl
 }: AudioRecorderProps) => {
     const [isRecording, setIsRecording] = React.useState<boolean>(false)
     const [recorder, setRecorder] = React.useState(null)
@@ -88,7 +88,7 @@ const AudioRecorder = ({
         }
 
         const handleData = (e: { data: Blob | MediaSource }) => {
-            setAudioURL(URL.createObjectURL(e.data))
+            setAudioUrl(URL.createObjectURL(e.data))
         }
 
         recorder.addEventListener('dataavailable', handleData)
@@ -103,8 +103,8 @@ const AudioRecorder = ({
         setIsRecording(false)
     }
 
-    const clearAudioURL = () => {
-        setAudioURL('')
+    const clearAudioUrl = () => {
+        setAudioUrl('')
     }
 
     return (
@@ -122,12 +122,12 @@ const AudioRecorder = ({
                         </Button>
                     )}
                     {
-                        audioURL ? (
-                            <Button onClick={clearAudioURL} variation="alert">Clear</Button>
+                        audioUrl ? (
+                            <Button onClick={clearAudioUrl} variation="alert">Clear</Button>
                         ) : null
                     }
                 </div>
-                <audio src={audioURL} controls />
+                <audio src={audioUrl} controls />
 
             </div>
         </AudioRecorderWrapper>

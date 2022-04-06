@@ -22,12 +22,10 @@ type TWorksheet = {
 }
 
 type TReviewEntry = {
-    reviewEntryId: string
+    id: string
+    reviewId: string
     writtenFeedback: string
     oralFeedback: string
-    audioUrl: string
-    knownLanguageText: string
-    newLanguageText: string
 }
 
 type TReview = {

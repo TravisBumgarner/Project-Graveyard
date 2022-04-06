@@ -78,7 +78,7 @@ const EditWorksheetEntry = () => {
     const [worksheet, setWorksheet] = React.useState<TWorksheet>(null)
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-    const [audioURL, setAudioURL] = React.useState<string>('')
+    const [audioUrl, setAudioUrl] = React.useState<string>('')
     const { worksheetId, worksheetEntryId } = useParams()
     const navigate = useNavigate()
 
@@ -91,7 +91,7 @@ const EditWorksheetEntry = () => {
             setWorksheet(data.worksheet[0])
             setKnownLanguageText(data.worksheetEntries[0].knownLanguageText)
             setNewLanguageText(data.worksheetEntries[0].newLanguageText)
-            setAudioURL(data.worksheetEntries[0].audioUrl)
+            setAudioUrl(data.worksheetEntries[0].audioUrl)
             setId(data.worksheetEntries[0].id)
             setIsLoading(false)
         },
@@ -109,8 +109,8 @@ const EditWorksheetEntry = () => {
             id,
             worksheetId: worksheet.id,
         }
-        if (audioURL.slice(0, 4) === 'blob') {
-            editedWorksheetEntry.audioUrl = await objectUrlToBase64(audioURL) as string
+        if (audioUrl.slice(0, 4) === 'blob') {
+            editedWorksheetEntry.audioUrl = await objectUrlToBase64(audioUrl) as string
         }
         const response = await editWorksheetEntry({
             variables: editedWorksheetEntry,
@@ -121,7 +121,7 @@ const EditWorksheetEntry = () => {
         } else {
             setKnownLanguageText('')
             setNewLanguageText('')
-            setAudioURL('')
+            setAudioUrl('')
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
             navigate(`/worksheet/${worksheetId}`)
         }
@@ -160,8 +160,8 @@ const EditWorksheetEntry = () => {
 
                 <div>
                     <AudioRecorder
-                        audioURL={audioURL}
-                        setAudioURL={setAudioURL}
+                        audioUrl={audioUrl}
+                        setAudioUrl={setAudioUrl}
                     />
                 </div>
 

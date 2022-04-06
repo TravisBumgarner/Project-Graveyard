@@ -62,7 +62,7 @@ const AddWorksheetEntry = () => {
     const [worksheet, setWorksheet] = React.useState<TWorksheet>(null)
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-    const [audioURL, setAudioURL] = React.useState<string>('')
+    const [audioUrl, setAudioUrl] = React.useState<string>('')
     const { worksheetId } = useParams()
     const navigate = useNavigate()
 
@@ -82,7 +82,7 @@ const AddWorksheetEntry = () => {
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        const base64Audio = audioURL.length ? await objectUrlToBase64(audioURL) : ''
+        const base64Audio = audioUrl.length ? await objectUrlToBase64(audioUrl) : ''
         const newWorksheetEntry: TWorksheetEntry = {
             knownLanguageText,
             newLanguageText,
@@ -99,7 +99,7 @@ const AddWorksheetEntry = () => {
         } else {
             setKnownLanguageText('')
             setNewLanguageText('')
-            setAudioURL('')
+            setAudioUrl('')
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
         }
         setIsLoading(false)
@@ -137,8 +137,8 @@ const AddWorksheetEntry = () => {
 
                 <div>
                     <AudioRecorder
-                        audioURL={audioURL}
-                        setAudioURL={setAudioURL}
+                        audioUrl={audioUrl}
+                        setAudioUrl={setAudioUrl}
                     />
                 </div>
 
