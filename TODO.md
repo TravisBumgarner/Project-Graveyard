@@ -2,6 +2,7 @@
 
 - [ ] Convert reviewer section to be need reviews, reviewed
     - [x] Add items to dropdown menu on review dashboard
+    - [ ] Move all reviewentry code submission to within review entry component
     - [ ] Fix issue with review entry showing up multiple times on backend
     - [ ] Get review to move to doing when first entry submitted
     - [ ] Add submit review
