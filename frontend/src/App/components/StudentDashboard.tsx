@@ -194,9 +194,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
         [TWorksheetStatus.HAS_REVIEWS]: 'Worksheets With Reviews',
     }
 
-    const actionsLookup = ({ id }: {
-        id: string
-    }) => {
+    const actionsLookup = ({ id }: { id: string }): JSX.Element[] => {
         return {
             [TWorksheetStatus.NEW]: [
                 <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
@@ -219,9 +217,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                 </Button>,
                 <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
-            [TWorksheetStatus.HAS_REVIEWS]: [
-                <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
-            ],
+            [TWorksheetStatus.HAS_REVIEWS]: [],
         }[tableType]
     }
 
@@ -255,37 +251,49 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                     {worksheets
                         .map(({
                             title, description, id, knownLanguage, newLanguage, date
-                        }) => (
-                            <Table.TableRow key={id}>
-                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
-                                <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{description}</Table.TableBodyCell>
-                                <Table.TableBodyCell>
-                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <DropdownMenu title="Actions">{actionsLookup({ id })}</DropdownMenu>
-                                        <Modal
-                                            contentLabel="Delete Worksheet?"
-                                            showModal={showDeleteModal}
-                                            closeModal={() => setShowDeleteModal(false)}
-                                        >
-                                            <>
-                                                <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                                                <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
-                                            </>
-                                        </Modal>
-                                        <Modal
-                                            contentLabel="Request Reviewers"
-                                            showModal={reviewRequestModal.showModal}
-                                            closeModal={() => setReviewRequestModal({ showModal: false })}
-                                        >
-                                            <ReviewersModal worksheetId={reviewRequestModal.id} />
-                                        </Modal>
-                                    </div>
-                                </Table.TableBodyCell>
-                            </Table.TableRow>
-                        ))}
+                        }) => {
+                            const actions = actionsLookup({ id })
+                            return (
+                                <Table.TableRow key={id}>
+                                    <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                    <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>
+                                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                            {actions.length > 0
+                                                ? (
+                                                    <>
+                                                        <DropdownMenu title="Actions">{actions}</DropdownMenu>
+                                                        <Modal
+                                                            contentLabel="Delete Worksheet?"
+                                                            showModal={showDeleteModal}
+                                                            closeModal={() => setShowDeleteModal(false)}
+                                                        >
+                                                            <>
+                                                                <Button
+                                                                    variation="secondary"
+                                                                    onClick={() => setShowDeleteModal(false)}
+                                                                >Cancel
+                                                                </Button>
+                                                                <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
+                                                            </>
+                                                        </Modal>
+                                                        <Modal
+                                                            contentLabel="Request Reviewers"
+                                                            showModal={reviewRequestModal.showModal}
+                                                            closeModal={() => setReviewRequestModal({ showModal: false })}
+                                                        >
+                                                            <ReviewersModal worksheetId={reviewRequestModal.id} />
+                                                        </Modal>
+                                                    </>
+                                                ) : ''}
+                                        </div>
+                                    </Table.TableBodyCell>
+                                </Table.TableRow>
+                            )
+                        })}
                 </Table.TableBody>
             </Table.Table>
 

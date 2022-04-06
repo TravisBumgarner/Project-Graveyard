@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
-import { Loading, Heading, Table, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
+import { Loading, Heading, Table, StyledNavLink, Button, DropdownMenu } from 'sharedComponents'
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
 import { logger } from 'utilities'
 import { context } from '.'
