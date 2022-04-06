@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
-// import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { Loading, Heading, Table, StyledNavLink, Button, Modal, DropdownMenu } from 'sharedComponents'
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
@@ -38,7 +38,7 @@ type ReviewTableProps = {
 const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
     // const { dispatch } = React.useContext(context)
     // const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
 
     const confirmDelete = () => {
@@ -51,10 +51,10 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
         [TReviewStatus.REVIEW_COMPLETED]: 'Review Completed',
     }
 
-    const actionsLookup = (): JSX.Element[] => {
+    const actionsLookup = ({ worksheetId }: { worksheetId: string }): JSX.Element[] => {
         return {
             [TReviewStatus.REVIEW_REQUESTED]: [
-                <Button fullWidth key="add" variation="secondary" onClick={() => console.log('begin')}>Begin Review</Button>,
+                <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/${worksheetId}`)}>Start Review</Button>,
             ],
             [TReviewStatus.REVIEW_IN_PROGRESS]: [
                 <Button fullWidth key="edit" variation="alert" onClick={() => confirmDelete()}>Edit</Button>,
@@ -98,7 +98,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                             id, worksheet: { id: worksheetId, title, knownLanguage, newLanguage, date, user: { username, id: userId } }
                         }) => (
                             <Table.TableRow key={id}>
-                                <Table.TableBodyCell><StyledNavLink to={`/worksheet/${worksheetId}`} text={title} /></Table.TableBodyCell>
+                                <Table.TableBodyCell>{title}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                 <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
@@ -106,7 +106,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                                 {/* <Table.TableBodyCell>{description}</Table.TableBodyCell> */}
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <DropdownMenu title="Actions">{actionsLookup()}</DropdownMenu>
+                                        <DropdownMenu title="Actions">{actionsLookup({ worksheetId })}</DropdownMenu>
                                     </div>
                                 </Table.TableBodyCell>
                                 <Modal
