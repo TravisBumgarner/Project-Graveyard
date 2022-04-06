@@ -5,18 +5,20 @@ import moment from 'moment'
 
 import { Loading, Table, Heading, Paragraph, Button } from 'sharedComponents'
 import { logger, dateToString } from 'utilities'
-import { TReviewEntry, TWorksheet } from 'types'
+import { TWorksheet, TCompletedStudentReview } from 'types'
 
 const STUDENT_REVIEW = gql`
-query StudentReview($worksheetId: String!)
+query completedStudentReview($worksheetId: String!)
  {
     worksheet(worksheetId: $worksheetId){
         title,
         description,
         id,
-        date
+        date,
+        knownLanguage,
+        newLanguage
     }
-    studentReview(worksheetId: $worksheetId){
+    completedStudentReview(worksheetId: $worksheetId){
         writtenFeedback,
         oralFeedback,
         audioUrl,
@@ -27,20 +29,19 @@ query StudentReview($worksheetId: String!)
 }
 `
 
-const Review = () => {
+const CompletedReview = () => {
     const { worksheetId } = useParams()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const [reviewEntries, setReviewEntries] = React.useState<TReviewEntry[]>([])
+    const [completedStudentReviewEntries, setcompletedStudentReviewEntries] = React.useState<TCompletedStudentReview[]>([])
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
     const navigate = useNavigate()
 
-    useQuery<{ studentReview: TReviewEntry[], worksheet: TWorksheet[] }>(STUDENT_REVIEW, {
+    useQuery<{ completedStudentReview: TCompletedStudentReview[], worksheet: TWorksheet[] }>(STUDENT_REVIEW, {
         variables: {
             worksheetId,
         },
         onCompleted: (data) => {
-            console.log('query data', data)
-            setReviewEntries(data.studentReview)
+            setcompletedStudentReviewEntries(data.completedStudentReview)
             setWorksheet(data.worksheet[0])
             setIsLoading(false)
         },
@@ -59,29 +60,26 @@ const Review = () => {
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>
-                        {/* <Table.TableHeaderCell scope="col">{state.worksheets[worksheetId].knownLanguage}</Table.TableHeaderCell>
-                        <Table.TableHeaderCell scope="col">{state.worksheets[worksheetId].newLanguage}</Table.TableHeaderCell> */}
-                        <Table.TableHeaderCell width="20%" scope="col">From</Table.TableHeaderCell>
-                        <Table.TableHeaderCell width="20%" scope="col">To</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="20%" scope="col">From: {worksheet.knownLanguage}</Table.TableHeaderCell>
+                        <Table.TableHeaderCell width="20%" scope="col">To: {worksheet.newLanguage}</Table.TableHeaderCell>
                         <Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Recorded</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="30%">Written Feedback</Table.TableHeaderCell>
                         <Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%">Oral Feedback</Table.TableHeaderCell>
                     </Table.TableRow>
                 </Table.TableHeader>
                 <Table.TableBody>
-                    {reviewEntries
+                    {completedStudentReviewEntries
                         .map(({
-                            // knownLanguageText,
-                            // newLanguageText,
+                            knownLanguageText,
+                            newLanguageText,
                             oralFeedback,
                             writtenFeedback,
-                            // audioUrl,
-                            // reviewEntryId
+                            audioUrl,
                         }) => (
                             <Table.TableRow>
-                                {/* <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell> */}
-                                {/* <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell> */}
-                                {/* <Table.TableBodyCell><audio src={audioUrl} controls /></Table.TableBodyCell> */}
+                                <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell>
+                                <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell>
+                                <Table.TableBodyCell><audio src={audioUrl} controls /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{writtenFeedback}</Table.TableBodyCell>
                                 <Table.TableBodyCell><audio src={oralFeedback} controls /></Table.TableBodyCell>
                             </Table.TableRow>
@@ -93,4 +91,4 @@ const Review = () => {
     )
 }
 
-export default Review
+export default CompletedReview

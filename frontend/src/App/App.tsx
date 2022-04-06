@@ -33,7 +33,7 @@ import {
     AlertMessage,
     Worksheet,
     Friends,
-    Review,
+    CompletedReview,
     AddWorksheet,
     EditWorksheet,
     AddWorksheetEntry,
@@ -171,7 +171,7 @@ const App = () => {
                     path="/student/review/:worksheetId"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<Review />}
+                            authedComponent={<CompletedReview />}
                         />
                     )}
                 />

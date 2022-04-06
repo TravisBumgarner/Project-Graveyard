@@ -161,17 +161,17 @@ const reviewEntries = {
     },
 }
 
-type GetStudentReviewArgs = {
+type CompletedStudentReview = {
     worksheetId: string
 }
 
-const studentReview = {
+const completedStudentReview = {
     type: new GraphQLList(ReviewForStudentType),
     description: 'List of Reviews for a student',
     args: {
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetStudentReviewArgs, context: TContext) => {
+    resolve: async (_parent, args: CompletedStudentReview, context: TContext) => {
         if (!context.authenticatedUserId) return []
         if (!isUUID(args.worksheetId)) return []
 
@@ -235,7 +235,7 @@ const RootQueryType = new GraphQLObjectType({
     fields: () => ({
         worksheet,
         worksheetEntries,
-        studentReview,
+        completedStudentReview,
         user,
         friend,
         review,

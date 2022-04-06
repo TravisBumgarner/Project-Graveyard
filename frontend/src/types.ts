@@ -36,6 +36,15 @@ type TReview = {
     status: TReviewStatus
 }
 
+type TCompletedStudentReview = {
+    knownLanguageText: string,
+    newLanguageText: string,
+    audioUrl: string,
+    oralFeedback: string,
+    writtenFeedback: string,
+    reviewEntryI: string
+}
+
 type TWorksheetEntry = {
     id: string,
     worksheetId: string,
@@ -56,5 +65,6 @@ export {
     TReviewEntry,
     TWorksheetStatus,
     TReviewStatus,
-    TReview
+    TReview,
+    TCompletedStudentReview
 }

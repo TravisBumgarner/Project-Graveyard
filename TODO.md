@@ -6,7 +6,7 @@
     - [x] Fix issue with review entry showing up multiple times on backend
     - [x] Get review to move to doing when first entry submitted
     - [x] Add submit review
-    - [ ] Fix Review Result page for student
+    - [x] Fix Review Result page for student
 - [x] Bug - New Worksheets showing up reviewer dashboard
 - [x] If graphql query fails, stop loading and throw error
 - [x] Request a teacher
