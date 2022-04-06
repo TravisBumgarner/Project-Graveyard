@@ -33,7 +33,7 @@ import {
     AlertMessage,
     Worksheet,
     Friends,
-    // Review,
+    Review,
     AddWorksheet,
     EditWorksheet,
     AddWorksheetEntry,
@@ -167,14 +167,14 @@ const App = () => {
                         />
                     )}
                 />
-                {/* <Route
+                <Route
                     path="/student/review/:worksheetId"
                     element={(
                         <ConditionalRoute
                             authedComponent={<Review />}
                         />
                     )}
-                /> */}
+                />
                 <Route path="/error" element={<Error />} />
                 <Route path="/" element={<Home />} />
             </Routes>

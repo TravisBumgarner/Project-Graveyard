@@ -221,6 +221,14 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
         }[tableType]
     }
 
+    const routeLookup = ({ id }: { id: string }): string => {
+        return {
+            [TWorksheetStatus.NEW]: `/worksheet/${id}`,
+            [TWorksheetStatus.NEEDS_REVIEW]: `/worksheet/${id}`,
+            [TWorksheetStatus.HAS_REVIEWS]: `/student/review/${id}`,
+        }[tableType]
+    }
+
     const handleDelete = async (id: string) => {
         const response = await deleteWorksheet({ variables: { id } })
         if (response.data.deleteWorksheet === null) {
@@ -233,6 +241,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
             })
         }
     }
+
     return (
         <div>
             <Heading.H3>{titleLookup[tableType]}</Heading.H3>
@@ -255,7 +264,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                             const actions = actionsLookup({ id })
                             return (
                                 <Table.TableRow key={id}>
-                                    <Table.TableBodyCell><StyledNavLink to={`/worksheet/${id}`} text={title} /></Table.TableBodyCell>
+                                    <Table.TableBodyCell><StyledNavLink to={routeLookup({ id })} text={title} /></Table.TableBodyCell>
                                     <Table.TableBodyCell>{date}</Table.TableBodyCell>
                                     <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                     <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>

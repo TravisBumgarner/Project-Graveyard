@@ -21,6 +21,7 @@
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] Generate new content IDs on the backend
 - [ ] start sharing types between fe/be
+- [ ] All onCompleted should be wrapped in try/catch
  # After First Review with French teacher
 
 - [ ] Update login emails, run through login, reset, signup flow

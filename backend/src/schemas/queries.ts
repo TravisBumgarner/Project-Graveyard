@@ -9,11 +9,11 @@ import {
 import { entity } from '../db'
 import {
     WorksheetType, WorksheetEntryType,
-    // ReviewForStudentType,
+    ReviewForStudentType,
     UserType, ReviewType, ReviewEntryType
 } from './types'
 import { TContext } from '../types'
-// import { isUUID } from '../utilities'
+import { isUUID } from '../utilities'
 
 type GetUserArgs = {
     userId?: string
@@ -161,41 +161,41 @@ const reviewEntries = {
     },
 }
 
-// type GetStudentReviewArgs = {
-//     worksheetId: string
-// }
+type GetStudentReviewArgs = {
+    worksheetId: string
+}
 
-// const studentReview = {
-//     type: new GraphQLList(ReviewForStudentType),
-//     description: 'List of Reviews for a student',
-//     args: {
-//         worksheetId: { type: GraphQLString },
-//     },
-//     resolve: async (_parent, args: GetStudentReviewArgs, context: TContext) => {
-//         if (!context.authenticatedUserId) return []
-//         if (!isUUID(args.worksheetId)) return []
+const studentReview = {
+    type: new GraphQLList(ReviewForStudentType),
+    description: 'List of Reviews for a student',
+    args: {
+        worksheetId: { type: GraphQLString },
+    },
+    resolve: async (_parent, args: GetStudentReviewArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return []
+        if (!isUUID(args.worksheetId)) return []
 
-//         const data = await getConnection()
-//             .query(`
-//             select
-//                 worksheet_entry."knownLanguageText",
-//                 worksheet_entry."newLanguageText",
-//                 worksheet_entry."audioUrl",
-//                 review_entry."oralFeedback",
-//                 review_entry."writtenFeedback",
-//                 "review_entry".id as "reviewEntryId"
-//             from
-//                 worksheet_entry
-//             join
-//                 review_entry on  review_entry."worksheetEntryId" = worksheet_entry.id
-//             where
-//                 worksheet_entry."worksheetId" = '${args.worksheetId}'
-//             ;
-//             `)
+        const data = await getConnection()
+            .query(`
+            select
+                worksheet_entry."knownLanguageText",
+                worksheet_entry."newLanguageText",
+                worksheet_entry."audioUrl",
+                review_entry."oralFeedback",
+                review_entry."writtenFeedback",
+                "review_entry".id as "reviewEntryId"
+            from
+                worksheet_entry
+            join
+                review_entry on  review_entry."worksheetEntryId" = worksheet_entry.id
+            where
+                worksheet_entry."worksheetId" = '${args.worksheetId}'
+            ;
+            `)
 
-//         return data
-//     },
-// }
+        return data
+    },
+}
 
 type GetWorksheetEntryArgs = {
     worksheetId?: string
@@ -235,7 +235,7 @@ const RootQueryType = new GraphQLObjectType({
     fields: () => ({
         worksheet,
         worksheetEntries,
-        // studentReview,
+        studentReview,
         user,
         friend,
         review,
