@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
@@ -7,6 +7,22 @@ import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
 import { logger } from 'utilities'
 import { context } from '.'
 // import { context } from '.'
+
+const UPDATE_REVIEW_STATUS = gql`
+mutation UpsertReview (
+    $reviewId: String!
+    $worksheetId: String
+    $status: String!
+  ) {
+    upsertReview(
+        id: $reviewId,
+        worksheetId: $worksheetId,
+        status: $status,
+    ){
+      id
+    }
+}
+`
 
 const GET_REVIEWS = gql`
 query GetReviews($reviewerId: String) {
@@ -39,11 +55,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
     // const { dispatch } = React.useContext(context)
     // const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     const navigate = useNavigate()
-    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
-
-    const confirmDelete = () => {
-        setShowDeleteModal(true)
-    }
+    const [updateReviewStatus] = useMutation<{ upsertReview: TReview }>(UPDATE_REVIEW_STATUS)
 
     const titleLookup = {
         [TReviewStatus.REVIEW_REQUESTED]: 'Review Requested',
@@ -51,32 +63,43 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
         [TReviewStatus.REVIEW_COMPLETED]: 'Review Completed',
     }
 
-    const actionsLookup = ({ worksheetId }: { worksheetId: string }): JSX.Element[] => {
+    const startReview = ({ worksheetId, reviewId }: { worksheetId: string, reviewId: string }) => {
+        updateReviewStatus({
+            variables: {
+                reviewId,
+                status: TReviewStatus.REVIEW_IN_PROGRESS
+            },
+            onCompleted: () => {
+                navigate(`/worksheet/${worksheetId}`)
+            }
+        })
+    }
+
+    const submitReview = ({ reviewId, worksheetId }: { reviewId: string, worksheetId: string }) => {
+        updateReviewStatus({
+            variables: {
+                reviewId,
+                worksheetId,
+                status: TReviewStatus.REVIEW_COMPLETED
+            },
+            onCompleted: () => {
+                navigate('/reviewer/dashboard')
+            }
+        })
+    }
+
+    const actionsLookup = ({ reviewId, worksheetId }: { reviewId: string, worksheetId: string }): JSX.Element[] => {
         return {
             [TReviewStatus.REVIEW_REQUESTED]: [
-                <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/${worksheetId}`)}>Start Review</Button>,
+                <Button fullWidth key="edit" variation="secondary" onClick={() => startReview({ worksheetId, reviewId })}>Start Review</Button>,
             ],
             [TReviewStatus.REVIEW_IN_PROGRESS]: [
-                <Button fullWidth key="edit" variation="alert" onClick={() => confirmDelete()}>Edit</Button>,
-                <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
+                <Button fullWidth key="edit" variation="secondary" onClick={() => submitReview({ worksheetId, reviewId })}>Submit Review</Button>,
             ],
             [TReviewStatus.REVIEW_COMPLETED]: [],
         }[tableType]
     }
 
-    const handleDelete = async (id: string) => {
-        console.log('deleting', id)
-        // const response = await deleteWorksheet({ variables: { id } })
-        // if (response.data.deleteWorksheet === null) {
-        //     dispatch({ type: 'ADD_MESSAGE', data: { message: 'Failed to delete worksheet', timeToLiveMS: 5000 } })
-        // } else {
-        //     setWorksheets((prev) => {
-        //         const modifiedWorksheets = { ...prev }
-        //         delete modifiedWorksheets[id]
-        //         return modifiedWorksheets
-        //     })
-        // }
-    }
     return (
         <div>
             <Heading.H3>{titleLookup[tableType]}</Heading.H3>
@@ -95,30 +118,20 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                 <Table.TableBody>
                     {reviews
                         .map(({
-                            id, worksheet: { id: worksheetId, title, knownLanguage, newLanguage, date, user: { username, id: userId } }
+                            id: reviewId, worksheet: { id: worksheetId, title, knownLanguage, newLanguage, date, user: { username, id: userId } }
                         }) => (
-                            <Table.TableRow key={id}>
+                            <Table.TableRow key={reviewId}>
                                 <Table.TableBodyCell>{title}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
+                                <Table.TableBodyCell><StyledNavLink text={username} to={`/ profile / ${userId}`} /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                 <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                 {/* <Table.TableBodyCell>{description}</Table.TableBodyCell> */}
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <DropdownMenu title="Actions">{actionsLookup({ worksheetId })}</DropdownMenu>
+                                        <DropdownMenu title="Actions">{actionsLookup({ reviewId, worksheetId })}</DropdownMenu>
                                     </div>
                                 </Table.TableBodyCell>
-                                <Modal
-                                    contentLabel="Delete Worksheet?"
-                                    showModal={showDeleteModal}
-                                    closeModal={() => setShowDeleteModal(false)}
-                                >
-                                    <>
-                                        <Button variation="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                                        <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
-                                    </>
-                                </Modal>
                             </Table.TableRow>
                         ))}
                 </Table.TableBody>

@@ -8,7 +8,7 @@ import {
 import { entity } from '../db'
 import { WorksheetType, WorksheetEntryType, ReviewType, UserType, ReviewEntryType } from './types'
 import { Exactly, logger } from '../utilities'
-import { TContext, TReviewStatus } from '../types'
+import { TContext, TReviewStatus, TWorksheetStatus } from '../types'
 import cloudinary from '../services/cloudinary'
 
 const getUrlForFile = async (uploadUrl: string, audioData: string) => {
@@ -143,73 +143,6 @@ const editWorksheet = {
     },
 }
 
-// type AddReviewArgs = {
-//     id: string
-//     date: string
-//     worksheetId: string
-//     reviewEntries: {
-//         id: string
-//         worksheetEntryId: string
-//         oralFeedback: string
-//         writtenFeedback: string
-//     }[]
-// }
-
-// const addReview = {
-//     type: ReviewType,
-//     description: 'Add a Review',
-//     args: {
-//         id: { type: new GraphQLNonNull(GraphQLString) },
-//         date: { type: new GraphQLNonNull(GraphQLString) },
-//         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
-//         reviewEntries: {
-//             type: new GraphQLList(new GraphQLInputObjectType({
-//                 name: 'ReviewEntry',
-//                 fields: () => ({
-//                     id: { type: GraphQLString },
-//                     worksheetEntryId: { type: GraphQLString },
-//                     oralFeedback: { type: GraphQLString },
-//                     writtenFeedback: { type: GraphQLString },
-//                 }),
-//             })),
-//         },
-//     },
-//     resolve: async (parent: undefined, args: AddReviewArgs, context: TContext) => {
-//         if (!context.authenticatedUserId) return null
-
-//         const {
-//             reviewEntries, id: reviewId, date, worksheetId,
-//         } = args
-//         const reviewEntity = new entity.Review()
-//         reviewEntity.id = reviewId
-//         reviewEntity.date = date
-//         reviewEntity.reviewerId = context.authenticatedUserId
-//         reviewEntity.worksheetId = worksheetId
-//         const reviewEntryResponse = await getConnection()
-//             .getRepository(entity.Review)
-//             .save(reviewEntity)
-
-//         await reviewEntries.map(async ({
-//             id, writtenFeedback, oralFeedback, worksheetEntryId,
-//         }) => {
-//             const url = await getUrlForFile(`${reviewId}/${id}.webm`, oralFeedback)
-
-//             const reviewEntryEntity = new entity.ReviewEntry()
-//             reviewEntryEntity.id = id
-//             reviewEntryEntity.writtenFeedback = writtenFeedback
-//             reviewEntryEntity.oralFeedback = url
-//             reviewEntryEntity.worksheetEntryId = worksheetEntryId
-//             reviewEntryEntity.reviewId = reviewId
-
-//             await getConnection()
-//                 .getRepository(entity.ReviewEntry)
-//                 .save(reviewEntryEntity)
-//         })
-
-//         return reviewEntryResponse
-//     }
-// }
-
 const deleteWorksheet = {
     type: WorksheetType,
     description: 'Delete a Worksheet',
@@ -234,7 +167,7 @@ type UpsertReviewArgs = {
     id: string
     status: TReviewStatus
     reviewerId: string
-    worksheetId: string
+    worksheetId?: string
     date: string
 }
 
@@ -243,13 +176,23 @@ const upsertReview = {
     description: 'Upsert a Review',
     args: {
         id: { type: new GraphQLNonNull(GraphQLString) },
-        worksheetId: { type: new GraphQLNonNull(GraphQLString) },
-        status: { type: new GraphQLNonNull(GraphQLString) },
-        date: { type: new GraphQLNonNull(GraphQLString) },
-        reviewerId: { type: new GraphQLNonNull(GraphQLString) },
+        worksheetId: { type: GraphQLString },
+        status: { type: GraphQLString },
+        date: { type: GraphQLString },
+        reviewerId: { type: GraphQLString },
     },
     resolve: async (parent: undefined, args: UpsertReviewArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
+
+        if (args.worksheetId && args.status === TReviewStatus.REVIEW_COMPLETED) {
+            await getConnection()
+                .getRepository(entity.Worksheet)
+                .save({
+                    id: args.worksheetId,
+                    status: TWorksheetStatus.HAS_REVIEWS
+                })
+        }
+
         const response = await getConnection()
             .getRepository(entity.Review)
             .save({
