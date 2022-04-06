@@ -383,7 +383,6 @@ const RootMutationType = new GraphQLObjectType({
         addWorksheetEntry,
         editWorksheetEntry,
         deleteWorksheetEntry,
-        // addReview,
         addReviewEntry,
         editReviewEntry,
         deleteReviewEntry,

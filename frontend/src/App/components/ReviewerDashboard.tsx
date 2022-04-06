@@ -6,7 +6,6 @@ import { Loading, Heading, Table, StyledNavLink, Button, Modal, DropdownMenu } f
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
 import { logger } from 'utilities'
 import { context } from '.'
-// import { context } from '.'
 
 const UPDATE_REVIEW_STATUS = gql`
 mutation UpsertReview (
@@ -48,12 +47,9 @@ query GetReviews($reviewerId: String) {
 
 type ReviewTableProps = {
     reviews: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[],
-    // setWorksheets: React.Dispatch<React.SetStateAction<Record<string, TWorksheet>>>,
     tableType: TReviewStatus
 }
 const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
-    // const { dispatch } = React.useContext(context)
-    // const [deleteWorksheet] = useMutation<{ deleteWorksheet: TWorksheet }>(DELETE_WORKSHEET)
     const navigate = useNavigate()
     const [updateReviewStatus] = useMutation<{ upsertReview: TReview }>(UPDATE_REVIEW_STATUS)
 
@@ -111,29 +107,38 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                         <Table.TableHeaderCell width="15%">User</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="15%">From</Table.TableHeaderCell>
                         <Table.TableHeaderCell width="15%">To</Table.TableHeaderCell>
-                        {/* <Table.TableHeaderCell width="25%">Description</Table.TableHeaderCell> */}
+                        <Table.TableHeaderCell width="25%">Description</Table.TableHeaderCell>
                         <Table.TableHeaderCell style={{ textAlign: 'center' }} width="25%">Actions</Table.TableHeaderCell>
                     </Table.TableRow>
                 </Table.TableHeader>
                 <Table.TableBody>
                     {reviews
                         .map(({
-                            id: reviewId, worksheet: { id: worksheetId, title, knownLanguage, newLanguage, date, user: { username, id: userId } }
-                        }) => (
-                            <Table.TableRow key={reviewId}>
-                                <Table.TableBodyCell>{title}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                <Table.TableBodyCell><StyledNavLink text={username} to={`/ profile / ${userId}`} /></Table.TableBodyCell>
-                                <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
-                                <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
-                                {/* <Table.TableBodyCell>{description}</Table.TableBodyCell> */}
-                                <Table.TableBodyCell>
-                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <DropdownMenu title="Actions">{actionsLookup({ reviewId, worksheetId })}</DropdownMenu>
-                                    </div>
-                                </Table.TableBodyCell>
-                            </Table.TableRow>
-                        ))}
+                            id: reviewId, worksheet: { id: worksheetId,
+                                description, title, knownLanguage, newLanguage, date, user: { username, id: userId } }
+                        }) => {
+                            const actions = actionsLookup({ reviewId, worksheetId })
+
+                            return (
+                                <Table.TableRow key={reviewId}>
+                                    <Table.TableBodyCell>{title}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{date}</Table.TableBodyCell>
+                                    <Table.TableBodyCell><StyledNavLink text={username} to={`/ profile / ${userId}`} /></Table.TableBodyCell>
+                                    <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>{description}</Table.TableBodyCell>
+                                    <Table.TableBodyCell>
+                                        {actions.length > 0
+                                            ? (
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <DropdownMenu title="Actions">{actions}</DropdownMenu>
+                                                </div>
+                                            )
+                                            : ''}
+                                    </Table.TableBodyCell>
+                                </Table.TableRow>
+                            )
+                        })}
                 </Table.TableBody>
             </Table.Table>
 
@@ -144,8 +149,6 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
 const ReviewerDashboard = () => {
     const [reviews, setReviews] = React.useState<Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    // const { state } = React.useContext(context)
-    // const navigate = useNavigate()
     const { dispatch } = React.useContext(context)
 
     useQuery<{ review: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[] }>(GET_REVIEWS, {
@@ -171,17 +174,14 @@ const ReviewerDashboard = () => {
             <Heading.H2>Reviewer Dashboard</Heading.H2>
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_REQUESTED}
-                // setWorksheets={setWorksheets}
                 reviews={filterReviews(TReviewStatus.REVIEW_REQUESTED)}
             />
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_IN_PROGRESS}
-                // setWorksheets={setWorksheets}
                 reviews={filterReviews(TReviewStatus.REVIEW_IN_PROGRESS)}
             />
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_COMPLETED}
-                // setWorksheets={setWorksheets}
                 reviews={filterReviews(TReviewStatus.REVIEW_COMPLETED)}
             />
         </div>

@@ -2,14 +2,15 @@
 
 - [ ] Convert reviewer section to be need reviews, reviewed
     - [x] Add items to dropdown menu on review dashboard
-    - [ ] Move all reviewentry code submission to within review entry component
-    - [ ] Fix issue with review entry showing up multiple times on backend
-    - [ ] Get review to move to doing when first entry submitted
-    - [ ] Add submit review
+    - [x] Move all reviewentry code submission to within review entry component
+    - [x] Fix issue with review entry showing up multiple times on backend
+    - [x] Get review to move to doing when first entry submitted
+    - [x] Add submit review
+    - [ ] Fix Review Result page for student
 - [x] Bug - New Worksheets showing up reviewer dashboard
 - [x] If graphql query fails, stop loading and throw error
 - [x] Request a teacher
-- [ ] Get rid of tables for individual entries
+- [ ] ~~Get rid of tables for individual entries~~
 - [ ] Only be able to edit your own work, delete, etc.
 - [ ] Add language dropdown
 
