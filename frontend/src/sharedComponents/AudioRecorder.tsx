@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import React from 'react'
+import { BiMicrophone, } from 'react-icons/bi'
+import { BsFillRecordFill, } from 'react-icons/bs'
+import { AiFillDelete, AiFillPlayCircle } from 'react-icons/ai'
 
 import { Button } from 'sharedComponents'
 import { logger } from 'utilities'
@@ -42,7 +45,6 @@ const Pulsing = styled.div`
     animation-name: opacity;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    color: ${colors.ALERT.base};
 
     @keyframes opacity {
         0% {
@@ -116,24 +118,21 @@ const AudioRecorder = ({
         <AudioRecorderWrapper>
             <Label>Audio:</Label>
             <div>
-                <div>
-                    {isRecording ? (
-                        <Button variation="secondary" onClick={stopRecording} disabled={!isRecording}>
-                            Stop <Pulsing>●</Pulsing>
-                        </Button>
-                    ) : (
-                        <Button variation="secondary" onClick={startRecording} disabled={isRecording}>
-                            Record
-                        </Button>
-                    )}
-                    {
-                        audioUrl ? (
-                            <Button onClick={clearAudioUrl} variation="alert">Clear</Button>
-                        ) : null
-                    }
-                </div>
+                {isRecording ? (
+                    <Button variation="secondary" onClick={stopRecording}>
+                        <Pulsing><BsFillRecordFill fill={colors.ALERT.base} /></Pulsing>
+                    </Button>
+                ) : (
+                    <Button variation="secondary" onClick={startRecording}>
+                        <BiMicrophone />
+                    </Button>
+                )}
+                {
+                    audioUrl ? (
+                        <Button disabled={audioUrl.length === 0} onClick={clearAudioUrl} variation="alert"><AiFillDelete /></Button>
+                    ) : null
+                }
                 <audio src={audioUrl} controls />
-
             </div>
         </AudioRecorderWrapper>
     )

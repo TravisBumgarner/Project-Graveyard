@@ -136,6 +136,7 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
 
     return (
         <div>
+            <Paragraph>To add a new reviewer, navigate to the <StyledNavLink to="/reviewers" text="Reviewers" /> page.</Paragraph>
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>

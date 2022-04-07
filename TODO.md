@@ -12,12 +12,14 @@
 - [x] Request a teacher
 - [ ] ~~Disable recorder when recording is over~~
 - [ ] ~~Get rid of tables for individual entries~~
-- [ ] Only be able to edit your own work, delete, etc.
+- [ ] Rework audio recorder to be more intuitive
+    - [ ] add progress tracker and such
 - [ ] Add language dropdown
 
 # Before first review with French teacher
-- [ ] Links don't redirect on page load `/login` should redirect and change url but it dont.
+- [ ] Only be able to edit your own work, delete, etc.
 - [ ] Fail if exists in FB but not Postgres
+- [ ] Links don't redirect on page load `/login` should redirect and change url but it dont.
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] Generate new content IDs on the backend
 - [ ] start sharing types between fe/be
@@ -28,8 +30,6 @@
 - [ ] Update login emails, run through login, reset, signup flow
 - [ ] figure a better way to handle service keys
 - [ ] noImplicitAny issue
-- [ ] Rework audio recorder to be more intuitive
-    - [ ] add progress tracker and such
 # Post MVP
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export

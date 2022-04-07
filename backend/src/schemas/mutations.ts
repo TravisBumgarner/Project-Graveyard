@@ -21,16 +21,16 @@ const getUrlForFile = async (uploadUrl: string, audioData: string) => {
     return url
 }
 
-type AddFriendArgs = {
-    friendId: string
+type AddReviewerArgs = {
+    reviewerId: string
 }
-const addFriend = {
+const addReviewer = {
     type: UserType,
-    description: 'Add a Friend',
+    description: 'Add a Reviewer',
     args: {
-        friendId: { type: new GraphQLNonNull(GraphQLString) },
+        reviewerId: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddFriendArgs, context: TContext) => {
+    resolve: async (parent: undefined, args: AddReviewerArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const user = await getConnection()
             .getRepository(entity.User)
@@ -40,7 +40,7 @@ const addFriend = {
         const follower = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
-            .andWhere('user.id = :userId', { userId: args.friendId })
+            .andWhere('user.id = :userId', { userId: args.reviewerId })
             .getOne()
 
         if (user && follower) {
@@ -55,13 +55,13 @@ const addFriend = {
         return []
     },
 }
-const removeFriend = {
+const removeReviewer = {
     type: UserType,
-    description: 'Remove a Friend',
+    description: 'Remove a Reviewer',
     args: {
-        friendId: { type: new GraphQLNonNull(GraphQLString) },
+        reviewerId: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve: async (parent: undefined, args: AddFriendArgs, context: TContext) => {
+    resolve: async (parent: undefined, args: AddReviewerArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
         const user = await getConnection()
             .getRepository(entity.User)
@@ -71,7 +71,7 @@ const removeFriend = {
         const follower = await getConnection()
             .getRepository(entity.User)
             .createQueryBuilder('user')
-            .andWhere('user.id = :userId', { userId: args.friendId })
+            .andWhere('user.id = :userId', { userId: args.reviewerId })
             .getOne()
 
         if (user && follower) {
@@ -375,8 +375,8 @@ const RootMutationType = new GraphQLObjectType({
     name: 'Mutation',
     description: 'Root Mutation',
     fields: () => ({
-        addFriend,
-        removeFriend,
+        addReviewer,
+        removeReviewer,
         addWorksheet,
         editWorksheet,
         deleteWorksheet,

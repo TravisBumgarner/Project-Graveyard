@@ -39,9 +39,9 @@ const user = {
     },
 }
 
-const friend = {
+const reviewer = {
     type: new GraphQLList(UserType),
-    description: 'List of Friends',
+    description: 'List of Reviewers',
     args: {
     },
     resolve: async (_parent, args: null, context: TContext) => {
@@ -53,13 +53,13 @@ const friend = {
             .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
             .getOne()
 
-        const friends = await getRepository(entity.User)
+        const reviewers = await getRepository(entity.User)
             .createQueryBuilder()
             .relation(entity.User, 'followers')
             .of(currentUser)
             .loadMany()
 
-        return friends
+        return reviewers
     },
 }
 
@@ -237,7 +237,7 @@ const RootQueryType = new GraphQLObjectType({
         worksheetEntries,
         completedStudentReview,
         user,
-        friend,
+        reviewer,
         review,
         reviewEntries
     }),

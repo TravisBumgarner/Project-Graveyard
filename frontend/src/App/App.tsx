@@ -32,7 +32,7 @@ import {
     Footer,
     AlertMessage,
     Worksheet,
-    Friends,
+    Reviewers,
     CompletedReview,
     AddWorksheet,
     EditWorksheet,
@@ -159,10 +159,10 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path="/friends"
+                    path="/reviewers"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<Friends />}
+                            authedComponent={<Reviewers />}
                             unauthedComponent={<Home />}
                         />
                     )}
