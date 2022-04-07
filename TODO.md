@@ -12,12 +12,13 @@
 - [x] Request a teacher
 - [ ] ~~Disable recorder when recording is over~~
 - [ ] ~~Get rid of tables for individual entries~~
+- [x] Fix Add Reviewer button to change to "requested"
+- [x] Add loading when requesting a reviewer because you can request twice
+# Before first review with French teacher
+- [ ] Only be able to edit your own work, delete, etc.
 - [ ] Rework audio recorder to be more intuitive
     - [ ] add progress tracker and such
 - [ ] Add language dropdown
-
-# Before first review with French teacher
-- [ ] Only be able to edit your own work, delete, etc.
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Links don't redirect on page load `/login` should redirect and change url but it dont.
 - [ ] Be able to persist URLs after logging in .. redirect user

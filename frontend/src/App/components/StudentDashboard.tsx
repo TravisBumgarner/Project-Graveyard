@@ -31,7 +31,7 @@ const GET_POTENTIAL_REVIEWERS = gql`
     query GetReviewDetails (
         $worksheetId: String!
     ) {
-        friend {
+        reviewer {
             username,
             id
         },
@@ -55,16 +55,6 @@ const UPSERT_REVIEW = gql`
     }
 `
 
-// const DELETE_REVIEW = gql`
-//     mutation DeleteReview (
-//         $id: String!
-//     ) {
-//         deleteReview(id: $id) {
-//             id
-//         }
-//     }
-// `
-
 const DELETE_WORKSHEET = gql`
 mutation DeleteWorksheet (
     $id: String!
@@ -84,10 +74,11 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
     const [allReviewers, setAllReviewers] = React.useState<Record<string, TPhraseADayUser>>({})
     const [selectedReviewers, setSelectedReviewers] = React.useState<string[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const [isLoadingAddReviewer, setIsLoadingAddReviewer] = React.useState<boolean>(false)
     const { dispatch } = React.useContext(context)
 
     const [upsertReview] = useMutation<{ upsertReview: TReview }>(UPSERT_REVIEW)
-    useQuery<{ friend: TPhraseADayUser[], review: TReview[] }>(GET_POTENTIAL_REVIEWERS, {
+    useQuery<{ reviewer: TPhraseADayUser[], review: TReview[] }>(GET_POTENTIAL_REVIEWERS, {
         variables: {
             worksheetId
         },
@@ -97,8 +88,8 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
             setSelectedReviewers(newSelectedReviewers)
 
             const newAllReviewers: Record<string, TPhraseADayUser> = {}
-            data.friend.forEach((friend) => {
-                newAllReviewers[friend.id] = friend
+            data.reviewer.forEach((reviewer) => {
+                newAllReviewers[reviewer.id] = reviewer
             })
             setAllReviewers(newAllReviewers)
             setIsLoading(false)
@@ -109,7 +100,8 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
         },
     })
 
-    const handleAddReview = async (reviewerId: string) => {
+    const handleAddReviewer = async (reviewerId: string) => {
+        setIsLoadingAddReviewer(true)
         const response = await upsertReview({
             variables: {
                 id: uuid4(),
@@ -125,11 +117,7 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
             setSelectedReviewers((prev) => ([...prev, reviewerId]))
         }
 
-        setSelectedReviewers((prev) => {
-            const modifiedFriends = prev.filter((value) => value !== reviewerId)
-            return modifiedFriends
-        })
-        // setIsLoadingFollowerUpdate(false)
+        setIsLoadingAddReviewer(false)
     }
 
     if (isLoading) return <Loading />
@@ -156,8 +144,9 @@ const ReviewersModal = ({ worksheetId }: ReviewersModalProps) => {
                                         {!selectedReviewers.includes(id)
                                             ? (
                                                 <Button
-                                                    onClick={() => (handleAddReview(id))}
+                                                    onClick={() => (handleAddReviewer(id))}
                                                     variation="secondary"
+                                                    disabled={isLoadingAddReviewer}
                                                 >Add Reviewer
                                                 </Button>
                                             ) : (
