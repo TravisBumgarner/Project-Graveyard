@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button, colors } from 'sharedComponents'
 
 const StyledNav = styled.ul`
-    z-index: 999;
+    z-index: 998;
     position: absolute;
     width: 240px;
     border-radius: 1rem;
