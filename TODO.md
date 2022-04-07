@@ -21,9 +21,13 @@
 - [x] Review Entry doesn't submit with audio. 
 - [x] Prev button for review entries causes freeze
 - [ ] Fetching a review with entries doesn't cause them to appear on the screen
-
+- [ ] Speed up docker-compose file
+- [ ] Submit review doesn't update in local state
+- [ ] Check if it's possible to submit duplicate feedback for an worksheet entry
 
 # Before first review with French teacher
+- [ ] Cap audio limits
+- [ ] Give the ability to export a worksheet(s).
 - [ ] Only be able to edit your own work, delete, etc.
 - [ ] Rework audio recorder to be more intuitive
     - [ ] add progress tracker and such
