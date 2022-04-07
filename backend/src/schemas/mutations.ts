@@ -249,7 +249,7 @@ const addReviewEntry = {
             .getRepository(entity.ReviewEntry)
             .save({
                 ...args,
-                audioUrl: url,
+                oralFeedback: url,
             })
     },
 }

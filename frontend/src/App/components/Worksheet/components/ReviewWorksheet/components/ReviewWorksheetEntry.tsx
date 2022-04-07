@@ -88,14 +88,15 @@ const ReviewWorksheetEntry = ({
 
     const { dispatch } = React.useContext(context)
 
-    React.useEffect(() => {
-        setIsLoading(true)
-    }, [worksheetEntryId])
+    // React.useEffect(() => {
+    //     setIsLoading(true)
+    // }, [worksheetEntryId])
 
     useQuery<{ reviewEntries: TReviewEntry[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_ENTRY_AND_REVIEW_ENTRY, {
         variables: {
             worksheetEntryId,
         },
+        fetchPolicy: 'no-cache',
         onCompleted: (data) => {
             setWorksheetEntry(data.worksheetEntries[0])
             if (data.reviewEntries[0]) {
@@ -175,12 +176,6 @@ const ReviewWorksheetEntry = ({
                 audioUrl={audioUrl}
                 setAudioUrl={setAudioUrl}
             />
-            <Button
-                variation="alert"
-                onClick={() => console.log('clearing data')}
-            >
-                Clear Feedback
-            </Button>
             <Button variation="primary" onClick={handleSubmit}>Submit Feedback</Button>
         </ReviewWorksheetEntryWrapper>
     )

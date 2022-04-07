@@ -55,6 +55,7 @@ const ReviewWorksheet = () => {
     const [worksheetEntryIds, setWorksheetEntryIds] = React.useState<string[]>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [currentWorksheetEntryIndex, setCurrentWorksheetEntryIndex] = React.useState<number>(0)
+
     useQuery<{ worksheet: (TWorksheet & { user: TPhraseADayUser })[], worksheetEntries: TWorksheetEntry[], review: TReview[] }>(
         GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
@@ -72,24 +73,16 @@ const ReviewWorksheet = () => {
         },
     })
 
-    const getNextWorksheetEntry = (direction: 'left' | 'right') => {
-        const first = 0
-        const last = worksheetEntryIds.length - 1
-        let next
-
-        if (direction === 'left') {
-            next = currentWorksheetEntryIndex - 1
-            if (next < first) {
-                next = last
-            }
-        } else {
-            next = currentWorksheetEntryIndex + 1
-            if (next > last) {
-                next = first
-            }
-        }
-        setCurrentWorksheetEntryIndex(next)
-    }
+    const getNextWorksheetEntry = () => setCurrentWorksheetEntryIndex(
+        currentWorksheetEntryIndex + 1 === worksheetEntryIds.length
+            ? 0
+            : currentWorksheetEntryIndex + 1
+    )
+    const getPrevWorksheetEntry = () => setCurrentWorksheetEntryIndex(
+        currentWorksheetEntryIndex - 1 === -1
+            ? worksheetEntryIds.length - 1
+            : currentWorksheetEntryIndex - 1
+    )
 
     if (isLoading) return <Loading />
 
@@ -121,8 +114,8 @@ const ReviewWorksheet = () => {
                     review={review}
                 />
             </div>
-            <Button variation="primary" disabled={isLoading} onClick={() => getNextWorksheetEntry('left')}>Previous</Button>
-            <Button variation="primary" disabled={isLoading} onClick={() => getNextWorksheetEntry('right')}>Next</Button>
+            <Button variation="primary" disabled={isLoading} onClick={() => getPrevWorksheetEntry()}>Previous</Button>
+            <Button variation="primary" disabled={isLoading} onClick={() => getNextWorksheetEntry()}>Next</Button>
         </div>
     )
 }

@@ -90,6 +90,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                 <Button fullWidth key="edit" variation="secondary" onClick={() => startReview({ worksheetId, reviewId })}>Start Review</Button>,
             ],
             [TReviewStatus.REVIEW_IN_PROGRESS]: [
+                <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/${worksheetId}`)}>Continue Review</Button>,
                 <Button fullWidth key="edit" variation="secondary" onClick={() => submitReview({ worksheetId, reviewId })}>Submit Review</Button>,
             ],
             [TReviewStatus.REVIEW_COMPLETED]: [],
@@ -123,7 +124,7 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                                 <Table.TableRow key={reviewId}>
                                     <Table.TableBodyCell>{title}</Table.TableBodyCell>
                                     <Table.TableBodyCell>{date}</Table.TableBodyCell>
-                                    <Table.TableBodyCell><StyledNavLink text={username} to={`/ profile / ${userId}`} /></Table.TableBodyCell>
+                                    <Table.TableBodyCell><StyledNavLink text={username} to={`/profile/${userId}`} /></Table.TableBodyCell>
                                     <Table.TableBodyCell>{knownLanguage}</Table.TableBodyCell>
                                     <Table.TableBodyCell>{newLanguage}</Table.TableBodyCell>
                                     <Table.TableBodyCell>{description}</Table.TableBodyCell>

@@ -16,6 +16,13 @@
 - [x] Add loading when requesting a reviewer because you can request twice
 - [x] Can Add Entries and Submit for Feedback after submitting for feedback
 - [ ] Rename button colors, perhaps "submit", "alert", "primary-action", "secondary-action"
+- [ ] Give ability to add reviewers when submitting
+- [x] fix broken review dashboard user profile link
+- [x] Review Entry doesn't submit with audio. 
+- [x] Prev button for review entries causes freeze
+- [ ] Fetching a review with entries doesn't cause them to appear on the screen
+
+
 # Before first review with French teacher
 - [ ] Only be able to edit your own work, delete, etc.
 - [ ] Rework audio recorder to be more intuitive

@@ -67,7 +67,7 @@ const Reviewers = () => {
     const [addReviewer] = useMutation<{ addReviewer: TPhraseADayUser }>(ADD_REVIEWER)
     const [reviewReviewer] = useMutation<{ reviewReviewer: TPhraseADayUser }>(REMOVE_REVIEWER)
 
-    const handleFollow = async (reviewerId: string) => {
+    const handleAddReviewer = async (reviewerId: string) => {
         setIsLoadingFollowerUpdate(true)
         await addReviewer({
             variables: { reviewerId }
@@ -76,7 +76,7 @@ const Reviewers = () => {
         setIsLoadingFollowerUpdate(false)
     }
 
-    const handleUnfollow = async (reviewerId: string) => {
+    const handleRemoveReviewer = async (reviewerId: string) => {
         setIsLoadingFollowerUpdate(true)
         await reviewReviewer({
             variables: { reviewerId }
@@ -110,10 +110,10 @@ const Reviewers = () => {
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <Button
-                                            onClick={() => (reviewers.includes(id) ? handleUnfollow(id) : handleFollow(id))}
+                                            onClick={() => (reviewers.includes(id) ? handleRemoveReviewer(id) : handleAddReviewer(id))}
                                             variation="secondary"
                                             disabled={isLoadingFollowerUpdate}
-                                        >{reviewers.includes(id) ? 'Unfollow' : 'Follow'}
+                                        >{reviewers.includes(id) ? 'Remove Reviewer' : 'Add Reviewer'}
                                         </Button>
                                     </div>
                                 </Table.TableBodyCell>
