@@ -10,19 +10,20 @@
 - [x] Bug - New Worksheets showing up reviewer dashboard
 - [x] If graphql query fails, stop loading and throw error
 - [x] Request a teacher
+- [ ] ~~Disable recorder when recording is over~~
 - [ ] ~~Get rid of tables for individual entries~~
 - [ ] Only be able to edit your own work, delete, etc.
 - [ ] Add language dropdown
 
 # Before first review with French teacher
 - [ ] Links don't redirect on page load `/login` should redirect and change url but it dont.
-- [ ] Disable recorder when recording is over
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] Generate new content IDs on the backend
 - [ ] start sharing types between fe/be
 - [ ] All onCompleted should be wrapped in try/catch
- # After First Review with French teacher
+- [ ] Dates for creating a worksheet are off by one lol
+  # After First Review with French teacher
 
 - [ ] Update login emails, run through login, reset, signup flow
 - [ ] figure a better way to handle service keys

@@ -8,11 +8,6 @@ import colors from './colors'
 
 // https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
 
-async function requestRecorder() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-    return new MediaRecorder(stream)
-}
-
 const AudioRecorderWrapper = styled.div`
     margin: 0.5rem;
 
@@ -72,8 +67,15 @@ const AudioRecorder = ({
 }: AudioRecorderProps) => {
     const [isRecording, setIsRecording] = React.useState<boolean>(false)
     const [recorder, setRecorder] = React.useState(null)
+    // const [stream, setStream] = React.useState<MediaStream>(null)
 
     React.useEffect(() => {
+        const requestRecorder = async () => {
+            const newStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            // setStream(newStream)
+            return new MediaRecorder(newStream)
+        }
+
         if (recorder === null) {
             if (isRecording) {
                 requestRecorder().then(setRecorder, logger)
@@ -85,6 +87,9 @@ const AudioRecorder = ({
             recorder.start()
         } else {
             recorder.stop()
+            // stream.getAudioTracks().forEach((track) => track.stop())
+            // setStream(null)
+            // setRecorder(null)
         }
 
         const handleData = (e: { data: Blob | MediaSource }) => {
