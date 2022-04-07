@@ -22,9 +22,10 @@
 - [x] Review Entry doesn't submit with audio. 
 - [x] Prev button for review entries causes freeze
 - [x] Fetching a review with entries doesn't cause them to appear on the screen
-- [ ] Submit review doesn't update in local state
-- [ ] Check if it's possible to submit duplicate feedback for an worksheet entry
-
+- [x] Submit review doesn't update in local state
+- [x] Check if it's possible to submit duplicate feedback for an worksheet entry
+- [ ] Add announcement about beta testing
+- [ ] Bug with user review showing up in "review in progress" for wrong user
 # Before first review with French teacher
 - [ ] Cap audio limits
 - [ ] Give the ability to export a worksheet(s).

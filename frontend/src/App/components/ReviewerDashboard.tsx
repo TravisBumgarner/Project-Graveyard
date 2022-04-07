@@ -47,9 +47,14 @@ query GetReviews($reviewerId: String) {
 
 type ReviewTableProps = {
     reviews: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[],
-    tableType: TReviewStatus
+    tableType: TReviewStatus,
+    setReviews?: React.Dispatch<React.SetStateAction<Record<string, TReview & {
+        worksheet: (TWorksheet & {
+            user: TPhraseADayUser;
+        });
+    }>>>
 }
-const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
+const ReviewTable = ({ reviews, tableType, setReviews }: ReviewTableProps) => {
     const navigate = useNavigate()
     const [updateReviewStatus] = useMutation<{ upsertReview: TReview }>(UPDATE_REVIEW_STATUS)
 
@@ -79,7 +84,11 @@ const ReviewTable = ({ reviews, tableType }: ReviewTableProps) => {
                 status: TReviewStatus.REVIEW_COMPLETED
             },
             onCompleted: () => {
-                navigate('/reviewer/dashboard')
+                setReviews((prev) => {
+                    const newReviews = { ...prev }
+                    newReviews[reviewId] = { ...newReviews[reviewId], status: TReviewStatus.REVIEW_COMPLETED }
+                    return newReviews
+                })
             }
         })
     }
@@ -151,7 +160,7 @@ const ReviewerDashboard = () => {
     const [reviews, setReviews] = React.useState<Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-
+    console.log(reviews)
     useQuery<{ review: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[] }>(GET_REVIEWS, {
         onError: (error) => {
             logger(JSON.stringify(error))
@@ -180,6 +189,7 @@ const ReviewerDashboard = () => {
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_IN_PROGRESS}
                 reviews={filterReviews(TReviewStatus.REVIEW_IN_PROGRESS)}
+                setReviews={setReviews}
             />
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_COMPLETED}
