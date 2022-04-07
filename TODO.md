@@ -14,6 +14,8 @@
 - [ ] ~~Get rid of tables for individual entries~~
 - [x] Fix Add Reviewer button to change to "requested"
 - [x] Add loading when requesting a reviewer because you can request twice
+- [x] Can Add Entries and Submit for Feedback after submitting for feedback
+- [ ] Rename button colors, perhaps "submit", "alert", "primary-action", "secondary-action"
 # Before first review with French teacher
 - [ ] Only be able to edit your own work, delete, etc.
 - [ ] Rework audio recorder to be more intuitive

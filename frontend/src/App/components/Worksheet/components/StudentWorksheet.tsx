@@ -150,7 +150,9 @@ const Worksheet = () => {
                 <Paragraph>
                     Date: {dateToString(moment(date))}
                 </Paragraph>
-                <Button variation="secondary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
+                {worksheet.status === TWorksheetStatus.NEW
+                    ? <Button variation="secondary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
+                    : null}
                 <Table.Table>
                     <Table.TableHeader>
                         <Table.TableRow>
@@ -176,7 +178,9 @@ const Worksheet = () => {
                     </Table.TableBody>
                 </Table.Table>
             </div>
-            <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+            {worksheet.status === TWorksheetStatus.NEW
+                ? <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+                : null}
         </div>
     )
 }

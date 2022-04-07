@@ -276,7 +276,7 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
                                                                     onClick={() => setShowDeleteModal(false)}
                                                                 >Cancel
                                                                 </Button>
-                                                                <Button variation="alert" onClick={() => handleDelete(id)}>Delete it</Button>
+                                                                <Button variation="alert" onClick={() => handleDelete(id)}>Delete</Button>
                                                             </>
                                                         </Modal>
                                                         <Modal
