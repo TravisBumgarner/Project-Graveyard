@@ -7,7 +7,7 @@ import {
 } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
-import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors, Button, Loading } from 'sharedComponents'
+import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors, Button, Loading, Modal } from 'sharedComponents'
 import { TReview, TReviewEntry, TWorksheet, TWorksheetEntry, } from 'types'
 import { objectUrlToBase64, logger } from 'utilities'
 import { context } from 'context'
@@ -75,22 +75,48 @@ type ReviewWorksheetEntryProps = {
     worksheet: TWorksheet
     worksheetEntryId: string
     review: TReview
+    getNextWorksheetEntry: () => void
+    getPrevWorksheetEntry: () => void
 }
 
 const ReviewWorksheetEntry = ({
-    worksheet, worksheetEntryId, review
+    worksheet, worksheetEntryId, review, getNextWorksheetEntry, getPrevWorksheetEntry
 }: ReviewWorksheetEntryProps) => {
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [audioUrl, setAudioUrl] = React.useState<string>('')
     const [writtenFeedback, setWrittenFeedback] = React.useState<string>('')
-    const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const [reviewEntry, setReviewEntry] = React.useState<TReviewEntry>(null)
+    const [id, setId] = React.useState<string>('')
+    const [hasReviewerBeganReviewThisSession, setHasReviewerBeganReviewThisSession] = React.useState<boolean>(false)
+    const [modalDetails, setModalDetails] = React.useState<{ show: boolean, direction?: 'prev' | 'next' }>({ show: false })
     const [worksheetEntry, setWorksheetEntry] = React.useState<TWorksheetEntry>(null)
+    console.log(hasReviewerBeganReviewThisSession)
+    const handleWrittenFeedback = (value: string) => {
+        setHasReviewerBeganReviewThisSession(true)
+        setWrittenFeedback(value)
+    }
+
+    const handleOralFeedback = (value: string) => {
+        setAudioUrl(value)
+        setHasReviewerBeganReviewThisSession(true)
+    }
+
+    const handleNextClick = () => {
+        if (hasReviewerBeganReviewThisSession) {
+            setModalDetails({ show: true, direction: 'next' })
+        } else {
+            getNextWorksheetEntry()
+        }
+    }
+
+    const handlePrevClick = () => {
+        if (hasReviewerBeganReviewThisSession) {
+            setModalDetails({ show: true, direction: 'prev' })
+        } else {
+            getPrevWorksheetEntry()
+        }
+    }
 
     const { dispatch } = React.useContext(context)
-
-    // React.useEffect(() => {
-    //     setIsLoading(true)
-    // }, [worksheetEntryId])
 
     useQuery<{ reviewEntries: TReviewEntry[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_ENTRY_AND_REVIEW_ENTRY, {
         variables: {
@@ -100,14 +126,9 @@ const ReviewWorksheetEntry = ({
         onCompleted: (data) => {
             setWorksheetEntry(data.worksheetEntries[0])
             if (data.reviewEntries[0]) {
-                setReviewEntry(data.reviewEntries[0])
-            } else {
-                setReviewEntry({
-                    id: uuidv4(),
-                    reviewId: review.id,
-                    writtenFeedback: '',
-                    oralFeedback: '',
-                })
+                setId(data.reviewEntries[0].id)
+                setAudioUrl(data.reviewEntries[0].oralFeedback)
+                setWrittenFeedback(data.reviewEntries[0].writtenFeedback)
             }
             setIsLoading(false)
         },
@@ -127,7 +148,7 @@ const ReviewWorksheetEntry = ({
             : ''
 
         const variables = {
-            id: uuidv4(),
+            id,
             reviewId: review.id,
             worksheetEntryId: worksheetEntry.id,
             oralFeedback: base64Audio as string,
@@ -143,14 +164,14 @@ const ReviewWorksheetEntry = ({
             setIsLoading(false)
         } else {
             setIsLoading(false)
-            // navigate('/reviewer/dashboard')
+            setHasReviewerBeganReviewThisSession(false)
         }
     }
 
     if (isLoading) return <Loading />
 
     return (
-        <ReviewWorksheetEntryWrapper key={reviewEntry.id} style={{ border: '5px solid white' }}>
+        <ReviewWorksheetEntryWrapper key={id} style={{ border: '5px solid white' }}>
             <Heading.H3>Entry</Heading.H3>
             <WrittenTextWrapper>
                 <div>
@@ -170,13 +191,35 @@ const ReviewWorksheetEntry = ({
                 name="writtenFeedback"
                 label="Written Feedback"
                 value={writtenFeedback}
-                handleChange={(value) => setWrittenFeedback(value)}
+                handleChange={(value) => handleWrittenFeedback(value)}
             />
             <AudioRecorder
                 audioUrl={audioUrl}
-                setAudioUrl={setAudioUrl}
+                setAudioUrl={handleOralFeedback}
             />
             <Button variation="primary" onClick={handleSubmit}>Submit Feedback</Button>
+            <Button variation="primary" onClick={handlePrevClick}>Previous</Button>
+            <Button variation="primary" onClick={handleNextClick}>Next</Button>
+            <Modal
+                contentLabel="You have unsaved changes, lose them?"
+                showModal={modalDetails.show}
+                closeModal={() => setModalDetails({ show: false })}
+            >
+                <>
+                    <Button
+                        variation="secondary"
+                        onClick={() => setModalDetails({ show: false })}
+                    >Go Back
+                    </Button>
+                    <Button
+                        variation="alert"
+                        onClick={
+                            () => (modalDetails.direction === 'next' ? getNextWorksheetEntry() : getPrevWorksheetEntry())
+                        }
+                    >Continue
+                    </Button>
+                </>
+            </Modal>
         </ReviewWorksheetEntryWrapper>
     )
 }

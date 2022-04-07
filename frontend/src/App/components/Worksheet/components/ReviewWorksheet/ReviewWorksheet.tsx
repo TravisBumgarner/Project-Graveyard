@@ -112,10 +112,10 @@ const ReviewWorksheet = () => {
                     worksheetEntryId={worksheetEntryIds[currentWorksheetEntryIndex]}
                     worksheet={worksheet}
                     review={review}
+                    getPrevWorksheetEntry={getPrevWorksheetEntry}
+                    getNextWorksheetEntry={getNextWorksheetEntry}
                 />
             </div>
-            <Button variation="primary" disabled={isLoading} onClick={() => getPrevWorksheetEntry()}>Previous</Button>
-            <Button variation="primary" disabled={isLoading} onClick={() => getNextWorksheetEntry()}>Next</Button>
         </div>
     )
 }

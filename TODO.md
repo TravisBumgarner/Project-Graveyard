@@ -1,6 +1,6 @@
 # PR6
 
-- [ ] Convert reviewer section to be need reviews, reviewed
+- [x] Convert reviewer section to be need reviews, reviewed
     - [x] Add items to dropdown menu on review dashboard
     - [x] Move all reviewentry code submission to within review entry component
     - [x] Fix issue with review entry showing up multiple times on backend
@@ -15,13 +15,13 @@
 - [x] Fix Add Reviewer button to change to "requested"
 - [x] Add loading when requesting a reviewer because you can request twice
 - [x] Can Add Entries and Submit for Feedback after submitting for feedback
+- [x] Speed up docker-compose file
 - [ ] Rename button colors, perhaps "submit", "alert", "primary-action", "secondary-action"
 - [ ] Give ability to add reviewers when submitting
 - [x] fix broken review dashboard user profile link
 - [x] Review Entry doesn't submit with audio. 
 - [x] Prev button for review entries causes freeze
-- [ ] Fetching a review with entries doesn't cause them to appear on the screen
-- [ ] Speed up docker-compose file
+- [x] Fetching a review with entries doesn't cause them to appear on the screen
 - [ ] Submit review doesn't update in local state
 - [ ] Check if it's possible to submit duplicate feedback for an worksheet entry
 
