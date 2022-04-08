@@ -27,6 +27,7 @@
 - [ ] Add announcement about beta testing
 - [ ] Bug with user review showing up in "review in progress" for wrong user
 # Before first review with French teacher
+- [ ] Explore SWC vs
 - [ ] Cap audio limits
 - [ ] Give the ability to export a worksheet(s).
 - [ ] Only be able to edit your own work, delete, etc.
