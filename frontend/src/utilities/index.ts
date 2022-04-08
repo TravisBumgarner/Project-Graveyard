@@ -1,5 +1,7 @@
 import moment from 'moment'
 
+import languageLookup from './languageLookup'
+
 const dateToString = (key: moment.Moment) => key.toISOString().split('T')[0]
 
 type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>
@@ -23,5 +25,6 @@ export {
     logger,
     AtLeast,
     Exactly,
-    objectUrlToBase64
+    objectUrlToBase64,
+    languageLookup
 }

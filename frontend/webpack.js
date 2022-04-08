@@ -58,7 +58,7 @@ module.exports = {
             sharedComponents: path.resolve(__dirname, 'src/sharedComponents/'),
             sharedTypes: path.resolve(__dirname, 'src/sharedTypes/index.ts'),
             theme: path.resolve(__dirname, 'src/theme.tsx'),
-            utilities: path.resolve(__dirname, 'src/utilities.ts'),
+            utilities: path.resolve(__dirname, 'src/utilities/'),
             types: path.resolve(__dirname, 'src/types.ts'),
             context: path.resolve(__dirname, 'src/Context/'),
         },
