@@ -1,15 +1,18 @@
 import { getConnection, getRepository } from 'typeorm'
 import {
     GraphQLList,
-    GraphQLNonNull,
     GraphQLObjectType,
     GraphQLString,
 
 } from 'graphql'
 
 import { entity } from '../db'
-import { WorksheetType, WorksheetEntryType, ReviewForStudentType, UserType } from './types'
-import { Context } from '../types'
+import {
+    WorksheetType, WorksheetEntryType,
+    ReviewForStudentType,
+    UserType, ReviewType, ReviewEntryType
+} from './types'
+import { TContext } from '../types'
 import { isUUID } from '../utilities'
 
 type GetUserArgs = {
@@ -22,7 +25,7 @@ const user = {
     args: {
         userId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetUserArgs, context: Context) => {
+    resolve: async (_parent, args: GetUserArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.User)
@@ -36,12 +39,12 @@ const user = {
     },
 }
 
-const friend = {
+const reviewer = {
     type: new GraphQLList(UserType),
-    description: 'List of Friends',
+    description: 'List of Reviewers',
     args: {
     },
-    resolve: async (_parent, args: null, context: Context) => {
+    resolve: async (_parent, args: null, context: TContext) => {
         if (!context.authenticatedUserId) return []
 
         const currentUser = await getConnection()
@@ -50,13 +53,13 @@ const friend = {
             .andWhere('user.id = :userId', { userId: context.authenticatedUserId })
             .getOne()
 
-        const friends = await getRepository(entity.User)
+        const reviewers = await getRepository(entity.User)
             .createQueryBuilder()
             .relation(entity.User, 'followers')
             .of(currentUser)
             .loadMany()
 
-        return friends
+        return reviewers
     },
 }
 
@@ -70,7 +73,7 @@ const worksheet = {
     args: {
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetWorksheetArgs, context: Context) => {
+    resolve: async (_parent, args: GetWorksheetArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
         const query = await getConnection()
             .getRepository(entity.Worksheet)
@@ -79,22 +82,96 @@ const worksheet = {
         if (args.worksheetId) {
             query.andWhere('worksheet.id = :worksheetId', { worksheetId: args.worksheetId })
         }
+        const data = await query.getMany()
+        return data
+    },
+}
+
+type ReviewArgs = {
+    worksheetId?: string
+    reviewerId?: string
+}
+
+const review = {
+    type: new GraphQLList(ReviewType),
+    description: 'List of Reviews',
+    args: {
+        worksheetId: { type: GraphQLString },
+        reviewerId: { type: GraphQLString },
+        status: { type: GraphQLString },
+        id: { type: GraphQLString },
+        date: { type: GraphQLString },
+    },
+    resolve: async (_parent, args: ReviewArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return []
+        if (args.reviewerId && args.reviewerId !== context.authenticatedUserId) return [] // Don't let someone request other reviews
+
+        const query = await getConnection()
+            .getRepository(entity.Review)
+            .createQueryBuilder('review')
+
+        if (args.worksheetId) {
+            query.andWhere('review.worksheetId = :worksheetId', { worksheetId: args.worksheetId })
+        }
+
+        if (args.reviewerId) {
+            query.andWhere('review.reviewerId = :reviewerId', { reviewerId: args.reviewerId })
+        }
+
         const data = query.getMany()
         return data
     },
 }
 
-type GetReviewArgs = {
+type GetReviewEntryArgs = {
+    reviewId?: string
+    id?: string
+    worksheetEntryId?: string
+}
+
+const reviewEntries = {
+    type: new GraphQLList(ReviewEntryType),
+    description: 'List of Review Entries',
+    args: {
+        id: { type: GraphQLString },
+        reviewId: { type: GraphQLString },
+        worksheetEntryId: { type: GraphQLString },
+    },
+    resolve: async (_parent, args: GetReviewEntryArgs, context: TContext) => {
+        if (!context.authenticatedUserId) return []
+
+        const query = await getConnection()
+            .getRepository(entity.ReviewEntry)
+            .createQueryBuilder('review-entries')
+
+        if (args.reviewId) {
+            query.andWhere('review-entries.reviewId = :reviewId', { reviewId: args.reviewId })
+        }
+
+        if (args.worksheetEntryId) {
+            query.andWhere('review-entries.worksheetEntryId = :worksheetEntryId', { worksheetEntryId: args.worksheetEntryId })
+        }
+
+        if (args.id) {
+            query.andWhere('review-entries.id = :id', { id: args.id })
+        }
+
+        const data = await query.getMany()
+        return data
+    },
+}
+
+type CompletedStudentReview = {
     worksheetId: string
 }
 
-const studentReview = {
+const completedStudentReview = {
     type: new GraphQLList(ReviewForStudentType),
     description: 'List of Reviews for a student',
     args: {
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetReviewArgs, context: Context) => {
+    resolve: async (_parent, args: CompletedStudentReview, context: TContext) => {
         if (!context.authenticatedUserId) return []
         if (!isUUID(args.worksheetId)) return []
 
@@ -132,7 +209,7 @@ const worksheetEntries = {
         id: { type: GraphQLString },
         worksheetId: { type: GraphQLString },
     },
-    resolve: async (_parent, args: GetWorksheetEntryArgs, context: Context) => {
+    resolve: async (_parent, args: GetWorksheetEntryArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
 
         const query = await getConnection()
@@ -158,9 +235,11 @@ const RootQueryType = new GraphQLObjectType({
     fields: () => ({
         worksheet,
         worksheetEntries,
-        studentReview,
+        completedStudentReview,
         user,
-        friend
+        reviewer,
+        review,
+        reviewEntries
     }),
 })
 

@@ -22,9 +22,9 @@ export default class ReviewEntry {
     @Column({ nullable: false })
     oralFeedback: string
 
-    @ManyToOne(() => Review, (review) => review.reviewEntries)
+    @ManyToOne(() => Review, (review) => review.reviewEntries, { onDelete: 'CASCADE' })
     review: Review
 
-    @ManyToOne(() => WorksheetEntry, (worksheet) => worksheet.worksheetEntries)
+    @ManyToOne(() => WorksheetEntry, (worksheet) => worksheet.worksheetEntries, { onDelete: 'CASCADE' })
     worksheetEntry: WorksheetEntry
 }

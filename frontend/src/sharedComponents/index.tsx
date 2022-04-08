@@ -11,6 +11,7 @@ import Modal from './Modal'
 import colors from './colors'
 import LabelAndInput from './LabelAndInput'
 import Breadcrumbs from './Breadcrumbs'
+import DropdownMenu from './DropdownMenu'
 
 export {
     Loading,
@@ -25,5 +26,6 @@ export {
     Modal,
     colors,
     LabelAndInput,
-    Breadcrumbs
+    Breadcrumbs,
+    DropdownMenu
 }

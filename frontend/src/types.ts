@@ -4,6 +4,12 @@ enum TWorksheetStatus {
     HAS_REVIEWS = 'has_reviews'
 }
 
+enum TReviewStatus {
+    REVIEW_REQUESTED = 'review_requested',
+    REVIEW_IN_PROGRESS = 'review_in_progress',
+    REVIEW_COMPLETED = 'review_completed'
+}
+
 type TWorksheet = {
     id: string
     title: string
@@ -15,13 +21,28 @@ type TWorksheet = {
     status: TWorksheetStatus
 }
 
-type TStudentReview = {
-    reviewEntryId: string
+type TReviewEntry = {
+    id: string
+    reviewId: string
     writtenFeedback: string
     oralFeedback: string
-    audioUrl: string
-    knownLanguageText: string
-    newLanguageText: string
+}
+
+type TReview = {
+    id: string
+    reviewerId: string
+    worksheetId: string
+    date: string
+    status: TReviewStatus
+}
+
+type TCompletedStudentReview = {
+    knownLanguageText: string,
+    newLanguageText: string,
+    audioUrl: string,
+    oralFeedback: string,
+    writtenFeedback: string,
+    reviewEntryI: string
 }
 
 type TWorksheetEntry = {
@@ -41,6 +62,9 @@ export {
     TWorksheet,
     TWorksheetEntry,
     TPhraseADayUser,
-    TStudentReview,
+    TReviewEntry,
     TWorksheetStatus,
+    TReviewStatus,
+    TReview,
+    TCompletedStudentReview
 }

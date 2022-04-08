@@ -10,12 +10,12 @@ import Footer from './Footer'
 import ForgottenPassword from './ForgottenPassword'
 import ConditionalRoute from './ConditionalRoute'
 import Profile from './Profile'
-import ReviewDashboard from './ReviewDashboard'
+import ReviewerDashboard from './ReviewerDashboard'
 import Error from './Error'
 import AlertMessage from './AlertMessage'
 import Worksheet from './Worksheet'
-import Users from './Users'
-import Review from './Review'
+import Reviewers from './Reviewers'
+import CompletedReview from './CompletedReview'
 import AddWorksheet from './AddWorksheet'
 import EditWorksheet from './EditWorksheet'
 import AddWorksheetEntry from './AddWorksheetEntry'
@@ -37,10 +37,10 @@ export {
     Profile,
     Error,
     AlertMessage,
-    ReviewDashboard,
+    ReviewerDashboard,
     Worksheet,
-    Users,
-    Review,
+    Reviewers,
+    CompletedReview,
     AddWorksheet,
     EditWorksheet,
     AddWorksheetEntry,

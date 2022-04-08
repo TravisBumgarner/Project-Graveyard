@@ -16,6 +16,7 @@ const StyledNav = styled.ul`
     background-color: ${colors.PRIMARY.lightest};
     border: 2px solid rgb(87, 226, 229);
     margin: 0.5rem;
+    z-index:998;
 
     li {
         padding: 10px;
@@ -30,7 +31,7 @@ const loggedInLinks = (userId: string) => ([
     { text: 'Student Dashboard', to: '/student/dashboard' },
     { text: 'Reviewer Dashboard', to: '/reviewer/dashboard' },
     { text: 'Profile', to: `/profile/${userId}` },
-    { text: 'Users', to: '/users' },
+    { text: 'Reviewers', to: '/reviewers' },
     { text: 'Log Out', to: '/logout' },
 ])
 
