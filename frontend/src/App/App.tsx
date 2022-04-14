@@ -11,9 +11,10 @@ import {
 import { setContext } from '@apollo/client/link/context'
 import { getIdToken, onAuthStateChanged } from 'firebase/auth'
 import axios from 'axios'
+import styled from 'styled-components'
 
 import Theme from 'theme'
-import { Loading } from 'sharedComponents'
+import { ExternalLink, Heading, Loading } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
 import {
@@ -27,13 +28,13 @@ import {
     Context,
     Signup,
     Profile,
-    ReviewDashboard,
+    ReviewerDashboard,
     Error,
     Footer,
     AlertMessage,
     Worksheet,
-    Users,
-    Review,
+    Reviewers,
+    CompletedReview,
     AddWorksheet,
     EditWorksheet,
     AddWorksheetEntry,
@@ -41,8 +42,36 @@ import {
 } from './components'
 import { auth } from '../firebase'
 
+const BetaTestAnnouncementWrapper = styled.div`
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    background-color: yellow;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+    z-index: 999;
+`
+
+const BetaSpaceHolder = styled.div`
+    height: 50px;
+`
+
+const BetaTest = () => (
+    <BetaTestAnnouncementWrapper>
+        <Heading.H3>
+            Beta Testers! <ExternalLink href="https://forms.gle/FSFHBxhuPCCMZRYx9">Your feedback form is here</ExternalLink>.
+        </Heading.H3>
+    </BetaTestAnnouncementWrapper>
+)
+
 const App = () => {
     const { state } = React.useContext(context)
+
+    if (state.hasErrored) {
+        return <Error />
+    }
 
     if (state.currentUser === undefined) {
         return <Loading fullscreen />
@@ -51,6 +80,8 @@ const App = () => {
     return (
         <>
             {state.message ? <AlertMessage /> : null}
+            <BetaTest />
+            <BetaSpaceHolder />
             <Header />
             <Routes>
                 <Route
@@ -97,7 +128,7 @@ const App = () => {
                     path="/reviewer/dashboard"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<ReviewDashboard />}
+                            authedComponent={<ReviewerDashboard />}
                         />
                     )}
                 />
@@ -155,10 +186,10 @@ const App = () => {
                     )}
                 />
                 <Route
-                    path="/users"
+                    path="/reviewers"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<Users />}
+                            authedComponent={<Reviewers />}
                             unauthedComponent={<Home />}
                         />
                     )}
@@ -167,7 +198,7 @@ const App = () => {
                     path="/student/review/:worksheetId"
                     element={(
                         <ConditionalRoute
-                            authedComponent={<Review />}
+                            authedComponent={<CompletedReview />}
                         />
                     )}
                 />
@@ -186,31 +217,35 @@ const WrappedApp = () => {
 
     React.useEffect(() => {
         onAuthStateChanged(auth, async (firebase) => {
-            if (!firebase) {
+            try {
+                if (!firebase) {
+                    dispatch({
+                        type: 'USER_LOGGED_IN',
+                        data: {
+                            currentUser: null,
+                        },
+                    })
+                    return
+                }
+
+                const token = await getIdToken(firebase)
+                const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(`${__API_ENDPOINT__}/whoami`, {
+                    headers: {
+                        Authorization: token ? `Bearer ${token}` : '',
+                    },
+                })
                 dispatch({
                     type: 'USER_LOGGED_IN',
                     data: {
-                        currentUser: null,
+                        currentUser: {
+                            phraseADay,
+                            firebase,
+                        },
                     },
                 })
-                return
+            } catch (error) {
+                dispatch({ type: 'HAS_ERRORED' })
             }
-
-            const token = await getIdToken(firebase)
-            const { data: phraseADay }: { data: TPhraseADayUser } = await axios.get(`${__API_ENDPOINT__}/whoami`, {
-                headers: {
-                    Authorization: token ? `Bearer ${token}` : '',
-                },
-            })
-            dispatch({
-                type: 'USER_LOGGED_IN',
-                data: {
-                    currentUser: {
-                        phraseADay,
-                        firebase,
-                    },
-                },
-            })
         })
     }, [])
 

@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { gql, useQuery } from '@apollo/client'
 
 import { Loading } from 'sharedComponents'
-import { Exactly } from 'utilities'
+import { Exactly, logger } from 'utilities'
 import { TPhraseADayUser } from 'types'
 import { context } from '..'
 import { StudentWorksheet, ReviewWorksheet } from './components'
@@ -19,7 +19,7 @@ query GetWorksheets($worksheetId: String!) {
 `
 
 const Worksheet = () => {
-    const { state } = React.useContext(context)
+    const { state, dispatch } = React.useContext(context)
     const { worksheetId } = useParams()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
@@ -31,6 +31,10 @@ const Worksheet = () => {
         onCompleted: (data) => {
             setWorksheetUserId(data.worksheet[0].user.id)
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
 

@@ -3,7 +3,7 @@ version: '3.4'
 services:
   postgres:
     container_name: phraseaday-postgres
-    image: postgres:13
+    image: onjin/alpine-postgres:13.0
     restart: always
     environment:
         - POSTGRES_USER=postgres
@@ -19,7 +19,7 @@ services:
         - ./postgres-data:/var/lib/postgresql/data
   frontend:
     container_name: phraseaday-frontend
-    image: node:16
+    image: mhart/alpine-node:16
     volumes: 
       - ./frontend:/app/frontend
     ports:
@@ -28,7 +28,7 @@ services:
     command: ["npm", "run", "sd:fe"]
   backend:
     container_name: phraseaday-backend
-    image: node:16
+    image: mhart/alpine-node:16
     volumes: 
       - ./backend:/app/backend
     ports:

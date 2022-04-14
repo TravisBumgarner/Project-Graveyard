@@ -3,7 +3,7 @@ import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 
 import { Heading, Button, LabelAndInput, Loading, } from 'sharedComponents'
-import { dateToString } from 'utilities'
+import { dateToString, logger } from 'utilities'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
 import { useNavigate, useParams } from 'react-router'
@@ -67,6 +67,10 @@ const EditWorksheet = () => {
             setnewLanguage(data.worksheet[0].newLanguage)
             setId(data.worksheet[0].id)
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
 

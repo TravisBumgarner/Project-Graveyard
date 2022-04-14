@@ -4,8 +4,9 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
 
 import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs } from 'sharedComponents'
-import { dateToString } from 'utilities'
+import { dateToString, logger } from 'utilities'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from 'types'
+import { context } from '../..'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
 query GetWorksheets($worksheetId: String) {
@@ -92,8 +93,8 @@ const WorksheetEntry = ({
 
     return (
         <Table.TableRow key={id}>
-            <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell>
             <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell>
+            <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell>
             <Table.TableBodyCell><audio controls src={audioUrl} /></Table.TableBodyCell>
             {Actions.length ? (
                 <Table.TableBodyCell>
@@ -113,6 +114,7 @@ const Worksheet = () => {
     const navigate = useNavigate()
     const [editWorksheet] = useMutation<{ editWorksheet: { status: TWorksheetStatus, id: string } }>(EDIT_WORKSHEET)
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const { dispatch } = React.useContext(context)
 
     useQuery<{ worksheet: TWorksheet[], worksheetEntries: TWorksheetEntry[] }>(GET_WORKSHEET_AND_WORKSHEET_ENTRIES, {
         variables: {
@@ -122,6 +124,10 @@ const Worksheet = () => {
             setWorksheet(data.worksheet[0])
             setWorksheetEntries(data.worksheetEntries)
             setIsLoading(false)
+        },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
         },
     })
 
@@ -144,12 +150,14 @@ const Worksheet = () => {
                 <Paragraph>
                     Date: {dateToString(moment(date))}
                 </Paragraph>
-                <Button variation="secondary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
+                {worksheet.status === TWorksheetStatus.NEW
+                    ? <Button variation="secondary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
+                    : null}
                 <Table.Table>
                     <Table.TableHeader>
                         <Table.TableRow>
-                            <Table.TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</Table.TableHeaderCell>
                             <Table.TableHeaderCell width="35%" scope="col">{worksheet.newLanguage}</Table.TableHeaderCell>
+                            <Table.TableHeaderCell width="35%" scope="col">{worksheet.knownLanguage}</Table.TableHeaderCell>
                             <Table.TableHeaderCell width="20%" scope="col" style={{ textAlign: 'center' }}>Recorded</Table.TableHeaderCell>
                             {worksheet.status === TWorksheetStatus.NEW
                                 ? (<Table.TableHeaderCell style={{ textAlign: 'center' }} width="10%" scope="col">Actions</Table.TableHeaderCell>)
@@ -170,7 +178,9 @@ const Worksheet = () => {
                     </Table.TableBody>
                 </Table.Table>
             </div>
-            <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+            {worksheet.status === TWorksheetStatus.NEW
+                ? <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+                : null}
         </div>
     )
 }

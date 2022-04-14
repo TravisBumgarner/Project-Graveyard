@@ -25,7 +25,6 @@ Ok, PR-7:
     - [ ] Don't get userid from request, get it from auth
  # After First Review with French teacher
 
-- [ ] Only be able to edit your own work
 - [ ] Update login emails, run through login, reset, signup flow
 # Post MVP
 - [ ] Export to flash card app

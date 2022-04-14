@@ -4,6 +4,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import { Loading, Table, Heading, StyledNavLink, Button } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
+import { logger } from 'utilities'
 
 const GET_USERS = gql`
 query GetUsers {
@@ -11,73 +12,78 @@ query GetUsers {
         id,
         username
     },
-    friend {
+    reviewer {
         id
     }
 }
 `
 
-const ADD_FRIEND = gql`
-mutation AddFriend (
-    $friendId: String!
+const ADD_REVIEWER = gql`
+mutation AddReviewer (
+    $reviewerId: String!
   ) {
-    addFriend(
-        friendId: $friendId,
+    addReviewer(
+        reviewerId: $reviewerId,
     ){
       id
     }
 }
 `
 
-const REMOVE_FRIEND = gql`
-mutation RemoveFriend (
-    $friendId: String!
+const REMOVE_REVIEWER = gql`
+mutation RemoveReviewer (
+    $reviewerId: String!
   ) {
-    removeFriend(
-        friendId: $friendId,
+    removeReviewer(
+        reviewerId: $reviewerId,
     ){
       id
     }
 }
 `
 
-const Users = () => {
+const Reviewers = () => {
     const { state } = React.useContext(context)
     const [users, setUsers] = React.useState<(TPhraseADayUser)[]>([])
-    const [friends, setFriends] = React.useState<string[]>([])
+    const [reviewers, setReviewers] = React.useState<string[]>([])
+    const { dispatch } = React.useContext(context)
 
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [isLoadingFollowerUpdate, setIsLoadingFollowerUpdate] = React.useState<boolean>(false)
-    useQuery<{ user: TPhraseADayUser[], friend: TPhraseADayUser[] }>(GET_USERS, {
+    useQuery<{ user: TPhraseADayUser[], reviewer: TPhraseADayUser[] }>(GET_USERS, {
         variables: {
             userId: state.currentUser.phraseADay.id
         },
         onCompleted: (data) => {
             setUsers(data.user.filter((user) => user.id !== state.currentUser.phraseADay.id))
-            setFriends(data.friend.map(({ id }) => id))
+            setReviewers(data.reviewer.map(({ id }) => id))
             setIsLoading(false)
         },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
+        },
     })
-    const [addFriend] = useMutation<{ addFriend: TPhraseADayUser }>(ADD_FRIEND)
-    const [removeFriend] = useMutation<{ removeFriend: TPhraseADayUser }>(REMOVE_FRIEND)
+    const [addReviewer] = useMutation<{ addReviewer: TPhraseADayUser }>(ADD_REVIEWER)
+    const [reviewReviewer] = useMutation<{ reviewReviewer: TPhraseADayUser }>(REMOVE_REVIEWER)
 
-    const handleFollow = async (friendId: string) => {
+    const handleAddReviewer = async (reviewerId: string) => {
         setIsLoadingFollowerUpdate(true)
-        await addFriend({
-            variables: { friendId }
+        await addReviewer({
+            variables: { reviewerId }
         })
-        setFriends((prev) => [...prev, friendId])
+        setReviewers((prev) => [...prev, reviewerId])
         setIsLoadingFollowerUpdate(false)
     }
 
-    const handleUnfollow = async (friendId: string) => {
+    const handleRemoveReviewer = async (reviewerId: string) => {
         setIsLoadingFollowerUpdate(true)
-        await removeFriend({
-            variables: { friendId }
+        await reviewReviewer({
+            variables: { reviewerId }
         })
-        setFriends((prev) => {
-            const modifiedFriends = prev.filter((value) => value !== friendId)
-            return modifiedFriends
+        setReviewers((prev) => {
+            const modifiedReviewers = prev.filter((value) => value !== reviewerId)
+            return modifiedReviewers
         })
         setIsLoadingFollowerUpdate(false)
     }
@@ -86,7 +92,7 @@ const Users = () => {
 
     return (
         <div>
-            <Heading.H2>Users</Heading.H2>
+            <Heading.H2>Reviewers</Heading.H2>
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>
@@ -104,10 +110,10 @@ const Users = () => {
                                 <Table.TableBodyCell>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                                         <Button
-                                            onClick={() => (friends.includes(id) ? handleUnfollow(id) : handleFollow(id))}
+                                            onClick={() => (reviewers.includes(id) ? handleRemoveReviewer(id) : handleAddReviewer(id))}
                                             variation="secondary"
                                             disabled={isLoadingFollowerUpdate}
-                                        >{friends.includes(id) ? 'Unfollow' : 'Follow'}
+                                        >{reviewers.includes(id) ? 'Remove Reviewer' : 'Add Reviewer'}
                                         </Button>
                                     </div>
                                 </Table.TableBodyCell>
@@ -119,4 +125,4 @@ const Users = () => {
     )
 }
 
-export default Users
+export default Reviewers

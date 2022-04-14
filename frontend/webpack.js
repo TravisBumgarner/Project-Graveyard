@@ -1,7 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const smp = new SpeedMeasurePlugin()
 
 const PLUGIN_VARS = {
     local: {
@@ -27,19 +30,27 @@ const getEnvVariables = () => {
 
 const envVariables = getEnvVariables()
 
-module.exports = {
+const webpackConfig = smp.wrap({
     entry: './src/index.tsx',
     output: {
         filename: 'app.bundle.js',
         path: path.resolve(__dirname, 'build'),
-        publicPath: '/'
+        publicPath: '/',
+        pathinfo: false
     },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            experimentalWatchApi: true,
+                        },
+                    },
+                ],
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
@@ -79,4 +90,6 @@ module.exports = {
         }),
     ],
     devtool: 'inline-source-map'
-}
+})
+
+module.exports = webpackConfig

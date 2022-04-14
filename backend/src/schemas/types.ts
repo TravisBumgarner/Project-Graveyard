@@ -6,6 +6,7 @@ import {
 import { getConnection } from 'typeorm'
 
 import { entity } from '../db'
+import { TReview } from '../types'
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -47,9 +48,21 @@ const ReviewType = new GraphQLObjectType({
     description: 'This represents a review',
     fields: () => ({
         id: { type: new GraphQLNonNull(GraphQLString) },
-        userId: { type: new GraphQLNonNull(GraphQLString) },
+        reviewerId: { type: new GraphQLNonNull(GraphQLString) },
         worksheetId: { type: new GraphQLNonNull(GraphQLString) },
         date: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: new GraphQLNonNull(GraphQLString) },
+        worksheet: {
+            type: WorksheetType,
+            resolve: async (review: TReview) => {
+                const data = await getConnection()
+                    .getRepository(entity.Worksheet)
+                    .createQueryBuilder('worksheet')
+                    .where({ id: review.worksheetId })
+                    .getOne()
+                return data
+            },
+        },
     }),
 })
 

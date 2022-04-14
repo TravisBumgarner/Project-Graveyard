@@ -7,7 +7,7 @@ import { AudioRecorder, Breadcrumbs, Button, Heading, LabelAndInput, Loading } f
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
-import { objectUrlToBase64 } from 'utilities'
+import { logger, objectUrlToBase64 } from 'utilities'
 
 const GET_WORKSHEETS = gql`
 query GetWorksheets($worksheetId: String!) {
@@ -62,7 +62,7 @@ const AddWorksheetEntry = () => {
     const [worksheet, setWorksheet] = React.useState<TWorksheet>(null)
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-    const [audioURL, setAudioURL] = React.useState<string>('')
+    const [audioUrl, setAudioUrl] = React.useState<string>('')
     const { worksheetId } = useParams()
     const navigate = useNavigate()
 
@@ -74,11 +74,15 @@ const AddWorksheetEntry = () => {
             setWorksheet(data.worksheet[0])
             setIsLoading(false)
         },
+        onError: (error) => {
+            logger(JSON.stringify(error))
+            dispatch({ type: 'HAS_ERRORED' })
+        },
     })
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        const base64Audio = audioURL.length ? await objectUrlToBase64(audioURL) : ''
+        const base64Audio = audioUrl.length ? await objectUrlToBase64(audioUrl) : ''
         const newWorksheetEntry: TWorksheetEntry = {
             knownLanguageText,
             newLanguageText,
@@ -95,7 +99,7 @@ const AddWorksheetEntry = () => {
         } else {
             setKnownLanguageText('')
             setNewLanguageText('')
-            setAudioURL('')
+            setAudioUrl('')
             dispatch({ type: 'ADD_MESSAGE', data: { message: 'Submitted!', timeToLiveMS: 3000 } })
         }
         setIsLoading(false)
@@ -116,25 +120,25 @@ const AddWorksheetEntry = () => {
             <div>
                 <WrittenWrapper>
                     <LabelAndInput
-                        label={worksheet.knownLanguage}
-                        name="fromLanguage"
-                        value={knownLanguageText}
-                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
-                        type="textarea"
-                    />
-                    <LabelAndInput
                         label={worksheet.newLanguage}
                         name="newLanguage"
                         value={newLanguageText}
                         handleChange={(newLanguage) => setNewLanguageText(newLanguage)}
                         type="textarea"
                     />
+                    <LabelAndInput
+                        label={worksheet.knownLanguage}
+                        name="fromLanguage"
+                        value={knownLanguageText}
+                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
+                        type="textarea"
+                    />
                 </WrittenWrapper>
 
                 <div>
                     <AudioRecorder
-                        audioURL={audioURL}
-                        setAudioURL={setAudioURL}
+                        audioUrl={audioUrl}
+                        setAudioUrl={setAudioUrl}
                     />
                 </div>
 

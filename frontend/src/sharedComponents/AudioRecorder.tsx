@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import React from 'react'
+import { BiMicrophone, } from 'react-icons/bi'
+import { BsFillRecordFill, } from 'react-icons/bs'
+import { AiFillDelete, AiFillPlayCircle } from 'react-icons/ai'
 
 import { Button } from 'sharedComponents'
 import { logger } from 'utilities'
@@ -7,11 +10,6 @@ import { Label } from './LabelAndInput'
 import colors from './colors'
 
 // https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
-
-async function requestRecorder() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-    return new MediaRecorder(stream)
-}
 
 const AudioRecorderWrapper = styled.div`
     margin: 0.5rem;
@@ -47,7 +45,6 @@ const Pulsing = styled.div`
     animation-name: opacity;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    color: ${colors.ALERT.base};
 
     @keyframes opacity {
         0% {
@@ -63,17 +60,24 @@ const Pulsing = styled.div`
 `
 
 type AudioRecorderProps = {
-    audioURL: string
-    setAudioURL: React.Dispatch<React.SetStateAction<string>>
+    audioUrl: string
+    setAudioUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
 const AudioRecorder = ({
-    setAudioURL, audioURL
+    setAudioUrl, audioUrl
 }: AudioRecorderProps) => {
     const [isRecording, setIsRecording] = React.useState<boolean>(false)
     const [recorder, setRecorder] = React.useState(null)
+    // const [stream, setStream] = React.useState<MediaStream>(null)
 
     React.useEffect(() => {
+        const requestRecorder = async () => {
+            const newStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            // setStream(newStream)
+            return new MediaRecorder(newStream)
+        }
+
         if (recorder === null) {
             if (isRecording) {
                 requestRecorder().then(setRecorder, logger)
@@ -85,10 +89,13 @@ const AudioRecorder = ({
             recorder.start()
         } else {
             recorder.stop()
+            // stream.getAudioTracks().forEach((track) => track.stop())
+            // setStream(null)
+            // setRecorder(null)
         }
 
         const handleData = (e: { data: Blob | MediaSource }) => {
-            setAudioURL(URL.createObjectURL(e.data))
+            setAudioUrl(URL.createObjectURL(e.data))
         }
 
         recorder.addEventListener('dataavailable', handleData)
@@ -103,32 +110,29 @@ const AudioRecorder = ({
         setIsRecording(false)
     }
 
-    const clearAudioURL = () => {
-        setAudioURL('')
+    const clearAudioUrl = () => {
+        setAudioUrl('')
     }
 
     return (
         <AudioRecorderWrapper>
             <Label>Audio:</Label>
             <div>
-                <div>
-                    {isRecording ? (
-                        <Button variation="secondary" onClick={stopRecording} disabled={!isRecording}>
-                            Stop <Pulsing>●</Pulsing>
-                        </Button>
-                    ) : (
-                        <Button variation="secondary" onClick={startRecording} disabled={isRecording}>
-                            Record
-                        </Button>
-                    )}
-                    {
-                        audioURL ? (
-                            <Button onClick={clearAudioURL} variation="alert">Clear</Button>
-                        ) : null
-                    }
-                </div>
-                <audio src={audioURL} controls />
-
+                {isRecording ? (
+                    <Button variation="secondary" onClick={stopRecording}>
+                        <Pulsing><BsFillRecordFill fill={colors.ALERT.base} /></Pulsing>
+                    </Button>
+                ) : (
+                    <Button variation="secondary" onClick={startRecording}>
+                        <BiMicrophone />
+                    </Button>
+                )}
+                {
+                    audioUrl ? (
+                        <Button disabled={audioUrl.length === 0} onClick={clearAudioUrl} variation="alert"><AiFillDelete /></Button>
+                    ) : null
+                }
+                <audio src={audioUrl} controls />
             </div>
         </AudioRecorderWrapper>
     )

@@ -25,7 +25,7 @@ export default class WorksheetEntry {
     @ManyToOne(() => Worksheet, (Worksheet) => Worksheet.worksheetEntries, { onDelete: "CASCADE" }) // eslint-disable-line
     worksheet: Worksheet
 
-    @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.worksheetEntry) // eslint-disable-line
+    @OneToMany(() => ReviewEntry, (ReviewEntry) => ReviewEntry.worksheetEntry, { onDelete: "CASCADE" }) // eslint-disable-line
     worksheetEntries: WorksheetEntry[] // eslint-disable-line 
     // I have no idea if this is a problem
 }

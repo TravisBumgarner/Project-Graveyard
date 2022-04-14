@@ -2,6 +2,13 @@ import styled from 'styled-components'
 
 import colors from './colors'
 
+type ButtonProps = {
+    variation: 'primary' | 'secondary' | 'tertiary' | 'alert' | 'disabled'
+    disabled?: boolean
+    fullWidth?: boolean
+
+}
+
 const Button = styled.button`
     font-family: 'Comfortaa', cursive;
     font-size: 1rem;
@@ -16,7 +23,9 @@ const Button = styled.button`
     cursor: pointer;
     }
 
-    ${({ variation, disabled }: { variation: 'primary' | 'secondary' | 'tertiary' | 'alert' | 'disabled', disabled?: boolean }) => {
+    ${({ fullWidth }: ButtonProps) => (fullWidth ? 'width: 100%;' : '')}
+
+    ${({ variation, disabled }: ButtonProps) => {
         if (disabled) {
             return `
                 color: ${colors.DISABLED.base};
