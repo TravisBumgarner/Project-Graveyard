@@ -14,7 +14,7 @@ import Breadcrumbs from './Breadcrumbs'
 import DropdownMenu from './DropdownMenu'
 import Divider from './Divider'
 import ButtonWrapper from './ButtonWrapper'
-import LanguageThing from './LanguageThing'
+import LanguageDropdown from './LanguageDropdown'
 
 export {
     Loading,
@@ -33,5 +33,5 @@ export {
     DropdownMenu,
     Divider,
     ButtonWrapper,
-    LanguageThing
+    LanguageDropdown
 }
