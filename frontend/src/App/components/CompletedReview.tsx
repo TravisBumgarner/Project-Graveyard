@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useParams, useNavigate } from 'react-router'
 import moment from 'moment'
 
-import { Loading, Table, Heading, Paragraph, Button } from 'sharedComponents'
+import { Loading, Table, Heading, Paragraph, Button, Divider } from 'sharedComponents'
 import { logger, dateToString } from 'utilities'
 import { TWorksheet, TCompletedStudentReview } from 'types'
 
@@ -55,6 +55,7 @@ const CompletedReview = () => {
     return (
         <div>
             <Heading.H2><Button variation="primary" onClick={() => navigate(-1)}>Reviews</Button> {'>'} {title} Worksheet Review</Heading.H2>
+            <Divider />
             <Paragraph> Description: {description}</Paragraph>
             <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
             <Table.Table>

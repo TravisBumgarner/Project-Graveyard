@@ -12,6 +12,7 @@ import colors from './colors'
 import LabelAndInput from './LabelAndInput'
 import Breadcrumbs from './Breadcrumbs'
 import DropdownMenu from './DropdownMenu'
+import Divider from './Divider'
 
 export {
     Loading,
@@ -27,5 +28,6 @@ export {
     colors,
     LabelAndInput,
     Breadcrumbs,
-    DropdownMenu
+    DropdownMenu,
+    Divider
 }

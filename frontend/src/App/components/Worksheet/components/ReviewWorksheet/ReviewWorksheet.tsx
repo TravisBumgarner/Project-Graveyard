@@ -8,7 +8,7 @@ import {
     useParams
 } from 'react-router'
 
-import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
+import { Loading, Button, Heading, Paragraph, Breadcrumbs, Divider } from 'sharedComponents'
 import {
     dateToString,
     logger,
@@ -94,7 +94,7 @@ const ReviewWorksheet = () => {
         <div>
             <div>
                 <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/reviewer/dashboard', text: 'Reviewer Dashboard' }]} /> {title} Worksheet</Heading.H2>
-
+                <Divider />
                 <Paragraph>
                     Student: {username}
                 </Paragraph>

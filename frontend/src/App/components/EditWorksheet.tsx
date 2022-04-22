@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 
-import { Heading, Button, LabelAndInput, Loading, } from 'sharedComponents'
+import { Heading, Button, LabelAndInput, Loading, Divider, } from 'sharedComponents'
 import { dateToString, logger } from 'utilities'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
@@ -108,6 +108,7 @@ const EditWorksheet = () => {
     return (
         <div>
             <Heading.H2>Edit {title} Worksheet</Heading.H2>
+            <Divider />
             <div>
                 <div>
                     <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />

@@ -3,7 +3,7 @@ import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
 
-import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs } from 'sharedComponents'
+import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs, Divider } from 'sharedComponents'
 import { dateToString, logger } from 'utilities'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from 'types'
 import { context } from '../..'
@@ -144,6 +144,7 @@ const Worksheet = () => {
         <div>
             <div>
                 <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/student/dashboard', text: 'Student Dashboard' }]} /> {title} Worksheet</Heading.H2>
+                <Divider />
                 <Paragraph>
                     Description: {description}
                 </Paragraph>

@@ -18,6 +18,7 @@ Ok, PR-7:
 
 # Before first review with French teacher
 - [ ] Need to figure out sp:be
+- [ ] Look at Googles new variable font stuff (https://fonts.google.com/icons)
 - [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Be able to persist URLs after logging in .. redirect user

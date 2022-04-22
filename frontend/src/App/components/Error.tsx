@@ -1,9 +1,10 @@
 import React from 'react'
-import { Heading, Paragraph, ExternalLink, StyledNavLink } from 'sharedComponents'
+import { Heading, Paragraph, ExternalLink, StyledNavLink, Divider } from 'sharedComponents'
 
 const Error = () => (
     <div>
         <Heading.H2>Whoops!</Heading.H2>
+        <Divider />
         <Paragraph>Sorry, there was an error.</Paragraph>
         <Paragraph>
             <ExternalLink

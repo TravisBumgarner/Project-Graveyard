@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMutation, gql, useQuery } from '@apollo/client'
 
-import { AudioRecorder, Breadcrumbs, Button, Heading, LabelAndInput, Loading } from 'sharedComponents'
+import { AudioRecorder, Breadcrumbs, Button, Divider, Heading, LabelAndInput, Loading } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
@@ -140,6 +140,7 @@ const EditWorksheetEntry = () => {
     return (
         <div>
             <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> Edit Worksheet Entry</Heading.H2>
+            <Divider />
             <div>
                 <WrittenWrapper>
                     <LabelAndInput

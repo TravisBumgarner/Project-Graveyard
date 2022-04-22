@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 
-import { Loading, Table, Heading, StyledNavLink, Button } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button, Divider } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
 import { logger } from 'utilities'
@@ -93,6 +93,7 @@ const Reviewers = () => {
     return (
         <div>
             <Heading.H2>Reviewers</Heading.H2>
+            <Divider />
             <Table.Table>
                 <Table.TableHeader>
                     <Table.TableRow>
