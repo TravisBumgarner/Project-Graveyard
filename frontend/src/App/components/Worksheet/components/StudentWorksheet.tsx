@@ -3,7 +3,7 @@ import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
 
-import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs, Divider } from 'sharedComponents'
+import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs, Divider, DropdownMenu, ButtonWrapper } from 'sharedComponents'
 import { dateToString, logger } from 'utilities'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from 'types'
 import { context } from '../..'
@@ -78,17 +78,25 @@ const WorksheetEntry = ({
     const [deleteWorksheetEntry] = useMutation<{ addWorksheetEntry: TWorksheetEntry }>(DELETE_WORKSHEET_ENTRY)
 
     const handleDelete = async () => {
-        const modifiedWorksheetEntries = worksheetEntries.filter((worksheet) => worksheet.id !== id)
+        const modifiedWorksheetEntries = worksheetEntries.filter((worksheetsToFilter) => worksheetsToFilter.id !== id)
 
         await deleteWorksheetEntry({ variables: { id } })
         setWorksheetEntries(modifiedWorksheetEntries)
     }
 
-    const Actions: JSX.Element[] = []
+    const actions: JSX.Element[] = []
 
     if (worksheetStatus === TWorksheetStatus.NEW) {
-        Actions.push(<Button key="edit" variation="secondary" onClick={() => navigate(`/worksheet/${worksheet.id}/${id}/edit`)}>Edit</Button>)
-        Actions.push(<Button key="delete" variation="alert" onClick={handleDelete}>Delete</Button>)
+        actions.push(
+            <Button
+                fullWidth
+                key="edit"
+                variation="secondary"
+                onClick={() => navigate(`/worksheet/${worksheet.id}/${id}/edit`)}
+            >Edit
+            </Button>
+        )
+        actions.push(<Button fullWidth key="delete" variation="alert" onClick={handleDelete}>Delete</Button>)
     }
 
     return (
@@ -96,11 +104,15 @@ const WorksheetEntry = ({
             <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell>
             <Table.TableBodyCell>{knownLanguageText}</Table.TableBodyCell>
             <Table.TableBodyCell><audio controls src={audioUrl} /></Table.TableBodyCell>
-            {Actions.length ? (
+            {actions.length ? (
                 <Table.TableBodyCell>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        {Actions}
-                    </div>
+                    {actions.length > 0
+                        ? (
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <DropdownMenu title="Actions">{actions}</DropdownMenu>
+                            </div>
+                        )
+                        : ''}
                 </Table.TableBodyCell>
             ) : null}
         </Table.TableRow>
@@ -152,7 +164,7 @@ const Worksheet = () => {
                     Date: {dateToString(moment(date))}
                 </Paragraph>
                 {worksheet.status === TWorksheetStatus.NEW
-                    ? <Button variation="secondary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
+                    ? <Button variation="primary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
                     : null}
                 <Table.Table>
                     <Table.TableHeader>
@@ -180,7 +192,13 @@ const Worksheet = () => {
                 </Table.Table>
             </div>
             {worksheet.status === TWorksheetStatus.NEW
-                ? <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+                ? (
+                    <ButtonWrapper
+                        right={[
+                            <Button disabled={worksheetEntries.length === 0} variation="secondary" onClick={handleSubmit}>Submit for Feedback</Button>
+                        ]}
+                    />
+                )
                 : null}
         </div>
     )

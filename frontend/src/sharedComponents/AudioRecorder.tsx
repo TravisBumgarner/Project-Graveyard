@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import React from 'react'
 import { BiMicrophone, } from 'react-icons/bi'
 import { BsFillRecordFill, } from 'react-icons/bs'
-import { AiFillDelete, AiFillPlayCircle } from 'react-icons/ai'
+import { AiFillDelete } from 'react-icons/ai'
 
 import { Button } from 'sharedComponents'
 import { logger } from 'utilities'
@@ -10,6 +10,10 @@ import { Label } from './LabelAndInput'
 import colors from './colors'
 
 // https://codesandbox.io/s/81zkxw8qnl?file=/src/index.tsx
+
+const Audio = styled.audio`
+    width: 100%;
+`
 
 const AudioRecorderWrapper = styled.div`
     margin: 0.5rem;
@@ -116,7 +120,7 @@ const AudioRecorder = ({
 
     return (
         <AudioRecorderWrapper>
-            <Label>Audio:</Label>
+            <Label>Audio</Label>
             <div>
                 {isRecording ? (
                     <Button variation="secondary" onClick={stopRecording}>
@@ -132,7 +136,7 @@ const AudioRecorder = ({
                         <Button disabled={audioUrl.length === 0} onClick={clearAudioUrl} variation="alert"><AiFillDelete /></Button>
                     ) : null
                 }
-                <audio src={audioUrl} controls />
+                <Audio src={audioUrl} controls />
             </div>
         </AudioRecorderWrapper>
     )

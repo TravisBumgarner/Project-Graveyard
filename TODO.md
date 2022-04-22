@@ -6,17 +6,17 @@ Things that were done in PR-7
 - [x] Convert reviewer section to be need reviews, reviewed
 - [x] If graphql query fails, stop loading and throw error
 - [x] Get rid of tables for individual entries
-- [ ] ~~Rework audio recorder to be more intuitive~~
-    - [ ] ~~add progress tracker and such~~
-
-Ok, PR-7:
-
-- [ ] ~~Disable recorder when recording is over~~
-- [ ] ~~figure a better way to handle service keys~~
-- [ ] ~~noImplicitAny issue~~
+- [x] Fix bug with submitting audio urls not working
+- [x] Add dropdown to student worksheet. 
+- [x] Fix the final student review navigation
+- [ ] Reviews are not being correctly filtered for a user. 
+- [x] set sentry to only log for staging/prod
+- [x] standardize form design and page layout
 
 
 # Before first review with French teacher
+- [ ] Do competitive intel with other companies
+- [ ] Profile updates - Languages you speak, learning
 - [ ] Need to figure out sp:be
 - [ ] Look at Googles new variable font stuff (https://fonts.google.com/icons)
 - [ ] Add language dropdown
@@ -31,8 +31,8 @@ Ok, PR-7:
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
 - [ ] Figure out modifying the express.Request type
-- [ ] Include reference to icons
 - [ ] Analytics
+
 # New Features Ideas
 
 - Add ability to pick native language

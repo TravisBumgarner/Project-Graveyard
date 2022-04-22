@@ -2,9 +2,12 @@ import styled from 'styled-components'
 
 import colors from './colors'
 
+type ParagraphProps = {
+    color?: string
+}
+
 const Paragraph = styled.p`
-    color: ${colors.PRIMARY.base};
-    line-height: 1.15;
+    ${({ color }: ParagraphProps) => `color: ${color || colors.PRIMARY.base};`}
 `
 
 export default Paragraph

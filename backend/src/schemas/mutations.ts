@@ -339,7 +339,7 @@ const editWorksheetEntry = {
     },
     resolve: async (parent: undefined, args: AddWorksheetEntryArgs, context: TContext) => {
         if (!context.authenticatedUserId) return null
-
+        console.log(args)
         const url = await getUrlForFile(`${args.worksheetId} /${args.id}.webm`, args.audioUrl)
 
         return getConnection()

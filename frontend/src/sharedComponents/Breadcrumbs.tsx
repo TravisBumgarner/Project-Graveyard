@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { StyledNavLink } from 'sharedComponents'
+import { StyledNavLink, colors } from 'sharedComponents'
 import Paragraph from './Paragraph'
 
 type BreadcrumbsProps = {
@@ -25,7 +25,7 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => {
                 breadcrumbs.map(({ text, to }) => (
                     <span key={to}>
                         <StyledNavLink to={to} text={text} />
-                        <Paragraph>{' > '}</Paragraph>
+                        <Paragraph color={colors.TERTIARY.base}>{' > '}</Paragraph>
                     </span>
                 ))
             }

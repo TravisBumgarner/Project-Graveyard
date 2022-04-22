@@ -13,6 +13,7 @@ import LabelAndInput from './LabelAndInput'
 import Breadcrumbs from './Breadcrumbs'
 import DropdownMenu from './DropdownMenu'
 import Divider from './Divider'
+import ButtonWrapper from './ButtonWrapper'
 
 export {
     Loading,
@@ -29,5 +30,6 @@ export {
     LabelAndInput,
     Breadcrumbs,
     DropdownMenu,
-    Divider
+    Divider,
+    ButtonWrapper
 }

@@ -138,11 +138,11 @@ const EditWorksheetEntry = () => {
     if (isLoading) return <Loading />
     const breadcrumbs = [
         { text: 'User Dashboard', to: '/student/dashboard' },
-        { text: 'Worksheet', to: `/worksheet/${worksheetId}` },
+        { text: `${worksheet.title} Worksheet`, to: `/worksheet/${worksheetId}` },
     ]
     return (
         <div>
-            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> Edit Worksheet Entry</Heading.H2>
+            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> Edit Entry</Heading.H2>
             <Divider />
             <div>
                 <WrittenWrapper>

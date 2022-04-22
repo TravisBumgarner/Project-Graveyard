@@ -181,18 +181,18 @@ const completedStudentReview = {
                 worksheet_entry."knownLanguageText",
                 worksheet_entry."newLanguageText",
                 worksheet_entry."audioUrl",
-                review_entry."oralFeedback",
-                review_entry."writtenFeedback",
-                "review_entry".id as "reviewEntryId"
+                coalesce(review_entry."oralFeedback", '') as "oralFeedback",
+                coalesce(review_entry."writtenFeedback", '') as "writtenFeedback",
+                coalesce("review_entry".id, '') as "reviewEntryId"
             from
                 worksheet_entry
-            join
+            left join
                 review_entry on  review_entry."worksheetEntryId" = worksheet_entry.id
             where
                 worksheet_entry."worksheetId" = '${args.worksheetId}'
             ;
             `)
-
+        console.log(JSON.stringify(data))
         return data
     },
 }

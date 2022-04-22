@@ -9,15 +9,18 @@ const smp = new SpeedMeasurePlugin()
 const PLUGIN_VARS = {
     local: {
         __API_ENDPOINT__: "'http://localhost:5001'",
-        __FIREBASE_CONFIG__: "'staging'"
+        __FIREBASE_CONFIG__: "'staging'",
+        __LOGGING_LEVEL__: "'local'"
     },
     staging: {
         __API_ENDPOINT__: "'https://backend-rhtcuzbcma-uc.a.run.app'",
-        __FIREBASE_CONFIG__: "'staging'"
+        __FIREBASE_CONFIG__: "'staging'",
+        __LOGGING_LEVEL__: "'sentry'"
     },
     production: {
         __API_ENDPOINT__: "' https://backend-sj2er5ckba-uc.a.run.app/'",
-        __FIREBASE_CONFIG__: "'production'"
+        __FIREBASE_CONFIG__: "'production'",
+        __LOGGING_LEVEL__: "'sentry'"
     }
 }
 

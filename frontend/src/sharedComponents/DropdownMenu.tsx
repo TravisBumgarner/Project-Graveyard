@@ -12,10 +12,14 @@ const StyledNav = styled.ul`
     display: ${({ showMenu }: { showMenu: boolean }) => (showMenu ? 'block' : 'none')};
     list-style: none;
     flex-direction: row;
-    padding: 0.5rem;
-    background-color: ${colors.PRIMARY.lightest};
-    border: 2px solid rgb(87, 226, 229);
+    padding: 1rem;
+    background-color: ${colors.DARKNESS.base};
+    border: 4px solid ${colors.DARKNESS.lighten};
     margin: 0.5rem;
+
+    ${Button} {
+        margin: 0.5rem 0; // For whatever reason I cannot figure out how to get a button to fit in a dropdown. 
+    }
 `
 
 type DropdownMenuProps = {
@@ -37,7 +41,7 @@ const DropdownMenu = ({ title, children }: DropdownMenuProps) => {
 
     return (
         <div style={{ position: 'relative' }}>
-            <Button variation="primary" onClick={() => setShowMenu(!showMenu)}>{title}</Button>
+            <Button variation="secondary" onClick={() => setShowMenu(!showMenu)}>{title}</Button>
             <StyledNav showMenu={showMenu}>
                 {children.map((child, index) => <li key={index}>{child}</li>)} {/* eslint-disable-line */}
             </StyledNav>

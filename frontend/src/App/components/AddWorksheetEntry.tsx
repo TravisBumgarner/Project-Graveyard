@@ -3,7 +3,7 @@ import { useMutation, gql, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
-import { AudioRecorder, Breadcrumbs, Button, Divider, Heading, LabelAndInput, Loading } from 'sharedComponents'
+import { AudioRecorder, Breadcrumbs, Button, ButtonWrapper, Divider, Heading, LabelAndInput, Loading } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
@@ -112,11 +112,11 @@ const AddWorksheetEntry = () => {
     if (isLoading) return <Loading />
     const breadcrumbs = [
         { text: 'User Dashboard', to: '/student/dashboard' },
-        { text: 'Worksheet', to: `/worksheet/${worksheetId}` },
+        { text: `${worksheet.title} Worksheet`, to: `/worksheet/${worksheetId}` },
     ]
     return (
         <div>
-            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> New Worksheet Entry</Heading.H2>
+            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> New Entry</Heading.H2>
             <Divider />
             <div>
                 <WrittenWrapper>
@@ -143,10 +143,12 @@ const AddWorksheetEntry = () => {
                     />
                 </div>
 
-                <div>
-                    <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
-                    <Button disabled={isLoading} variation="primary" onClick={handleClose}>Close</Button>
-                </div>
+                <ButtonWrapper
+                    right={[
+                        <Button disabled={isLoading} variation="primary" onClick={handleClose}>Close</Button>,
+                        <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit Entry</Button>
+                    ]}
+                />
             </div>
         </div>
     )
