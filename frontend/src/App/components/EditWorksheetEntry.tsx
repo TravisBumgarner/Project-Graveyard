@@ -103,15 +103,18 @@ const EditWorksheetEntry = () => {
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        const editedWorksheetEntry: Partial<TWorksheetEntry> = {
+        const editedWorksheetEntry: TWorksheetEntry = {
             knownLanguageText,
             newLanguageText,
             id,
             worksheetId: worksheet.id,
+            audioUrl
         }
+
         if (audioUrl.slice(0, 4) === 'blob') {
             editedWorksheetEntry.audioUrl = await objectUrlToBase64(audioUrl) as string
         }
+
         const response = await editWorksheetEntry({
             variables: editedWorksheetEntry,
         })
@@ -144,17 +147,17 @@ const EditWorksheetEntry = () => {
             <div>
                 <WrittenWrapper>
                     <LabelAndInput
-                        label={worksheet.knownLanguage}
-                        name="fromLanguage"
-                        value={knownLanguageText}
-                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
-                        type="textarea"
-                    />
-                    <LabelAndInput
                         label={worksheet.newLanguage}
                         name="newLanguage"
                         value={newLanguageText}
                         handleChange={(newLanguage) => setNewLanguageText(newLanguage)}
+                        type="textarea"
+                    />
+                    <LabelAndInput
+                        label={worksheet.knownLanguage}
+                        name="fromLanguage"
+                        value={knownLanguageText}
+                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
                         type="textarea"
                     />
                 </WrittenWrapper>
