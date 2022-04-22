@@ -9,13 +9,14 @@ Things that were done in PR-7
 - [x] Fix bug with submitting audio urls not working
 - [x] Add dropdown to student worksheet. 
 - [x] Fix the final student review navigation
-- [ ] Reviews are not being correctly filtered for a user. 
+- [x] Reviews, etc. are not being correctly filtered for a user. 
 - [x] set sentry to only log for staging/prod
 - [x] standardize form design and page layout
 - [x] Home page for logged out
-
+- [ ] Speed up backend recompile
 
 # Before first review with French teacher
+- [ ] Start writing some tests for security things like expect results to be []
 - [ ] Do competitive intel with other companies
 - [ ] Profile updates - Languages you speak, learning
 - [ ] Need to figure out sp:be
@@ -37,3 +38,8 @@ Things that were done in PR-7
 # New Features Ideas
 
 - Add ability to pick native language
+
+
+# Random thoughts
+
+- Community generated content -> how to?

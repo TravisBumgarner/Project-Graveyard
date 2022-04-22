@@ -24,8 +24,8 @@ mutation UpsertReview (
 `
 
 const GET_REVIEWS = gql`
-query GetReviews($reviewerId: String) {
-  review(reviewerId: $reviewerId) {
+query GetReviews {
+  review {
     id
     reviewerId,
     worksheetId,
