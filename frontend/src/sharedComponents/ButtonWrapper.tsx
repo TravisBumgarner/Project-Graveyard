@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 type ButtonWrapperProps = {
     left?: JSX.Element[]
-    center?: JSX.Element[]
     right?: JSX.Element[]
 }
 
@@ -11,7 +10,7 @@ const ButtonWrapperWrapper = styled.div`
     display: flex;
 
     div {
-        width: calc(100% / 3);
+        width: calc(100% / 2);
     }
 
     div:nth-child(1) {
@@ -19,20 +18,15 @@ const ButtonWrapperWrapper = styled.div`
     }
 
     div:nth-child(2){
-        text-align: center;
-    }
-
-    div:nth-child(3){
         text-align: right;
     }
 
 `
 
-const ButtonWrapper = ({ left, center, right }: ButtonWrapperProps) => {
+const ButtonWrapper = ({ left, right }: ButtonWrapperProps) => {
     return (
         <ButtonWrapperWrapper>
             <div>{left}</div>
-            <div>{center}</div>
             <div>{right}</div>
         </ButtonWrapperWrapper>
     )
