@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMutation, gql, useQuery } from '@apollo/client'
 
-import { AudioRecorder, Breadcrumbs, Button, Heading, LabelAndInput, Loading } from 'sharedComponents'
+import { AudioRecorder, Breadcrumbs, Button, Divider, Heading, LabelAndInput, Loading } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
@@ -103,15 +103,18 @@ const EditWorksheetEntry = () => {
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        const editedWorksheetEntry: Partial<TWorksheetEntry> = {
+        const editedWorksheetEntry: TWorksheetEntry = {
             knownLanguageText,
             newLanguageText,
             id,
             worksheetId: worksheet.id,
+            audioUrl
         }
+
         if (audioUrl.slice(0, 4) === 'blob') {
             editedWorksheetEntry.audioUrl = await objectUrlToBase64(audioUrl) as string
         }
+
         const response = await editWorksheetEntry({
             variables: editedWorksheetEntry,
         })
@@ -135,25 +138,26 @@ const EditWorksheetEntry = () => {
     if (isLoading) return <Loading />
     const breadcrumbs = [
         { text: 'User Dashboard', to: '/student/dashboard' },
-        { text: 'Worksheet', to: `/worksheet/${worksheetId}` },
+        { text: `${worksheet.title} Worksheet`, to: `/worksheet/${worksheetId}` },
     ]
     return (
         <div>
-            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> Edit Worksheet Entry</Heading.H2>
+            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> Edit Entry</Heading.H2>
+            <Divider />
             <div>
                 <WrittenWrapper>
-                    <LabelAndInput
-                        label={worksheet.knownLanguage}
-                        name="fromLanguage"
-                        value={knownLanguageText}
-                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
-                        type="textarea"
-                    />
                     <LabelAndInput
                         label={worksheet.newLanguage}
                         name="newLanguage"
                         value={newLanguageText}
                         handleChange={(newLanguage) => setNewLanguageText(newLanguage)}
+                        type="textarea"
+                    />
+                    <LabelAndInput
+                        label={worksheet.knownLanguage}
+                        name="fromLanguage"
+                        value={knownLanguageText}
+                        handleChange={(knownLanguage) => setKnownLanguageText(knownLanguage)}
                         type="textarea"
                     />
                 </WrittenWrapper>

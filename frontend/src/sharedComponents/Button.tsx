@@ -6,6 +6,7 @@ type ButtonProps = {
     variation: 'primary' | 'secondary' | 'tertiary' | 'alert' | 'disabled'
     disabled?: boolean
     fullWidth?: boolean
+    alignRight?: boolean
 
 }
 

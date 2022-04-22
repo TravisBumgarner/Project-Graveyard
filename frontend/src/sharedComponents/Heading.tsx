@@ -8,9 +8,7 @@ const H1 = styled.h1`
 
 const H2 = styled.h2`
     color: ${colors.SECONDARY.base};
-    border-bottom: 2px solid ${colors.PRIMARY.base};
     padding-bottom: 1rem;
-    margin-bottom: 1rem;
 `
 
 const H3 = styled.h3`

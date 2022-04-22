@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
-import { Loading, Heading, Table, StyledNavLink, Button, DropdownMenu } from 'sharedComponents'
+import { Loading, Heading, Table, StyledNavLink, Button, DropdownMenu, Divider } from 'sharedComponents'
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
 import { logger } from 'utilities'
 import { context } from '.'
@@ -24,8 +24,8 @@ mutation UpsertReview (
 `
 
 const GET_REVIEWS = gql`
-query GetReviews($reviewerId: String) {
-  review(reviewerId: $reviewerId) {
+query GetReviews {
+  review {
     id
     reviewerId,
     worksheetId,
@@ -160,7 +160,7 @@ const ReviewerDashboard = () => {
     const [reviews, setReviews] = React.useState<Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-    console.log(reviews)
+
     useQuery<{ review: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[] }>(GET_REVIEWS, {
         onError: (error) => {
             logger(JSON.stringify(error))
@@ -182,6 +182,7 @@ const ReviewerDashboard = () => {
     return (
         <div>
             <Heading.H2>Reviewer Dashboard</Heading.H2>
+            <Divider />
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_REQUESTED}
                 reviews={filterReviews(TReviewStatus.REVIEW_REQUESTED)}

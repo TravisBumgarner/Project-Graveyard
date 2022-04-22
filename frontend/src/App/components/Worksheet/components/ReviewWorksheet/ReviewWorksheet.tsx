@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import {
     gql,
     useQuery
@@ -8,9 +7,8 @@ import {
     useParams
 } from 'react-router'
 
-import { Loading, Button, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
+import { Loading, Heading, Breadcrumbs, Divider } from 'sharedComponents'
 import {
-    dateToString,
     logger,
 } from 'utilities'
 import {
@@ -86,27 +84,13 @@ const ReviewWorksheet = () => {
 
     if (isLoading) return <Loading />
 
-    const {
-        title, description, knownLanguage, newLanguage, date, user: { username },
-    } = worksheet
+    const { title } = worksheet
 
     return (
         <div>
             <div>
                 <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/reviewer/dashboard', text: 'Reviewer Dashboard' }]} /> {title} Worksheet</Heading.H2>
-
-                <Paragraph>
-                    Student: {username}
-                </Paragraph>
-                <Paragraph>
-                    Description: {description}
-                </Paragraph>
-                <Paragraph>
-                    Date: {dateToString(moment(date))}
-                </Paragraph>
-                <Paragraph>
-                    From: {knownLanguage} To: {newLanguage}
-                </Paragraph>
+                <Divider />
                 <ReviewWorksheetEntry
                     key={worksheetEntryIds[currentWorksheetEntryIndex]}
                     worksheetEntryId={worksheetEntryIds[currentWorksheetEntryIndex]}

@@ -1,9 +1,9 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { useParams, useNavigate } from 'react-router'
+import { useParams } from 'react-router'
 import moment from 'moment'
 
-import { Loading, Table, Heading, Paragraph, Button } from 'sharedComponents'
+import { Loading, Table, Heading, Paragraph, Divider, Breadcrumbs } from 'sharedComponents'
 import { logger, dateToString } from 'utilities'
 import { TWorksheet, TCompletedStudentReview } from 'types'
 
@@ -32,16 +32,15 @@ query completedStudentReview($worksheetId: String!)
 const CompletedReview = () => {
     const { worksheetId } = useParams()
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
-    const [completedStudentReviewEntries, setcompletedStudentReviewEntries] = React.useState<TCompletedStudentReview[]>([])
+    const [completedStudentReviewEntries, setCompletedStudentReviewEntries] = React.useState<TCompletedStudentReview[]>([])
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
-    const navigate = useNavigate()
 
     useQuery<{ completedStudentReview: TCompletedStudentReview[], worksheet: TWorksheet[] }>(STUDENT_REVIEW, {
         variables: {
             worksheetId,
         },
         onCompleted: (data) => {
-            setcompletedStudentReviewEntries(data.completedStudentReview)
+            setCompletedStudentReviewEntries(data.completedStudentReview)
             setWorksheet(data.worksheet[0])
             setIsLoading(false)
         },
@@ -54,7 +53,8 @@ const CompletedReview = () => {
     const { title, description, date } = worksheet
     return (
         <div>
-            <Heading.H2><Button variation="primary" onClick={() => navigate(-1)}>Reviews</Button> {'>'} {title} Worksheet Review</Heading.H2>
+            <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/student/dashboard', text: 'Student Dashboard' }]} /> {title} Worksheet</Heading.H2>
+            <Divider />
             <Paragraph> Description: {description}</Paragraph>
             <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
             <Table.Table>
@@ -81,7 +81,7 @@ const CompletedReview = () => {
                                 <Table.TableBodyCell>{newLanguageText}</Table.TableBodyCell>
                                 <Table.TableBodyCell><audio src={audioUrl} controls /></Table.TableBodyCell>
                                 <Table.TableBodyCell>{writtenFeedback}</Table.TableBodyCell>
-                                <Table.TableBodyCell><audio src={oralFeedback} controls /></Table.TableBodyCell>
+                                <Table.TableBodyCell>{oralFeedback.length ? <audio src={oralFeedback} controls /> : ''}</Table.TableBodyCell>
                             </Table.TableRow>
                         ))}
                 </Table.TableBody>

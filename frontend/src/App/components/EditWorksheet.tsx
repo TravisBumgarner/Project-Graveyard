@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 
-import { Heading, Button, LabelAndInput, Loading, } from 'sharedComponents'
+import { Heading, Button, LabelAndInput, Loading, Divider, ButtonWrapper, Breadcrumbs, } from 'sharedComponents'
 import { dateToString, logger } from 'utilities'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
@@ -105,9 +105,14 @@ const EditWorksheet = () => {
 
     if (isLoading) return <Loading />
 
+    const breadcrumbs = [
+        { text: 'User Dashboard', to: '/student/dashboard' },
+    ]
+
     return (
         <div>
-            <Heading.H2>Edit {title} Worksheet</Heading.H2>
+            <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> {title} Worksheet</Heading.H2>
+            <Divider />
             <div>
                 <div>
                     <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
@@ -115,7 +120,7 @@ const EditWorksheet = () => {
 
                 <div>
                     <LabelAndInput
-                        label="Description"
+                        label="Description (Optional)"
                         name="description"
                         value={description}
                         handleChange={(data) => setDescription(data)}
@@ -124,7 +129,7 @@ const EditWorksheet = () => {
 
                 <div>
                     <LabelAndInput
-                        label="Language you're learning:"
+                        label="Language You're Learning"
                         name="newLanguage"
                         value={newLanguage}
                         handleChange={(data) => setnewLanguage(data)}
@@ -133,13 +138,19 @@ const EditWorksheet = () => {
 
                 <div>
                     <LabelAndInput
-                        label="Language your'e starting from:"
+                        label="Language You're Starting From"
                         name="knowLanguage"
                         value={knownLanguage}
                         handleChange={(data) => setknownLanguage(data)}
                     />
                 </div>
-                <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
+                <ButtonWrapper
+                    right={[
+                        <Button disabled={isLoading} variation="alert" onClick={() => navigate('/student/dashboard')}>Cancel</Button>,
+                        <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit</Button>
+                    ]}
+                />
+
             </div>
         </div>
     )

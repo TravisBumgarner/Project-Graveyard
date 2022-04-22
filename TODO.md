@@ -1,57 +1,30 @@
-# PR6
+Remaining STuff:
 
-- [x] Convert reviewer section to be need reviews, reviewed
-    - [x] Add items to dropdown menu on review dashboard
-    - [x] Move all reviewentry code submission to within review entry component
-    - [x] Fix issue with review entry showing up multiple times on backend
-    - [x] Get review to move to doing when first entry submitted
-    - [x] Add submit review
-    - [x] Fix Review Result page for student
-- [x] Bug - New Worksheets showing up reviewer dashboard
-- [x] If graphql query fails, stop loading and throw error
-- [x] Request a teacher
-- [ ] ~~Disable recorder when recording is over~~
-- [ ] ~~Get rid of tables for individual entries~~
-- [x] Fix Add Reviewer button to change to "requested"
-- [x] Add loading when requesting a reviewer because you can request twice
-- [x] Can Add Entries and Submit for Feedback after submitting for feedback
-- [x] Speed up docker-compose file
-- [ ] Rename button colors, perhaps "submit", "alert", "primary-action", "secondary-action"
-- [ ] Give ability to add reviewers when submitting
-- [x] fix broken review dashboard user profile link
-- [x] Review Entry doesn't submit with audio. 
-- [x] Prev button for review entries causes freeze
-- [x] Fetching a review with entries doesn't cause them to appear on the screen
-- [x] Submit review doesn't update in local state
-- [x] Check if it's possible to submit duplicate feedback for an worksheet entry
-- [ ] Add announcement about beta testing
-- [ ] Bug with user review showing up in "review in progress" for wrong user
-# Before first review with French teacher
-- [ ] Explore SWC vs
-- [ ] Cap audio limits
-- [ ] Give the ability to export a worksheet(s).
-- [ ] Only be able to edit your own work, delete, etc.
-- [ ] Rework audio recorder to be more intuitive
-    - [ ] add progress tracker and such
+- [ ] Speed up backend recompile
+- [ ] Start writing some tests for security things like expect results to be []
+- [ ] Do competitive intel with other companies
+- [ ] Profile updates - Languages you speak, learning
+- [ ] Need to figure out sp:be
+- [ ] Look at Googles new variable font stuff (https://fonts.google.com/icons)
 - [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
-- [ ] Links don't redirect on page load `/login` should redirect and change url but it dont.
 - [ ] Be able to persist URLs after logging in .. redirect user
-- [ ] Generate new content IDs on the backend
-- [ ] start sharing types between fe/be
-- [ ] All onCompleted should be wrapped in try/catch
-- [ ] Dates for creating a worksheet are off by one lol
-  # After First Review with French teacher
-
+- [ ] make sure people can't post to endpoints that they shouldn't be
+    - [ ] Don't get userid from request, get it from auth
 - [ ] Update login emails, run through login, reset, signup flow
-- [ ] figure a better way to handle service keys
-- [ ] noImplicitAny issue
+
+
 # Post MVP
 - [ ] Export to flash card app
     - [ ] Be able to choose what to export
 - [ ] Figure out modifying the express.Request type
-- [ ] Include reference to icons
 - [ ] Analytics
+
 # New Features Ideas
 
 - Add ability to pick native language
+
+
+# Random thoughts
+
+- Community generated content -> how to?

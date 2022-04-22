@@ -2,7 +2,7 @@ import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
-import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu, Paragraph } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu, Paragraph, Divider } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview, TReviewStatus } from 'types'
 import { context } from 'context'
 import { uuid4 } from '@sentry/utils'
@@ -329,6 +329,7 @@ const Worksheets = () => {
     return (
         <div>
             <Heading.H2>Student Dashboard</Heading.H2>
+            <Divider />
             <Button variation="primary" onClick={() => navigate('/worksheet/new')}>Add Worksheet</Button>
             <WorksheetTable
                 tableType={TWorksheetStatus.NEW}

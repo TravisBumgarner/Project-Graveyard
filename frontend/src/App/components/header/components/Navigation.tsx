@@ -64,7 +64,7 @@ const Navigation = () => {
             <StyledNav showNav={showNav}>
                 {links.map(({ text, to }) => (
                     <li key={to} onClick={() => setShowNav(false)}> {/* eslint-disable-line */}
-                        <StyledNavLink to={to} text={text} />
+                        <StyledNavLink addWeightForActiveLink to={to} text={text} />
                     </li>
                 ))}
             </StyledNav>

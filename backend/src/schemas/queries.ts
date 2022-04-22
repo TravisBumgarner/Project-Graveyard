@@ -89,7 +89,6 @@ const worksheet = {
 
 type ReviewArgs = {
     worksheetId?: string
-    reviewerId?: string
 }
 
 const review = {
@@ -104,18 +103,14 @@ const review = {
     },
     resolve: async (_parent, args: ReviewArgs, context: TContext) => {
         if (!context.authenticatedUserId) return []
-        if (args.reviewerId && args.reviewerId !== context.authenticatedUserId) return [] // Don't let someone request other reviews
 
         const query = await getConnection()
             .getRepository(entity.Review)
             .createQueryBuilder('review')
+            .where('review.reviewerId = :reviewerId', { reviewerId: context.authenticatedUserId })
 
         if (args.worksheetId) {
             query.andWhere('review.worksheetId = :worksheetId', { worksheetId: args.worksheetId })
-        }
-
-        if (args.reviewerId) {
-            query.andWhere('review.reviewerId = :reviewerId', { reviewerId: args.reviewerId })
         }
 
         const data = query.getMany()
@@ -181,12 +176,12 @@ const completedStudentReview = {
                 worksheet_entry."knownLanguageText",
                 worksheet_entry."newLanguageText",
                 worksheet_entry."audioUrl",
-                review_entry."oralFeedback",
-                review_entry."writtenFeedback",
-                "review_entry".id as "reviewEntryId"
+                coalesce(review_entry."oralFeedback", '') as "oralFeedback",
+                coalesce(review_entry."writtenFeedback", '') as "writtenFeedback",
+                coalesce("review_entry".id, '') as "reviewEntryId"
             from
                 worksheet_entry
-            join
+            left join
                 review_entry on  review_entry."worksheetEntryId" = worksheet_entry.id
             where
                 worksheet_entry."worksheetId" = '${args.worksheetId}'

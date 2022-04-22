@@ -12,6 +12,7 @@ const Img = styled.img`
     height: 75px;
     margin-right: 1em;
     box-sizing: border-box;
+    transform: rotate(-16deg);
 `
 
 const HeaderWrapper = styled.div`

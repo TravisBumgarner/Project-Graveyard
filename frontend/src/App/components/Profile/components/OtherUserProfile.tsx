@@ -1,7 +1,7 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 
-import { Heading, Loading, Paragraph } from 'sharedComponents'
+import { Divider, Heading, Loading, Paragraph } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { logger } from 'utilities'
 import { context } from '../..'
@@ -43,6 +43,7 @@ const OtherUserProfile = ({ userId }: OtherUserProfileProps) => {
     return (
         <div>
             <Heading.H2>Other User Profile</Heading.H2>
+            <Divider />
             <Paragraph>
                 Username: {user.username}
             </Paragraph>

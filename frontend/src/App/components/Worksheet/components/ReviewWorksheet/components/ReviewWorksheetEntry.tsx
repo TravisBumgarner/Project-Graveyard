@@ -5,26 +5,29 @@ import {
     useMutation,
     useQuery,
 } from '@apollo/client'
-import { v4 as uuidv4 } from 'uuid'
 
-import { AudioRecorder, Heading, LabelAndInput, Paragraph, colors, Button, Loading, Modal } from 'sharedComponents'
+import { AudioRecorder, Heading, LabelAndInput, Paragraph, Button, Loading, Modal, colors, ButtonWrapper } from 'sharedComponents'
 import { TReview, TReviewEntry, TWorksheet, TWorksheetEntry, } from 'types'
 import { objectUrlToBase64, logger } from 'utilities'
 import { context } from 'context'
 
-const ReviewWorksheetEntryWrapper = styled.div`
-    padding: 1rem;
-    background-color: ${colors.PRIMARY.lightest};  
+const StudentWrapper = styled.div`
+    border: 2px solid;
     border-radius: 1rem;
-    margin: 1rem; 
+    padding: 0.5rem 1rem;
+    border-color: ${colors.PRIMARY.base};
+    margin: 0.5rem;
+`
+
+const ReviewWorksheetEntryWrapper = styled.div`
 `
 
 const WrittenTextWrapper = styled.div`
     display: flex;
     flex-direction: row;
-
+    justify-content: space-between;
     > div {
-        width: 50%;
+        width: 45%;
     }
 `
 
@@ -89,7 +92,7 @@ const ReviewWorksheetEntry = ({
     const [hasReviewerBeganReviewThisSession, setHasReviewerBeganReviewThisSession] = React.useState<boolean>(false)
     const [modalDetails, setModalDetails] = React.useState<{ show: boolean, direction?: 'prev' | 'next' }>({ show: false })
     const [worksheetEntry, setWorksheetEntry] = React.useState<TWorksheetEntry>(null)
-    console.log(hasReviewerBeganReviewThisSession)
+
     const handleWrittenFeedback = (value: string) => {
         setHasReviewerBeganReviewThisSession(true)
         setWrittenFeedback(value)
@@ -171,25 +174,29 @@ const ReviewWorksheetEntry = ({
     if (isLoading) return <Loading />
 
     return (
-        <ReviewWorksheetEntryWrapper key={id} style={{ border: '5px solid white' }}>
-            <Heading.H3>Entry</Heading.H3>
-            <WrittenTextWrapper>
-                <div>
-                    <Heading.H4> Written {worksheet.knownLanguage}</Heading.H4>
-                    <Paragraph>{worksheetEntry.knownLanguageText}</Paragraph>
-                </div>
-                <div>
-                    <Heading.H4> Written {worksheet.newLanguage}</Heading.H4>
-                    <Paragraph>{worksheetEntry.newLanguageText}</Paragraph>
-                </div>
-            </WrittenTextWrapper>
+        <ReviewWorksheetEntryWrapper key={id}>
+            <Heading.H3>Worksheet Entry</Heading.H3>
+            <StudentWrapper>
 
-            <Heading.H4>Recorded {worksheet.newLanguage}</Heading.H4>
-            <audio style={{ width: '100%' }} controls src={worksheetEntry.audioUrl} />
+                <WrittenTextWrapper>
+                    <div>
+                        <Heading.H4>{worksheet.newLanguage}</Heading.H4>
+                        <Paragraph>{worksheetEntry.newLanguageText}</Paragraph>
+                    </div>
+                    <div>
+                        <Heading.H4>{worksheet.knownLanguage}</Heading.H4>
+                        <Paragraph>{worksheetEntry.knownLanguageText}</Paragraph>
+                    </div>
+                </WrittenTextWrapper>
+
+                <Heading.H4>Audio</Heading.H4>
+                <audio style={{ width: '100%' }} controls src={worksheetEntry.audioUrl} />
+            </StudentWrapper>
+            <Heading.H3>Feedback</Heading.H3>
             <LabelAndInput
                 type="textarea"
                 name="writtenFeedback"
-                label="Written Feedback"
+                label="Written"
                 value={writtenFeedback}
                 handleChange={(value) => handleWrittenFeedback(value)}
             />
@@ -197,9 +204,13 @@ const ReviewWorksheetEntry = ({
                 audioUrl={audioUrl}
                 setAudioUrl={handleOralFeedback}
             />
-            <Button variation="primary" onClick={handleSubmit}>Submit Feedback</Button>
-            <Button variation="primary" onClick={handlePrevClick}>Previous</Button>
-            <Button variation="primary" onClick={handleNextClick}>Next</Button>
+            <ButtonWrapper
+                left={[
+                    <Button variation="primary" onClick={handlePrevClick}>Previous Entry</Button>,
+                    <Button variation="primary" onClick={handleNextClick}>Next Entry</Button>
+                ]}
+                right={[<Button variation="secondary" onClick={handleSubmit}>Submit Feedback</Button>]}
+            />
             <Modal
                 contentLabel="You have unsaved changes, lose them?"
                 showModal={modalDetails.show}

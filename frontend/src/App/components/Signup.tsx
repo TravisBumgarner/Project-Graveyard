@@ -2,10 +2,10 @@ import React from 'react'
 import { createUserWithEmailAndPassword, getIdToken } from 'firebase/auth'
 
 import axios from 'axios'
-import { Loading, Button, Heading, LabelAndInput, Paragraph, StyledNavLink, } from 'sharedComponents'
+import { Loading, Button, Heading, LabelAndInput, Paragraph, StyledNavLink, Divider, } from 'sharedComponents'
+import { TPhraseADayUser } from 'types'
 import { context } from '.'
 import { auth } from '../../firebase'
-import { TPhraseADayUser } from 'types'
 
 const userFriendlyError = (code: string) => {
     const errorLookups: Record<string, string> = {
@@ -67,6 +67,7 @@ const Singup = () => {
     return (
         <div>
             <Heading.H2>Sign Up</Heading.H2>
+            <Divider />
             <form>
                 <LabelAndInput
                     label="Username"
