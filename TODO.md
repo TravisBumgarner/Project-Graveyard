@@ -1,12 +1,17 @@
-Remaining STuff:
+PR-8
 
-- [ ] Speed up backend recompile
+- [x] Fix bug in migrations
+- [x] Add language dropdown
+- [ ] Profile updates - Languages you speak, learning
+
+Remaining Stuff:
+
 - [ ] Start writing some tests for security things like expect results to be []
 - [ ] Do competitive intel with other companies
-- [ ] Profile updates - Languages you speak, learning
+
 - [ ] Need to figure out sp:be
 - [ ] Look at Googles new variable font stuff (https://fonts.google.com/icons)
-- [ ] Add language dropdown
+
 - [ ] Fail if exists in FB but not Postgres
 - [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] make sure people can't post to endpoints that they shouldn't be
