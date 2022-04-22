@@ -192,7 +192,7 @@ const completedStudentReview = {
                 worksheet_entry."worksheetId" = '${args.worksheetId}'
             ;
             `)
-        console.log(JSON.stringify(data))
+
         return data
     },
 }

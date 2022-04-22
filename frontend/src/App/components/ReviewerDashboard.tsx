@@ -160,7 +160,7 @@ const ReviewerDashboard = () => {
     const [reviews, setReviews] = React.useState<Record<string, (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })>>({})
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const { dispatch } = React.useContext(context)
-    console.log(reviews)
+
     useQuery<{ review: (TReview & { worksheet: (TWorksheet & { user: TPhraseADayUser }) })[] }>(GET_REVIEWS, {
         onError: (error) => {
             logger(JSON.stringify(error))
