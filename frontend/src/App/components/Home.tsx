@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Heading, ExternalLink, Paragraph, Divider, colors, } from 'sharedComponents'
+import { Heading, Divider, colors, } from 'sharedComponents'
 import styled from 'styled-components'
 
 import home1 from '../../static/home1.png'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { useParams, useNavigate } from 'react-router'
+import { useParams } from 'react-router'
 import moment from 'moment'
 
 import { Loading, Table, Heading, Paragraph, Divider, Breadcrumbs } from 'sharedComponents'

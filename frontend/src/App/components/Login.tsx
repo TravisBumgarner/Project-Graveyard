@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 import { Loading, Heading, Button, LabelAndInput, Paragraph, StyledNavLink, Divider } from 'sharedComponents'
+import { TPhraseADayUser } from 'types'
 import { context } from '.'
 import { auth } from '../../firebase'
-import { TPhraseADayUser } from 'types'
 
 const userFriendlyError = (code: string) => {
     const errorLookups: Record<string, string> = {
