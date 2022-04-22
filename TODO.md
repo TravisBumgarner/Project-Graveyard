@@ -12,6 +12,7 @@ Things that were done in PR-7
 - [ ] Reviews are not being correctly filtered for a user. 
 - [x] set sentry to only log for staging/prod
 - [x] standardize form design and page layout
+- [x] Home page for logged out
 
 
 # Before first review with French teacher
