@@ -36,6 +36,9 @@ const LanguageLookupWrapper = styled.div`
     margin-top: 0.5rem;
     border-radius: 1rem;
     padding: 1rem;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
 `
 
 const ListItem = styled.li`
@@ -134,6 +137,13 @@ const LanguageDropdown = ({ label }: LanguageDropdownProps) => {
         setShowLanguageLookup(false)
     }
 
+    // React.useEffect(() => {
+    //     if (showLanguageLookup) {
+    //         window.addEventListener('click', () => setShowLanguageLookup(false))
+    //     }
+    //     return () => window.removeEventListener('click', () => setShowLanguageLookup(false))
+    // }, [showLanguageLookup])
+
     React.useEffect(() => {
         setFilteredLanguages(
             languages.filter(({ name, nativeName }) => {
@@ -161,31 +171,39 @@ const LanguageDropdown = ({ label }: LanguageDropdownProps) => {
                 />
                 {showLanguageLookup
                     ? (
-                        <LanguageLookupWrapper>
-                            <div style={{ display: 'flex' }}>
-                                <SearchInput
-                                    value={search}
-                                    onChange={(event) => setSearch(event.target.value)}
-                                    placeholder="Filter Languages"
-                                />
-                                <Icon name="close" color={colors.PRIMARY.base} onClick={() => setShowLanguageLookup(false)} />
-                            </div>
-                            <DropdownList>
-                                {filteredLanguages.map(({ name, nativeName, isoCode }) => {
-                                    return (
-                                        <ListItem
-                                            key={isoCode}
-                                        >
-                                            <Button
-                                                type="button"
-                                                onClick={() => handleLanguageChange({ name, nativeName, isoCode })}
-                                            >{name} ({nativeName})
-                                            </Button>
-                                        </ListItem>
-                                    )
-                                })}
-                            </DropdownList>
-                        </LanguageLookupWrapper>
+                        <>
+                            <LanguageLookupWrapper>
+
+                                <div style={{ display: 'flex' }}>
+                                    <SearchInput
+                                        value={search}
+                                        onChange={(event) => setSearch(event.target.value)}
+                                        placeholder="Filter Languages"
+                                    />
+                                    <Icon name="close" color={colors.PRIMARY.base} onClick={() => setShowLanguageLookup(false)} />
+                                </div>
+                                <DropdownList>
+                                    {filteredLanguages.map(({ name, nativeName, isoCode }) => {
+                                        return (
+                                            <ListItem
+                                                key={isoCode}
+                                            >
+                                                <Button
+                                                    type="button"
+                                                    onClick={() => handleLanguageChange({ name, nativeName, isoCode })}
+                                                >{name} ({nativeName})
+                                                </Button>
+                                            </ListItem>
+                                        )
+                                    })}
+                                </DropdownList>
+                            </LanguageLookupWrapper>
+                            <div
+                                onClick={() => setShowLanguageLookup(false)}
+                                role="Close"
+                                style={{ zIndex: -1, width: '100vw', height: '100vh', position: 'fixed', left: 0, top: 0 }}
+                            />
+                        </>
                     )
                     : ''}
             </ChildrenBlur>
