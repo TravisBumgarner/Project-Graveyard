@@ -12,12 +12,9 @@ Remaining Stuff:
 - [ ] Start writing some tests for security things like expect results to be []
 - [ ] Do competitive intel with other companies
 - [ ] Need to figure out sp:be
-
 - [ ] Fail if exists in FB but not Postgres
-- [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth
-- [ ] Update login emails, run through login, reset, signup flow
 
 
 # Post MVP
