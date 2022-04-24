@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Heading, Divider, colors, } from 'sharedComponents'
+import { Heading, colors, } from 'sharedComponents'
 import styled from 'styled-components'
 
 import home1 from '../../static/home1.png'
@@ -13,7 +13,6 @@ const ImageWrapper = styled.div`
     border-radius: 1rem;
     padding: 0.5rem 1rem;
     border-color: ${colors.PRIMARY.base};
-    margin: 0.5rem 0.5rem 5rem 0.5rem;
 `
 
 const Img = styled.img`
@@ -44,7 +43,6 @@ const content = [
 const Home = () => (
     <div>
         <Heading.H2>Welcome!</Heading.H2>
-        <Divider />
         {
             content.map(({ text, img }) => {
                 return (

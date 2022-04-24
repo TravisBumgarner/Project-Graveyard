@@ -25,7 +25,7 @@ const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => {
                 breadcrumbs.map(({ text, to }) => (
                     <span key={to}>
                         <StyledNavLink to={to} text={text} />
-                        <Paragraph color={colors.TERTIARY.base}>{' > '}</Paragraph>
+                        <Paragraph color={colors.DARKNESS.base}>{' > '}</Paragraph>
                     </span>
                 ))
             }

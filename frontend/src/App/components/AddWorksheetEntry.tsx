@@ -3,7 +3,7 @@ import { useMutation, gql, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useParams } from 'react-router'
 
-import { AudioRecorder, Breadcrumbs, Button, ButtonWrapper, Divider, Heading, LabelAndInput, Loading } from 'sharedComponents'
+import { AudioRecorder, Breadcrumbs, Button, ButtonWrapper, Heading, LabelAndInput, Loading } from 'sharedComponents'
 import styled from 'styled-components'
 import { TWorksheet, TWorksheetEntry } from 'types'
 import { context } from 'context'
@@ -117,7 +117,6 @@ const AddWorksheetEntry = () => {
     return (
         <div>
             <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> New Entry</Heading.H2>
-            <Divider />
             <div>
                 <WrittenWrapper>
                     <LabelAndInput

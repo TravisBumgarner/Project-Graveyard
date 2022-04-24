@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
-import { Loading, Heading, Table, StyledNavLink, Button, DropdownMenu, Divider } from 'sharedComponents'
+import { Loading, Heading, Table, StyledNavLink, Button, DropdownMenu } from 'sharedComponents'
 import { TPhraseADayUser, TWorksheet, TReviewStatus, TReview } from 'types'
 import { logger } from 'utilities'
 import { context } from '.'
@@ -182,7 +182,7 @@ const ReviewerDashboard = () => {
     return (
         <div>
             <Heading.H2>Reviewer Dashboard</Heading.H2>
-            <Divider />
+
             <ReviewTable
                 tableType={TReviewStatus.REVIEW_REQUESTED}
                 reviews={filterReviews(TReviewStatus.REVIEW_REQUESTED)}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
 
-import { LabelAndInput, Button, Heading, Paragraph, Modal, Divider } from 'sharedComponents'
+import { LabelAndInput, Button, Heading, Paragraph, Modal } from 'sharedComponents'
 import { context } from '../..'
 
 type EditProfileProps = {
@@ -79,7 +79,6 @@ const CurrentUserProfile = () => {
         <>
             <div>
                 <Heading.H2>Profile</Heading.H2>
-                <Divider />
                 <Paragraph>
                     Username: {state.currentUser.phraseADay.username}
                 </Paragraph>

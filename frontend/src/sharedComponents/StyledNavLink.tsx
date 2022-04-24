@@ -13,7 +13,7 @@ const StyledNavLink = ({ to, text, addWeightForActiveLink }: StyledNavLinkProps)
     <NavLink
         style={({ isActive }) => ({
             fontWeight: addWeightForActiveLink && isActive ? 700 : 100,
-            color: colors.TERTIARY.darken,
+            color: colors.DARKNESS.lighten,
         })}
         to={to}
     >

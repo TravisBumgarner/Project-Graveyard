@@ -14,7 +14,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 
 import Theme from 'theme'
-import { ExternalLink, Heading, Loading, LanguageDropdown } from 'sharedComponents'
+import { ExternalLink, Heading, Loading } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
 import {
@@ -43,7 +43,7 @@ import {
 import { auth } from '../firebase'
 
 const BetaTestAnnouncementWrapper = styled.div`
-    top: 0;
+    bottom: 0;
     left: 0;
     position: fixed;
     width: 100%;
@@ -80,10 +80,7 @@ const App = () => {
     return (
         <>
             {state.message ? <AlertMessage /> : null}
-            <BetaTest />
-            <BetaSpaceHolder />
             <Header />
-            <LanguageDropdown label="lang" />
             <Routes>
                 <Route
                     path="/worksheet/new"
@@ -207,6 +204,8 @@ const App = () => {
                 <Route path="/" element={<Home />} />
             </Routes>
             <Footer />
+            {/* <BetaTest /> */}
+            {/* <BetaSpaceHolder /> */}
         </>
     )
 }

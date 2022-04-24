@@ -3,7 +3,7 @@ import moment from 'moment'
 import { gql, useMutation } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
-import { Heading, Button, LabelAndInput, Divider, ButtonWrapper, LanguageDropdown } from 'sharedComponents'
+import { Heading, Button, LabelAndInput, ButtonWrapper, LanguageDropdown } from 'sharedComponents'
 import { dateToString } from 'utilities'
 import { TWorksheetStatus, TWorksheet } from 'types'
 import { context } from 'context'
@@ -73,7 +73,6 @@ const AddWorksheet = () => {
     return (
         <div>
             <Heading.H2>Add a Worksheet</Heading.H2>
-            <Divider />
             <div>
                 <div>
                     <LabelAndInput label="Title" name="title" value={title} handleChange={(data) => setTitle(data)} />
