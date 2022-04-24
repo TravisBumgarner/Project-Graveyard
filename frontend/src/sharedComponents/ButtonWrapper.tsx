@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Button from './Button'
 
 type ButtonWrapperProps = {
     left?: JSX.Element[]
@@ -11,14 +12,23 @@ const ButtonWrapperWrapper = styled.div`
 
     div {
         width: calc(100% / 2);
+        ${Button}{
+            margin: 0.5rem;
+        }
     }
 
     div:nth-child(1) {
         text-align: left;
+        ${Button}{
+            margin: 0.5rem;
+        }
     }
 
     div:nth-child(2){
         text-align: right;
+        ${Button}{
+            margin: 0.5rem;
+        }
     }
 
 `

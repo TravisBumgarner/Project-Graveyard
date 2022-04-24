@@ -12,7 +12,7 @@ const H2 = styled.h2`
     border-radius: 1rem;
     margin-bottom: 3rem;
     background: rgb(106,127,219);
-    background: linear-gradient(135deg, rgba(106,127,219,1) 0%, rgba(87,226,229,1) 100%);
+    background: linear-gradient(135deg, rgba(87,226,229,1) 0%,  rgba(106,127,219,1) 100%);
 `
 
 const H3 = styled.h3`

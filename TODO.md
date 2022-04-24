@@ -2,7 +2,7 @@ PR-8
 
 - [x] Fix bug in migrations
 - [x] Add language dropdown
-- [ ] Create language dropdown component
+- [x] Create language dropdown component
 - [ ] Profile updates - Languages you speak, learning
 - [ ] Saving data and dealing with modal is weird for adding a review - data doesn't reset. 
 - [x] Look at Googles new variable font stuff (https://fonts.google.com/icons), get rid of react-icons

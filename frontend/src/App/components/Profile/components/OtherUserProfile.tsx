@@ -1,7 +1,8 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
+import styled from 'styled-components'
 
-import { Heading, Loading, Paragraph } from 'sharedComponents'
+import { colors, Heading, Loading, Paragraph } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { logger } from 'utilities'
 import { context } from '../..'
@@ -13,6 +14,14 @@ query GetUser($userId: String) {
       id
   }
 }
+`
+
+const MetadataWrapper = styled.div`
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    border-color: ${colors.PRIMARY.base};
+    margin: 0.5rem 0;
 `
 
 type OtherUserProfileProps = {
@@ -43,9 +52,11 @@ const OtherUserProfile = ({ userId }: OtherUserProfileProps) => {
     return (
         <div>
             <Heading.H2>Other User Profile</Heading.H2>
-            <Paragraph>
-                Username: {user.username}
-            </Paragraph>
+            <MetadataWrapper>
+                <Paragraph>
+                    Username: {user.username}
+                </Paragraph>
+            </MetadataWrapper>
         </div>
     )
 }

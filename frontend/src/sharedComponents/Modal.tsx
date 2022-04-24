@@ -30,7 +30,6 @@ const HeaderWrapper = styled.div`
     `
 
 const ModalWrapper = styled.div`
-   
 `
 
 const Modal = ({
@@ -59,6 +58,7 @@ const Modal = ({
         <ModalWrapper>
             <HeaderWrapper>
                 <Heading.H1>{contentLabel}</Heading.H1>
+                <Icon name="close" color={colors.PRIMARY.base} onClick={closeModal} />
             </HeaderWrapper>
             {children}
         </ModalWrapper>
