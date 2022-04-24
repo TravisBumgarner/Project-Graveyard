@@ -14,7 +14,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 
 import Theme from 'theme'
-import { ExternalLink, Heading, Loading } from 'sharedComponents'
+import { ExternalLink, Heading, Loading, LanguageDropdown } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
 import {
@@ -83,6 +83,7 @@ const App = () => {
             <BetaTest />
             <BetaSpaceHolder />
             <Header />
+            <LanguageDropdown label="lang" />
             <Routes>
                 <Route
                     path="/worksheet/new"

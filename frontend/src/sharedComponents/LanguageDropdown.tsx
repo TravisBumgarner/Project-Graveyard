@@ -3,6 +3,44 @@ import styled from 'styled-components'
 
 import { colors } from 'sharedComponents'
 import languages from '../languages.json'
+import Icon from './Icon'
+
+// https://muffinman.io/blog/catching-the-blur-event-on-an-element-and-its-children/
+// Helper function so you can target each input without blur being fired.
+const ChildrenBlur = ({ children, onBlur, ...props }: any) => {
+    const handleBlur = React.useCallback(
+        (e) => {
+            const { currentTarget } = e
+
+            // Give browser time to focus the next element
+            requestAnimationFrame(() => {
+                // Check if the new focused element is a child of the original container
+                if (!currentTarget.contains(document.activeElement)) {
+                    onBlur()
+                }
+            })
+        },
+        [onBlur]
+    )
+
+    return (
+        <div {...props} onBlur={handleBlur}>
+            {children}
+        </div>
+    )
+}
+
+const LanguageLookupWrapper = styled.div`
+    border: 2px solid ${colors.PRIMARY.base};
+    background-color: ${colors.PRIMARY.lightest};
+    margin-top: 0.5rem;
+    border-radius: 1rem;
+    padding: 1rem;
+`
+
+const ListItem = styled.li`
+    height: 2rem;
+`
 
 const Label = styled.label`
     font-family: 'Comfortaa', cursive;
@@ -22,6 +60,7 @@ const Button = styled.button`
     border: 0;
     margin: 0.25rem 0;
     text-align: left;
+    color: ${colors.TERTIARY.base};
 
     &:hover {
         cursor: pointer;
@@ -33,7 +72,7 @@ const LanguageDropdownWrapper = styled.div`
     position: relative;
 `
 
-const Input = styled.input`
+const InputInput = styled.input`
     font-family: 'Comfortaa', cursive;
     font-size: 1rem;
     border: 2px solid;
@@ -48,32 +87,41 @@ const Input = styled.input`
     display: block;
 `
 
+const SearchInput = styled.input`
+    font-family: 'Comfortaa', cursive;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    color: ${colors.PRIMARY.base};
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+`
+
 const DropdownList = styled.ul`
-    position: absolute;
-    border-radius: 1rem;
-    left: 0;
+    height: 10rem;
+    overflow: scroll;
     list-style: none;
     padding: 0.5rem;
-    background-color: ${colors.PRIMARY.lightest};
-    border: 2px solid rgb(87, 226, 229);
-    margin: 0.5rem;
     z-index:998;
-
-    display: ${({ showDropdown }: { showDropdown: boolean }) => (showDropdown ? 'block' : 'none')};
+    margin: 0;
+    
 `
 
 type LanguageDropdownProps = {
     label: string
 }
 
+type Language = {
+    name: string;
+    nativeName: string;
+    isoCode: string;
+}
+
 const LanguageDropdown = ({ label }: LanguageDropdownProps) => {
-    const [input, setInput] = React.useState<string>('')
-    const [showDropdown, setShowDropdown] = React.useState<boolean>(true)
-    const [selectedLanguages, setSelectedLanguages] = React.useState<{
-        name: string;
-        nativeName: string;
-        isoCode: string;
-    }[]>([])
+    const [search, setSearch] = React.useState<string>('')
+    const [showLanguageLookup, setShowLanguageLookup] = React.useState<boolean>(false)
+    const [selectedLanguage, setSelectedLanguage] = React.useState<Language>(null)
 
     const [filteredLanguages, setFilteredLanguages] = React.useState<{
         name: string;
@@ -81,62 +129,66 @@ const LanguageDropdown = ({ label }: LanguageDropdownProps) => {
         isoCode: string;
     }[]>(languages)
 
+    const handleLanguageChange = (newLang: Language) => {
+        setSelectedLanguage(newLang)
+        setShowLanguageLookup(false)
+    }
+
     React.useEffect(() => {
         setFilteredLanguages(
-            languages.filter(({ name, nativeName, isoCode }) => {
+            languages.filter(({ name, nativeName }) => {
                 return (
                     (
                         name
                             .toLowerCase()
-                            .includes(input.toLowerCase())
+                            .includes(search.toLowerCase())
                         || nativeName
                             .toLowerCase()
-                            .includes(input.toLowerCase())
+                            .includes(search.toLowerCase())
                     )
-                    && !selectedLanguages.some((selectedLanguage) => selectedLanguage.isoCode === isoCode))
+                )
             })
         )
-    }, [input, selectedLanguages.length])
+    }, [search])
 
     return (
         <LanguageDropdownWrapper>
-            <Label>{label}</Label>
-            <ul>
-                {selectedLanguages.map(({ name, nativeName, isoCode }) => (
-                    <li key={isoCode}>{name} ({nativeName})
-                        <button
-                            type="button"
-                            onClick={
-                                () => setSelectedLanguages((prev) => [...prev].filter((selectedLanguage) => selectedLanguage.name !== name))
-                            }
-                        >
-                            Remove
-                        </button>
-                    </li>
-                ))}
-            </ul>
-            <Input
-                onFocus={() => setShowDropdown(true)}
-                onBlur={() => setShowDropdown(false)}
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-
-            />
-            <DropdownList showDropdown={showDropdown}>
-                {filteredLanguages.slice(0, 5).map(({ name, nativeName, isoCode }) => {
-                    return (
-                        <li
-                            key={isoCode}
-                        >
-                            <Button
-                                type="button"
-                                onClick={() => setSelectedLanguages((prev) => ([...prev, { isoCode, name, nativeName }]))}
-                            >{name} ({nativeName})
-                            </Button>
-                        </li>
+            <ChildrenBlur>
+                <Label>{label}</Label>
+                <InputInput
+                    onFocus={() => setShowLanguageLookup(true)}
+                    value={selectedLanguage ? selectedLanguage.name : ''}
+                />
+                {showLanguageLookup
+                    ? (
+                        <LanguageLookupWrapper>
+                            <div style={{ display: 'flex' }}>
+                                <SearchInput
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                    placeholder="Filter Languages"
+                                />
+                                <Icon name="close" color={colors.PRIMARY.base} onClick={() => setShowLanguageLookup(false)} />
+                            </div>
+                            <DropdownList>
+                                {filteredLanguages.map(({ name, nativeName, isoCode }) => {
+                                    return (
+                                        <ListItem
+                                            key={isoCode}
+                                        >
+                                            <Button
+                                                type="button"
+                                                onClick={() => handleLanguageChange({ name, nativeName, isoCode })}
+                                            >{name} ({nativeName})
+                                            </Button>
+                                        </ListItem>
+                                    )
+                                })}
+                            </DropdownList>
+                        </LanguageLookupWrapper>
                     )
-                })}
-            </DropdownList>
+                    : ''}
+            </ChildrenBlur>
         </LanguageDropdownWrapper>
     )
 }
