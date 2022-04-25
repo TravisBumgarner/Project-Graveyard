@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { getAnalytics } from 'firebase/analytics'
 
 const config = {
     staging: {
@@ -23,6 +24,10 @@ const config = {
 }
 
 const app = firebase.initializeApp(config[__FIREBASE_CONFIG__]) //eslint-disable-line
+
+if (process.env.NODE_ENV === 'production') {
+    getAnalytics(app)
+}
 
 export const auth = getAuth(app)
 export default app

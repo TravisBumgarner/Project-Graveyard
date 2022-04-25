@@ -2,7 +2,7 @@ import React from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router'
 
-import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu, Paragraph, colors } from 'sharedComponents'
+import { Loading, Table, Heading, StyledNavLink, Button, Modal, DropdownMenu, Paragraph, colors, ButtonWrapper } from 'sharedComponents'
 import { TWorksheetStatus, TWorksheet, TPhraseADayUser, TReview, TReviewStatus } from 'types'
 import { context } from 'context'
 import { uuid4 } from '@sentry/utils'
@@ -189,13 +189,6 @@ const WorksheetTable = ({ worksheets, setWorksheets, tableType }: WorksheetTable
         return {
             [TWorksheetStatus.NEW]: [
                 <Button fullWidth key="edit" variation="secondary" onClick={() => navigate(`/worksheet/edit/${id}`)}>Edit</Button>,
-                <Button
-                    fullWidth
-                    key="request-review"
-                    variation="secondary"
-                    onClick={() => setReviewRequestModal({ showModal: true, id })}
-                >Request Reviews
-                </Button>,
                 <Button fullWidth key="delete" variation="alert" onClick={() => confirmDelete()}>Delete</Button>
             ],
             [TWorksheetStatus.NEEDS_REVIEW]: [

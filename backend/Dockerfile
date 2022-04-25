@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["npm", "run", "sp:be"]
+CMD ["npm", "run", "start"]

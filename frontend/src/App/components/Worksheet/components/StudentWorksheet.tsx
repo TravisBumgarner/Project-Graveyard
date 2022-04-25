@@ -174,7 +174,11 @@ const Worksheet = () => {
                     </Paragraph>
                 </MetadataWrapper>
                 {worksheet.status === TWorksheetStatus.NEW
-                    ? <Button variation="primary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
+                    ? (
+                        <ButtonWrapper
+                            left={[<Button variation="primary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>]}
+                        />
+                    )
                     : null}
                 <Table.Table>
                     <Table.TableHeader>

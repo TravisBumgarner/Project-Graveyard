@@ -114,6 +114,9 @@ const AddWorksheetEntry = () => {
         { text: 'User Dashboard', to: '/student/dashboard' },
         { text: `${worksheet.title} Worksheet`, to: `/worksheet/${worksheetId}` },
     ]
+
+    const hasUserFilledEntry = (knownLanguageText.length || newLanguageText.length || audioUrl.length)
+
     return (
         <div>
             <Heading.H2><Breadcrumbs breadcrumbs={breadcrumbs} /> New Entry</Heading.H2>
@@ -145,7 +148,7 @@ const AddWorksheetEntry = () => {
                 <ButtonWrapper
                     right={[
                         <Button disabled={isLoading} variation="primary" onClick={handleClose}>Close</Button>,
-                        <Button disabled={isLoading} variation="secondary" onClick={handleSubmit}>Submit Entry</Button>
+                        <Button disabled={isLoading || !hasUserFilledEntry} variation="secondary" onClick={handleSubmit}>Submit Entry</Button>
                     ]}
                 />
             </div>
