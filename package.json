@@ -8,7 +8,9 @@
     "backend"
   ],
   "scripts": {
-    "sd": "docker-compose up"
+    "sd": "docker-compose up",
+    "deploy:staging": "cd backend && npm run deploy:staging && cd ../frontend && npm run deploy:staging",
+    "deploy:production": "cd backend && npm run deploy:production && cd ../frontend && npm run deploy:production"
   },
   "repository": {
     "type": "git",

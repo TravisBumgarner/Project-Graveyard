@@ -21,6 +21,22 @@ const Img = styled.img`
     width:100%;
 `
 
+const HomeWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2rem 0;
+    justify-content: space-between;
+
+    ${Heading.H3} {
+        width: 10%;
+    }
+
+    ${ImageWrapper}{
+        width: 85%;
+    }
+`
+
 const content = [
     {
         text: 'Practice writing and speaking!',
@@ -46,14 +62,14 @@ const Home = () => (
         {
             content.map(({ text, img }) => {
                 return (
-                    <div>
+                    <HomeWrapper>
                         <Heading.H3>
                             {text}
                         </Heading.H3>
                         <ImageWrapper>
                             <Img src={img} />
                         </ImageWrapper>
-                    </div>
+                    </HomeWrapper>
                 )
             })
         }

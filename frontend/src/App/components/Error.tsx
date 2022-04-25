@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heading, Paragraph, ExternalLink, StyledNavLink from 'sharedComponents'
+import { Heading, Paragraph, ExternalLink, StyledNavLink } from 'sharedComponents'
 
 const Error = () => (
     <div>
