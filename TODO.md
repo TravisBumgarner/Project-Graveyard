@@ -1,15 +1,16 @@
 PR-9
 
-- [ ] Cleanup README.md
-- [ ] Clean up .envs
-- [ ] Figure out a way to get rid of GCP cloud sql command
+- [x] Cleanup README.md
+- [x] Clean up .envs
+- [x] Figure out a way to get rid of GCP cloud sql command
+- [x] Need to figure out sp:be
+
 
 Remaining Stuff:
 
 - [ ] Profile updates - Languages you speak, learning
 - [ ] Saving data and dealing with modal is weird for adding a review - data doesn't reset. 
 - [ ] Start writing some tests for security things like expect results to be []
-- [ ] Need to figure out sp:be
 - [ ] Fail if exists in FB but not Postgres
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth

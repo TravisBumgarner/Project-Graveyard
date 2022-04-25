@@ -21,3 +21,11 @@
   1. Start cloud-sql-proxy with `npm run cloudsql:[staging/production]`.
   2. Run migrations with `npm run migration:run:[staging/production]` 
 2. Run `npm run deploy from root`
+
+Notes
+
+- `NODE_ENV` Has been set within Cloud Run.
+  1. Click on Service
+  2. Click on `EDIT & DEPLOY A NEW REVISION`
+  3. Click on `VARIABLES & SECRETS`
+  4. Add `NODE_ENV` = `production` or `staging`
