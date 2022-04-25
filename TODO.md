@@ -1,4 +1,8 @@
+PR-9
 
+- [ ] Cleanup README.md
+- [ ] Clean up .envs
+- [ ] Figure out a way to get rid of GCP cloud sql command
 
 Remaining Stuff:
 

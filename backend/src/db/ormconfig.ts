@@ -21,32 +21,13 @@ const ormconfig = {
             migrationsDir: MIGRATIONS_DIR,
         },
     },
-    'gcp-proxy-migrations': {
-        database: config.postgres.database,
-        password: config.postgres.password,
-        username: config.postgres.username,
-        port: config.postgres.port,
-        type: 'postgres',
-        extra: {
-            socketPath: config.postgres.host,
-        },
-        synchronize: false,
-        logging: false,
-        host: config.postgres.host,
-        entities: [`${ENTITIES_DIR}/**/*{.ts,.js}`],
-        migrations: [`${MIGRATIONS_DIR}/**/*{.ts,.js}`],
-        cli: {
-            entitiesDir: ENTITIES_DIR,
-            migrationsDir: MIGRATIONS_DIR,
-        }
-    },
     staging: {
         database: config.postgres.database,
         password: config.postgres.password,
         username: config.postgres.username,
-        port: config.postgres.port,
+        port: process.env.IS_RUNNING_MIGRATIONS ? 1234 : config.postgres.port,
         type: 'postgres',
-        extra: {
+        extra: process.env.IS_RUNNING_MIGRATIONS ? {} : {
             socketPath: config.postgres.host,
         },
         synchronize: false,
@@ -63,14 +44,14 @@ const ormconfig = {
         database: config.postgres.database,
         password: config.postgres.password,
         username: config.postgres.username,
-        port: config.postgres.port,
+        port: process.env.IS_RUNNING_MIGRATIONS ? 1234 : config.postgres.port,
         type: 'postgres',
-        extra: {
+        extra: process.env.IS_RUNNING_MIGRATIONS ? {} : {
             socketPath: config.postgres.host,
         },
         synchronize: false,
         logging: false,
-        host: config.postgres.host,
+        host: process.env.IS_RUNNING_MIGRATIONS ? 'localhost' : config.postgres.host,
         entities: [`${ENTITIES_DIR}/**/*{.ts,.js}`],
         migrations: [`${MIGRATIONS_DIR}/**/*{.ts,.js}`],
         cli: {
@@ -78,6 +59,6 @@ const ormconfig = {
             migrationsDir: MIGRATIONS_DIR,
         },
     },
-}[process.env.NODE_ENV || ''] as ConnectionOptions
+}[process.env.NODE_ENV || 'production'] as ConnectionOptions
 
 export default ormconfig
