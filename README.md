@@ -17,10 +17,10 @@
 
 # Deployment
 
-1. (Optional) If there are migrations...
-  1. Start cloud-sql-proxy with `npm run cloudsql:[staging/production]`.
-  2. Run migrations with `npm run migration:run:[staging/production]` 
-2. Run `npm run deploy from root`
+1. (Optional) If there are migrations
+    1. Start cloud-sql-proxy with `npm run cloudsql:[staging/production]`.
+    2. Run migrations with `npm run migration:run:[staging/production]`. 
+2. Run `npm run deploy` from root.
 
 Notes
 
