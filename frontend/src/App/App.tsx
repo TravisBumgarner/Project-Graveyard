@@ -11,10 +11,14 @@ import {
 import { setContext } from '@apollo/client/link/context'
 import { getIdToken, onAuthStateChanged } from 'firebase/auth'
 import axios from 'axios'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
 import Theme from 'theme'
-import { ExternalLink, Heading, Loading } from 'sharedComponents'
+import {
+    // ExternalLink,
+    // Heading,
+    Loading
+} from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from 'context'
 import {
@@ -42,29 +46,29 @@ import {
 } from './components'
 import { auth } from '../firebase'
 
-const BetaTestAnnouncementWrapper = styled.div`
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    width: 100%;
-    background-color: yellow;
-    height: 50px;
-    margin: 0;
-    padding: 5px;
-    z-index: 999;
-`
+// const BetaTestAnnouncementWrapper = styled.div`
+//     bottom: 0;
+//     left: 0;
+//     position: fixed;
+//     width: 100%;
+//     background-color: yellow;
+//     height: 50px;
+//     margin: 0;
+//     padding: 5px;
+//     z-index: 999;
+// `
 
-const BetaSpaceHolder = styled.div`
-    height: 50px;
-`
+// const BetaSpaceHolder = styled.div`
+//     height: 50px;
+// `
 
-const BetaTest = () => (
-    <BetaTestAnnouncementWrapper>
-        <Heading.H3>
-            Beta Testers! <ExternalLink href="https://forms.gle/FSFHBxhuPCCMZRYx9">Your feedback form is here</ExternalLink>.
-        </Heading.H3>
-    </BetaTestAnnouncementWrapper>
-)
+// const BetaTest = () => (
+//     <BetaTestAnnouncementWrapper>
+//         <Heading.H3>
+//             Beta Testers! <ExternalLink href="https://forms.gle/FSFHBxhuPCCMZRYx9">Your feedback form is here</ExternalLink>.
+//         </Heading.H3>
+//     </BetaTestAnnouncementWrapper>
+// )
 
 const App = () => {
     const { state } = React.useContext(context)

@@ -37,7 +37,7 @@ const HomeWrapper = styled.div`
     }
 `
 
-const content: { title: string, content: JSX.Element }[] = [
+const contents: { title: string, content: JSX.Element }[] = [
     {
         title: 'Practice writing and speaking!',
         content: <Img src={home1} />
@@ -56,10 +56,12 @@ const content: { title: string, content: JSX.Element }[] = [
     },
     {
         title: 'New Features Coming Soon!',
-        content: <List.UnorderedList>
-            <List.ListItem>Export to your favorite Flash Card Application</List.ListItem>
-            <List.ListItem>Want another feature? Request it with the feedback form below.</List.ListItem>
-        </List.UnorderedList>
+        content: (
+            <List.UnorderedList>
+                <List.ListItem>Export to your favorite Flash Card Application</List.ListItem>
+                <List.ListItem>Want another feature? Request it with the feedback form below.</List.ListItem>
+            </List.UnorderedList>
+        )
     }
 
 ]
@@ -68,7 +70,7 @@ const Home = () => (
     <div>
         <Heading.H2>Welcome!</Heading.H2>
         {
-            content.map(({ title, content }) => {
+            contents.map(({ title, content }) => {
                 return (
                     <HomeWrapper>
                         <Heading.H3>

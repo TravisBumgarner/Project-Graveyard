@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 import { colors, Heading } from 'sharedComponents'
-import { context } from 'context'
 import { Navigation } from './components'
 
 const HeaderWrapper = styled.div`
