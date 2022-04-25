@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactModal from 'react-modal'
-import { FaRegWindowClose } from 'react-icons/fa'
 
 import colors from './colors'
-import { Heading } from '.'
+import { Heading, Icon } from '.'
 
 type ModalProps = {
     children: JSX.Element | JSX.Element[]
@@ -31,7 +30,6 @@ const HeaderWrapper = styled.div`
     `
 
 const ModalWrapper = styled.div`
-   
 `
 
 const Modal = ({
@@ -60,7 +58,7 @@ const Modal = ({
         <ModalWrapper>
             <HeaderWrapper>
                 <Heading.H1>{contentLabel}</Heading.H1>
-                <FaRegWindowClose onClick={closeModal} size="2rem" />
+                <Icon name="close" color={colors.PRIMARY.base} onClick={closeModal} />
             </HeaderWrapper>
             {children}
         </ModalWrapper>

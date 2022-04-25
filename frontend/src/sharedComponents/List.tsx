@@ -6,11 +6,12 @@ const OrderedList = styled.ol`
     color: ${colors.PRIMARY.base};
 `
 
-const UnorderedList = styled.ol`
+const UnorderedList = styled.ul`
     color: ${colors.PRIMARY.base};
 `
 
 const ListItem = styled.li`
+    line-height: 1.5;
 `
 
 export {

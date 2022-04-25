@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import moment from 'moment'
 
-import { Loading, Table, Heading, Paragraph, Divider, Breadcrumbs } from 'sharedComponents'
+import { Loading, Table, Heading, Paragraph, Breadcrumbs } from 'sharedComponents'
 import { logger, dateToString } from 'utilities'
 import { TWorksheet, TCompletedStudentReview } from 'types'
 
@@ -54,7 +54,6 @@ const CompletedReview = () => {
     return (
         <div>
             <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/student/dashboard', text: 'Student Dashboard' }]} /> {title} Worksheet</Heading.H2>
-            <Divider />
             <Paragraph> Description: {description}</Paragraph>
             <Paragraph> Date: {dateToString(moment(date))}</Paragraph>
             <Table.Table>

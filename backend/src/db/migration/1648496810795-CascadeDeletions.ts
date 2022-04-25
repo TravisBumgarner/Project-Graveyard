@@ -1,4 +1,4 @@
-bimport { MigrationInterface, QueryRunner } from 'typeorm'
+import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class CascadeDeletions1648496810795 implements MigrationInterface {
     name = 'CascadeDeletions1648496810795'

@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, getIdToken } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
-import { Loading, Heading, Button, LabelAndInput, Paragraph, StyledNavLink, Divider } from 'sharedComponents'
+import { Loading, Heading, Button, LabelAndInput, Paragraph, StyledNavLink } from 'sharedComponents'
 import { TPhraseADayUser } from 'types'
 import { context } from '.'
 import { auth } from '../../firebase'
@@ -59,7 +59,6 @@ const Login = () => {
     return (
         <div>
             <Heading.H2>Log In</Heading.H2>
-            <Divider />
             <form>
                 <LabelAndInput
                     label="Email"

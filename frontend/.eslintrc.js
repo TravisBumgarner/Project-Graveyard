@@ -45,6 +45,7 @@ module.exports = {
         'func-call-spacing': ['off'],
         'import/no-extraneous-dependencies': ['off'],
         'object-curly-newline': ['off'],
-        'arrow-body-style': ['off']
+        'arrow-body-style': ['off'],
+        'react/jsx-props-no-spreading': ['off']
     },
 }

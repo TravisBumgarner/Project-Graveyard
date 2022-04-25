@@ -7,7 +7,7 @@ import {
     useParams
 } from 'react-router'
 
-import { Loading, Heading, Breadcrumbs, Divider } from 'sharedComponents'
+import { Loading, Heading, Breadcrumbs } from 'sharedComponents'
 import {
     logger,
 } from 'utilities'
@@ -90,7 +90,7 @@ const ReviewWorksheet = () => {
         <div>
             <div>
                 <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/reviewer/dashboard', text: 'Reviewer Dashboard' }]} /> {title} Worksheet</Heading.H2>
-                <Divider />
+
                 <ReviewWorksheetEntry
                     key={worksheetEntryIds[currentWorksheetEntryIndex]}
                     worksheetEntryId={worksheetEntryIds[currentWorksheetEntryIndex]}

@@ -3,9 +3,10 @@ import moment from 'moment'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useNavigate, useParams } from 'react-router'
 
-import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs, Divider, DropdownMenu, ButtonWrapper } from 'sharedComponents'
+import { Loading, Button, Heading, Paragraph, Table, Breadcrumbs, DropdownMenu, ButtonWrapper, colors } from 'sharedComponents'
 import { dateToString, logger } from 'utilities'
 import { TWorksheet, TWorksheetEntry, TWorksheetStatus } from 'types'
+import styled from 'styled-components'
 import { context } from '../..'
 
 const GET_WORKSHEET_AND_WORKSHEET_ENTRIES = gql`
@@ -119,6 +120,14 @@ const WorksheetEntry = ({
     )
 }
 
+const MetadataWrapper = styled.div`
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    border-color: ${colors.PRIMARY.base};
+    margin: 0.5rem 0;
+`
+
 const Worksheet = () => {
     const { worksheetId } = useParams()
     const [worksheet, setWorksheet] = React.useState<TWorksheet>()
@@ -156,13 +165,14 @@ const Worksheet = () => {
         <div>
             <div>
                 <Heading.H2><Breadcrumbs breadcrumbs={[{ to: '/student/dashboard', text: 'Student Dashboard' }]} /> {title} Worksheet</Heading.H2>
-                <Divider />
-                <Paragraph>
-                    Description: {description}
-                </Paragraph>
-                <Paragraph>
-                    Date: {dateToString(moment(date))}
-                </Paragraph>
+                <MetadataWrapper>
+                    <Paragraph>
+                        Description: {description}
+                    </Paragraph>
+                    <Paragraph>
+                        Date: {dateToString(moment(date))}
+                    </Paragraph>
+                </MetadataWrapper>
                 {worksheet.status === TWorksheetStatus.NEW
                     ? <Button variation="primary" onClick={() => navigate(`/worksheet/${id}/add`)}>Add Entries</Button>
                     : null}

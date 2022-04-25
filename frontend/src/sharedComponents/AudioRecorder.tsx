@@ -1,10 +1,7 @@
 import styled from 'styled-components'
 import React from 'react'
-import { BiMicrophone, } from 'react-icons/bi'
-import { BsFillRecordFill, } from 'react-icons/bs'
-import { AiFillDelete } from 'react-icons/ai'
 
-import { Button } from 'sharedComponents'
+import { Button, Icon } from 'sharedComponents'
 import { logger } from 'utilities'
 import { Label } from './LabelAndInput'
 import colors from './colors'
@@ -23,9 +20,10 @@ const AudioRecorderWrapper = styled.div`
         border: 2px solid #57E2E5;
         padding: 0.5rem 1rem;
         display: flex;
-        justify-content: space - between;
+        justify-content: space-between;
+        align-items: center;
 
-            audio {
+        audio {
             flex-grow: 1;
             margin-left: 1.5rem;
         }
@@ -124,16 +122,20 @@ const AudioRecorder = ({
             <div>
                 {isRecording ? (
                     <Button variation="secondary" onClick={stopRecording}>
-                        <Pulsing><BsFillRecordFill fill={colors.ALERT.base} /></Pulsing>
+                        <Pulsing>
+                            <Icon color={colors.SECONDARY.base} name="mic" />
+                        </Pulsing>
                     </Button>
                 ) : (
                     <Button variation="secondary" onClick={startRecording}>
-                        <BiMicrophone />
+                        <Icon color={colors.SECONDARY.base} name="mic" />
                     </Button>
                 )}
                 {
                     audioUrl ? (
-                        <Button disabled={audioUrl.length === 0} onClick={clearAudioUrl} variation="alert"><AiFillDelete /></Button>
+                        <Button disabled={audioUrl.length === 0} onClick={clearAudioUrl} variation="alert">
+                            <Icon color={colors.ALERT.base} name="delete" />
+                        </Button>
                     ) : null
                 }
                 <Audio src={audioUrl} controls />

@@ -9,3 +9,4 @@ serviceAccountKey-*.json
 postgres-data/
 build/
 .firebase/
+app.bundle.js

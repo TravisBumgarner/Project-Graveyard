@@ -1,7 +1,8 @@
 import React from 'react'
 import { updateEmail, updatePassword } from 'firebase/auth'
 
-import { LabelAndInput, Button, Heading, Paragraph, Modal, Divider } from 'sharedComponents'
+import { LabelAndInput, Button, Heading, Paragraph, Modal, colors, ButtonWrapper } from 'sharedComponents'
+import styled from 'styled-components'
 import { context } from '../..'
 
 type EditProfileProps = {
@@ -71,6 +72,14 @@ const EditProfile = ({ closeModal }: EditProfileProps) => {
     )
 }
 
+const MetadataWrapper = styled.div`
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    border-color: ${colors.PRIMARY.base};
+    margin: 0.5rem 0;
+`
+
 const CurrentUserProfile = () => {
     const { state } = React.useContext(context)
     const [showModal, setShowModal] = React.useState<boolean>(false)
@@ -79,18 +88,22 @@ const CurrentUserProfile = () => {
         <>
             <div>
                 <Heading.H2>Profile</Heading.H2>
-                <Divider />
-                <Paragraph>
-                    Username: {state.currentUser.phraseADay.username}
-                </Paragraph>
-                <Paragraph>
-                    Email: {state.currentUser.firebase.email}
-                </Paragraph>
-                <Paragraph>
-                    Last Login: {state.currentUser.firebase.metadata.lastSignInTime}
-                </Paragraph>
+                <MetadataWrapper>
+                    <Paragraph>
+                        Username: {state.currentUser.phraseADay.username}
+                    </Paragraph>
+                    <Paragraph>
+                        Email: {state.currentUser.firebase.email}
+                    </Paragraph>
+                    <Paragraph>
+                        Last Login: {state.currentUser.firebase.metadata.lastSignInTime}
+                    </Paragraph>
+                </MetadataWrapper>
             </div>
-            <Button variation="primary" onClick={() => setShowModal(true)}>Edit Profile</Button>
+            <ButtonWrapper
+                right={[<Button variation="secondary" onClick={() => setShowModal(true)}>Edit Profile</Button>]}
+            />
+
             <Modal
                 showModal={showModal}
                 closeModal={() => setShowModal(false)}

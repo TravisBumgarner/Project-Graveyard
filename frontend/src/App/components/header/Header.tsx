@@ -2,18 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
-import { Heading, Paragraph } from 'sharedComponents'
-import { context } from 'context'
+import { colors, Heading } from 'sharedComponents'
 import { Navigation } from './components'
-import logo from '../../../static/logo.png'
-
-const Img = styled.img`
-    width: 75px;
-    height: 75px;
-    margin-right: 1em;
-    box-sizing: border-box;
-    transform: rotate(-16deg);
-`
 
 const HeaderWrapper = styled.div`
     display:flex;
@@ -24,20 +14,21 @@ const HeaderWrapper = styled.div`
         display: flex;
         align-items: center;
     }
-
-
 `
 
 const Header = () => {
-    const { state } = React.useContext(context)
     return (
         <HeaderWrapper>
             <div>
-                <Link to="/"> <Img src={logo} /></Link>
-                <Link style={{ textDecoration: 'none' }} to="/"> <Heading.H1>phrase a day</Heading.H1></Link>
+                <Link style={{ textDecoration: 'none' }} to="/">
+                    <Heading.H1>
+                        <span style={{ color: colors.SECONDARY.base }}>phrase</span>
+                        <span style={{ color: colors.PRIMARY.base }}>a</span>
+                        <span style={{ color: colors.ALERT.base }}>day</span>
+                    </Heading.H1>
+                </Link>
             </div>
             <div>
-                <Paragraph>Welcome, {state.currentUser ? state.currentUser.phraseADay.username : 'language friend'}!</Paragraph>
                 <Navigation />
             </div>
         </HeaderWrapper>

@@ -1,17 +1,14 @@
-Remaining STuff:
 
-- [ ] Speed up backend recompile
-- [ ] Start writing some tests for security things like expect results to be []
-- [ ] Do competitive intel with other companies
+
+Remaining Stuff:
+
 - [ ] Profile updates - Languages you speak, learning
+- [ ] Saving data and dealing with modal is weird for adding a review - data doesn't reset. 
+- [ ] Start writing some tests for security things like expect results to be []
 - [ ] Need to figure out sp:be
-- [ ] Look at Googles new variable font stuff (https://fonts.google.com/icons)
-- [ ] Add language dropdown
 - [ ] Fail if exists in FB but not Postgres
-- [ ] Be able to persist URLs after logging in .. redirect user
 - [ ] make sure people can't post to endpoints that they shouldn't be
     - [ ] Don't get userid from request, get it from auth
-- [ ] Update login emails, run through login, reset, signup flow
 
 
 # Post MVP

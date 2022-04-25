@@ -216,20 +216,32 @@ const ReviewWorksheetEntry = ({
                 showModal={modalDetails.show}
                 closeModal={() => setModalDetails({ show: false })}
             >
-                <>
-                    <Button
-                        variation="secondary"
-                        onClick={() => setModalDetails({ show: false })}
-                    >Go Back
-                    </Button>
-                    <Button
-                        variation="alert"
-                        onClick={
-                            () => (modalDetails.direction === 'next' ? getNextWorksheetEntry() : getPrevWorksheetEntry())
-                        }
-                    >Continue
-                    </Button>
-                </>
+
+                <ButtonWrapper
+                    right={
+                        [
+                            <Button
+                                variation="secondary"
+                                onClick={() => setModalDetails({ show: false })}
+                            >Go Back
+                            </Button>,
+                            <Button
+                                variation="alert"
+                                onClick={
+                                    () => {
+                                        setModalDetails({ show: false })
+                                        if (modalDetails.direction === 'next') {
+                                            getNextWorksheetEntry()
+                                        } else {
+                                            getPrevWorksheetEntry()
+                                        }
+                                    }
+                                }
+                            >Continue
+                            </Button>
+                        ]
+                    }
+                />
             </Modal>
         </ReviewWorksheetEntryWrapper>
     )

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import colors from './colors'
 
 const Table = styled.table`
-    border: 2px solid;
     padding: 1rem;
     border-collapse: collapse;
     border-radius: 1em;
