@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import axios from 'axios'
 
 import Context from 'context'
 import { Navigation, Router, Header } from './components'
@@ -18,15 +17,7 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-
 const App = () => {
-  React.useEffect(() => {
-    axios
-      .get('http://localhost:5001/')
-      .then(r => console.log(r.data))
-  }, [])
-
-
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
