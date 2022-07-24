@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
 
-import Context from 'Context'
+import Context from 'context'
 import { Navigation, Router, Header } from './components'
 
 const App = () => {

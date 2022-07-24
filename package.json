@@ -1,0 +1,18 @@
+{
+    "name": "test",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "kill-it": "rm -rf node_modules && rm -rf ./backend/node_modules && rm -rf ./frontend/node_modules",
+        "fill-it": "npm i && npm i --prefix frontend && npm i --prefix backend",
+        "sd": "concurrently -n docker,frontend,server -c \"bgBlue.bold,bgMagenta.bold,bgCyan.bold\" \"docker-compose up\" \"cd frontend && npm run sd:fe\" \"cd backend && npm run sd:be\" "
+    },
+    "keywords": [],
+    "author": "Travis Bumgarner",
+    "license": "ISC",
+    "dependencies": {
+        "concurrently": "^7.1.0",
+        "wait-on": "^6.0.1"
+    }
+}
