@@ -3,13 +3,16 @@ import { getConnection, getManager } from "typeorm"
 
 const queryTypeDefs = gql`
   type Query {
-    rooms: [RoomRoom]
+    metrics: [Metric]
   }
 `;
 
 const queryResolvers = {
-  rooms: async () => {
-    return ['a', 'b', 'c']
+  metrics: async () => {
+    return [{
+      id: 'foo',
+      title: 'bar'
+    }]
   },
 };
 

@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity()
-export default class Room {
+export default class Metric {
     @PrimaryColumn({ nullable: false })
     id: string
 

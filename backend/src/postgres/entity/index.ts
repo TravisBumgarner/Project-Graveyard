@@ -1,5 +1,5 @@
-import Room from './Room'
+import Metric from './Metric'
 
 export {
-    Room
+    Metric
 }
