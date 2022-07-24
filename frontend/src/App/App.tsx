@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import Context from 'context'
-import { Navigation, Router, Header } from './components'
+import Context, { context } from 'context'
+import { Navigation, Router, Header, Alert } from './components'
 
 import {
   ApolloClient,
@@ -18,8 +18,11 @@ const apolloClient = new ApolloClient({
 });
 
 const App = () => {
+  const { state } = React.useContext(context)
+
   return (
     <div>
+      {state.message ? <Alert /> : null}
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Header />
         <Navigation />

@@ -3,25 +3,39 @@ import React from 'react'
 import { Metric } from 'sharedTypes'
 
 type State = {
-    metrics: Record<string, Metric>
+    message: {
+        body: string,
+        timeToLiveMS: number
+    } | null
 }
 
 const EMPTY_STATE: State = {
-    metrics: {}
+    message: null
 }
 
-type NewMetric = {
-    type: 'NEW_METRIC',
-    data: Metric
+type AddAlert = {
+    type: 'ADD_ALERT'
+    data: {
+        message: string
+        timeToLiveMS?: number
+    }
+}
+
+type RemoveAlert = {
+    type: 'REMOVE_ALERT'
 }
 
 type Action =
-    | NewMetric
+    | AddAlert
+    | RemoveAlert
 
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
-        case 'NEW_METRIC': {
-            return { ...state, metrics: { ...state.metrics, [action.data.id]: action.data } }
+        case 'ADD_ALERT': {
+            return { ...state, message: { body: action.data.message, timeToLiveMS: action.data.timeToLiveMS } }
+        }
+        case 'REMOVE_ALERT': {
+            return { ...state, message: null }
         }
         default:
             throw new Error('Unexpected action')
