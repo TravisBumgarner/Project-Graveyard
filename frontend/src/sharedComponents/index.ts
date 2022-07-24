@@ -1,20 +1,11 @@
-import styled from 'styled-components'
-
-const Title = styled.h1`
-    color: LightPink;
-    font-size: 48px;
-`
-
-const Body = styled.div`
-    background-color: lightslategray;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
+import Button from "./Button"
+import * as Heading from "./Heading"
+import PageHeader from "./PageHeader"
+import Paragraph from "./Paragraph"
 
 export {
-    Title,
-    Body
+    Button,
+    Heading,
+    PageHeader,
+    Paragraph
 }
