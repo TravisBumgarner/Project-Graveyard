@@ -6,7 +6,6 @@ type TDateISODate = `${TYear}-${TMonth}-${TDay}`;
 type Metric = {
     id: string
     title: string
-    dateAdded: TDateISODate | null
 }
 
 export {
