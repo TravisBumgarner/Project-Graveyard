@@ -9,6 +9,13 @@ const badExit = (e: unknown) => {
 };
 
 const bootstrap = async () => {
+    if (process.env.NODE_ENV === 'local') {
+        const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+        await delay(5000)
+        console.log('local dev race condition delay...')
+    }
+
     try {
         await createConnection(ormconfig).catch(badExit);
         apolloServer.listen().then(({ url }) => {
@@ -19,5 +26,7 @@ const bootstrap = async () => {
         badExit(e);
     }
 };
+
+
 
 bootstrap()

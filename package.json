@@ -4,9 +4,12 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "sd:docker": "docker-compose up",
+        "sd:fe": "cd frontend && npm run sd:fe",
+        "sd:be": "cd backend && npm run sd:be",
         "kill-it": "rm -rf node_modules && rm -rf ./backend/node_modules && rm -rf ./frontend/node_modules",
         "fill-it": "npm i && npm i --prefix frontend && npm i --prefix backend",
-        "sd": "concurrently -n docker,frontend,server -c \"bgBlue.bold,bgMagenta.bold,bgCyan.bold\" \"docker-compose up\" \"cd frontend && npm run sd:fe\" \"cd backend && npm run sd:be\" "
+        "sd": "concurrently -n docker,frontend,backend -c \"bgBlue.bold,bgMagenta.bold,bgCyan.bold,bgGreen.bold\" \"npm run sd:docker\" \"npm run sd:fe\" \" npm run sd:be\" "
     },
     "keywords": [],
     "author": "Travis Bumgarner",

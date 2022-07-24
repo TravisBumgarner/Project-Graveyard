@@ -5,10 +5,24 @@ import axios from 'axios'
 import Context from 'context'
 import { Navigation, Router, Header } from './components'
 
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+  NormalizedCacheObject,
+} from '@apollo/client'
+
+const apolloClient = new ApolloClient({
+  uri: "http://localhost:4000/",
+  cache: new InMemoryCache()
+});
+
+
 const App = () => {
   React.useEffect(() => {
     axios
-      .get('http://localhost:5001/ping')
+      .get('http://localhost:5001/')
       .then(r => console.log(r.data))
   }, [])
 
@@ -59,9 +73,11 @@ const InjectedApp = () => {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <Context>
-          <App />
-        </Context>
+        <ApolloProvider client={apolloClient}>
+          <Context>
+            <App />
+          </Context>
+        </ApolloProvider>
       </BrowserRouter>
     </ErrorBoundary>
   )

@@ -2,6 +2,7 @@
   "name": "frontend-frontend",
   "author": "Travis Bumgarner",
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "axios": "^0.27.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",

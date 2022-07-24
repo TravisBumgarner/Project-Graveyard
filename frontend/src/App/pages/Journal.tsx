@@ -4,6 +4,7 @@ import moment from 'moment'
 import { Metric, TDateISODate } from 'sharedTypes'
 import { formatDateDisplayString, formatDateKeyLookup } from 'utilities'
 import { PageHeader, Button, Heading, Paragraph } from 'sharedComponents'
+import { gql, useQuery } from '@apollo/client'
 
 const Metrics: Record<string, Metric> = {
     'coffee': {
@@ -32,9 +33,25 @@ const DataPoints: Record<TDateISODate, MetricIdToDataPoint> = {
     }
 }
 
+const METRICS_QUERY = gql`
+  query MetricsQuery {
+    metrics {
+      title,
+      id
+    }
+  }
+`
+
 
 const Today = () => {
     const [selectedDate, setSelectedDate] = React.useState<TDateISODate>(formatDateKeyLookup(moment()))
+    console.log('hi')
+    useQuery<{ metrics: Metric }>(METRICS_QUERY, {
+        onCompleted: (data) => {
+            console.log('hi')
+            console.log(data)
+        }
+    })
 
     // const handleMissingDataPoints = () => {
     //     if (DataPoints[selectedDate] === undefined) {
@@ -76,7 +93,6 @@ const Today = () => {
     }
 
     const filteredDataPoints = DataPoints[selectedDate]
-    console.log(DataPoints)
     return (
         <div>
             <PageHeader>
