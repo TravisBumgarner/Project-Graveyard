@@ -10,20 +10,22 @@ const mutationTypeDefs = gql`
   }
 `;
 
+const createMetric = async (_, { title }) => {
+  const id = uuidv4()
+
+  await getConnection()
+    .getRepository(entity.Metric)
+    .save({
+      id,
+      title
+    })
+
+  return { id, title }
+}
+
 const mutationResolvers = {
-  createMetric: async (_, { title }) => {
-    const id = uuidv4()
-
-    await getConnection()
-      .getRepository(entity.Metric)
-      .save({
-        id,
-        title
-      })
-
-    return { id, title }
-  },
-};
+  createMetric
+}
 
 export {
   mutationTypeDefs,
