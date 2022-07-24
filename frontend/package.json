@@ -20,6 +20,8 @@
   },
   "scripts": {
     "sd:fe": "webpack serve --mode=development --config=webpack.js",
-    "bundle-ui": " rm -rf ./public; mkdir ./public; webpack --mode=production --config=webpack.js"
+    "bundle-ui": " rm -rf ./public; mkdir ./public; webpack --mode=production --config=webpack.js",
+    "lint:run": "npx eslint --ext .ts,.tsx ./src/",
+    "lint:fix": "npx eslint --ext .ts,.tsx ./src/ --fix"
   }
 }
