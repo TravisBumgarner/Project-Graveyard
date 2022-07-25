@@ -21,9 +21,16 @@ const formatDurationDisplayString = (rawMinutes: number) => {
     return `${hours}:${paddedMinutes}`
 }
 
+const logger = (message: any) => {
+    // if (__LOGGING_LEVEL__ === 'sentry') {
+    //     Sentry.captureException(JSON.stringify(message))
+    // }
+    console.log(JSON.stringify(message)) // eslint-disable-line
+}
 
 export {
     formatDateDisplayString,
     formatDateKeyLookup,
     formatDurationDisplayString,
+    logger
 }

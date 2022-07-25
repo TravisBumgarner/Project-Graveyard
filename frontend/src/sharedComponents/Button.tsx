@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 
-
 type ButtonProps = {
     variation: 'INTERACTION' | 'WARNING'
     disabled?: boolean

@@ -50,6 +50,7 @@ module.exports = {
         'react/destructuring-assignment': ['off'],
         'func-names': ['off'],
         'arrow-parens': ['off'],
-        'react/jsx-curly-newline': ['off']
+        'react/jsx-curly-newline': ['off'],
+        'react/react-in-jsx-scope': ['off']
     }
 }

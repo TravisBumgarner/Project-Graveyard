@@ -1,58 +1,78 @@
 import React from 'react'
 import moment from 'moment'
+import { gql, useMutation, useQuery } from '@apollo/client'
+import _ from 'lodash'
 
 import { Metric, TDateISODate } from 'sharedTypes'
-import { formatDateDisplayString, formatDateKeyLookup } from 'utilities'
-import { PageHeader, Button, Heading, Paragraph } from 'sharedComponents'
+import { formatDateDisplayString, formatDateKeyLookup, logger } from 'utilities'
+import { PageHeader, Button, Heading, LabelAndInput } from 'sharedComponents'
+import { context } from 'context'
 
-const Metrics: Record<string, Metric> = {
-    'coffee': {
-        id: 'coffee',
-        title: "How many coffees have you had today?",
-    },
-    'mood': {
-        id: 'mood',
-        title: "Overall mood today?",
-    },
-}
-
-type MetricIdToDataPoint = Record<string, number>
-const DataPoints: Record<TDateISODate, MetricIdToDataPoint> = {
-    '2022-07-24': {
-        'coffee': 1,
-        'mood': 2,
-    },
-    '2022-07-25': {
-        'coffee': 3,
-        'mood': 4,
-    },
-    '2022-07-26': {
-        'coffee': 5,
-        'mood': 6,
+const METRICS_QUERY = gql`
+  query MetricsQuery {
+    metrics {
+      title,
+      id
     }
+  }
+`
+
+const ADD_METRIC_MUTATION = gql`
+mutation($title: String!) {
+    createMetric(title: $title) {
+      id,
+      title
+    }
+  } 
+`
+
+type MetricInputProps = {
+    metric: Metric
 }
 
+const MetricInput = ({ metric }: MetricInputProps) => {
+    const [metricValue, setMetricValue] = React.useState<number>(0)
+
+    return (
+        <div>
+            <LabelAndInput
+                id={metric.id}
+                label={metric.title}
+                type="number"
+                value={`${metricValue}`}
+                handleChange={value => setMetricValue(parseInt(value, 10))}
+            />
+        </div>
+    )
+}
 
 const Today = () => {
     const [selectedDate, setSelectedDate] = React.useState<TDateISODate>(formatDateKeyLookup(moment()))
+    const [metrics, setMetrics] = React.useState<Record<string, Metric>>({})
+    const [newMetric, setNewMetric] = React.useState<string>('')
+    const [createMetric] = useMutation<{ createMetric: Metric }>(ADD_METRIC_MUTATION)
+    const { dispatch } = React.useContext(context)
+    const [creatingMetric, setCreatingMetric] = React.useState<boolean>(false)
 
-    // const handleMissingDataPoints = () => {
-    //     if (DataPoints[selectedDate] === undefined) {
-    //         DataPoints[selectedDate] = {}
-    //         // This Data will need to be dispatched to backend
-    //     }
+    useQuery<{ metrics: Metric[] }>(METRICS_QUERY, {
+        onCompleted: (data) => {
+            setMetrics(_.keyBy(data.metrics, 'id'))
+        }
+    })
 
-    //     const metricIds = Object.keys(Metrics)
-
-    //     metricIds.forEach(id => {
-    //         if (DataPoints[selectedDate][id] === undefined) {
-    //             DataPoints[selectedDate][id] = 0
-    //             // This Data will need to be dispatched to backend
-    //         }
-    //     })
-    // }
-
-    // React.useEffect(handleMissingDataPoints, [])
+    const handleNewMetricSubmit = async () => {
+        setCreatingMetric(true)
+        createMetric({ variables: { title: newMetric } })
+            .then(({ data }) => {
+                setMetrics({ ...metrics, [data.createMetric.id]: data.createMetric })
+                setNewMetric('')
+            })
+            .catch(error => {
+                logger(error)
+                dispatch({ type: 'ADD_ALERT', data: { message: "Couldn't create Metric", timeToLiveMS: 2000 } })
+            })
+            .finally(() => setCreatingMetric(false))
+    }
 
     const setDate = (direction: 'previous' | 'next' | 'today') => {
         let newDate: TDateISODate
@@ -75,8 +95,6 @@ const Today = () => {
         setSelectedDate(newDate)
     }
 
-    const filteredDataPoints = DataPoints[selectedDate]
-    console.log(DataPoints)
     return (
         <div>
             <PageHeader>
@@ -86,14 +104,16 @@ const Today = () => {
                 <Button key="next" onClick={() => setDate('next')} variation="INTERACTION">&gt;</Button>
             </PageHeader>
             <div>
-                {Object.values(Metrics).map(metric => {
-                    return (
-                        <div key={metric.id}>
-                            <Paragraph>Metric: {metric.title}</Paragraph>
-                            <Paragraph>Data Point: {filteredDataPoints[metric.id]}</Paragraph>
-                        </div>
-                    )
-                })}
+                {Object.values(metrics).map(metric => <MetricInput key={metric.id} metric={metric} />)}
+            </div>
+            <div>
+                <LabelAndInput
+                    id="new-metric"
+                    label="New Metric"
+                    value={newMetric}
+                    handleChange={value => setNewMetric(value)}
+                />
+                <Button variation="INTERACTION" disabled={creatingMetric} onClick={handleNewMetricSubmit}>Add New Metric</Button>
             </div>
         </div>
     )

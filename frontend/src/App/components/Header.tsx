@@ -9,7 +9,6 @@ const HeaderWrapper = styled.div`
     margin: 1rem 0;
 `
 
-
 const Header = () => {
     return (
         <HeaderWrapper>
