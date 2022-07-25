@@ -9,7 +9,8 @@
         "sd:be": "cd backend && npm run sd:be",
         "kill-it": "rm -rf node_modules && rm -rf ./backend/node_modules && rm -rf ./frontend/node_modules",
         "fill-it": "npm i && npm i --prefix frontend && npm i --prefix backend",
-        "sd": "concurrently -n docker,frontend,backend -c \"bgBlue.bold,bgMagenta.bold,bgCyan.bold,bgGreen.bold\" \"npm run sd:docker\" \"npm run sd:fe\" \" npm run sd:be\" "
+        "sd": "concurrently -n docker,frontend,backend -c \"bgBlue.bold,bgMagenta.bold,bgCyan.bold,bgGreen.bold\" \"npm run sd:docker\" \"npm run sd:fe\" \" npm run sd:be\" ",
+        "ngrok": "ngrok http 3000 --host-header=\"localhost:3000\""
     },
     "keywords": [],
     "author": "Travis Bumgarner",
