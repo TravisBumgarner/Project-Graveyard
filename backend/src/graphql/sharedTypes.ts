@@ -5,8 +5,8 @@ const sharedTypeDefs = gql`
     id: String!
     title: String!
   }
-`;
+`
 
 export {
-  sharedTypeDefs
+    sharedTypeDefs
 }

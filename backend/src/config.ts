@@ -1,6 +1,6 @@
 import { String, Record, Number } from 'runtypes'
 
-require('dotenv').config({ path: `.env` })
+require('dotenv').config({ path: '.env' })
 
 const Env = Record({
     postgres: Record({

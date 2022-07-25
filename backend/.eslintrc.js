@@ -48,6 +48,7 @@ module.exports = {
         'no-spaced-func': ['off'],
         'func-call-spacing': ['off'],
         'object-curly-newline': ['off'],
-        'arrow-body-style': ['off']
+        'arrow-body-style': ['off'],
+        'class-methods-use-this': ['off']
     },
 }

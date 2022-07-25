@@ -1,27 +1,26 @@
 import { gql } from 'apollo-server'
-import { getConnection, getManager } from "typeorm"
+import { getConnection } from 'typeorm'
 
 import entity from '../postgres'
-
 
 const queryTypeDefs = gql`
   type Query {
     metrics: [Metric]
   }
-`;
+`
 
-const metrics = async () => {
-  return await getConnection()
-    .getRepository(entity.Metric)
-    .createQueryBuilder('metric')
-    .getMany()
+const metrics = () => {
+    return getConnection()
+        .getRepository(entity.Metric)
+        .createQueryBuilder('metric')
+        .getMany()
 }
 
 const queryResolvers = {
-  metrics
+    metrics
 }
 
 export {
-  queryResolvers,
-  queryTypeDefs
+    queryResolvers,
+    queryTypeDefs
 }

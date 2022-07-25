@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Metric } from 'sharedTypes'
-
 type State = {
     message: {
         body: string,

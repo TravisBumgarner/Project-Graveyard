@@ -10,11 +10,10 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
-app.use('/graphql', graphqlHTTP((req: Express.Request) => ({
+app.use('/graphql', graphqlHTTP(() => ({
     schema,
     graphiql: process.env.NODE_ENV !== 'production'
 })))
-
 
 app.get('/ping', async (req: express.Request, res: express.Response) => {
     res.send('pong!')
