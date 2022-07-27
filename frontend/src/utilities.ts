@@ -10,7 +10,9 @@ const formatDateDisplayString = (date: TDateISODate | null): string => {
     return moment(date).format('dddd MMMM Do YYYY')
 }
 
-
+const formatDateKeyLookup = (date: moment.Moment): TDateISODate => {
+    return date.format('YYYY-MM-DD') as TDateISODate
+}
 
 const formatDurationDisplayString = (rawMinutes: number) => {
     const hours = Math.floor(rawMinutes / 60)
