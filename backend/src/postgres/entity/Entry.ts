@@ -8,10 +8,10 @@ export default class Entry {
         id: string
 
     @Column({ type: 'float', nullable: false })
-        value: string
+        value: number
 
     @Column({ type: 'date', nullable: false })
-        date: string
+        date: Date
 
     @ManyToOne(() => Metric, (Metric) => Metric.entries, { onDelete: "CASCADE" }) // eslint-disable-line
         metric: Metric

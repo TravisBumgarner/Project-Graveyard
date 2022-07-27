@@ -1,34 +1,47 @@
 import { gql } from 'apollo-server'
 import { getConnection } from 'typeorm'
+import { TMetric } from '../../../shared'
 
 import entity from '../postgres'
 
 const queryTypeDefs = gql`
   type Query {
-    metrics: [Metric]
+    metric: [Metric]
+    entry: [Entry]
   }
 `
 
-const metrics = () => {
+const metric = () => {
     return getConnection()
         .getRepository(entity.Metric)
         .createQueryBuilder('metric')
         .getMany()
 }
 
-const entries = () => {
-  return getConnection()
-      .getRepository(entity.Entry)
-      .createQueryBuilder('entry')
-      .getMany()
+const entry = () => {
+    return getConnection()
+        .getRepository(entity.Entry)
+        .createQueryBuilder('entry')
+        .getMany()
+}
+
+const Metric = {
+    entry: (parent: TMetric) => {
+        return getConnection()
+            .getRepository(entity.Entry)
+            .createQueryBuilder('entry')
+            .andWhere('entry.metricId = :metricId', { metricId: parent.id })
+            .getMany()
+    }
 }
 
 const queryResolvers = {
-    metrics,
-    entries
+    metric,
+    entry,
 }
 
 export {
     queryResolvers,
-    queryTypeDefs
+    queryTypeDefs,
+    Metric
 }
