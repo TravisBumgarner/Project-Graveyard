@@ -16,8 +16,16 @@ const metrics = () => {
         .getMany()
 }
 
+const entries = () => {
+  return getConnection()
+      .getRepository(entity.Entry)
+      .createQueryBuilder('entry')
+      .getMany()
+}
+
 const queryResolvers = {
-    metrics
+    metrics,
+    entries
 }
 
 export {
