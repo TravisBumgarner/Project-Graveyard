@@ -23,17 +23,21 @@ const createEntry = async (_: unknown, { date, value, metricId }: Omit<TEntry, '
         throw new Error('Could not find metric by id')
     }
 
-    const newEntry = new entity.Entry()
-    newEntry.id = uuidv4()
-    newEntry.date = new Date(date)
-    newEntry.value = value
-    newEntry.metric = metric
+    const newEntry = {
+        id: uuidv4(),
+        date: new Date(date),
+        value,
+        metric
+    }
 
     await getConnection()
         .getRepository(entity.Entry)
         .save(newEntry)
 
-    return newEntry
+    return {
+        ...newEntry,
+        metricId: metric.id
+    }
 }
 
 const createMetric = async (_, { title }: Omit<TMetric, 'id'>) => {

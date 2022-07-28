@@ -12,7 +12,7 @@ type TEntry = {
     id: string
     value: number
     date: TDateISODate
-    metricId: TMetric['id']
+    // metricId: TMetric['id']
 }
 
 export {

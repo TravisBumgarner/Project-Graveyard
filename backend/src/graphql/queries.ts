@@ -1,13 +1,13 @@
 import { gql } from 'apollo-server'
-import { getConnection } from 'typeorm'
-import { TMetric } from '../../../shared'
+import { createQueryBuilder, getConnection } from 'typeorm'
+import { TEntry, TMetric } from '../../../shared'
 
 import entity from '../postgres'
 
 const queryTypeDefs = gql`
   type Query {
     metric: [Metric]
-    entry: [Entry]
+    entry(date: String): [Entry]
   }
 `
 
@@ -18,11 +18,17 @@ const metric = () => {
         .getMany()
 }
 
-const entry = () => {
-    return getConnection()
+type EntryArgs = {
+    date?: string
+}
+const entry = (parent, { date }: EntryArgs) => {
+    const query = getConnection()
         .getRepository(entity.Entry)
         .createQueryBuilder('entry')
-        .getMany()
+
+    if (date) query.andWhere('entry.date = :date', { date })
+
+    return query.getMany()
 }
 
 const Metric = {
@@ -35,6 +41,16 @@ const Metric = {
     }
 }
 
+const Entry = {
+    metric: async (parent: TEntry) => {
+        const result = await createQueryBuilder('entry', 'e') //eslint-disable-line
+            .innerJoinAndSelect('e.metric', 'm')
+            .where('e.id = :id', { id: parent.id })
+            .getOne() as unknown as {metric: TMetric}
+        return result.metric
+    }
+}
+
 const queryResolvers = {
     metric,
     entry,
@@ -43,5 +59,6 @@ const queryResolvers = {
 export {
     queryResolvers,
     queryTypeDefs,
-    Metric
+    Metric,
+    Entry
 }

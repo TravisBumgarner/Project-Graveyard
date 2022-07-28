@@ -1,18 +1,31 @@
 import React from 'react'
 import moment from 'moment'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import _ from 'lodash'
 
-import { Metric, TDateISODate } from 'sharedTypes'
 import { formatDateDisplayString, formatDateKeyLookup, logger } from 'utilities'
 import { PageHeader, Button, Heading, LabelAndInput } from 'sharedComponents'
 import { context } from 'context'
+import { TMetric, TDateISODate, TEntry } from '../../../../shared'
 
 const METRICS_QUERY = gql`
-  query MetricsQuery {
-    metrics {
-      title,
+query MetricsQuery {
+metric {
+    title,
       id
+    }
+  }
+`
+
+const ENTRIES_BY_DATE_QUERY = gql`
+  query EntriesByDateQuery($date: String!) {
+    entry(date: $date) {
+        value,
+        id,
+        date,
+        metric {
+            id
+        }
     }
   }
 `
@@ -27,11 +40,12 @@ mutation($title: String!) {
 `
 
 type MetricInputProps = {
-    metric: Metric
+    metric: TMetric
+    entry: TEntry
 }
 
-const MetricInput = ({ metric }: MetricInputProps) => {
-    const [metricValue, setMetricValue] = React.useState<number>(0)
+const MetricInput = ({ metric, entry }: MetricInputProps) => {
+    const [metricValue, setMetricValue] = React.useState<number>(entry ? entry.value : 0)
 
     return (
         <div>
@@ -48,17 +62,40 @@ const MetricInput = ({ metric }: MetricInputProps) => {
 
 const Today = () => {
     const [selectedDate, setSelectedDate] = React.useState<TDateISODate>(formatDateKeyLookup(moment()))
-    const [metrics, setMetrics] = React.useState<Record<string, Metric>>({})
+    const [metrics, setMetrics] = React.useState<Record<string, TMetric>>({})
     const [newMetric, setNewMetric] = React.useState<string>('')
-    const [createMetric] = useMutation<{ createMetric: Metric }>(ADD_METRIC_MUTATION)
+    const [createMetric] = useMutation<{ createMetric: TMetric }>(ADD_METRIC_MUTATION)
     const { dispatch } = React.useContext(context)
     const [creatingMetric, setCreatingMetric] = React.useState<boolean>(false)
+    const [entriesByMetricId, setEntriesByMetricId] = React.useState<Record<TMetric['id'], TEntry>>({})
 
-    useQuery<{ metrics: Metric[] }>(METRICS_QUERY, {
-        onCompleted: (data) => {
-            setMetrics(_.keyBy(data.metrics, 'id'))
+    const [getEntries, { loading: isLoadingEntries }] = useLazyQuery<{ entry: (TEntry & {metric: TMetric})[] }>(ENTRIES_BY_DATE_QUERY, {
+        variables: {
+            date: selectedDate
+        },
+        onCompleted: ({ entry: entries }) => {
+            const newEntriesByMetricId: Record<TMetric['id'], TEntry> = {}
+            entries.forEach(e => {
+                newEntriesByMetricId[e.metric.id] = { ...e }
+            })
+            console.log('entries query result', newEntriesByMetricId)
+            setEntriesByMetricId(newEntriesByMetricId)
         }
     })
+
+    React.useEffect(() => {
+        getEntries()
+    }, [selectedDate])
+
+    const [getMetrics, { loading: isLoadingMetrics }] = useLazyQuery<{ metric: TMetric[] }>(METRICS_QUERY, {
+        onCompleted: ({ metric }) => {
+            setMetrics(_.keyBy(metric, 'id'))
+        }
+    })
+
+    React.useEffect(() => {
+        getMetrics()
+    }, [selectedDate])
 
     const handleNewMetricSubmit = async () => {
         setCreatingMetric(true)
@@ -95,6 +132,8 @@ const Today = () => {
         setSelectedDate(newDate)
     }
 
+    if (isLoadingEntries || isLoadingMetrics) return <p>loading</p>
+
     return (
         <div>
             <PageHeader>
@@ -104,7 +143,7 @@ const Today = () => {
                 <Button key="next" onClick={() => setDate('next')} variation="INTERACTION">&gt;</Button>
             </PageHeader>
             <div>
-                {Object.values(metrics).map(metric => <MetricInput key={metric.id} metric={metric} />)}
+                {Object.values(metrics).map(metric => <MetricInput key={metric.id} metric={metric} entry={entriesByMetricId[metric.id]} />)}
             </div>
             <div>
                 <LabelAndInput

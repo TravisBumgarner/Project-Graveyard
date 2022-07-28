@@ -11,6 +11,7 @@ const sharedTypeDefs = gql`
     id: String!
     value: Float!
     date: String!
+    metric: Metric
   }
 `
 
