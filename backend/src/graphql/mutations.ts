@@ -12,7 +12,7 @@ const mutationTypeDefs = gql`
   }
 `
 
-const createEntry = async (_: unknown, { date, value, metricId }: Omit<TEntry, 'id'>) => {
+const createEntry = async (_: unknown, { date, value, metricId }: Omit<(TEntry & {metricId: TMetric['id']}), 'id'>) => {
     const metric = await getConnection()
         .getRepository(entity.Metric)
         .createQueryBuilder('metric')
