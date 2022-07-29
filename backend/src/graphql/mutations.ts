@@ -7,12 +7,12 @@ import { TEntry, TMetric } from '../../../shared'
 
 const mutationTypeDefs = gql`
   type Mutation {
-    createMetric(title: String!): Metric
-    createEntry(value: Float!, date: String!, metricId: String!): Entry
+    createMetric(title: String!): String
+    upsertEntry(id: String!, value: Float!, date: String!, metricId: String!): String
   }
 `
 
-const createEntry = async (_: unknown, { date, value, metricId }: Omit<(TEntry & {metricId: TMetric['id']}), 'id'>) => {
+const upsertEntry = async (_: unknown, { date, value, metricId, id }: (TEntry & {metricId: TMetric['id']})) => {
     const metric = await getConnection()
         .getRepository(entity.Metric)
         .createQueryBuilder('metric')
@@ -23,8 +23,8 @@ const createEntry = async (_: unknown, { date, value, metricId }: Omit<(TEntry &
         throw new Error('Could not find metric by id')
     }
 
-    const newEntry = {
-        id: uuidv4(),
+    const upsertedEntry = {
+        id: id.length > 0 ? id : uuidv4(),
         date: new Date(date),
         value,
         metric
@@ -32,12 +32,9 @@ const createEntry = async (_: unknown, { date, value, metricId }: Omit<(TEntry &
 
     await getConnection()
         .getRepository(entity.Entry)
-        .save(newEntry)
+        .save(upsertedEntry)
 
-    return {
-        ...newEntry,
-        metricId: metric.id
-    }
+    return upsertedEntry.id
 }
 
 const createMetric = async (_, { title }: Omit<TMetric, 'id'>) => {
@@ -49,12 +46,12 @@ const createMetric = async (_, { title }: Omit<TMetric, 'id'>) => {
         .getRepository(entity.Metric)
         .save(newMetric)
 
-    return newMetric
+    return newMetric.id
 }
 
 const mutationResolvers = {
     createMetric,
-    createEntry
+    upsertEntry,
 }
 
 export {

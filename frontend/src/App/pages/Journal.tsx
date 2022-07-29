@@ -18,53 +18,86 @@ metric {
 `
 
 const ENTRIES_BY_DATE_QUERY = gql`
-  query EntriesByDateQuery($date: String!) {
-    entry(date: $date) {
-        value,
-        id,
-        date,
-        metric {
-            id
+    query EntriesByDateQuery($date: String!) {
+        entry(date: $date) {
+            value,
+            id,
+            date,
+            metric {
+                id
+            }
         }
     }
-  }
 `
 
 const ADD_METRIC_MUTATION = gql`
-mutation($title: String!) {
-    createMetric(title: $title) {
-      id,
-      title
+    mutation($title: String!) {
+        createMetric(title: $title) {
+            id,
+            title
+        }
+    } 
+`
+
+const UPSERT_ENTRY_MUTATION = gql`
+    mutation($value: Float!, $date: String!, $metricId: String!, $id: String!) {
+        upsertEntry(value: $value, date: $date, metricId: $metricId, id: $id)
     }
-  } 
 `
 
 type MetricInputProps = {
     metric: TMetric
     entry: TEntry
+    selectedDate: TDateISODate
 }
 
-const MetricInput = ({ metric, entry }: MetricInputProps) => {
+const MetricInput = ({ metric, entry, selectedDate }: MetricInputProps) => {
+    const { dispatch } = React.useContext(context)
     const [metricValue, setMetricValue] = React.useState<number>(entry ? entry.value : null)
+    const [isCreatingEntry, setIsCreatingEntry] = React.useState<boolean>(false)
+    const [upsertEntry] = useMutation<{ upsertEntry: string }>(UPSERT_ENTRY_MUTATION)
+
+    const handleNewEntrySubmit = async () => {
+        setIsCreatingEntry(true)
+        upsertEntry({ variables: {
+            value: metricValue,
+            date: selectedDate,
+            metricId: metric.id,
+            id: entry ? entry.id : ''
+        } })
+            .catch(error => {
+                logger(error)
+                dispatch({ type: 'ADD_ALERT', data: { message: "Couldn't create Metric", timeToLiveMS: 2000 } })
+                setMetricValue(entry.value)
+            })
+            .finally(() => setIsCreatingEntry(false))
+    }
+
+    const onBlur = () => {
+        handleNewEntrySubmit()
+    }
+
     return (
         <div>
             <LabelAndInput
                 id={metric.id}
                 label={metric.title}
+                disabled={isCreatingEntry}
                 type="number"
                 placeholder="Get Tracking!"
                 value={`${metricValue}`}
+                onBlur={onBlur}
                 handleChange={value => setMetricValue(parseInt(value, 10))}
             />
         </div>
     )
 }
 
-const Today = () => {
+const Journal = () => {
     const [selectedDate, setSelectedDate] = React.useState<TDateISODate>(formatDateKeyLookup(moment()))
     const [metrics, setMetrics] = React.useState<Record<string, TMetric>>({})
     const [newMetric, setNewMetric] = React.useState<string>('')
-    const [createMetric] = useMutation<{ createMetric: TMetric }>(ADD_METRIC_MUTATION)
+    const [createMetric] = useMutation<{ createMetric: string }>(ADD_METRIC_MUTATION)
     const { dispatch } = React.useContext(context)
     const [creatingMetric, setCreatingMetric] = React.useState<boolean>(false)
     const [entriesByMetricId, setEntriesByMetricId] = React.useState<Record<TMetric['id'], TEntry>>({})
@@ -83,6 +116,7 @@ const Today = () => {
         variables: {
             date: selectedDate
         },
+        nextFetchPolicy: 'network-only',
         onCompleted: ({ entry: entries }) => {
             const newEntriesByMetricId: Record<TMetric['id'], TEntry> = {}
             entries.forEach(e => {
@@ -100,7 +134,7 @@ const Today = () => {
         setCreatingMetric(true)
         createMetric({ variables: { title: newMetric } })
             .then(({ data }) => {
-                setMetrics({ ...metrics, [data.createMetric.id]: data.createMetric })
+                setMetrics({ ...metrics, [data.createMetric]: { id: data.createMetric, title: newMetric } })
                 setNewMetric('')
             })
             .catch(error => {
@@ -145,6 +179,7 @@ const Today = () => {
                         key={`${metric.id}${selectedDate}`}
                         metric={metric}
                         entry={entriesByMetricId[metric.id]}
+                        selectedDate={selectedDate}
                     />
                 ))}
             </div>
@@ -161,4 +196,4 @@ const Today = () => {
     )
 }
 
-export default Today
+export default Journal

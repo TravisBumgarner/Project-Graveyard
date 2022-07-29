@@ -46,13 +46,15 @@ type LabelAndInputProps = {
     id: string
     label: string
     value: string
+    disabled?: boolean
     handleChange: (value: string) => void
+    onBlur?: () => void
     placeholder?: string
     type?: 'textarea' | 'password' | 'number'
 }
 
 const LabelAndInput = ({
-    value, id, label, handleChange, type, placeholder
+    value, id, label, handleChange, type, placeholder, onBlur, disabled
 }: LabelAndInputProps) => (
     <LabelAndInputWrapper>
         <Label htmlFor={id}>{label}</Label>
@@ -60,13 +62,17 @@ const LabelAndInput = ({
             <TextArea
                 placeholder={placeholder}
                 rows={5}
+                disabled={disabled}
                 autoComplete="on"
                 id={id}
                 onChange={(event) => handleChange(event.target.value)}
+                onBlur={onBlur}
                 value={value}
             />
         ) : (
             <Input
+                onBlur={onBlur}
+                disabled={disabled}
                 placeholder={placeholder}
                 autoComplete="on"
                 type={type || 'text'}
