@@ -47,18 +47,33 @@ type LabelAndInputProps = {
     label: string
     value: string
     handleChange: (value: string) => void
+    placeholder?: string
     type?: 'textarea' | 'password' | 'number'
 }
 
 const LabelAndInput = ({
-    value, id, label, handleChange, type,
+    value, id, label, handleChange, type, placeholder
 }: LabelAndInputProps) => (
     <LabelAndInputWrapper>
         <Label htmlFor={id}>{label}</Label>
         {type === 'textarea' ? (
-            <TextArea rows={5} autoComplete="on" id={id} onChange={(event) => handleChange(event.target.value)} value={value} />
+            <TextArea
+                placeholder={placeholder}
+                rows={5}
+                autoComplete="on"
+                id={id}
+                onChange={(event) => handleChange(event.target.value)}
+                value={value}
+            />
         ) : (
-            <Input autoComplete="on" type={type || 'text'} id={id} onChange={(event) => handleChange(event.target.value)} value={value} />
+            <Input
+                placeholder={placeholder}
+                autoComplete="on"
+                type={type || 'text'}
+                id={id}
+                onChange={(event) => handleChange(event.target.value)}
+                value={value}
+            />
         )}
     </LabelAndInputWrapper>
 )

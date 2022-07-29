@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import _ from 'lodash'
 
 import { formatDateDisplayString, formatDateKeyLookup, logger } from 'utilities'
@@ -45,14 +45,14 @@ type MetricInputProps = {
 }
 
 const MetricInput = ({ metric, entry }: MetricInputProps) => {
-    const [metricValue, setMetricValue] = React.useState<number>(entry ? entry.value : 0)
-
+    const [metricValue, setMetricValue] = React.useState<number>(entry ? entry.value : null)
     return (
         <div>
             <LabelAndInput
                 id={metric.id}
                 label={metric.title}
                 type="number"
+                placeholder="Get Tracking!"
                 value={`${metricValue}`}
                 handleChange={value => setMetricValue(parseInt(value, 10))}
             />
@@ -69,6 +69,16 @@ const Today = () => {
     const [creatingMetric, setCreatingMetric] = React.useState<boolean>(false)
     const [entriesByMetricId, setEntriesByMetricId] = React.useState<Record<TMetric['id'], TEntry>>({})
 
+    const [getMetrics, { loading: isLoadingMetrics }] = useLazyQuery<{ metric: TMetric[] }>(METRICS_QUERY, {
+        onCompleted: ({ metric }) => {
+            setMetrics(_.keyBy(metric, 'id'))
+        }
+    })
+
+    React.useEffect(() => {
+        getMetrics()
+    }, [])
+
     const [getEntries, { loading: isLoadingEntries }] = useLazyQuery<{ entry: (TEntry & {metric: TMetric})[] }>(ENTRIES_BY_DATE_QUERY, {
         variables: {
             date: selectedDate
@@ -78,23 +88,12 @@ const Today = () => {
             entries.forEach(e => {
                 newEntriesByMetricId[e.metric.id] = { ...e }
             })
-            console.log('entries query result', newEntriesByMetricId)
             setEntriesByMetricId(newEntriesByMetricId)
         }
     })
 
     React.useEffect(() => {
         getEntries()
-    }, [selectedDate])
-
-    const [getMetrics, { loading: isLoadingMetrics }] = useLazyQuery<{ metric: TMetric[] }>(METRICS_QUERY, {
-        onCompleted: ({ metric }) => {
-            setMetrics(_.keyBy(metric, 'id'))
-        }
-    })
-
-    React.useEffect(() => {
-        getMetrics()
     }, [selectedDate])
 
     const handleNewMetricSubmit = async () => {
@@ -128,12 +127,10 @@ const Today = () => {
                 break
             }
         }
-        // handleMissingDataPoints()
         setSelectedDate(newDate)
     }
 
     if (isLoadingEntries || isLoadingMetrics) return <p>loading</p>
-
     return (
         <div>
             <PageHeader>
@@ -143,7 +140,13 @@ const Today = () => {
                 <Button key="next" onClick={() => setDate('next')} variation="INTERACTION">&gt;</Button>
             </PageHeader>
             <div>
-                {Object.values(metrics).map(metric => <MetricInput key={metric.id} metric={metric} entry={entriesByMetricId[metric.id]} />)}
+                {Object.values(metrics).map(metric => (
+                    <MetricInput
+                        key={`${metric.id}${selectedDate}`}
+                        metric={metric}
+                        entry={entriesByMetricId[metric.id]}
+                    />
+                ))}
             </div>
             <div>
                 <LabelAndInput
