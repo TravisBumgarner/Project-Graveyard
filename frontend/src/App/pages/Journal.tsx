@@ -32,10 +32,7 @@ const ENTRIES_BY_DATE_QUERY = gql`
 
 const ADD_METRIC_MUTATION = gql`
     mutation($title: String!) {
-        createMetric(title: $title) {
-            id,
-            title
-        }
+        createMetric(title: $title)
     } 
 `
 
@@ -194,7 +191,12 @@ const Journal = () => {
                     value={newMetric}
                     handleChange={value => setNewMetric(value)}
                 />
-                <Button variation="INTERACTION" disabled={creatingMetric} onClick={handleNewMetricSubmit}>Add New Metric</Button>
+                <Button
+                    variation="INTERACTION"
+                    disabled={creatingMetric || newMetric.trim().length === 0}
+                    onClick={handleNewMetricSubmit}
+                >Add New Metric
+                </Button>
             </div>
         </div>
     )
