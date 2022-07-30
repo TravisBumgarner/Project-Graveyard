@@ -25,7 +25,6 @@ const entry = (parent, { date }: EntryArgs) => {
     const query = getConnection()
         .getRepository(entity.Entry)
         .createQueryBuilder('entry')
-
     if (date) query.andWhere('entry.date = :date', { date })
 
     return query.getMany()

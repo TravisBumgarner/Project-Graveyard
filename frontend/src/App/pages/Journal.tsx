@@ -37,7 +37,7 @@ const UPSERT_METRIC_MUTATION = gql`
 `
 
 const UPSERT_ENTRY_MUTATION = gql`
-    mutation($value: Float!, $date: String!, $metricId: String!, $id: String!) {
+    mutation($value: Float, $date: String!, $metricId: String!, $id: String!) {
         upsertEntry(value: $value, date: $date, metricId: $metricId, id: $id)
     }
 `
@@ -50,10 +50,11 @@ type MetricInputProps = {
 
 const MetricInput = ({ metric, entry, selectedDate }: MetricInputProps) => {
     const { dispatch } = React.useContext(context)
+    // console.log(entry)
     const [metricValue, setMetricValue] = React.useState<number>(entry ? entry.value : null)
     const [isCreatingEntry, setIsCreatingEntry] = React.useState<boolean>(false)
     const [upsertEntry] = useMutation<{ upsertEntry: string }>(UPSERT_ENTRY_MUTATION)
-
+    // console.log(selectedDate)
     const handleNewEntrySubmit = async () => {
         setIsCreatingEntry(true)
         upsertEntry({ variables: {
@@ -64,7 +65,7 @@ const MetricInput = ({ metric, entry, selectedDate }: MetricInputProps) => {
         } })
             .catch(error => {
                 logger(error)
-                dispatch({ type: 'ADD_ALERT', data: { message: "Couldn't create Metric", timeToLiveMS: 2000 } })
+                dispatch({ type: 'ADD_ALERT', data: { message: "Couldn't save Entry", timeToLiveMS: 2000 } })
                 setMetricValue(entry.value)
             })
             .finally(() => setIsCreatingEntry(false))
@@ -73,6 +74,7 @@ const MetricInput = ({ metric, entry, selectedDate }: MetricInputProps) => {
     const onBlur = () => {
         handleNewEntrySubmit()
     }
+    console.log('Rendering MetricInput')
 
     return (
         <div>
@@ -102,31 +104,32 @@ const Journal = () => {
     const [getMetrics, { loading: isLoadingMetrics }] = useLazyQuery<{ metric: TMetric[] }>(METRICS_QUERY, {
         onCompleted: ({ metric }) => {
             setMetrics(_.keyBy(metric, 'id'))
+        },
+        onError: (error) => {
+            logger(error)
+            dispatch({ type: 'ADD_ALERT', data: { message: 'Failed to fetch metrics', timeToLiveMS: 5000 } })
         }
     })
 
-    React.useEffect(() => {
-        getMetrics()
-    }, [])
-
     const [getEntries, { loading: isLoadingEntries }] = useLazyQuery<{ entry: (TEntry & {metric: TMetric})[] }>(ENTRIES_BY_DATE_QUERY, {
-        variables: {
-            date: selectedDate
-        },
         fetchPolicy: 'network-only',
         onCompleted: ({ entry: entries }) => {
-            console.log('fetched')
             const newEntriesByMetricId: Record<TMetric['id'], TEntry> = {}
             entries.forEach(e => {
                 newEntriesByMetricId[e.metric.id] = { ...e }
             })
             setEntriesByMetricId(newEntriesByMetricId)
+        },
+        onError: (error) => {
+            logger(error)
+            dispatch({ type: 'ADD_ALERT', data: { message: 'Failed to fetch entries', timeToLiveMS: 5000 } })
         }
     })
 
     React.useEffect(() => {
-        getEntries()
-    }, [selectedDate])
+        getMetrics()
+        getEntries({ variables: { date: selectedDate } })
+    }, [])
 
     const handleNewMetricSubmit = async () => {
         setCreatingMetric(true)
@@ -142,7 +145,7 @@ const Journal = () => {
             .finally(() => setCreatingMetric(false))
     }
 
-    const setDate = (direction: 'previous' | 'next' | 'today') => {
+    const setDate = async (direction: 'previous' | 'next' | 'today') => {
         let newDate: TDateISODate
 
         switch (direction) {
@@ -159,9 +162,9 @@ const Journal = () => {
                 break
             }
         }
+        await getEntries({ variables: { date: newDate } })
         setSelectedDate(newDate)
     }
-
     return (
         <div>
             <PageHeader>

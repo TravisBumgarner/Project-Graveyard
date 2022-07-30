@@ -9,7 +9,7 @@ const sharedTypeDefs = gql`
 
   type Entry {
     id: String!
-    value: Float!
+    value: Float
     date: String!
     metric: Metric
   }

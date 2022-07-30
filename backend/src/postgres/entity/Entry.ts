@@ -7,7 +7,7 @@ export default class Entry {
     @PrimaryColumn({ nullable: false })
         id: string
 
-    @Column({ type: 'float', nullable: false })
+    @Column({ type: 'float', nullable: true })
         value: number
 
     @Column({ type: 'date', nullable: false })

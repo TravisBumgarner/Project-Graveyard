@@ -8,7 +8,7 @@ import { TEntry, TMetric } from '../../../shared'
 const mutationTypeDefs = gql`
   type Mutation {
     upsertMetric(title: String!, id: String!): String
-    upsertEntry(id: String!, value: Float!, date: String!, metricId: String!): String
+    upsertEntry(id: String!, value: Float, date: String!, metricId: String!): String
   }
 `
 
