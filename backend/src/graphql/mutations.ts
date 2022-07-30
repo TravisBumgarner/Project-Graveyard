@@ -7,7 +7,7 @@ import { TEntry, TMetric } from '../../../shared'
 
 const mutationTypeDefs = gql`
   type Mutation {
-    createMetric(title: String!): String
+    upsertMetric(title: String!, id: String!): String
     upsertEntry(id: String!, value: Float!, date: String!, metricId: String!): String
   }
 `
@@ -37,20 +37,21 @@ const upsertEntry = async (_: unknown, { date, value, metricId, id }: (TEntry & 
     return upsertedEntry.id
 }
 
-const createMetric = async (_, { title }: Omit<TMetric, 'id'>) => {
-    const newMetric = new entity.Metric()
-    newMetric.id = uuidv4()
-    newMetric.title = title
+const upsertMetric = async (_, { title, id }: TMetric) => {
+    const upsertedMetric = {
+        id: id.length > 0 ? id : uuidv4(),
+        title
+    }
 
     await getConnection()
         .getRepository(entity.Metric)
-        .save(newMetric)
+        .save(upsertedMetric)
 
-    return newMetric.id
+    return upsertedMetric.id
 }
 
 const mutationResolvers = {
-    createMetric,
+    upsertMetric,
     upsertEntry,
 }
 

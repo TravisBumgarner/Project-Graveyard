@@ -30,9 +30,9 @@ const ENTRIES_BY_DATE_QUERY = gql`
     }
 `
 
-const ADD_METRIC_MUTATION = gql`
-    mutation($title: String!) {
-        createMetric(title: $title)
+const UPSERT_METRIC_MUTATION = gql`
+    mutation($title: String!, $id: String!) {
+        upsertMetric(title: $title, id: $id)
     } 
 `
 
@@ -94,7 +94,7 @@ const Journal = () => {
     const [selectedDate, setSelectedDate] = React.useState<TDateISODate>(formatDateKeyLookup(moment()))
     const [metrics, setMetrics] = React.useState<Record<string, TMetric>>({})
     const [newMetric, setNewMetric] = React.useState<string>('')
-    const [createMetric] = useMutation<{ createMetric: string }>(ADD_METRIC_MUTATION)
+    const [upsertMetric] = useMutation<{ upsertMetric: string }>(UPSERT_METRIC_MUTATION)
     const { dispatch } = React.useContext(context)
     const [creatingMetric, setCreatingMetric] = React.useState<boolean>(false)
     const [entriesByMetricId, setEntriesByMetricId] = React.useState<Record<TMetric['id'], TEntry>>({})
@@ -130,9 +130,9 @@ const Journal = () => {
 
     const handleNewMetricSubmit = async () => {
         setCreatingMetric(true)
-        createMetric({ variables: { title: newMetric } })
+        upsertMetric({ variables: { title: newMetric, id: '' } })
             .then(({ data }) => {
-                setMetrics({ ...metrics, [data.createMetric]: { id: data.createMetric, title: newMetric } })
+                setMetrics({ ...metrics, [data.upsertMetric]: { id: data.upsertMetric, title: newMetric } })
                 setNewMetric('')
             })
             .catch(error => {
