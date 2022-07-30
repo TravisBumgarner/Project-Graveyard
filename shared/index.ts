@@ -3,12 +3,20 @@ type TMonth = `${number}${number}`;
 type TDay = `${number}${number}`;
 type TDateISODate = `${TYear}-${TMonth}-${TDay}`;
 
-type Metric = {
+type TMetric = {
     id: string
     title: string
 }
 
+type TEntry = {
+    id: string
+    value: number
+    date: TDateISODate
+    // metricId: TMetric['id']
+}
+
 export {
-    Metric,
+    TMetric,
+    TEntry,
     TDateISODate
 }

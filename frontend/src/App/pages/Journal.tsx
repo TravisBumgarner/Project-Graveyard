@@ -1,70 +1,138 @@
 import React from 'react'
 import moment from 'moment'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useMutation } from '@apollo/client'
 import _ from 'lodash'
 
-import { Metric, TDateISODate } from 'sharedTypes'
 import { formatDateDisplayString, formatDateKeyLookup, logger } from 'utilities'
 import { PageHeader, Button, Heading, LabelAndInput } from 'sharedComponents'
 import { context } from 'context'
+import { TMetric, TDateISODate, TEntry } from '../../../../shared'
 
 const METRICS_QUERY = gql`
-  query MetricsQuery {
-    metrics {
-      title,
+query MetricsQuery {
+metric {
+    title,
       id
     }
   }
 `
 
-const ADD_METRIC_MUTATION = gql`
-mutation($title: String!) {
-    createMetric(title: $title) {
-      id,
-      title
+const ENTRIES_BY_DATE_QUERY = gql`
+    query EntriesByDateQuery($date: String!) {
+        entry(date: $date) {
+            value,
+            id,
+            date,
+            metric {
+                id
+            }
+        }
     }
-  } 
+`
+
+const UPSERT_METRIC_MUTATION = gql`
+    mutation($title: String!, $id: String!) {
+        upsertMetric(title: $title, id: $id)
+    } 
+`
+
+const UPSERT_ENTRY_MUTATION = gql`
+    mutation($value: Float!, $date: String!, $metricId: String!, $id: String!) {
+        upsertEntry(value: $value, date: $date, metricId: $metricId, id: $id)
+    }
 `
 
 type MetricInputProps = {
-    metric: Metric
+    metric: TMetric
+    entry: TEntry
+    selectedDate: TDateISODate
 }
 
-const MetricInput = ({ metric }: MetricInputProps) => {
-    const [metricValue, setMetricValue] = React.useState<number>(0)
+const MetricInput = ({ metric, entry, selectedDate }: MetricInputProps) => {
+    const { dispatch } = React.useContext(context)
+    const [metricValue, setMetricValue] = React.useState<number>(entry ? entry.value : null)
+    const [isCreatingEntry, setIsCreatingEntry] = React.useState<boolean>(false)
+    const [upsertEntry] = useMutation<{ upsertEntry: string }>(UPSERT_ENTRY_MUTATION)
+
+    const handleNewEntrySubmit = async () => {
+        setIsCreatingEntry(true)
+        upsertEntry({ variables: {
+            value: metricValue,
+            date: selectedDate,
+            metricId: metric.id,
+            id: entry ? entry.id : ''
+        } })
+            .catch(error => {
+                logger(error)
+                dispatch({ type: 'ADD_ALERT', data: { message: "Couldn't create Metric", timeToLiveMS: 2000 } })
+                setMetricValue(entry.value)
+            })
+            .finally(() => setIsCreatingEntry(false))
+    }
+
+    const onBlur = () => {
+        handleNewEntrySubmit()
+    }
 
     return (
         <div>
             <LabelAndInput
                 id={metric.id}
                 label={metric.title}
+                disabled={isCreatingEntry}
                 type="number"
+                placeholder="Get Tracking!"
                 value={`${metricValue}`}
+                onBlur={onBlur}
                 handleChange={value => setMetricValue(parseInt(value, 10))}
             />
         </div>
     )
 }
 
-const Today = () => {
+const Journal = () => {
     const [selectedDate, setSelectedDate] = React.useState<TDateISODate>(formatDateKeyLookup(moment()))
-    const [metrics, setMetrics] = React.useState<Record<string, Metric>>({})
+    const [metrics, setMetrics] = React.useState<Record<string, TMetric>>({})
     const [newMetric, setNewMetric] = React.useState<string>('')
-    const [createMetric] = useMutation<{ createMetric: Metric }>(ADD_METRIC_MUTATION)
+    const [upsertMetric] = useMutation<{ upsertMetric: string }>(UPSERT_METRIC_MUTATION)
     const { dispatch } = React.useContext(context)
     const [creatingMetric, setCreatingMetric] = React.useState<boolean>(false)
+    const [entriesByMetricId, setEntriesByMetricId] = React.useState<Record<TMetric['id'], TEntry>>({})
 
-    useQuery<{ metrics: Metric[] }>(METRICS_QUERY, {
-        onCompleted: (data) => {
-            setMetrics(_.keyBy(data.metrics, 'id'))
+    const [getMetrics, { loading: isLoadingMetrics }] = useLazyQuery<{ metric: TMetric[] }>(METRICS_QUERY, {
+        onCompleted: ({ metric }) => {
+            setMetrics(_.keyBy(metric, 'id'))
         }
     })
 
+    React.useEffect(() => {
+        getMetrics()
+    }, [])
+
+    const [getEntries, { loading: isLoadingEntries }] = useLazyQuery<{ entry: (TEntry & {metric: TMetric})[] }>(ENTRIES_BY_DATE_QUERY, {
+        variables: {
+            date: selectedDate
+        },
+        fetchPolicy: 'network-only',
+        onCompleted: ({ entry: entries }) => {
+            console.log('fetched')
+            const newEntriesByMetricId: Record<TMetric['id'], TEntry> = {}
+            entries.forEach(e => {
+                newEntriesByMetricId[e.metric.id] = { ...e }
+            })
+            setEntriesByMetricId(newEntriesByMetricId)
+        }
+    })
+
+    React.useEffect(() => {
+        getEntries()
+    }, [selectedDate])
+
     const handleNewMetricSubmit = async () => {
         setCreatingMetric(true)
-        createMetric({ variables: { title: newMetric } })
+        upsertMetric({ variables: { title: newMetric, id: '' } })
             .then(({ data }) => {
-                setMetrics({ ...metrics, [data.createMetric.id]: data.createMetric })
+                setMetrics({ ...metrics, [data.upsertMetric]: { id: data.upsertMetric, title: newMetric } })
                 setNewMetric('')
             })
             .catch(error => {
@@ -91,7 +159,6 @@ const Today = () => {
                 break
             }
         }
-        // handleMissingDataPoints()
         setSelectedDate(newDate)
     }
 
@@ -103,9 +170,20 @@ const Today = () => {
                 <Button key="previous" onClick={() => setDate('previous')} variation="INTERACTION">&lt;</Button>
                 <Button key="next" onClick={() => setDate('next')} variation="INTERACTION">&gt;</Button>
             </PageHeader>
-            <div>
-                {Object.values(metrics).map(metric => <MetricInput key={metric.id} metric={metric} />)}
-            </div>
+            {(isLoadingEntries || isLoadingMetrics) ? (
+                <p>Loading</p>
+            ) : (
+                <div>
+                    {Object.values(metrics).map(metric => (
+                        <MetricInput
+                            key={`${metric.id}${selectedDate}`}
+                            metric={metric}
+                            entry={entriesByMetricId[metric.id]}
+                            selectedDate={selectedDate}
+                        />
+                    ))}
+                </div>
+            )}
             <div>
                 <LabelAndInput
                     id="new-metric"
@@ -113,10 +191,15 @@ const Today = () => {
                     value={newMetric}
                     handleChange={value => setNewMetric(value)}
                 />
-                <Button variation="INTERACTION" disabled={creatingMetric} onClick={handleNewMetricSubmit}>Add New Metric</Button>
+                <Button
+                    variation="INTERACTION"
+                    disabled={creatingMetric || newMetric.trim().length === 0}
+                    onClick={handleNewMetricSubmit}
+                >Add New Metric
+                </Button>
             </div>
         </div>
     )
 }
 
-export default Today
+export default Journal

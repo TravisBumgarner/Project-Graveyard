@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm'
+
+import Entry from './Entry'
 
 @Entity()
 export default class Metric {
@@ -7,4 +9,7 @@ export default class Metric {
 
     @Column({ nullable: false })
         title: string
+
+    @OneToMany(() => Entry, (Entry) => Entry.metric, { onDelete: 'CASCADE' }) // eslint-disable-line
+        entries: Entry[]
 }
