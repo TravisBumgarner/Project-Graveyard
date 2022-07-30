@@ -1,1 +1,0 @@
-- [ ] Figure out race conditions, and usequery errors and such in Journal

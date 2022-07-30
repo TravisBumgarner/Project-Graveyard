@@ -116,8 +116,9 @@ const Journal = () => {
         variables: {
             date: selectedDate
         },
-        nextFetchPolicy: 'network-only',
+        fetchPolicy: 'network-only',
         onCompleted: ({ entry: entries }) => {
+            console.log('fetched')
             const newEntriesByMetricId: Record<TMetric['id'], TEntry> = {}
             entries.forEach(e => {
                 newEntriesByMetricId[e.metric.id] = { ...e }
@@ -164,7 +165,6 @@ const Journal = () => {
         setSelectedDate(newDate)
     }
 
-    if (isLoadingEntries || isLoadingMetrics) return <p>loading</p>
     return (
         <div>
             <PageHeader>
@@ -173,16 +173,20 @@ const Journal = () => {
                 <Button key="previous" onClick={() => setDate('previous')} variation="INTERACTION">&lt;</Button>
                 <Button key="next" onClick={() => setDate('next')} variation="INTERACTION">&gt;</Button>
             </PageHeader>
-            <div>
-                {Object.values(metrics).map(metric => (
-                    <MetricInput
-                        key={`${metric.id}${selectedDate}`}
-                        metric={metric}
-                        entry={entriesByMetricId[metric.id]}
-                        selectedDate={selectedDate}
-                    />
-                ))}
-            </div>
+            {(isLoadingEntries || isLoadingMetrics) ? (
+                <p>Loading</p>
+            ) : (
+                <div>
+                    {Object.values(metrics).map(metric => (
+                        <MetricInput
+                            key={`${metric.id}${selectedDate}`}
+                            metric={metric}
+                            entry={entriesByMetricId[metric.id]}
+                            selectedDate={selectedDate}
+                        />
+                    ))}
+                </div>
+            )}
             <div>
                 <LabelAndInput
                     id="new-metric"

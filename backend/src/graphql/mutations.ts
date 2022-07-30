@@ -25,7 +25,7 @@ const upsertEntry = async (_: unknown, { date, value, metricId, id }: (TEntry & 
 
     const upsertedEntry = {
         id: id.length > 0 ? id : uuidv4(),
-        date: new Date(date),
+        date,
         value,
         metric
     }
