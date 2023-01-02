@@ -1,0 +1,9 @@
+// ==UserScript==
+// @name         Custom Video Speeds
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Add Custom Video Speeds to Video Players
+// @author       Travis Bumgarner
+// @include      /.*/
+// @grant        none
+// ==/UserScript==
