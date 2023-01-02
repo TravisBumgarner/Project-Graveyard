@@ -1,0 +1,6 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.pythonPath": "/anaconda3/envs/animoji/bin/python",
+    "python.formatting.provider": "black"
+}
