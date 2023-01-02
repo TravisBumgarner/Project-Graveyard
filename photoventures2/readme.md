@@ -1,0 +1,1 @@
+That photo compass navigating app I tried to build, powered by IG and Flickr, before Cogo Labs happened. (or didn't lol)
