@@ -1,0 +1,42 @@
+{
+    "name": "backend",
+    "author": "Travis Bumgarner",
+    "scripts": {
+        "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js --config ./src/postgres/ormconfig.ts",
+        "sd:be": "export NODE_ENV=local && nodemon ./src/index.ts",
+        "lint:fix": "npx eslint --ext .ts ./src/** --fix",
+        "migration:run": "npm run typeorm migration:run",
+        "migration:revert": "npm run typeorm migration:revert",
+        "migration:generate": "export NODE_ENV=local && npm run typeorm migration:generate -- -n"
+    },
+    "keywords": [],
+    "license": "ISC",
+    "dependencies": {
+        "@graphql-tools/schema": "^8.5.0",
+        "apollo-server": "^3.6.7",
+        "body-parser": "^1.19.2",
+        "cors": "^2.8.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.2",
+        "express-graphql": "^0.12.0",
+        "moment": "^2.29.4",
+        "nodemon": "^2.0.19",
+        "pg": "^8.7.3",
+        "runtypes": "^6.5.1",
+        "ts-node": "^10.9.1",
+        "typeorm": "^0.2.45",
+        "uuid": "^8.3.2",
+        "ws": "^8.8.1"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^17.0.17",
+        "@types/uuid": "^8.3.4",
+        "@typescript-eslint/eslint-plugin": "^5.13.0",
+        "@typescript-eslint/parser": "^5.13.0",
+        "eslint": "^8.10.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.25.4",
+        "typescript": "^4.7.4"
+    }
+}
