@@ -1,3 +1,6 @@
+About
+Completed Fun tool for my friends and I to use in a game we play. Pick where to land in Fortnite
+
 # Folder Structure
 
 - `/bin` - scripts for running project on WebFaction
