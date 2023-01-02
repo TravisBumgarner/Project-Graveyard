@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "types/*"
+            ],
+            "shared": [
+                "src/shared"
+            ],
+            "theme": [
+                "src/theme.tsx"
+            ],
+            "utilities": [
+                "src/utilities.tsx"
+            ],
+        },
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "jsx": "react",
+        "lib": [
+            "es2016",
+            "esnext.asynciterable",
+            "dom"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ],
+}

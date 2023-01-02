@@ -1,0 +1,17 @@
+name,description,categories,date_created,is_published,links,is_free,min_cost,max_cost,min_participants,max_participants,requirements,devices_supported,child_friendly,additional_information
+Kosmi,"Watch videos together, play games, or simply chat with friends or strangers all from within your browser!","game, watch",3/24/2020,TRUE,"Website, https://kosmi.io/",TRUE,0,0,2,10,,,TRUE,
+LetsDraw.it,"Guess and Draw, Drawing contest, Pictionary, Copy picture - online drawing games where you can compare your skill with others.
+",game,3/24/2020,TRUE,"Website, https://letsdraw.it/",TRUE,0,0,3,10,,,TRUE,Can be child safe if you get them to a private game.
+Jackbox TV Party Pack,"Long gone are quiet nights in watching the same old TV shows – The Jackbox Party Pack is here! Experience five fun games in one great pack – giving you the perfect excuse for rounding up friends, family and fellow gamers for a few hours of gaming delight – whatever the day, whatever the occasion. You’re gonna need more than one party for this. ",game,3/24/2020,TRUE,"Website, https://jackboxgames.com/
+Setup Tutorial, https://jackboxgames.com/how-to-play-jackbox-games-with-friends-and-family-remotely/",FALSE,12.49,20.99,2,8,,,TRUE,"Child friendly mode can be enabled from the settings.
+Additional players may join as audience memberes and participate in different ways."
+Drawful 2,"Drawful is back to save your next party with Drawful 2, which challenges players to draw ridiculous prompts on their smartphones and tablets.",game,3/24/2020,TRUE,,TRUE,0,0,3,8,,,TRUE,
+Settlers of Catan,"Enjoy the original board game on your smartphone, tablet or PC – at home or on the go!",game,3/24/2020,FALSE,"Website, https://catanuniverse.com/en/",TRUE,0,0,,,,,TRUE,
+Words With Friends 2,"Like Scrabble, but online.",game,3/24/2020,TRUE,"Website, https://www.zynga.com/games/words-with-friends-2/",TRUE,0,0,2,2,,,TRUE,
+Netflix Party,Netflix Party is a new way to watch Netflix with your friends online. Netflix Party synchronizes video playback and adds group chat to your favorite Netflix shows.,watch,3/24/2020,TRUE,"Website, https://www.netflixparty.com/",TRUE,0,0,2,12,,,TRUE,
+Watch2gether,"Enjoy the internet in sync with your friends. Watch videos, listen to music or go shopping on Watch2Gether.","watch, listen",3/24/2020,TRUE,"Website, https://www.watch2gether.com",TRUE,0,0,2,12,,,TRUE,
+Code Names,Codenames.plus - The classic 'Codenames' card / boardgame in your browser! Play with your friends online instantly just by creating a new room and sharing the info.,game,3/24/2020,TRUE,"Play, https://codenames.plus/",TRUE,0,0,2,8,,,TRUE,
+skribbl,skribbl io is a free multiplayer drawing and guessing game. Draw and guess words with your friends and people all around the world! Score the most points and be the winner!,game,3/24/2020,TRUE,"Website, https://skribbl.io/",TRUE,0,0,2,12,,,TRUE,
+Podcast Club,Needs Details,discuss,3/24/2020,FALSE,,TRUE,0,0,2,12,,,TRUE,
+Book Club,Needs Details,discuss,3/24/2020,FALSE,,TRUE,0,0,2,12,,,TRUE,
+Virtual Scavenger Hunt,Needs Details,move_about,3/24/2020,FALSE,,TRUE,0,0,3,12,,,TRUE,
