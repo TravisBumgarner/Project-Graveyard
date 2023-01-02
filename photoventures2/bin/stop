@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/pkill -f /home/tbumgarner/webapps/foofoo/bin/node && rm -f /home/tbumgarner/webapps/foofoo/run/node.pid
