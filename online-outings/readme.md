@@ -1,3 +1,10 @@
+About
+A collection of online activities to do with friends
+
+Topics
+Resources
+
+
 # Postgres
 
 Setup with `docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/Programming/docker/volumes/postgres:/var/lib/postgresql/data  postgres`

@@ -1,7 +1,0 @@
-{
-  "projects": {
-    "production": "phraseaday-production",
-    "staging": "phraseaday-staging"
-  },
-  "targets": {}
-}
