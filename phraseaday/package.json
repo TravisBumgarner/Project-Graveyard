@@ -1,0 +1,31 @@
+{
+  "name": "help-speaking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "sd": "docker-compose up",
+    "deploy:staging": "cd backend && npm run deploy:staging && cd ../frontend && npm run deploy:staging",
+    "deploy:production": "cd backend && npm run deploy:production && cd ../frontend && npm run deploy:production",
+    "lint:run": "cd backend && npm run lint:run && cd ../frontend && npm run lint:run",
+    "lint:fix": "cd backend && npm run lint:fix && cd ../frontend && npm run lint:fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TravisBumgarner/help-speaking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TravisBumgarner/help-speaking/issues"
+  },
+  "homepage": "https://github.com/TravisBumgarner/help-speaking#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}

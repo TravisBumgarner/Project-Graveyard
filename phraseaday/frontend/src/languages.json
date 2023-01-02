@@ -1,0 +1,922 @@
+[
+    {
+        "name": "Abkhaz",
+        "nativeName": "аҧсуа бызшәа, аҧсшәа",
+        "isoCode": "abk"
+    },
+    {
+        "name": "Afar",
+        "nativeName": "Afaraf",
+        "isoCode": "aar"
+    },
+    {
+        "name": "Afrikaans",
+        "nativeName": "Afrikaans",
+        "isoCode": "afr"
+    },
+    {
+        "name": "Akan",
+        "nativeName": "Akan",
+        "isoCode": "aka"
+    },
+    {
+        "name": "Albanian",
+        "nativeName": "Shqip",
+        "isoCode": "sqi"
+    },
+    {
+        "name": "Amharic",
+        "nativeName": "አማርኛ",
+        "isoCode": "amh"
+    },
+    {
+        "name": "Arabic",
+        "nativeName": "العربية",
+        "isoCode": "ara"
+    },
+    {
+        "name": "Aragonese",
+        "nativeName": "aragonés",
+        "isoCode": "arg"
+    },
+    {
+        "name": "Armenian",
+        "nativeName": "Հայերեն",
+        "isoCode": "hye"
+    },
+    {
+        "name": "Assamese",
+        "nativeName": "অসমীয়া",
+        "isoCode": "asm"
+    },
+    {
+        "name": "Avaric",
+        "nativeName": "авар мацӀ, магӀарул мацӀ",
+        "isoCode": "ava"
+    },
+    {
+        "name": "Avestan",
+        "nativeName": "avesta",
+        "isoCode": "ave"
+    },
+    {
+        "name": "Aymara",
+        "nativeName": "aymar aru",
+        "isoCode": "aym"
+    },
+    {
+        "name": "Azerbaijani",
+        "nativeName": "azərbaycan dili",
+        "isoCode": "aze"
+    },
+    {
+        "name": "Bambara",
+        "nativeName": "bamanankan",
+        "isoCode": "bam"
+    },
+    {
+        "name": "Bashkir",
+        "nativeName": "башҡорт теле",
+        "isoCode": "bak"
+    },
+    {
+        "name": "Basque",
+        "nativeName": "euskara, euskera",
+        "isoCode": "eus"
+    },
+    {
+        "name": "Belarusian",
+        "nativeName": "беларуская мова",
+        "isoCode": "bel"
+    },
+    {
+        "name": "Bengali, Bangla",
+        "nativeName": "বাংলা",
+        "isoCode": "ben"
+    },
+    {
+        "name": "Bihari",
+        "nativeName": "भोजपुरी",
+        "isoCode": "bih"
+    },
+    {
+        "name": "Bislama",
+        "nativeName": "Bislama",
+        "isoCode": "bis"
+    },
+    {
+        "name": "Bosnian",
+        "nativeName": "bosanski jezik",
+        "isoCode": "bos"
+    },
+    {
+        "name": "Breton",
+        "nativeName": "brezhoneg",
+        "isoCode": "bre"
+    },
+    {
+        "name": "Bulgarian",
+        "nativeName": "български език",
+        "isoCode": "bul"
+    },
+    {
+        "name": "Burmese",
+        "nativeName": "ဗမာစာ",
+        "isoCode": "mya"
+    },
+    {
+        "name": "Catalan",
+        "nativeName": "català",
+        "isoCode": "cat"
+    },
+    {
+        "name": "Chamorro",
+        "nativeName": "Chamoru",
+        "isoCode": "cha"
+    },
+    {
+        "name": "Chechen",
+        "nativeName": "нохчийн мотт",
+        "isoCode": "che"
+    },
+    {
+        "name": "Chichewa, Chewa, Nyanja",
+        "nativeName": "chiCheŵa, chinyanja",
+        "isoCode": "nya"
+    },
+    {
+        "name": "Chinese",
+        "nativeName": "中文 (Zhōngwén), 汉语, 漢語",
+        "isoCode": "zho"
+    },
+    {
+        "name": "Chuvash",
+        "nativeName": "чӑваш чӗлхи",
+        "isoCode": "chv"
+    },
+    {
+        "name": "Cornish",
+        "nativeName": "Kernewek",
+        "isoCode": "cor"
+    },
+    {
+        "name": "Corsican",
+        "nativeName": "corsu, lingua corsa",
+        "isoCode": "cos"
+    },
+    {
+        "name": "Cree",
+        "nativeName": "ᓀᐦᐃᔭᐍᐏᐣ",
+        "isoCode": "cre"
+    },
+    {
+        "name": "Croatian",
+        "nativeName": "hrvatski jezik",
+        "isoCode": "hrv"
+    },
+    {
+        "name": "Czech",
+        "nativeName": "čeština, český jazyk",
+        "isoCode": "ces"
+    },
+    {
+        "name": "Danish",
+        "nativeName": "dansk",
+        "isoCode": "dan"
+    },
+    {
+        "name": "Divehi, Dhivehi, Maldivian",
+        "nativeName": "ދިވެހި",
+        "isoCode": "div"
+    },
+    {
+        "name": "Dutch",
+        "nativeName": "Nederlands, Vlaams",
+        "isoCode": "nld"
+    },
+    {
+        "name": "Dzongkha",
+        "nativeName": "རྫོང་ཁ",
+        "isoCode": "dzo"
+    },
+    {
+        "name": "English",
+        "nativeName": "English",
+        "isoCode": "eng"
+    },
+    {
+        "name": "Esperanto",
+        "nativeName": "Esperanto",
+        "isoCode": "epo"
+    },
+    {
+        "name": "Estonian",
+        "nativeName": "eesti, eesti keel",
+        "isoCode": "est"
+    },
+    {
+        "name": "Ewe",
+        "nativeName": "Eʋegbe",
+        "isoCode": "ewe"
+    },
+    {
+        "name": "Faroese",
+        "nativeName": "føroyskt",
+        "isoCode": "fao"
+    },
+    {
+        "name": "Fijian",
+        "nativeName": "vosa Vakaviti",
+        "isoCode": "fij"
+    },
+    {
+        "name": "Finnish",
+        "nativeName": "suomi, suomen kieli",
+        "isoCode": "fin"
+    },
+    {
+        "name": "French",
+        "nativeName": "français, langue française",
+        "isoCode": "fra"
+    },
+    {
+        "name": "Fula, Fulah, Pulaar, Pular",
+        "nativeName": "Fulfulde, Pulaar, Pular",
+        "isoCode": "ful"
+    },
+    {
+        "name": "Galician",
+        "nativeName": "galego",
+        "isoCode": "glg"
+    },
+    {
+        "name": "Georgian",
+        "nativeName": "ქართული",
+        "isoCode": "kat"
+    },
+    {
+        "name": "German",
+        "nativeName": "Deutsch",
+        "isoCode": "deu"
+    },
+    {
+        "name": "Greek (modern)",
+        "nativeName": "ελληνικά",
+        "isoCode": "ell"
+    },
+    {
+        "name": "Guaraní",
+        "nativeName": "Avañe'ẽ",
+        "isoCode": "grn"
+    },
+    {
+        "name": "Gujarati",
+        "nativeName": "ગુજરાતી",
+        "isoCode": "guj"
+    },
+    {
+        "name": "Haitian, Haitian Creole",
+        "nativeName": "Kreyòl ayisyen",
+        "isoCode": "hat"
+    },
+    {
+        "name": "Hausa",
+        "nativeName": "(Hausa) هَوُسَ",
+        "isoCode": "hau"
+    },
+    {
+        "name": "Hebrew (modern)",
+        "nativeName": "עברית",
+        "isoCode": "heb"
+    },
+    {
+        "name": "Herero",
+        "nativeName": "Otjiherero",
+        "isoCode": "her"
+    },
+    {
+        "name": "Hindi",
+        "nativeName": "हिन्दी, हिंदी",
+        "isoCode": "hin"
+    },
+    {
+        "name": "Hiri Motu",
+        "nativeName": "Hiri Motu",
+        "isoCode": "hmo"
+    },
+    {
+        "name": "Hungarian",
+        "nativeName": "magyar",
+        "isoCode": "hun"
+    },
+    {
+        "name": "Interlingua",
+        "nativeName": "Interlingua",
+        "isoCode": "ina"
+    },
+    {
+        "name": "Indonesian",
+        "nativeName": "Bahasa Indonesia",
+        "isoCode": "ind"
+    },
+    {
+        "name": "Interlingue",
+        "nativeName": "Originally called Occidental; then Interlingue after WWII",
+        "isoCode": "ile"
+    },
+    {
+        "name": "Irish",
+        "nativeName": "Gaeilge",
+        "isoCode": "gle"
+    },
+    {
+        "name": "Igbo",
+        "nativeName": "Asụsụ Igbo",
+        "isoCode": "ibo"
+    },
+    {
+        "name": "Inupiaq",
+        "nativeName": "Iñupiaq, Iñupiatun",
+        "isoCode": "ipk"
+    },
+    {
+        "name": "Ido",
+        "nativeName": "Ido",
+        "isoCode": "ido"
+    },
+    {
+        "name": "Icelandic",
+        "nativeName": "Íslenska",
+        "isoCode": "isl"
+    },
+    {
+        "name": "Italian",
+        "nativeName": "Italiano",
+        "isoCode": "ita"
+    },
+    {
+        "name": "Inuktitut",
+        "nativeName": "ᐃᓄᒃᑎᑐᑦ",
+        "isoCode": "iku"
+    },
+    {
+        "name": "Japanese",
+        "nativeName": "日本語 (にほんご)",
+        "isoCode": "jpn"
+    },
+    {
+        "name": "Javanese",
+        "nativeName": "ꦧꦱꦗꦮ, Basa Jawa",
+        "isoCode": "jav"
+    },
+    {
+        "name": "Kalaallisut, Greenlandic",
+        "nativeName": "kalaallisut, kalaallit oqaasii",
+        "isoCode": "kal"
+    },
+    {
+        "name": "Kannada",
+        "nativeName": "ಕನ್ನಡ",
+        "isoCode": "kan"
+    },
+    {
+        "name": "Kanuri",
+        "nativeName": "Kanuri",
+        "isoCode": "kau"
+    },
+    {
+        "name": "Kashmiri",
+        "nativeName": "कश्मीरी, كشميري‎",
+        "isoCode": "kas"
+    },
+    {
+        "name": "Kazakh",
+        "nativeName": "қазақ тілі",
+        "isoCode": "kaz"
+    },
+    {
+        "name": "Khmer",
+        "nativeName": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
+        "isoCode": "khm"
+    },
+    {
+        "name": "Kikuyu, Gikuyu",
+        "nativeName": "Gĩkũyũ",
+        "isoCode": "kik"
+    },
+    {
+        "name": "Kinyarwanda",
+        "nativeName": "Ikinyarwanda",
+        "isoCode": "kin"
+    },
+    {
+        "name": "Kyrgyz",
+        "nativeName": "Кыргызча, Кыргыз тили",
+        "isoCode": "kir"
+    },
+    {
+        "name": "Komi",
+        "nativeName": "коми кыв",
+        "isoCode": "kom"
+    },
+    {
+        "name": "Kongo",
+        "nativeName": "Kikongo",
+        "isoCode": "kon"
+    },
+    {
+        "name": "Korean",
+        "nativeName": "한국어",
+        "isoCode": "kor"
+    },
+    {
+        "name": "Kurdish",
+        "nativeName": "Kurdî, كوردی‎",
+        "isoCode": "kur"
+    },
+    {
+        "name": "Kwanyama, Kuanyama",
+        "nativeName": "Kuanyama",
+        "isoCode": "kua"
+    },
+    {
+        "name": "Latin",
+        "nativeName": "latine, lingua latina",
+        "isoCode": "lat"
+    },
+    {
+        "name": "Luxembourgish, Letzeburgesch",
+        "nativeName": "Lëtzebuergesch",
+        "isoCode": "ltz"
+    },
+    {
+        "name": "Ganda",
+        "nativeName": "Luganda",
+        "isoCode": "lug"
+    },
+    {
+        "name": "Limburgish, Limburgan, Limburger",
+        "nativeName": "Limburgs",
+        "isoCode": "lim"
+    },
+    {
+        "name": "Lingala",
+        "nativeName": "Lingála",
+        "isoCode": "lin"
+    },
+    {
+        "name": "Lao",
+        "nativeName": "ພາສາລາວ",
+        "isoCode": "lao"
+    },
+    {
+        "name": "Lithuanian",
+        "nativeName": "lietuvių kalba",
+        "isoCode": "lit"
+    },
+    {
+        "name": "Luba-Katanga",
+        "nativeName": "Tshiluba",
+        "isoCode": "lub"
+    },
+    {
+        "name": "Latvian",
+        "nativeName": "latviešu valoda",
+        "isoCode": "lav"
+    },
+    {
+        "name": "Manx",
+        "nativeName": "Gaelg, Gailck",
+        "isoCode": "glv"
+    },
+    {
+        "name": "Macedonian",
+        "nativeName": "македонски јазик",
+        "isoCode": "mkd"
+    },
+    {
+        "name": "Malagasy",
+        "nativeName": "fiteny malagasy",
+        "isoCode": "mlg"
+    },
+    {
+        "name": "Malay",
+        "nativeName": "bahasa Melayu, بهاس ملايو‎",
+        "isoCode": "msa"
+    },
+    {
+        "name": "Malayalam",
+        "nativeName": "മലയാളം",
+        "isoCode": "mal"
+    },
+    {
+        "name": "Maltese",
+        "nativeName": "Malti",
+        "isoCode": "mlt"
+    },
+    {
+        "name": "Māori",
+        "nativeName": "te reo Māori",
+        "isoCode": "mri"
+    },
+    {
+        "name": "Marathi (Marāṭhī)",
+        "nativeName": "मराठी",
+        "isoCode": "mar"
+    },
+    {
+        "name": "Marshallese",
+        "nativeName": "Kajin M̧ajeļ",
+        "isoCode": "mah"
+    },
+    {
+        "name": "Mongolian",
+        "nativeName": "Монгол хэл",
+        "isoCode": "mon"
+    },
+    {
+        "name": "Nauruan",
+        "nativeName": "Dorerin Naoero",
+        "isoCode": "nau"
+    },
+    {
+        "name": "Navajo, Navaho",
+        "nativeName": "Diné bizaad",
+        "isoCode": "nav"
+    },
+    {
+        "name": "Northern Ndebele",
+        "nativeName": "isiNdebele",
+        "isoCode": "nde"
+    },
+    {
+        "name": "Nepali",
+        "nativeName": "नेपाली",
+        "isoCode": "nep"
+    },
+    {
+        "name": "Ndonga",
+        "nativeName": "Owambo",
+        "isoCode": "ndo"
+    },
+    {
+        "name": "Norwegian Bokmål",
+        "nativeName": "Norsk bokmål",
+        "isoCode": "nob"
+    },
+    {
+        "name": "Norwegian Nynorsk",
+        "nativeName": "Norsk nynorsk",
+        "isoCode": "nno"
+    },
+    {
+        "name": "Norwegian",
+        "nativeName": "Norsk",
+        "isoCode": "nor"
+    },
+    {
+        "name": "Nuosu",
+        "nativeName": "ꆈꌠ꒿ Nuosuhxop",
+        "isoCode": "iii"
+    },
+    {
+        "name": "Southern Ndebele",
+        "nativeName": "isiNdebele",
+        "isoCode": "nbl"
+    },
+    {
+        "name": "Occitan",
+        "nativeName": "occitan, lenga d'òc",
+        "isoCode": "oci"
+    },
+    {
+        "name": "Ojibwe, Ojibwa",
+        "nativeName": "ᐊᓂᔑᓈᐯᒧᐎᓐ",
+        "isoCode": "oji"
+    },
+    {
+        "name": "Old Church Slavonic, Church Slavonic, Old Bulgarian",
+        "nativeName": "ѩзыкъ словѣньскъ",
+        "isoCode": "chu"
+    },
+    {
+        "name": "Oromo",
+        "nativeName": "Afaan Oromoo",
+        "isoCode": "orm"
+    },
+    {
+        "name": "Oriya",
+        "nativeName": "ଓଡ଼ିଆ",
+        "isoCode": "ori"
+    },
+    {
+        "name": "Ossetian, Ossetic",
+        "nativeName": "ирон æвзаг",
+        "isoCode": "oss"
+    },
+    {
+        "name": "(Eastern) Punjabi",
+        "nativeName": "ਪੰਜਾਬੀ",
+        "isoCode": "pan"
+    },
+    {
+        "name": "Pāli",
+        "nativeName": "पाऴि",
+        "isoCode": "pli"
+    },
+    {
+        "name": "Persian (Farsi)",
+        "nativeName": "فارسی",
+        "isoCode": "fas"
+    },
+    {
+        "name": "Polish",
+        "nativeName": "język polski, polszczyzna",
+        "isoCode": "pol"
+    },
+    {
+        "name": "Pashto, Pushto",
+        "nativeName": "پښتو",
+        "isoCode": "pus"
+    },
+    {
+        "name": "Portuguese",
+        "nativeName": "Português",
+        "isoCode": "por"
+    },
+    {
+        "name": "Quechua",
+        "nativeName": "Runa Simi, Kichwa",
+        "isoCode": "que"
+    },
+    {
+        "name": "Romansh",
+        "nativeName": "rumantsch grischun",
+        "isoCode": "roh"
+    },
+    {
+        "name": "Kirundi",
+        "nativeName": "Ikirundi",
+        "isoCode": "run"
+    },
+    {
+        "name": "Romanian",
+        "nativeName": "Română",
+        "isoCode": "ron"
+    },
+    {
+        "name": "Russian",
+        "nativeName": "Русский",
+        "isoCode": "rus"
+    },
+    {
+        "name": "Sanskrit (Saṁskṛta)",
+        "nativeName": "संस्कृतम्",
+        "isoCode": "san"
+    },
+    {
+        "name": "Sardinian",
+        "nativeName": "sardu",
+        "isoCode": "srd"
+    },
+    {
+        "name": "Sindhi",
+        "nativeName": "सिन्धी, سنڌي، سندھی‎",
+        "isoCode": "snd"
+    },
+    {
+        "name": "Northern Sami",
+        "nativeName": "Davvisámegiella",
+        "isoCode": "sme"
+    },
+    {
+        "name": "Samoan",
+        "nativeName": "gagana fa'a Samoa",
+        "isoCode": "smo"
+    },
+    {
+        "name": "Sango",
+        "nativeName": "yângâ tî sängö",
+        "isoCode": "sag"
+    },
+    {
+        "name": "Serbian",
+        "nativeName": "српски језик",
+        "isoCode": "srp"
+    },
+    {
+        "name": "Scottish Gaelic, Gaelic",
+        "nativeName": "Gàidhlig",
+        "isoCode": "gla"
+    },
+    {
+        "name": "Shona",
+        "nativeName": "chiShona",
+        "isoCode": "sna"
+    },
+    {
+        "name": "Sinhalese, Sinhala",
+        "nativeName": "සිංහල",
+        "isoCode": "sin"
+    },
+    {
+        "name": "Slovak",
+        "nativeName": "slovenčina, slovenský jazyk",
+        "isoCode": "slk"
+    },
+    {
+        "name": "Slovene",
+        "nativeName": "slovenski jezik, slovenščina",
+        "isoCode": "slv"
+    },
+    {
+        "name": "Somali",
+        "nativeName": "Soomaaliga, af Soomaali",
+        "isoCode": "som"
+    },
+    {
+        "name": "Southern Sotho",
+        "nativeName": "Sesotho",
+        "isoCode": "sot"
+    },
+    {
+        "name": "Spanish",
+        "nativeName": "Español",
+        "isoCode": "spa"
+    },
+    {
+        "name": "Sundanese",
+        "nativeName": "Basa Sunda",
+        "isoCode": "sun"
+    },
+    {
+        "name": "Swahili",
+        "nativeName": "Kiswahili",
+        "isoCode": "swa"
+    },
+    {
+        "name": "Swati",
+        "nativeName": "SiSwati",
+        "isoCode": "ssw"
+    },
+    {
+        "name": "Swedish",
+        "nativeName": "svenska",
+        "isoCode": "swe"
+    },
+    {
+        "name": "Tamil",
+        "nativeName": "தமிழ்",
+        "isoCode": "tam"
+    },
+    {
+        "name": "Telugu",
+        "nativeName": "తెలుగు",
+        "isoCode": "tel"
+    },
+    {
+        "name": "Tajik",
+        "nativeName": "тоҷикӣ, toçikī, تاجیکی‎",
+        "isoCode": "tgk"
+    },
+    {
+        "name": "Thai",
+        "nativeName": "ไทย",
+        "isoCode": "tha"
+    },
+    {
+        "name": "Tigrinya",
+        "nativeName": "ትግርኛ",
+        "isoCode": "tir"
+    },
+    {
+        "name": "Tibetan Standard, Tibetan, Central",
+        "nativeName": "བོད་ཡིག",
+        "isoCode": "bod"
+    },
+    {
+        "name": "Turkmen",
+        "nativeName": "Türkmen, Түркмен",
+        "isoCode": "tuk"
+    },
+    {
+        "name": "Tagalog",
+        "nativeName": "Wikang Tagalog",
+        "isoCode": "tgl"
+    },
+    {
+        "name": "Tswana",
+        "nativeName": "Setswana",
+        "isoCode": "tsn"
+    },
+    {
+        "name": "Tonga (Tonga Islands)",
+        "nativeName": "faka Tonga",
+        "isoCode": "ton"
+    },
+    {
+        "name": "Turkish",
+        "nativeName": "Türkçe",
+        "isoCode": "tur"
+    },
+    {
+        "name": "Tsonga",
+        "nativeName": "Xitsonga",
+        "isoCode": "tso"
+    },
+    {
+        "name": "Tatar",
+        "nativeName": "татар теле, tatar tele",
+        "isoCode": "tat"
+    },
+    {
+        "name": "Twi",
+        "nativeName": "Twi",
+        "isoCode": "twi"
+    },
+    {
+        "name": "Tahitian",
+        "nativeName": "Reo Tahiti",
+        "isoCode": "tah"
+    },
+    {
+        "name": "Uyghur",
+        "nativeName": "ئۇيغۇرچە‎, Uyghurche",
+        "isoCode": "uig"
+    },
+    {
+        "name": "Ukrainian",
+        "nativeName": "Українська",
+        "isoCode": "ukr"
+    },
+    {
+        "name": "Urdu",
+        "nativeName": "اردو",
+        "isoCode": "urd"
+    },
+    {
+        "name": "Uzbek",
+        "nativeName": "Oʻzbek, Ўзбек, أۇزبېك‎",
+        "isoCode": "uzb"
+    },
+    {
+        "name": "Venda",
+        "nativeName": "Tshivenḓa",
+        "isoCode": "ven"
+    },
+    {
+        "name": "Vietnamese",
+        "nativeName": "Tiếng Việt",
+        "isoCode": "vie"
+    },
+    {
+        "name": "Volapük",
+        "nativeName": "Volapük",
+        "isoCode": "vol"
+    },
+    {
+        "name": "Walloon",
+        "nativeName": "walon",
+        "isoCode": "wln"
+    },
+    {
+        "name": "Welsh",
+        "nativeName": "Cymraeg",
+        "isoCode": "cym"
+    },
+    {
+        "name": "Wolof",
+        "nativeName": "Wollof",
+        "isoCode": "wol"
+    },
+    {
+        "name": "Western Frisian",
+        "nativeName": "Frysk",
+        "isoCode": "fry"
+    },
+    {
+        "name": "Xhosa",
+        "nativeName": "isiXhosa",
+        "isoCode": "xho"
+    },
+    {
+        "name": "Yiddish",
+        "nativeName": "ייִדיש",
+        "isoCode": "yid"
+    },
+    {
+        "name": "Yoruba",
+        "nativeName": "Yorùbá",
+        "isoCode": "yor"
+    },
+    {
+        "name": "Zhuang, Chuang",
+        "nativeName": "Saɯ cueŋƅ, Saw cuengh",
+        "isoCode": "zha"
+    },
+    {
+        "name": "Zulu",
+        "nativeName": "isiZulu",
+        "isoCode": "zul"
+    }
+]
