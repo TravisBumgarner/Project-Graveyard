@@ -1,0 +1,12 @@
+{
+    "name": "see-doss",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "deploy": "gcloud config set project root-270023 && gcloud builds submit --tag gcr.io/root-270023/grumpycollective && gcloud run deploy grumpycollective --image gcr.io/root-270023/grumpycollective --platform managed --region us-east1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
