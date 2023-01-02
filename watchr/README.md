@@ -1,3 +1,3 @@
-# Resources
+About
 
--   https://levelup.gitconnected.com/setup-express-with-typescript-in-3-easy-steps-484772062e01
+Tinder but for finding movies and tv shows to watch with friends.
