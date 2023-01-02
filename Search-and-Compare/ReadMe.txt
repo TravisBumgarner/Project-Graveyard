@@ -1,3 +1,5 @@
+
+
 getfilelist.py - Is a script that when dropped into a directory, will search all sub-directories for all files. This directory is a template for searching through directories located elsewhere. These files are then stored in a list. In the following format:
 
 text.txt
