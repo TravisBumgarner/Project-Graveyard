@@ -1,0 +1,10 @@
+# JavaScript
+node_modules/
+config.js
+config.ts
+
+# Python
+*.pyc
+
+# Mac
+.DS_Store
