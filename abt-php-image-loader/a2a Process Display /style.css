@@ -1,0 +1,51 @@
+/**********************************************/
+/* a2a Process CSS ****************************/
+/**********************************************/
+.process_wrapper div {
+    width: 20%;
+    display: inline-block;
+    float: left;
+}
+.process_wrapper div p {
+    font-size: 15px;
+    font-weight: 700;
+}
+.process_wrapper div p:before {
+    margin-right: 8px;
+}
+.process_plan p {
+    color: #54badf;
+}
+.process_plan p:before {
+    content: url(process-plan.png);
+}
+.process_learn p {
+    color: #f78e25;
+}
+.process_learn p:before {
+    content: url(process-learn.png);
+}
+.process_analyze p {
+    color: #008181;
+}
+.process_analyze p:before {
+    content: url(process-analyze.png);
+}
+.process_share p {
+    color: #642d61;
+}
+.process_share p:before {
+    content: url(process-share.png);
+}
+.process_act p {
+    color: #ba2031;
+}
+.process_act p:before {
+    content: url(process-act.png);
+}
+.process_not_active p {
+    color: #a7a9ac;
+}
+.process_not_active p:before {
+    content: url(process-not-active.png);
+}
