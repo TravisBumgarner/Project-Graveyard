@@ -1,0 +1,10 @@
+- [x] Write boilerplate
+- [x] Setup Firebase hosting
+- [x] Configure DNS
+- [ ] Logo
+- [x] Add some initial contents
+- [ ] Setup Analytics
+- [x] Contact Forms
+    - [x] Sponsors
+    - [x] Speakers
+    - [x] Participants

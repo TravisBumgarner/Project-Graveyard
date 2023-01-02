@@ -1,0 +1,7 @@
+node_modules/
+config.js
+config.ts
+dist/
+.DS_Store
+postgres-data/
+public/
