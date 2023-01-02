@@ -1,3 +1,7 @@
+About
+
+Pairs with Google Sheets as a backend to display stats on a raspberry pi
+
 # Raspberry Pi Setup
 
 1. Clone via HTTPS into `/var/www/stats_tracker`
