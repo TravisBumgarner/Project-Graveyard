@@ -1,0 +1,13 @@
+/* Chartist Styling */
+
+.savingsSeriesStackedBar{
+    stroke: green;
+}
+
+.billSeriesStackedBar{
+    stroke: red;
+}
+
+.usageSeriesLine{
+    stroke: green;
+}
