@@ -1,13 +1,7 @@
+import { Box, IconButton, Tooltip, Typography, css } from '@mui/material'
 import { useCallback, useContext, useMemo } from 'react'
-// import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Typography, Box, IconButton, css, Tooltip } from '@mui/material'
 
-import MenuBookIcon from '@mui/icons-material/MenuBook'
-import ChecklistIcon from '@mui/icons-material/Checklist'
-import SettingsIcon from '@mui/icons-material/Settings'
-import CelebrationIcon from '@mui/icons-material/Celebration'
 import { context } from 'Context'
-import { ModalID } from 'modals'
 import { EActivePage } from 'types'
 
 const Title = () => {
@@ -15,11 +9,9 @@ const Title = () => {
   const header = useMemo(() => {
     switch (activePage) {
       case EActivePage.Home:
-        return 'Todo Today'
-      case EActivePage.History:
-        return 'History'
-      case EActivePage.Successes:
-        return 'Successes'
+        return 'Photo Backup Sync'
+      case EActivePage.About:
+        return 'About'
       default:
         return 'Todo Today'
     }
@@ -57,17 +49,10 @@ const Header = () => {
     dispatch({ type: 'SET_ACTIVE_PAGE', payload: { page: EActivePage.Home } })
   }, [dispatch])
 
-  const handleHistory = useCallback(() => {
-    dispatch({ type: 'SET_ACTIVE_PAGE', payload: { page: EActivePage.History } })
+  const handleAbout = useCallback(() => {
+    dispatch({ type: 'SET_ACTIVE_PAGE', payload: { page: EActivePage.About } })
   }, [dispatch])
 
-  const handleSettings = useCallback(() => {
-    dispatch({ type: 'SET_ACTIVE_MODAL', payload: { id: ModalID.SETTINGS_MODAL } })
-  }, [dispatch])
-
-  const handleSuccess = useCallback(() => {
-    dispatch({ type: 'SET_ACTIVE_PAGE', payload: { page: EActivePage.Successes } })
-  }, [dispatch])
 
   return (
     <Box css={headerCSS}>
@@ -76,32 +61,17 @@ const Header = () => {
         <IconButton color="primary"
           onClick={handleHome}
         >
-          <Tooltip title="Todo Today">
-            <ChecklistIcon />
+          <Tooltip title="Home">
+            <Typography>Home</Typography>
           </Tooltip>
         </IconButton>
 
         <IconButton color="secondary"
-          onClick={handleSuccess}
+          onClick={handleAbout}
         >
-          <Tooltip title="Successes">
-            <CelebrationIcon />
-          </Tooltip>
-        </IconButton>
+          <Tooltip title="About">
+            <Typography>About</Typography>
 
-        <IconButton color="warning"
-          onClick={handleHistory}
-        >
-          <Tooltip title="Project and Task History">
-            <MenuBookIcon />
-          </Tooltip>
-        </IconButton>
-
-        <IconButton color="error"
-          onClick={handleSettings}
-        >
-          <Tooltip title="Settings">
-            <SettingsIcon />
           </Tooltip>
         </IconButton>
       </Box >
