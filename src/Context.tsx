@@ -60,7 +60,7 @@ interface EditUserSettings {
   type: 'EDIT_USER_SETTING'
   payload: {
     key: keyof State['settings']
-    value: string
+    value: string | number
   }
 }
 
@@ -111,11 +111,12 @@ const reducer = (state: State, action: Action): State => {
     case 'HYDRATE_USER_SETTINGS': {
       return { ...state, settings: { ...state.settings, ...action.payload } }
     }
-    // case 'EDIT_USER_SETTING': {
-    //   const { key, value } = action.payload
-    //   setLocalStorage(key, value)
-    //   return { ...state, settings: { ...state.settings, [key as 'colorTheme']: value } }
-    // }
+    case 'EDIT_USER_SETTING': {
+      const { key, value } = action.payload
+      setLocalStorage(key, value)
+      // Todo - will need to figure out why next line doesn't work.
+      return { ...state, settings: { ...state.settings, [key]: value as EColorTheme } }
+    }
     case 'SET_ACTIVE_MODAL': {
       return { ...state, activeModal: action.payload }
     }

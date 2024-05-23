@@ -10,6 +10,7 @@ const Settings = () => {
   const { state, dispatch } = useContext(context)
 
   const handleThemeChange = useCallback((event: SelectChangeEvent<EColorTheme>) => {
+    console.log(event.target.value)
     dispatch({ type: 'EDIT_USER_SETTING', payload: { key: 'colorTheme', value: event.target.value } })
   }, [dispatch])
 

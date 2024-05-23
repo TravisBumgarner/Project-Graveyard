@@ -1,7 +1,11 @@
+import AboutIcon from '@mui/icons-material/Help'
+import HomeIcon from '@mui/icons-material/Home'
+import SettingsIcon from '@mui/icons-material/Settings'
 import { Box, IconButton, Tooltip, Typography, css } from '@mui/material'
 import { useCallback, useContext, useMemo } from 'react'
 
 import { context } from 'Context'
+import { ModalID } from 'modals'
 import { EActivePage } from 'types'
 
 const Title = () => {
@@ -13,7 +17,7 @@ const Title = () => {
       case EActivePage.About:
         return 'About'
       default:
-        return 'Todo Today'
+        return 'Photo Backup Sync'
     }
   }, [activePage])
 
@@ -53,6 +57,10 @@ const Header = () => {
     dispatch({ type: 'SET_ACTIVE_PAGE', payload: { page: EActivePage.About } })
   }, [dispatch])
 
+  const handleSettings = useCallback(() => {
+    dispatch({ type: 'SET_ACTIVE_MODAL', payload: { id: ModalID.SETTINGS_MODAL } })
+  }, [dispatch])
+
 
   return (
     <Box css={headerCSS}>
@@ -62,16 +70,23 @@ const Header = () => {
           onClick={handleHome}
         >
           <Tooltip title="Home">
-            <Typography>Home</Typography>
+            <HomeIcon />
           </Tooltip>
         </IconButton>
 
-        <IconButton color="secondary"
+        <IconButton color="warning"
           onClick={handleAbout}
         >
           <Tooltip title="About">
-            <Typography>About</Typography>
+            <AboutIcon />
+          </Tooltip>
+        </IconButton>
 
+        <IconButton color="warning"
+          onClick={handleSettings}
+        >
+          <Tooltip title="Settings">
+            <SettingsIcon />
           </Tooltip>
         </IconButton>
       </Box >
