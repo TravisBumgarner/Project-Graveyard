@@ -1,16 +1,12 @@
 import { BrowserWindow, Menu, Notification, app, ipcMain, shell } from 'electron'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
-import moment from 'moment'
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { release } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 
-import { EAsyncMessageIPCFromMain, EAsyncMessageIPCFromRenderer, ESyncMessageIPC, type AppStartIPCFromMain, type AsyncBackupIPCFromMain, type AsyncBackupIPCFromRenderer, type AsyncNotificationIPCFromRenderer, type AsyncStartTimerIPCFromRenderer } from '../../shared/types'
-import { DATE_BACKUP_DATE } from '../../shared/utilities'
+import { EAsyncMessageIPCFromMain, EAsyncMessageIPCFromRenderer, type AsyncNotificationIPCFromRenderer } from '../../shared/types'
 import { isDebugProduction, isDev } from './config'
 import menu from './menu'
-import Timer from './timer'
 import { update } from './update'
 
 Menu.setApplicationMenu(menu)
@@ -63,7 +59,7 @@ async function createWindow() {
     minWidth: 700,
     x: 0,
     y: 0,
-    title: isDev ? 'DEV MODE' : 'Todo Today',
+    title: isDev ? 'DEV MODE' : 'Photo Backup Sync',
     icon: join(process.env.VITE_PUBLIC, 'icon.icns'),
     webPreferences: {
       preload,
@@ -124,8 +120,6 @@ app.on('activate', () => {
   }
 })
 
-let timer: Timer
-
 // New window example arg: new windows url
 ipcMain.handle('open-win', (_, arg) => {
   const childWindow = new BrowserWindow({
@@ -140,55 +134,6 @@ ipcMain.handle('open-win', (_, arg) => {
     void childWindow.loadURL(`${url}#${arg}`)
   } else {
     void childWindow.loadFile(indexHtml, { hash: arg })
-  }
-})
-
-const BACKUPS_DIR = resolve(app.getPath('documents'), app.name, 'backups')
-if (!existsSync(BACKUPS_DIR)) {
-  mkdirSync(BACKUPS_DIR, { recursive: true })
-}
-
-const timerTickCallback = (timerDuration: number) => {
-  if (win) {
-    win.webContents.send(EAsyncMessageIPCFromMain.TimerTick, { timerDuration })
-  }
-}
-
-ipcMain.on(EAsyncMessageIPCFromRenderer.StartTimer, async (_, arg: AsyncStartTimerIPCFromRenderer['body']) => {
-  timer = new Timer(timerTickCallback)
-  timer.start(arg.duration)
-})
-
-ipcMain.on(EAsyncMessageIPCFromRenderer.PauseTimer, async () => {
-  timer.pause()
-})
-
-ipcMain.on(EAsyncMessageIPCFromRenderer.ResetTimer, async () => {
-  timer.reset()
-})
-
-ipcMain.on(EAsyncMessageIPCFromRenderer.ResumeTimer, async () => {
-  timer.resume()
-})
-
-ipcMain.handle(ESyncMessageIPC.AppStart, async (): Promise<AppStartIPCFromMain['body']> => {
-  return {
-    backupDir: BACKUPS_DIR
-  }
-})
-
-ipcMain.on(EAsyncMessageIPCFromRenderer.CreateBackup, async (event, arg: AsyncBackupIPCFromRenderer['body']) => {
-  if (win) {
-    try {
-      writeFileSync(resolve(BACKUPS_DIR, arg.filename), arg.data, 'utf8')
-      const message: AsyncBackupIPCFromMain['body'] = { success: true, timestamp: moment().format(DATE_BACKUP_DATE) }
-      win.webContents.send(EAsyncMessageIPCFromMain.BackupCompleted, message)
-    } catch (e) {
-      const message: AsyncBackupIPCFromMain['body'] = { success: false }
-      win.webContents.send(EAsyncMessageIPCFromMain.BackupCompleted, message)
-    }
-  } else {
-    log.error(EAsyncMessageIPCFromMain.BackupCompleted, 'No window available')
   }
 })
 

@@ -97,17 +97,9 @@ const template = [
     role: 'help',
     submenu: [
       {
-        label: 'Website',
-        click: async () => { await shell.openExternal('http://todo.sillysideprojects.com/') }
+        label: 'GitHub Repository',
+        click: async () => { await shell.openExternal('https://github.com/TravisBumgarner/photo-backup-sync') }
       },
-      {
-        label: 'Changelog',
-        click: async () => { await shell.openExternal('http://todo.sillysideprojects.com/changelog') }
-      },
-      {
-        label: 'Contact',
-        click: async () => { await shell.openExternal('http://todo.sillysideprojects.com/support') }
-      }
     ]
   }
 ]

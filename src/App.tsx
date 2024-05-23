@@ -1,22 +1,18 @@
 import CssBaseline from '@mui/material/CssBaseline'; // https://stackoverflow.com/questions/74542488/react-material-ui-createtheme-default-is-not-a-function
 
-import { Box, Experimental_CssVarsProvider, css } from '@mui/material'
-import { useContext, useEffect, useMemo } from 'react'
+import { Box, Experimental_CssVarsProvider, css } from '@mui/material';
+import { useContext, useMemo } from 'react';
 
-import Context, { context } from 'Context'
-import RenderModal from 'modals'
-import { baseTheme, beachTheme, highContrastTheme, retroFutureTheme, underTheSeaTheme } from 'theme'
-import { Header, Message, Router } from './components'
-import { EColorTheme } from './types'
+import Context, { context } from 'Context';
+import RenderModal from 'modals';
+import { baseTheme, beachTheme, highContrastTheme, retroFutureTheme, underTheSeaTheme } from 'theme';
+import { Header, Message, Router } from './components';
+import { EColorTheme } from './types';
 
-import { useIPCAsyncMessageEffect } from './hooks/useIPCAsyncMessageEffect'
-import { setupAutomatedBackup } from './modals/Settings'
+import { useIPCAsyncMessageEffect } from './hooks/useIPCAsyncMessageEffect';
 
 const App = () => {
   const { state, dispatch } = useContext(context)
-  useEffect(() => {
-    setupAutomatedBackup(state.settings.backupInterval)
-  }, [state.settings.backupInterval])
   useIPCAsyncMessageEffect(dispatch)
 
   const theme = useMemo(() => {

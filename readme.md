@@ -12,3 +12,9 @@ https://medium.com/@johndyer24/creating-and-deploying-an-auto-updating-electron-
 
 To check logs
 `xcrun notarytool history --apple-id travis@sillysideprojects.com --team-id 669MM5WVSV`
+
+# Windows Issues
+
+Need to install `sudo apt install libnss3` before yarn start
+Then install `sudo apt-get install -y libatk-bridge2.0-0 libgtk-3.0 libasound2`
+Then install `sudo apt-get install libgbm-dev`

@@ -1,9 +1,8 @@
-import { useContext } from 'react'
-import { Alert as AlertMUI, Box, Button } from '@mui/material'
 import { css } from '@emotion/react'
+import { Alert as AlertMUI, Box, Button } from '@mui/material'
+import { useContext } from 'react'
 
 import { context } from 'Context'
-import { ButtonWrapper } from 'sharedComponents'
 
 const Alert = () => {
   const { state, dispatch } = useContext(context)
@@ -26,7 +25,7 @@ const Alert = () => {
         variant='filled'
         css={AlertMuiCSS}
         action={
-          <ButtonWrapper isHorizontal>
+          <>
             {state.message.cancelCallbackText
               ? <Button color="secondary" variant="outlined" size="small" onClick={handleCancel}>
                 {state.message.cancelCallbackText ? state.message.cancelCallbackText : 'Cancel'}
@@ -36,7 +35,7 @@ const Alert = () => {
             <Button color="primary" size="small" variant="outlined" onClick={handleConfirm}>
               {state.message.confirmCallbackText ? state.message.confirmCallbackText : 'Close'}
             </Button>
-          </ButtonWrapper>
+          </>
         }
         color="info"
       >{state.message.text}</AlertMUI>

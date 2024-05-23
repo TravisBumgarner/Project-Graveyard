@@ -2,7 +2,6 @@ import { Button, Typography } from '@mui/material'
 import { useCallback, useContext } from 'react'
 
 import { context } from 'Context'
-import { ButtonWrapper } from 'sharedComponents'
 import Modal from './Modal'
 import { type ModalID } from './RenderModal'
 
@@ -32,11 +31,9 @@ const ConfirmationModal = ({ title, body, confirmationCallback }: ConfirmationMo
       showModal={true}
     >
       <Typography variant="body1">{body}</Typography>
-      <ButtonWrapper>
-        <Button variant='contained'
-          color="secondary" fullWidth onClick={handleCancel}>Cancel</Button>
-        <Button variant='contained' fullWidth onClick={handleConfirm}>Ok</Button>
-      </ButtonWrapper>
+      <Button variant='contained'
+        color="secondary" fullWidth onClick={handleCancel}>Cancel</Button>
+      <Button variant='contained' fullWidth onClick={handleConfirm}>Ok</Button>
     </Modal >
   )
 }

@@ -1,9 +1,7 @@
-import moment from 'moment'
 import { createContext, useEffect, useReducer, useState, type Dispatch } from 'react'
 
-import { ESyncMessageIPC } from 'shared/types'
-import { EActivePage, EBackupInterval, EColorTheme, type TDateISODate, type TSettings } from 'types'
-import { formatDateKeyLookup, getLocalStorage, sendSyncIPCMessage, setLocalStorage } from 'utilities'
+import { EActivePage, EColorTheme, type TSettings } from 'types'
+import { getLocalStorage, setLocalStorage } from 'utilities'
 import { type ActiveModal } from './modals/RenderModal'
 
 const HAS_DONE_WARM_START = 'hasDoneWarmStart'
@@ -20,43 +18,26 @@ export interface State {
   } | null
   settings: {
     colorTheme: EColorTheme
-    backupInterval: EBackupInterval
-    backupDir: string
-    lastBackup: string
-    concurrentTodoListItems: number
   }
   activeModal: ActiveModal | null
-  selectedDate: TDateISODate
-  restoreInProgress: boolean
   activePage: EActivePage
-  workMode: 'queue' | 'do'
-  timerDuration: number
 }
 
 const EMPTY_STATE: State = {
   settings: {
     colorTheme: EColorTheme.BEACH,
-    backupInterval: EBackupInterval.OFF,
-    backupDir: '',
-    lastBackup: '',
-    concurrentTodoListItems: 1
   },
   activeModal: null,
-  selectedDate: formatDateKeyLookup(moment()),
-  restoreInProgress: false,
   activePage: EActivePage.Home,
   message: null,
-  workMode: 'queue',
-  timerDuration: 0
-
 }
+
 const initialSetup = (backupDir: string) => {
   Object
     .keys(EMPTY_STATE.settings)
     .forEach((key) => { setLocalStorage(key as keyof typeof EMPTY_STATE['settings'], EMPTY_STATE.settings[key as keyof typeof EMPTY_STATE['settings']]) })
 
-  setLocalStorage('backupDir', backupDir)
-  setLocalStorage(HAS_DONE_WARM_START, TRUE)
+  // setLocalStorage(HAS_DONE_WARM_START, TRUE)
 }
 
 const getKeysFromStorage = () => {
@@ -88,23 +69,8 @@ interface SetActiveModal {
   payload: ActiveModal
 }
 
-interface SetSelectedDate {
-  type: 'SET_SELECTED_DATE'
-  payload: {
-    date: TDateISODate
-  }
-}
-
 interface ClearActiveModal {
   type: 'CLEAR_ACTIVE_MODAL'
-}
-
-interface RestoreStarted {
-  type: 'RESTORE_STARTED'
-}
-
-interface RestoreEnded {
-  type: 'RESTORE_ENDED'
 }
 
 interface SetActivePage {
@@ -131,33 +97,14 @@ interface DeleteMessage {
   type: 'DELETE_MESSAGE'
 }
 
-interface UpdateworkMode {
-  type: 'UPDATE_WORK_MODE'
-  payload: {
-    workMode: 'queue' | 'do'
-  }
-}
-
-interface UpdateTimer {
-  type: 'UPDATE_TIMER'
-  payload: {
-    timerDuration: number
-  }
-}
-
 export type Action =
   | EditUserSettings
   | HydrateUserSettings
   | SetActiveModal
   | ClearActiveModal
-  | SetSelectedDate
-  | RestoreStarted
-  | RestoreEnded
   | SetActivePage
   | AddMessage
   | DeleteMessage
-  | UpdateworkMode
-  | UpdateTimer
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -167,23 +114,14 @@ const reducer = (state: State, action: Action): State => {
     case 'EDIT_USER_SETTING': {
       const { key, value } = action.payload
       setLocalStorage(key, value)
-      return { ...state, settings: { ...state.settings, [key]: value } }
+      // Todo - will need to figure out why next line doesn't work.
+      return { ...state, settings: { ...state.settings, [key]: value as EColorTheme } }
     }
     case 'SET_ACTIVE_MODAL': {
       return { ...state, activeModal: action.payload }
     }
     case 'CLEAR_ACTIVE_MODAL': {
       return { ...state, activeModal: null }
-    }
-    case 'SET_SELECTED_DATE': {
-      const { date } = action.payload
-      return { ...state, selectedDate: date }
-    }
-    case 'RESTORE_STARTED': {
-      return { ...state, restoreInProgress: true }
-    }
-    case 'RESTORE_ENDED': {
-      return { ...state, restoreInProgress: false }
     }
     case 'SET_ACTIVE_PAGE': {
       const { page } = action.payload
@@ -194,14 +132,6 @@ const reducer = (state: State, action: Action): State => {
     }
     case 'DELETE_MESSAGE': {
       return { ...state, message: null }
-    }
-    case 'UPDATE_WORK_MODE': {
-      const { workMode } = action.payload
-      return { ...state, workMode }
-    }
-    case 'UPDATE_TIMER': {
-      const { timerDuration } = action.payload
-      return { ...state, timerDuration }
     }
     default:
       throw new Error('Unexpected action')
@@ -224,14 +154,13 @@ const ResultsContext = ({ children }: { children: any }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { backupDir } = await sendSyncIPCMessage({ type: ESyncMessageIPC.AppStart, body: null })
-      if (getLocalStorage(HAS_DONE_WARM_START) !== TRUE) {
-        initialSetup(backupDir)
-      } else {
-        const currentLocalStorage = getKeysFromStorage()
-        const payload = { ...currentLocalStorage, backupDir }
-        dispatch({ type: 'HYDRATE_USER_SETTINGS', payload })
-      }
+      // if (getLocalStorage(HAS_DONE_WARM_START) !== TRUE) {
+      //   initialSetup(backupDir)
+      // } else {
+      const currentLocalStorage = getKeysFromStorage()
+      const payload = { ...currentLocalStorage }
+      dispatch({ type: 'HYDRATE_USER_SETTINGS', payload })
+      // }
     }
 
     setIsLoading(true)
