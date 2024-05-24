@@ -1,0 +1,10 @@
+{
+  "name": "algorithm_exploration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.12.12"
+  }
+}
