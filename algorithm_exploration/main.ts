@@ -1,50 +1,49 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import * as os from 'os'
+import * as exifr from 'exifr'
+import { ParsedData } from './types';
 
-const brand = Symbol('brand')
-
-type BHash = string & { [brand]: 'Hash' };
-type BFilename = string & { [brand]: 'Filename' };
-type BDate = string & { [brand]: 'Date' };
 
 /** Take in a filename and date and generate a unique hash identifying a photo. 
  * Theoretically this should be sufficient information to identify a photo uniquely 
  * */
-const generateUniqueHash = (filename: BFilename, date: BDate): string => {
+const generateUniqueHash = ({ filename, date }: { filename: string, date: string }): string => {
   const data: string = filename + date;
   const hashedData: string = crypto.createHash('sha256').update(data).digest('hex');
 
   return hashedData;
 }
 
-const walkDirectoryRecursivelyAndHash = (dir: string, fileLookup: Record<string, string>): void => {
+const walkDirectoryRecursivelyAndHash = async (dir: string, fileLookup: Record<string, string>): Promise<void> => {
   const files = fs.readdirSync(dir);
-  files.forEach(file => {
-    const filePath = path.join(dir, file);
+  for (const filename of files) {
+    const filePath = path.join(dir, filename);
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {
-      walkDirectoryRecursivelyAndHash(filePath, fileLookup); // Recurse into subdirectories
+      await walkDirectoryRecursivelyAndHash(filePath, fileLookup);
     } else {
-      console.log('hasing', file, stat.mtime.toISOString())
-      const hash = generateUniqueHash(file as BFilename, stat.mtime.toISOString() as BDate);
+      const data = await exifr.parse(filePath) as ParsedData;
+      console.log('Data:', data.DateTimeOriginal);
+      const hash = generateUniqueHash({ filename, date: data.DateTimeOriginal });
       fileLookup[hash] = filePath; // Add to lookup
     }
-  });
+  }
 }
 
 
 
 
-const main = (backupLibraryRoot: string, activeLibraryRoot: string): void => {
-  const backupHashList: Record<BHash, BFilename> = {};
-  const activeHashList: Record<BHash, BFilename> = {};
+const main = async (backupLibraryRoot: string, activeLibraryRoot: string): Promise<void> => {
+  const backupHashList: Record<string, string> = {};
+  const activeHashList: Record<string, string> = {};
 
-  walkDirectoryRecursivelyAndHash(backupLibraryRoot, backupHashList);
-  walkDirectoryRecursivelyAndHash(activeLibraryRoot, activeHashList);
+  await walkDirectoryRecursivelyAndHash(backupLibraryRoot, backupHashList);
+  await walkDirectoryRecursivelyAndHash(activeLibraryRoot, activeHashList);
 
-  const missingFiles: Record<BHash, BFilename> = {};
+  console.log('Backup Hash List:', backupHashList);
+  console.log('Active Hash List:', activeHashList);
+  const missingFiles: Record<string, string> = {};
 
   // Find missing files
   for (const [hash, filename] of Object.entries(backupHashList)) {
@@ -57,9 +56,9 @@ const main = (backupLibraryRoot: string, activeLibraryRoot: string): void => {
 }
 
 
-const backupLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_input';
-const activeLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_output';
+const backupLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_backup';
+const activeLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_active';
 
 main(backupLibraryRoot, activeLibraryRoot)
 
-
+export { }
