@@ -5,7 +5,7 @@ const DEBUG = false
 
 const findMissingFiles = async (backupLibraryRoot: string, activeLibraryRoot: string): Promise<string[]> => {
   const backupHashList: Record<string, string> = {};
-  const activeHashList: Record<string, string> = {};
+ cd const activeHashList: Record<string, string> = {};
 
   await walkDirectoryRecursivelyAndHash(backupLibraryRoot, backupHashList);
   await walkDirectoryRecursivelyAndHash(activeLibraryRoot, activeHashList);
@@ -73,16 +73,16 @@ const prettyPrintFileTree = (fileTree: FileTree, indent = '  '): void => {
   }
 };
 
-const main = async () => {
-  const backupLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_backup';
-  const activeLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_active';
-
+const main = async ({ backupLibraryRoot, activeLibraryRoot }: { backupLibraryRoot: string, activeLibraryRoot: string }) => {
   const missingFiles = await findMissingFiles(backupLibraryRoot, activeLibraryRoot)
   const fileTree = generateFileTree(missingFiles);
   prettyPrintFileTree(fileTree);
 
 }
 
-main()
+const backupLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_backup';
+const activeLibraryRoot = '/Users/travisbumgarner/Programming/photo-backup-sync/algorithm_exploration/testing_dir_active';
+
+main({ backupLibraryRoot, activeLibraryRoot })
 
 export { }
