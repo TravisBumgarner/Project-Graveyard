@@ -7,13 +7,13 @@ import App from './app.js';
 const cli = meow(
 	`
 	Usage
-	  $ cli
+	  $ backup-sync
 
 	Options
 		--name  Your name
 
 	Examples
-	  $ cli --name=Jane
+	  $ backup-sync --name=Jane
 	  Hello, Jane
 `,
 	{
