@@ -1,14 +1,20 @@
-import React from 'react';
-import {Text} from 'ink';
+import React, { useState } from 'react';
+import { Box, Text } from 'ink';
 
-type Props = {
-	name: string | undefined;
-};
+import { PageComputeMissing, PageMainMenu } from './pages/index.js';
+import { AppPage } from './types.js';
 
-export default function App({name = 'Stranger'}: Props) {
-	return (
-		<Text>
-			Hello, <Text color="green">{name}</Text>
-		</Text>
-	);
+export default function App() {
+  const [currentPage, setCurrentPage] = useState(AppPage.MainMenu);
+
+  switch (currentPage) {
+    case AppPage.MainMenu:
+      return <PageMainMenu setCurrentPage={setCurrentPage} />;
+    case AppPage.CheckFilesSetup:
+      return <PageComputeMissing setCurrentPage={setCurrentPage} />;
+    case AppPage.Exit:
+      return <Text>Farewell</Text>;
+    default:
+      return <Box><Text>You shouldn't see this.</Text></Box>;
+  }
 }
