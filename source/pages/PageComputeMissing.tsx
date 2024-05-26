@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
 import { Box, Text } from "ink";
+import TextInput from 'ink-text-input';
+import React, { useCallback, useState } from "react";
+import { useAsyncEffect } from "use-async-effect";
 import { BasePageProps } from "../types.js";
 import { readCache } from "../utils.js";
-import { useAsyncEffect } from "use-async-effect";
-import TextInput from 'ink-text-input';
 
 enum ActiveItem {
   BackupDirectoryInput = 0,
@@ -37,14 +37,14 @@ const ComputeMissing = ({ }: PageProps & BasePageProps) => {
       <Box>
         <Text>Backup Directory:</Text>
         {activeItem === ActiveItem.ActiveDirectoryInput
-          ? <TextInput value={backupDirectory} onChange={setBackupDirectory} />
+          ? <TextInput value={backupDirectory} onChange={setBackupDirectory} onSubmit={onSubmit} />
           : <Text>{backupDirectory}</Text>
         }
       </Box>
       <Box>
         <Text>Active Directory:</Text>
         {activeItem === ActiveItem.BackupDirectoryInput
-          ? <TextInput value={activeDirectory} onChange={setActiveDirectory} />
+          ? <TextInput value={activeDirectory} onChange={setActiveDirectory} onSubmit={onSubmit} />
           : <Text>{activeDirectory}</Text>
         }
       </Box>
