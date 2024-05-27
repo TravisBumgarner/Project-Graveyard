@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from "fs";
 import os from 'os';
 import path from 'path';
 import { Cache, CacheRunType } from './types.js';
@@ -6,22 +6,23 @@ import { Cache, CacheRunType } from './types.js';
 const FILENAME = 'cache.json';
 const DIRECTORY = '.backup-sync';
 
-export const cacheData = async (data: Cache) => {
+export const cacheData = (data: Cache) => {
   const cacheDir = path.join(os.homedir(), DIRECTORY);
-  await fs.mkdir(cacheDir, { recursive: true });
+  fs.mkdirSync(cacheDir, { recursive: true });
   const cacheFile = path.join(cacheDir, FILENAME);
-  await fs.writeFile(cacheFile, JSON.stringify(data));
+  fs.writeFileSync(cacheFile, JSON.stringify(data));
 }
 
 const EMPTY_CACHE: Cache = {
-  activeRootDirectory: null,
-  backupRootDirectory: null,
+  activeDirectory: null,
+  backupDirectory: null,
+  restoreDirectory: null,
 }
 
 export const readCache = async (): Promise<Cache> => {
   const cacheFile = path.join(os.homedir(), DIRECTORY, FILENAME);
   try {
-    const data = await fs.readFile(cacheFile, 'utf-8');
+    const data = fs.readFileSync(cacheFile, 'utf-8');
     const parsedData = JSON.parse(data);
 
     try {
@@ -35,5 +36,21 @@ export const readCache = async (): Promise<Cache> => {
   }
 }
 
+export const copyFile = (
+  { sourceDirectory, destinationDirectory, file }: { sourceDirectory: string, destinationDirectory: string, file: string }) => {
+  fs.mkdirSync(path.dirname(destinationDirectory), { recursive: true });
+  console.log('huh,', { sourceDirectory, destinationDirectory, file })
+  fs.copyFileSync(path.join(sourceDirectory, file), path.join(destinationDirectory, file));
+}
 
+export function verifyDirectoryExists(directoryPath: string): boolean {
+  return fs.existsSync(directoryPath);
+}
 
+export function createDirectory(directory: string): void {
+  fs.mkdirSync(directory, { recursive: true });
+}
+
+export function verifyDirectoryIsEmpty(directory: string): boolean {
+  return fs.readdirSync(directory, { withFileTypes: true }).length === 0;
+}

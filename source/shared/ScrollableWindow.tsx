@@ -82,7 +82,7 @@ const ScrollableWindow = ({ windowSize: desiredWindowSize, items, isActive, subm
   }, [windowStart, windowEnd, activeIndex, selectedItems, isActive]);
 
   return (
-    <Box flexDirection='column'>
+    <Box flexDirection='column' height={desiredWindowSize}>
       {displayedItems}
     </Box>
   );

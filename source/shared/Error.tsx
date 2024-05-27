@@ -1,4 +1,4 @@
-import { Box, Newline } from 'ink';
+import { Box } from 'ink';
 import Color from 'ink-color-pipe';
 import React, { useContext } from 'react';
 import { context } from '../context.js';
@@ -12,7 +12,6 @@ const Error = () => {
   return (
     <Box>
       <Color styles="bgRed.white">Error: {errorMessage}</Color>
-      <Newline />
     </Box>
   )
 }

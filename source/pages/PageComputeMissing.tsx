@@ -25,7 +25,7 @@ enum Status {
 }
 
 const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
-  const { dispatch, state: { activeRootDirectory, backupRootDirectory } } = useContext(context)
+  const { dispatch, state: { activeDirectory, backupDirectory } } = useContext(context)
   const [status, setStatus] = useState<Status>(Status.Idle)
   const [missingFileCount, setMissingFileCount] = useState<number | null>(null)
   // Passing in a ref because we're only going to update the count every N files. 
@@ -36,22 +36,24 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
 
   const rerenderHandler = () => triggerRerender(prev => !prev)
 
-  const calculateActiveRootDirectory = async () => {
+  const calculateactiveDirectory = async () => {
     const backupHashList: Record<string, string> = {};
     const activeHashList: Record<string, string> = {};
 
     setStatus(Status.WalkingBackupDirectory);
-    await walkDirectoryRecursivelyAndHash(backupRootDirectory, backupHashList, rerenderHandler, activeFileCount);
+    await walkDirectoryRecursivelyAndHash(backupDirectory, backupHashList, rerenderHandler, activeFileCount);
     rerenderHandler()
 
     setStatus(Status.WalkingActiveDirectory);
-    await walkDirectoryRecursivelyAndHash(activeRootDirectory, activeHashList, rerenderHandler, backupFileCount);
+    await walkDirectoryRecursivelyAndHash(activeDirectory, activeHashList, rerenderHandler, backupFileCount);
 
     setStatus(Status.CalculatingMissingFiles);
     const missingFiles = await findMissingFiles({ backupHashList, activeHashList })
     setMissingFileCount(missingFiles.length)
 
     const missingFilesByDirectory = generateFilesByDirectory(missingFiles)
+
+    console.log('missing', missingFilesByDirectory)
 
     if (missingFiles.length === 0) {
       setStatus(Status.NothingMissing)
@@ -65,7 +67,7 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
     setStatus(Status.MoveToRestoreStep)
   }
 
-  useAsyncEffect(async () => await calculateActiveRootDirectory(), [])
+  useAsyncEffect(async () => await calculateactiveDirectory(), [])
 
   const statusDisplay = useMemo(() => {
     switch (status) {

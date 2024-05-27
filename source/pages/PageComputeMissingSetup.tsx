@@ -2,18 +2,15 @@ import { Box, Newline, Text } from "ink";
 import TextInput from 'ink-text-input';
 import React, { useContext, useState } from "react";
 
-import fs from "fs";
+
 import { context } from "../context.js";
 import { Menu } from "../shared/index.js";
 import { AppPage, BasePageProps } from "../types.js";
-
-function verifyDirectoryExists(directoryPath: string): boolean {
-  return fs.existsSync(directoryPath);
-}
+import { verifyDirectoryExists } from "../utils.js";
 
 enum ActiveItem {
-  BackupRootDirectoryInput = 0,
-  ActiveRootDirectoryInput = 1,
+  BackupDirectoryInput = 0,
+  ActiveDirectoryInput = 1,
   ConfirmSubmit = 2,
   Submit = 3
 }
@@ -25,9 +22,9 @@ type PageProps = {
 const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) => {
   const { dispatch } = useContext(context)
 
-  const [backupRootDirectory, setBackupRootDirectory] = useState<string>("/Users/travisbumgarner/Programming/backup-sync/algorithm_exploration/testing_dir_backup");
-  const [activeRootDirectory, setActiveRootDirectory] = useState<string>("/Users/travisbumgarner/Programming/backup-sync/algorithm_exploration/testing_dir_active");
-  const [activeItem, setActiveItem] = useState<ActiveItem>(ActiveItem.BackupRootDirectoryInput);
+  const [backupDirectory, setBackupDirectory] = useState<string>("/Users/travisbumgarner/Programming/backup-sync/algorithm_exploration/testing_dir_backup");
+  const [activeDirectory, setActiveDirectory] = useState<string>("/Users/travisbumgarner/Programming/backup-sync/algorithm_exploration/testing_dir_active");
+  const [activeItem, setActiveItem] = useState<ActiveItem>(ActiveItem.BackupDirectoryInput);
 
   const onTextInputSubmit = () => {
     setActiveItem(prev => prev + 1)
@@ -41,19 +38,19 @@ const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) =>
       }
     })
 
-    if (value === ActiveItem.BackupRootDirectoryInput) {
-      setBackupRootDirectory("")
-      setActiveRootDirectory("")
+    if (value === ActiveItem.BackupDirectoryInput) {
+      setBackupDirectory("")
+      setActiveDirectory("")
     }
 
     if (value === ActiveItem.Submit) {
-      const backupExists = verifyDirectoryExists(backupRootDirectory)
-      const activeExists = verifyDirectoryExists(activeRootDirectory)
+      const backupDirectoryExists = verifyDirectoryExists(backupDirectory)
+      const activeDirectoryExists = verifyDirectoryExists(activeDirectory)
 
-      if (!backupExists || !activeExists) {
+      if (!backupDirectoryExists || !activeDirectoryExists) {
         let newErrorMessage = ""
-        backupExists || (newErrorMessage += "Backup directory does not exist.")
-        activeExists || (newErrorMessage += "Active directory does not exist.")
+        backupDirectoryExists || (newErrorMessage += "Backup directory does not exist.")
+        activeDirectoryExists || (newErrorMessage += "Active directory does not exist.")
 
         dispatch(
           {
@@ -64,17 +61,17 @@ const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) =>
           }
         )
 
-        setBackupRootDirectory("")
-        setActiveRootDirectory("")
-        setActiveItem(ActiveItem.BackupRootDirectoryInput)
+        setBackupDirectory("")
+        setActiveDirectory("")
+        setActiveItem(ActiveItem.BackupDirectoryInput)
         return
       }
 
       dispatch({
         type: 'SET_DIRECTORIES',
         payload: {
-          activeRootDirectory,
-          backupRootDirectory,
+          activeDirectory,
+          backupDirectory,
         }
       })
       navigatePage(AppPage.ComputeMissing)
@@ -86,23 +83,23 @@ const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) =>
     <Box flexDirection="column">
       <Box>
         <Text>Backup Directory: </Text>
-        {activeItem === ActiveItem.BackupRootDirectoryInput
-          ? <TextInput value={backupRootDirectory} onChange={setBackupRootDirectory} onSubmit={onTextInputSubmit} />
-          : <Text>{backupRootDirectory}</Text>
+        {activeItem === ActiveItem.BackupDirectoryInput
+          ? <TextInput value={backupDirectory} onChange={setBackupDirectory} onSubmit={onTextInputSubmit} />
+          : <Text>{backupDirectory}</Text>
         }
       </Box>
       <Box>
         <Text>Active Directory: </Text>
-        {activeItem === ActiveItem.ActiveRootDirectoryInput
-          ? <TextInput value={activeRootDirectory} onChange={setActiveRootDirectory} onSubmit={onTextInputSubmit} />
-          : <Text>{activeRootDirectory}</Text>
+        {activeItem === ActiveItem.ActiveDirectoryInput
+          ? <TextInput value={activeDirectory} onChange={setActiveDirectory} onSubmit={onTextInputSubmit} />
+          : <Text>{activeDirectory}</Text>
         }
       </Box>
       <Newline />
       <Menu
         options={[
           { label: "Submit", value: ActiveItem.Submit },
-          { label: "Restart Input", value: ActiveItem.BackupRootDirectoryInput },
+          { label: "Restart Input", value: ActiveItem.BackupDirectoryInput },
         ]}
         callback={menuCallback}
         isFocused={activeItem === ActiveItem.ConfirmSubmit}
