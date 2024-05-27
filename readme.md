@@ -3,6 +3,7 @@
 ## Good
 
 - React devs can get up and running very quickly. The library is pretty awesome, along with the component library it offers as well.
+- The fact that React and Node (`fs`, `os`, etc.) can live in the same file is pretty awesome. Much quicker to get up and running with file operations than Electron.
 
 ## Bad
 
