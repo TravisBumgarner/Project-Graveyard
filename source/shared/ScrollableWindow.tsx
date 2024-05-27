@@ -4,9 +4,13 @@ import React, { useMemo, useState } from 'react';
 type Props = {
   windowSize: number
   items: string[]
+  isActive: boolean
+  submitCallback: (items: boolean[]) => void
 }
 
-const ScrollableWindow = ({ windowSize, items }: Props) => {
+const ScrollableWindow = ({ windowSize: desiredWindowSize, items, isActive, submitCallback }: Props) => {
+  const windowSize = Math.min(desiredWindowSize, items.length)
+
   const initialIndex = Math.floor(windowSize / 2)
 
   const [windowStart, setWindowStart] = useState(0)
@@ -16,6 +20,12 @@ const ScrollableWindow = ({ windowSize, items }: Props) => {
 
   // Scroll the window up or down based on key presses. 
   useInput((_input, key) => {
+    if (!isActive) return
+
+    if (key.return) {
+      submitCallback(selectedItems)
+    }
+
     if (key.rightArrow) {
       setSelectedItems(selectedItems.map((value, index) => index === (activeIndex + windowStart) ? !value : value))
     }
@@ -66,10 +76,10 @@ const ScrollableWindow = ({ windowSize, items }: Props) => {
       const itemIndex = windowStart + index;
 
       return <Text
-        color={activeIndex === index ? 'red' : 'black'}
+        color={isActive && activeIndex === index ? 'red' : 'black'}
         key={index}>{item} {selectedItems[itemIndex] ? "[Selected]" : '[Not Selected]'}</Text>
     });
-  }, [windowStart, windowEnd, activeIndex, selectedItems]);
+  }, [windowStart, windowEnd, activeIndex, selectedItems, isActive]);
 
   return (
     <Box flexDirection='column'>

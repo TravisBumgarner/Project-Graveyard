@@ -11,6 +11,7 @@ interface State {
   activePage: AppPage,
   errorMessage: string,
   missingFilesByDirectory: FilesByDirectory | null
+  filesByDirectoryToRestore: FilesByDirectory | null
 }
 
 const EMPTY_STATE: State = {
@@ -18,14 +19,23 @@ const EMPTY_STATE: State = {
   backupRootDirectory: "",
   activePage: AppPage.MainMenu,
   errorMessage: "",
-  missingFilesByDirectory: null
+  missingFilesByDirectory: null,
+  filesByDirectoryToRestore: null
 }
 
-interface SET_MISSING_FILES_BY_DIRECTORY {
+interface SetMissingFilesByDirectory {
   type: 'SET_MISSING_FILES_BY_DIRECTORY'
   payload: {
     missingFilesByDirectory: FilesByDirectory
   }
+}
+
+interface FilesByDirectoryToRestore {
+  type: 'SET_FILES_BY_DIRECTORY_TO_RESTORE'
+  payload: {
+    filesByDirectoryToRestore: FilesByDirectory
+  }
+
 }
 
 interface SetActivePage {
@@ -64,7 +74,8 @@ export type Action =
   | SetActivePage
   | SetDirectories
   | SetErrorMessage
-  | SET_MISSING_FILES_BY_DIRECTORY
+  | SetMissingFilesByDirectory
+  | FilesByDirectoryToRestore
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -95,6 +106,12 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         ...action.payload
+      }
+    }
+    case 'SET_FILES_BY_DIRECTORY_TO_RESTORE': {
+      return {
+        ...state,
+        ...action.payload,
       }
     }
   }
