@@ -9,6 +9,7 @@ interface State {
   activeRootDirectory: string,
   backupRootDirectory: string,
   activePage: AppPage,
+  errorMessage?: string,
 
 }
 
@@ -16,6 +17,7 @@ const EMPTY_STATE: State = {
   activeRootDirectory: "",
   backupRootDirectory: "",
   activePage: AppPage.MainMenu,
+  errorMessage: ""
 }
 
 interface SetPage {
@@ -30,7 +32,6 @@ interface SetDirectories {
   payload: {
     activeRootDirectory: string,
     backupRootDirectory: string,
-    page: AppPage
   }
 }
 
@@ -42,10 +43,19 @@ interface HydrateFromCache {
   }
 }
 
+interface SetErrorMessage {
+  type: 'SET_ERROR_MESSAGE'
+  payload: {
+    errorMessage: string
+  }
+
+}
+
 export type Action =
   | HydrateFromCache
   | SetPage
   | SetDirectories
+  | SetErrorMessage
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -62,9 +72,14 @@ const reducer = (state: State, action: Action): State => {
     case 'SET_DIRECTORIES': {
       return {
         ...state,
-        activeRootDirectory: action.payload.activeRootDirectory,
-        backupRootDirectory: action.payload.backupRootDirectory,
-        activePage: action.payload.page
+        ...action.payload
+
+      }
+    }
+    case 'SET_ERROR_MESSAGE': {
+      return {
+        ...state,
+        errorMessage: action.payload.errorMessage
       }
     }
   }

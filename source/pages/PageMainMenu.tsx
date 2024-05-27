@@ -23,7 +23,7 @@ const MainMenu = ({ }: PageProps & BasePageProps) => {
 
   const items: MenuItem[] = [
     {
-      label: "Check files",
+      label: "Check Files",
       value: AppPage.ComputeMissingSetup
     },
     {
@@ -32,7 +32,7 @@ const MainMenu = ({ }: PageProps & BasePageProps) => {
     },
   ];
 
-  return (<Menu options={items} callback={handleSelect} label="Main Menu" />);
+  return (<Menu options={items} callback={handleSelect} />);
 }
 
 export default MainMenu;

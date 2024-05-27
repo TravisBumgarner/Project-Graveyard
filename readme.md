@@ -18,6 +18,7 @@
 - It's `JSX` but it's not in the browser. I imagine this is similar to moving from `React and Browser` dev to `React Native` as well. It made doing some things like working with eslint and tsconfig.json rather confusing. I tried copying an eslint config from a `React and Browser` project and I was getting a lot of errors. I also tried starting with a basic eslint config but got stuck. 
 - It's almost the same as `React and Browser` dev, but it's not. There are some bits that I'm not sure what's to blame. For example, I couldn't figure out why to import a file from `'Foo.tsx'` you import from `'Foo.js'`
 0 It's `CSS` but it's not. React Ink claims to work like CSS Flexbox. However, I struggled a lot with text across multiple `<Text />` components that all ended up on the same line.
+- The cli app will exit, in my opinion, a bit magically. It's hard to figure out what keeps it open and what doesn't. Maybe that's the joy of React Ink?
 
 # Dev Notes
 

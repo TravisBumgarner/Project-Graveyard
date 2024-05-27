@@ -5,10 +5,12 @@ export enum AppPage {
   MainMenu = 'main-menu',
   ComputeMissingSetup = 'compute-missing-setup',
   ComputeMissing = 'compute-missing',
+  ComputeRestoreSetup = 'compute-restore-setup',
   Exit = 'exit',
 }
 
 export type BasePageProps = {
+  navigatePage: (page: AppPage) => void
 }
 
 export const CacheRunType = Record({

@@ -1,5 +1,7 @@
+import Error from './Error.js'
 import Menu from './Menu.js'
 
 export {
-  Menu
+  Error, Menu
 }
+
