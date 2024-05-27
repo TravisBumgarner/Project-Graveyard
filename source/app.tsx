@@ -25,7 +25,7 @@ export default function App() {
     [AppPage.MainMenu]: 'Main Menu',
     [AppPage.ComputeMissingSetup]: 'Setup',
     [AppPage.ComputeMissing]: 'Computing',
-    [AppPage.ComputeRestoreSetup]: 'Restore Setup',
+    [AppPage.ComputeRestoreSetup]: 'Restore',
     [AppPage.Exit]: 'Farewell',
   }[activePage]
 
