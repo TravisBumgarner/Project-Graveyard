@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useState, type Dispatch } from 'react
 import { useAsyncEffect } from 'use-async-effect';
 
 import { Text } from 'ink';
-import { AppPage, FileTree } from './types.js';
+import { AppPage, FilesByDirectory } from './types.js';
 import { readCache } from './utils.js';
 
 interface State {
@@ -10,7 +10,7 @@ interface State {
   backupRootDirectory: string,
   activePage: AppPage,
   errorMessage: string,
-  missingFileTree: FileTree | null
+  missingFilesByDirectory: FilesByDirectory | null
 }
 
 const EMPTY_STATE: State = {
@@ -18,20 +18,20 @@ const EMPTY_STATE: State = {
   backupRootDirectory: "",
   activePage: AppPage.MainMenu,
   errorMessage: "",
-  missingFileTree: null
+  missingFilesByDirectory: null
 }
 
-interface SET_MISSING_FILE_TREE {
-  type: 'SET_MISSING_FILE_TREE'
+interface SET_MISSING_FILES_BY_DIRECTORY {
+  type: 'SET_MISSING_FILES_BY_DIRECTORY'
   payload: {
-    missingFileTree: FileTree
+    missingFilesByDirectory: FilesByDirectory
   }
 }
 
-interface SetPage {
-  type: 'SET_PAGE'
+interface SetActivePage {
+  type: 'SET_ACTIVE_PAGE'
   payload: {
-    page: AppPage
+    activePage: AppPage
   }
 }
 
@@ -61,10 +61,10 @@ interface SetErrorMessage {
 
 export type Action =
   | HydrateFromCache
-  | SetPage
+  | SetActivePage
   | SetDirectories
   | SetErrorMessage
-  | SET_MISSING_FILE_TREE
+  | SET_MISSING_FILES_BY_DIRECTORY
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -75,8 +75,8 @@ const reducer = (state: State, action: Action): State => {
         backupRootDirectory: action.payload.backupRootDirectory,
       }
     }
-    case 'SET_PAGE': {
-      return { ...state, activePage: action.payload.page }
+    case 'SET_ACTIVE_PAGE': {
+      return { ...state, ...action.payload }
     }
     case 'SET_DIRECTORIES': {
       return {
@@ -88,13 +88,13 @@ const reducer = (state: State, action: Action): State => {
     case 'SET_ERROR_MESSAGE': {
       return {
         ...state,
-        errorMessage: action.payload.errorMessage
+        ...action.payload
       }
     }
-    case 'SET_MISSING_FILE_TREE': {
+    case 'SET_MISSING_FILES_BY_DIRECTORY': {
       return {
         ...state,
-        missingFileTree: action.payload.missingFileTree
+        ...action.payload
       }
     }
   }

@@ -11,7 +11,7 @@ export const generateUniqueHash = ({ filename, size }: { filename: string, size:
 }
 
 
-export const walkDirectoryRecursivelyAndHash = async (
+const walkDirectoryRecursivelyAndHash = async (
   dir: string,
   fileLookup: Record<string, string>,
   triggerRerender: () => void,
@@ -35,3 +35,5 @@ export const walkDirectoryRecursivelyAndHash = async (
     }
   }
 }
+
+export default walkDirectoryRecursivelyAndHash;

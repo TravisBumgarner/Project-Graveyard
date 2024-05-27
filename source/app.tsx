@@ -12,10 +12,10 @@ import { AppPage } from './types.js';
 export default function App() {
   const { dispatch, state: { activePage } } = useContext(context)
 
-  const navigatePage = (page: AppPage) => {
+  const navigatePage = (activePage: AppPage) => {
     dispatch({
-      type: 'SET_PAGE',
-      payload: { page }
+      type: 'SET_ACTIVE_PAGE',
+      payload: { activePage }
     })
   }
 

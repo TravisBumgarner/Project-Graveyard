@@ -1,49 +1,31 @@
 import { Box, Text } from "ink";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 
 import { context } from "../context.js";
+import ScrollableWindow from "../shared/ScrollableWindow.js";
 import { Menu } from "../shared/index.js";
 import { AppPage, BasePageProps } from "../types.js";
-
-const DisplayTree = ({ tree, indent = "" }: { tree: any, indent?: string }) => {
-  return (
-    <Box flexDirection="column">
-      {Object.entries(tree).map(([key, value]) => {
-        if (typeof value === 'string') {
-          return <Text key={key}>{`${indent}${key}`}</Text>;
-        } else if (Array.isArray(value)) {
-          return (
-            <Box key={key} flexDirection="column">
-              <Text>{`${indent}${key}`} - {value.length} files missing</Text>
-              {/* {value.map(file => <Text>{`${indent}  ${file}`}</Text>)} */}
-            </Box>
-          );
-        } else {
-          return (
-            <Box key={key} flexDirection="column">
-              <Text>{`${indent}${key}/`}</Text>
-              <DisplayTree tree={value} indent={`${indent}  `} />
-            </Box>
-          );
-        }
-      })}
-    </Box>
-  );
-};
 
 type PageProps = {
 
 }
 
 const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) => {
-  const { state: { missingFileTree } } = useContext(context)
+  const { state: { missingFilesByDirectory } } = useContext(context)
   const menuCallback = (appPage: AppPage) => {
     navigatePage(appPage)
   }
 
+  const items = useMemo(() => {
+    return missingFilesByDirectory?.map(({ directory, files }) => `${directory} - ${files.length}`)
+  }, [missingFilesByDirectory])
+
+  
+
+
   return (
     <Box flexDirection="column">
-      <DisplayTree tree={missingFileTree} />
+      {items !== undefined ? <ScrollableWindow items={items} windowSize={9} /> : <Text>No items missing.</Text>}
       <Menu
         options={[
           { label: "Restore", value: AppPage.ComputeRestore },

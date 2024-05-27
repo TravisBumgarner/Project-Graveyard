@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { context } from "../context.js";
+import React from "react";
 import Menu from "../shared/Menu.js";
 import { AppPage, BasePageProps } from "../types.js";
 
@@ -9,16 +8,9 @@ type PageProps = {
 
 }
 
-const MainMenu = ({ }: PageProps & BasePageProps) => {
-  const { dispatch } = useContext(context)
-
-  const handleSelect = (value: MenuItem['value']) => {
-    dispatch({
-      type: 'SET_PAGE',
-      payload: {
-        page: value
-      }
-    })
+const MainMenu = ({ navigatePage }: PageProps & BasePageProps) => {
+  const handleSelect = (activePage: MenuItem['value']) => {
+    navigatePage(activePage)
   }
 
   const items: MenuItem[] = [
