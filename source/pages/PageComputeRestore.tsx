@@ -1,6 +1,7 @@
 import { Box, Newline, Text } from "ink";
-import React from "react";
+import React, { useContext } from "react";
 
+import { context } from "../context.js";
 import { Menu } from "../shared/index.js";
 import { AppPage, BasePageProps } from "../types.js";
 
@@ -10,13 +11,14 @@ type PageProps = {
 }
 
 const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) => {
+  const { state: { filesByDirectoryToRestore } } = useContext(context)
   const menuCallback = (appPage: AppPage) => {
     navigatePage(appPage)
   }
 
   return (
     <Box flexDirection="column">
-      <Text>Restored 2 files. (This is currently a placeholder)</Text>
+      <Text>Restoring {filesByDirectoryToRestore?.length} directories</Text>
       <Newline />
       <Menu
         options={[

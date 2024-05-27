@@ -19,9 +19,11 @@ export const CacheRunType = Record({
   backupRootDirectory: String.Or(Null),
 })
 
-export type FileTree = {
-  [key: string]: FileTree | string[]
-}
+export type FilesByDirectory = {
+  directory: string;
+  files: string[];
+}[];
+
 
 
 export type Cache = Static<typeof CacheRunType>

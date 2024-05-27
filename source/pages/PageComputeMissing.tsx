@@ -4,8 +4,8 @@ import React, { useContext, useMemo, useRef, useState } from "react";
 
 import { useAsyncEffect } from "use-async-effect";
 import findMissingFiles from "../algorithms/findMissingFiles.js";
-import { buildFileTree } from "../algorithms/index.js";
-import { walkDirectoryRecursivelyAndHash } from "../algorithms/walkDirectoryRecursivelyAndHash.js";
+import generateFilesByDirectory from "../algorithms/generateFilesByDirectory.js";
+import { walkDirectoryRecursivelyAndHash } from "../algorithms/index.js";
 import { context } from "../context.js";
 import Menu from "../shared/Menu.js";
 import { AppPage, BasePageProps } from "../types.js";
@@ -51,15 +51,15 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
     const missingFiles = await findMissingFiles({ backupHashList, activeHashList })
     setMissingFileCount(missingFiles.length)
 
-    const missingFileTree = buildFileTree(missingFiles)
+    const missingFilesByDirectory = generateFilesByDirectory(missingFiles)
 
     if (missingFiles.length === 0) {
       setStatus(Status.NothingMissing)
     } else {
       // Horribly not performant? probably.
       dispatch({
-        type: 'SET_MISSING_FILE_TREE',
-        payload: { missingFileTree }
+        type: 'SET_MISSING_FILES_BY_DIRECTORY',
+        payload: { missingFilesByDirectory }
       })
     }
     setStatus(Status.MoveToRestoreStep)
