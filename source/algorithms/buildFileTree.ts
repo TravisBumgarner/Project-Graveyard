@@ -1,6 +1,4 @@
-type FileTree = {
-  [key: string]: FileTree | string[]
-}
+import { FileTree } from "../types.js";
 
 const generateFileTree = (files: string[]) => {
   // Copilot wrote this function. Don't @ me.

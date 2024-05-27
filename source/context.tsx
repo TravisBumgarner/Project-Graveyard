@@ -2,22 +2,30 @@ import React, { createContext, useReducer, useState, type Dispatch } from 'react
 import { useAsyncEffect } from 'use-async-effect';
 
 import { Text } from 'ink';
-import { AppPage } from './types.js';
+import { AppPage, FileTree } from './types.js';
 import { readCache } from './utils.js';
 
 interface State {
   activeRootDirectory: string,
   backupRootDirectory: string,
   activePage: AppPage,
-  errorMessage?: string,
-
+  errorMessage: string,
+  missingFileTree: FileTree | null
 }
 
 const EMPTY_STATE: State = {
   activeRootDirectory: "",
   backupRootDirectory: "",
   activePage: AppPage.MainMenu,
-  errorMessage: ""
+  errorMessage: "",
+  missingFileTree: null
+}
+
+interface SET_MISSING_FILE_TREE {
+  type: 'SET_MISSING_FILE_TREE'
+  payload: {
+    missingFileTree: FileTree
+  }
 }
 
 interface SetPage {
@@ -56,6 +64,7 @@ export type Action =
   | SetPage
   | SetDirectories
   | SetErrorMessage
+  | SET_MISSING_FILE_TREE
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -80,6 +89,12 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         errorMessage: action.payload.errorMessage
+      }
+    }
+    case 'SET_MISSING_FILE_TREE': {
+      return {
+        ...state,
+        missingFileTree: action.payload.missingFileTree
       }
     }
   }

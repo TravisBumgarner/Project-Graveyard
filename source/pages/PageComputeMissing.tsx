@@ -4,6 +4,7 @@ import React, { useContext, useMemo, useRef, useState } from "react";
 
 import { useAsyncEffect } from "use-async-effect";
 import findMissingFiles from "../algorithms/findMissingFiles.js";
+import { buildFileTree } from "../algorithms/index.js";
 import { walkDirectoryRecursivelyAndHash } from "../algorithms/walkDirectoryRecursivelyAndHash.js";
 import { context } from "../context.js";
 import Menu from "../shared/Menu.js";
@@ -24,7 +25,7 @@ enum Status {
 }
 
 const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
-  const { state: { activeRootDirectory, backupRootDirectory } } = useContext(context)
+  const { dispatch, state: { activeRootDirectory, backupRootDirectory } } = useContext(context)
   const [status, setStatus] = useState<Status>(Status.Idle)
   const [missingFileCount, setMissingFileCount] = useState<number | null>(null)
   // Passing in a ref because we're only going to update the count every N files. 
@@ -35,7 +36,7 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
 
   const rerenderHandler = () => triggerRerender(prev => !prev)
 
-  const calculateactiveRootDirectory = async () => {
+  const calculateActiveRootDirectory = async () => {
     const backupHashList: Record<string, string> = {};
     const activeHashList: Record<string, string> = {};
 
@@ -50,19 +51,25 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
     const missingFiles = await findMissingFiles({ backupHashList, activeHashList })
     setMissingFileCount(missingFiles.length)
 
+    const missingFileTree = buildFileTree(missingFiles)
+
     if (missingFiles.length === 0) {
       setStatus(Status.NothingMissing)
     } else {
-      setStatus(Status.MoveToRestoreStep)
+      // Horribly not performant? probably.
+      dispatch({
+        type: 'SET_MISSING_FILE_TREE',
+        payload: { missingFileTree }
+      })
     }
+    setStatus(Status.MoveToRestoreStep)
   }
 
-  useAsyncEffect(async () => await calculateactiveRootDirectory(), [])
+  useAsyncEffect(async () => await calculateActiveRootDirectory(), [])
 
   const statusDisplay = useMemo(() => {
     switch (status) {
       case Status.WalkingBackupDirectory:
-        console.log('setting status', status)
         return (
           <Box>
             <Text color="green">
@@ -72,7 +79,6 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
           </Box>
         )
       case Status.WalkingActiveDirectory:
-        console.log('setting status', status)
         return (
           <Box>
             <Text color="green">
@@ -82,14 +88,12 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
           </Box>
         )
       case Status.Idle:
-        console.log('setting status', status)
         return (
           <Box>
             <Text>Idle</Text>
           </Box>
         )
       case Status.CalculatingMissingFiles:
-        console.log('setting status', status)
         return (
           <Box>
             <Text color="green">
@@ -99,7 +103,6 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
           </Box>
         )
       case Status.NothingMissing:
-        console.log('setting status', status)
         return (
           <Menu
             label="Nothing is Missing"
@@ -117,7 +120,7 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
             <Newline />
             <Menu
               options={[
-                { label: "Restore", value: AppPage.ComputeRestoreSetup },
+                { label: "Continue", value: AppPage.ComputeRestoreSetup },
                 { label: "Main Menu", value: AppPage.MainMenu },
                 { label: "Exit", value: AppPage.Exit },
               ]}

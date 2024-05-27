@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import { Box, Newline, Text } from 'ink';
 import { context } from './context.js';
 import PageExit from './pages/Exit.js';
-import { PageComputeMissing, PageComputeMissingSetup, PageComputeRestoreSetup, PageMainMenu } from './pages/index.js';
+import { PageComputeMissing, PageComputeMissingSetup, PageComputeRestore, PageComputeRestoreSetup, PageMainMenu } from './pages/index.js';
 import { Error } from './shared/index.js';
 import { AppPage } from './types.js';
 
@@ -25,7 +25,8 @@ export default function App() {
     [AppPage.MainMenu]: 'Main Menu',
     [AppPage.ComputeMissingSetup]: 'Setup',
     [AppPage.ComputeMissing]: 'Computing',
-    [AppPage.ComputeRestoreSetup]: 'Restore',
+    [AppPage.ComputeRestoreSetup]: 'Restore Setup',
+    [AppPage.ComputeRestore]: 'Restoring',
     [AppPage.Exit]: 'Farewell',
   }[activePage]
 
@@ -33,10 +34,10 @@ export default function App() {
     [AppPage.MainMenu]: 'Select an option',
     [AppPage.ComputeMissingSetup]: "Enter the backup and active directories. Fields are pre-populated if you've run this before.",
     [AppPage.ComputeMissing]: 'Calculating missing files',
-    [AppPage.ComputeRestoreSetup]: 'Restore missing files',
+    [AppPage.ComputeRestoreSetup]: 'Select directories and files to restore.',
+    [AppPage.ComputeRestore]: 'Restoring missing files',
     [AppPage.Exit]: 'Goodbye',
   }[activePage]
-
 
   let content: JSX.Element | null = null
   switch (activePage) {
@@ -54,6 +55,10 @@ export default function App() {
     }
     case AppPage.ComputeRestoreSetup: {
       content = <PageComputeRestoreSetup {...sharedPageProps} />
+      break
+    }
+    case AppPage.ComputeRestore: {
+      content = <PageComputeRestore {...sharedPageProps} />
       break
     }
     case AppPage.Exit: {

@@ -6,6 +6,7 @@ export enum AppPage {
   ComputeMissingSetup = 'compute-missing-setup',
   ComputeMissing = 'compute-missing',
   ComputeRestoreSetup = 'compute-restore-setup',
+  ComputeRestore = 'compute-restore',
   Exit = 'exit',
 }
 
@@ -17,5 +18,10 @@ export const CacheRunType = Record({
   activeRootDirectory: String.Or(Null),
   backupRootDirectory: String.Or(Null),
 })
+
+export type FileTree = {
+  [key: string]: FileTree | string[]
+}
+
 
 export type Cache = Static<typeof CacheRunType>
