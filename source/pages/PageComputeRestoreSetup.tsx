@@ -51,6 +51,12 @@ const PageComputeMissingSetup = ({ navigatePage }: PageProps & BasePageProps) =>
     const isPrepared = prepareRestoreDirectory(restoreDirectory)
     if (!isPrepared) return
 
+    dispatch({
+      type: 'SET_DIRECTORIES',
+      payload: {
+        restoreDirectory: restoreDirectory
+      }
+    })
     setActiveItem(ActiveItem.MenuSelection)
   }
 

@@ -53,6 +53,8 @@ const PageComputeMissing = ({ navigatePage }: PageProps & BasePageProps) => {
 
     const missingFilesByDirectory = generateFilesByDirectory(missingFiles)
 
+    console.log('missing', missingFilesByDirectory)
+
     if (missingFiles.length === 0) {
       setStatus(Status.NothingMissing)
     } else {

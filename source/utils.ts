@@ -6,7 +6,7 @@ import { Cache, CacheRunType } from './types.js';
 const FILENAME = 'cache.json';
 const DIRECTORY = '.backup-sync';
 
-export const cacheData = async (data: Cache) => {
+export const cacheData = (data: Cache) => {
   const cacheDir = path.join(os.homedir(), DIRECTORY);
   fs.mkdirSync(cacheDir, { recursive: true });
   const cacheFile = path.join(cacheDir, FILENAME);
@@ -16,12 +16,13 @@ export const cacheData = async (data: Cache) => {
 const EMPTY_CACHE: Cache = {
   activeDirectory: null,
   backupDirectory: null,
+  restoreDirectory: null,
 }
 
 export const readCache = async (): Promise<Cache> => {
   const cacheFile = path.join(os.homedir(), DIRECTORY, FILENAME);
   try {
-    const data = await fs.readFileSync(cacheFile, 'utf-8');
+    const data = fs.readFileSync(cacheFile, 'utf-8');
     const parsedData = JSON.parse(data);
 
     try {
@@ -35,9 +36,11 @@ export const readCache = async (): Promise<Cache> => {
   }
 }
 
-export const restoreFile = async (source: string, destination: string) => {
-  fs.mkdirSync(path.dirname(destination), { recursive: true });
-  fs.copyFileSync(source, destination);
+export const copyFile = (
+  { sourceDirectory, destinationDirectory, file }: { sourceDirectory: string, destinationDirectory: string, file: string }) => {
+  fs.mkdirSync(path.dirname(destinationDirectory), { recursive: true });
+  console.log('huh,', { sourceDirectory, destinationDirectory, file })
+  fs.copyFileSync(path.join(sourceDirectory, file), path.join(destinationDirectory, file));
 }
 
 export function verifyDirectoryExists(directoryPath: string): boolean {

@@ -8,6 +8,7 @@ import { readCache } from './utils.js';
 interface State {
   activeDirectory: string,
   backupDirectory: string,
+  restoreDirectory: string,
   activePage: AppPage,
   errorMessage: string,
   missingFilesByDirectory: FilesByDirectory | null
@@ -17,6 +18,7 @@ interface State {
 const EMPTY_STATE: State = {
   activeDirectory: "",
   backupDirectory: "",
+  restoreDirectory: "",
   activePage: AppPage.MainMenu,
   errorMessage: "",
   missingFilesByDirectory: null,
@@ -48,8 +50,9 @@ interface SetActivePage {
 interface SetDirectories {
   type: 'SET_DIRECTORIES'
   payload: {
-    activeDirectory: string,
-    backupDirectory: string,
+    activeDirectory?: string,
+    backupDirectory?: string,
+    restoreDirectory?: string
   }
 }
 
@@ -58,6 +61,7 @@ interface HydrateFromCache {
   payload: {
     activeDirectory: string,
     backupDirectory: string,
+    restoreDirectory: string
   }
 }
 
@@ -82,12 +86,14 @@ const reducer = (state: State, action: Action): State => {
     case 'HYDRATE_FROM_CACHE': {
       return {
         ...state,
-        activeDirectory: action.payload.activeDirectory,
-        backupDirectory: action.payload.backupDirectory,
+        ...action.payload
       }
     }
     case 'SET_ACTIVE_PAGE': {
-      return { ...state, ...action.payload }
+      return {
+        ...state,
+        ...action.payload
+      }
     }
     case 'SET_DIRECTORIES': {
       return {
@@ -132,12 +138,13 @@ const ResultsContext = ({ children }: { children: any }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useAsyncEffect(async () => {
-    const { backupDirectory, activeDirectory } = await readCache()
+    const { backupDirectory, activeDirectory, restoreDirectory } = await readCache()
     dispatch({
       type: 'HYDRATE_FROM_CACHE',
       payload: {
         activeDirectory: activeDirectory || '',
         backupDirectory: backupDirectory || '',
+        restoreDirectory: restoreDirectory || '',
       }
     })
     setIsLoading(false)
