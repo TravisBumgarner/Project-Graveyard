@@ -6,8 +6,8 @@ import { AppPage, FilesByDirectory } from './types.js';
 import { readCache } from './utils.js';
 
 interface State {
-  activeRootDirectory: string,
-  backupRootDirectory: string,
+  activeDirectory: string,
+  backupDirectory: string,
   activePage: AppPage,
   errorMessage: string,
   missingFilesByDirectory: FilesByDirectory | null
@@ -15,8 +15,8 @@ interface State {
 }
 
 const EMPTY_STATE: State = {
-  activeRootDirectory: "",
-  backupRootDirectory: "",
+  activeDirectory: "",
+  backupDirectory: "",
   activePage: AppPage.MainMenu,
   errorMessage: "",
   missingFilesByDirectory: null,
@@ -48,16 +48,16 @@ interface SetActivePage {
 interface SetDirectories {
   type: 'SET_DIRECTORIES'
   payload: {
-    activeRootDirectory: string,
-    backupRootDirectory: string,
+    activeDirectory: string,
+    backupDirectory: string,
   }
 }
 
 interface HydrateFromCache {
   type: 'HYDRATE_FROM_CACHE'
   payload: {
-    activeRootDirectory: string,
-    backupRootDirectory: string,
+    activeDirectory: string,
+    backupDirectory: string,
   }
 }
 
@@ -82,8 +82,8 @@ const reducer = (state: State, action: Action): State => {
     case 'HYDRATE_FROM_CACHE': {
       return {
         ...state,
-        activeRootDirectory: action.payload.activeRootDirectory,
-        backupRootDirectory: action.payload.backupRootDirectory,
+        activeDirectory: action.payload.activeDirectory,
+        backupDirectory: action.payload.backupDirectory,
       }
     }
     case 'SET_ACTIVE_PAGE': {
@@ -132,12 +132,12 @@ const ResultsContext = ({ children }: { children: any }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useAsyncEffect(async () => {
-    const { backupRootDirectory, activeRootDirectory } = await readCache()
+    const { backupDirectory, activeDirectory } = await readCache()
     dispatch({
       type: 'HYDRATE_FROM_CACHE',
       payload: {
-        activeRootDirectory: activeRootDirectory || '',
-        backupRootDirectory: backupRootDirectory || '',
+        activeDirectory: activeDirectory || '',
+        backupDirectory: backupDirectory || '',
       }
     })
     setIsLoading(false)
