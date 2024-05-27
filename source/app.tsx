@@ -8,8 +8,6 @@ import { AppPage } from './types.js';
 export default function App() {
   const { state: { activePage } } = useContext(context)
 
-  console.log('active page', activePage)
-
   switch (activePage) {
     case AppPage.MainMenu:
       return <PageMainMenu />;

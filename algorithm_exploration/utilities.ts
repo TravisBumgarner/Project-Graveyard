@@ -23,7 +23,7 @@ export const walkDirectoryRecursivelyAndHash = async (dir: string, fileLookup: R
       await walkDirectoryRecursivelyAndHash(filePath, fileLookup);
     } else {
       const data = await exifr.parse(filePath) as ParsedData;
-      console.log('Data:', data.DateTimeOriginal);
+
       const hash = generateUniqueHash({ filename, date: data.DateTimeOriginal });
       fileLookup[hash] = filePath; // Add to lookup
     }

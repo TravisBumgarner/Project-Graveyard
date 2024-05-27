@@ -26,19 +26,16 @@ const PageComputeMissingSetup = ({ }: PageProps & BasePageProps) => {
   const [activeDirectory, setActiveDirectory] = useState<string>("");
   const [activeItem, setActiveItem] = useState<ActiveItem>(ActiveItem.BackupDirectoryInput);
 
-  console.log('activeItem', activeItem)
-
   const onTextInputSubmit = () => {
     setActiveItem(prev => prev + 1)
   }
 
   const menuCallback = (value: ActiveItem) => {
-    console.log('menu callback', value)
     if (value === ActiveItem.BackupDirectoryInput) {
       setBackupDirectory("")
       setActiveDirectory("")
     }
-    console.log('ruda val', value)
+
     if (value === ActiveItem.Submit) {
       dispatch({
         type: 'SET_DIRECTORIES',

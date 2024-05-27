@@ -12,7 +12,6 @@ type Props<T> = {
 
 const Menu = <T extends string | number>({ options, callback, label }: Props<T>) => {
   const handleSelect = ({ value }: Option<T>) => {
-    console.log('selected', value)
     callback(value)
   }
 
