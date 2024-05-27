@@ -1,8 +1,7 @@
-import React, { useCallback } from "react";
-import SelectInput from 'ink-select-input';
-import { AppPage } from "../types.js";
-import { Box, Text } from "ink";
-import { BasePageProps } from "../types.js";
+import React, { useContext } from "react";
+import { context } from "../context.js";
+import Menu from "../shared/Menu.js";
+import { AppPage, BasePageProps } from "../types.js";
 
 type MenuItem = { label: string, value: AppPage }
 
@@ -10,15 +9,22 @@ type PageProps = {
 
 }
 
-const MainMenu = ({ setCurrentPage }: PageProps & BasePageProps) => {
-  const handleSelect = useCallback((selection: MenuItem) => {
-    setCurrentPage(selection.value)
-  }, [])
+const MainMenu = ({ }: PageProps & BasePageProps) => {
+  const { dispatch } = useContext(context)
+
+  const handleSelect = (value: MenuItem['value']) => {
+    dispatch({
+      type: 'SET_PAGE',
+      payload: {
+        page: value
+      }
+    })
+  }
 
   const items: MenuItem[] = [
     {
       label: "Check files",
-      value: AppPage.CheckFilesSetup
+      value: AppPage.ComputeMissingSetup
     },
     {
       label: "Exit",
@@ -26,14 +32,7 @@ const MainMenu = ({ setCurrentPage }: PageProps & BasePageProps) => {
     },
   ];
 
-  return (
-    <Box flexDirection="column">
-      <Box>
-        <Text>What to do?</Text>
-      </Box>
-      <SelectInput items={items} onSelect={handleSelect} />
-    </Box>
-  );
+  return (<Menu options={items} callback={handleSelect} label="Main Menu" />);
 }
 
 export default MainMenu;

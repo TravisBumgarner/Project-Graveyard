@@ -1,20 +1,19 @@
-import { Record, String, Null, Static } from 'runtypes'
+import { Null, Record, Static, String } from 'runtypes';
 
-
-export const StateRunType = Record({
-  activeDirectory: String.Or(Null),
-  backupDirectory: String.Or(Null),
-})
-
-export type State = Static<typeof StateRunType>
-
-
+// Pages should share the same name as what's in this list, minus the `Page` prefix.
 export enum AppPage {
   MainMenu = 'main-menu',
-  CheckFilesSetup = 'check-files-setup',
+  ComputeMissingSetup = 'compute-missing-setup',
+  ComputeMissing = 'compute-missing',
   Exit = 'exit',
 }
 
 export type BasePageProps = {
-  setCurrentPage: (page: AppPage) => void;
 }
+
+export const CacheRunType = Record({
+  activeDirectory: String.Or(Null),
+  backupDirectory: String.Or(Null),
+})
+
+export type Cache = Static<typeof CacheRunType>

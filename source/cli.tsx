@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import React from 'react';
 import { render } from 'ink';
+import React from 'react';
 // import meow from 'meow';
 import App from './app.js';
+import Context from './context.js';
 
 // const cli = meow(
 // 	`
@@ -26,4 +27,4 @@ import App from './app.js';
 // 	},
 // );
 
-render(<App />);
+render(<Context><App /></Context>);

@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import { Box, Text } from 'ink';
+import React, { useContext } from 'react';
 
-import { PageComputeMissing, PageMainMenu } from './pages/index.js';
+import { context } from './context.js';
+import PageExit from './pages/Exit.js';
+import { PageComputeMissing, PageComputeMissingSetup, PageMainMenu } from './pages/index.js';
 import { AppPage } from './types.js';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState(AppPage.MainMenu);
+  const { state: { activePage } } = useContext(context)
 
-  switch (currentPage) {
+  console.log('active page', activePage)
+
+  switch (activePage) {
     case AppPage.MainMenu:
-      return <PageMainMenu setCurrentPage={setCurrentPage} />;
-    case AppPage.CheckFilesSetup:
-      return <PageComputeMissing setCurrentPage={setCurrentPage} />;
+      return <PageMainMenu />;
+    case AppPage.ComputeMissingSetup:
+      return <PageComputeMissingSetup />;
+    case AppPage.ComputeMissing:
+      return <PageComputeMissing />
     case AppPage.Exit:
-      return <Text>Farewell</Text>;
-    default:
-      return <Box><Text>You shouldn't see this.</Text></Box>;
+      return <PageExit />
   }
 }
