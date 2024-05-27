@@ -12,8 +12,8 @@ export type BasePageProps = {
 }
 
 export const CacheRunType = Record({
-  activeDirectory: String.Or(Null),
-  backupDirectory: String.Or(Null),
+  activeRootDirectory: String.Or(Null),
+  backupRootDirectory: String.Or(Null),
 })
 
 export type Cache = Static<typeof CacheRunType>

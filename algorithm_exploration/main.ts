@@ -5,7 +5,7 @@ const DEBUG = false
 
 const findMissingFiles = async (backupLibraryRoot: string, activeLibraryRoot: string): Promise<string[]> => {
   const backupHashList: Record<string, string> = {};
- cd const activeHashList: Record<string, string> = {};
+ const activeHashList: Record<string, string> = {};
 
   await walkDirectoryRecursivelyAndHash(backupLibraryRoot, backupHashList);
   await walkDirectoryRecursivelyAndHash(activeLibraryRoot, activeHashList);

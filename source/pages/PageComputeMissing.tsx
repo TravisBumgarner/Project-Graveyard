@@ -1,42 +1,49 @@
-import { Box, Text } from "ink";
+import { Box, Newline, Text } from "ink";
 import Spinner from 'ink-spinner';
 import React, { useContext, useMemo, useState } from "react";
 
 import { useAsyncEffect } from "use-async-effect";
+import findMissingFiles from "../algorithms/findMissingFiles.js";
+import { walkDirectoryRecursivelyAndHash } from "../algorithms/walkDirectoryRecursivelyAndHash.js";
 import { context } from "../context.js";
 import { BasePageProps } from "../types.js";
+
 
 type PageProps = {
 
 }
 
 enum Status {
-  CalculatingActiveDirectory = "calculating-active-directory",
-  CalculatingBackupDirectory = "calculating-backup-directory",
+  CalculatingactiveRootDirectory = "calculating-active-directory",
+  CalculatingbackupRootDirectory = "calculating-backup-directory",
   Idle = "idle"
 }
 
-function pauseFiveSeconds() {
-  return new Promise(resolve => setTimeout(resolve, 5000));
-}
-
 const PageComputeMissing = ({ }: PageProps & BasePageProps) => {
-  const { state: { activeDirectory, backupDirectory } } = useContext(context)
+  const { state: { activeRootDirectory, backupRootDirectory } } = useContext(context)
   const [status, setStatus] = useState<Status>(Status.Idle)
+  const [missingFileCount, setMissingFileCount] = useState<number | null>(null)
 
-  const calculateActiveDirectory = async () => {
-    setStatus(Status.CalculatingActiveDirectory)
-    await pauseFiveSeconds()
-    setStatus(Status.CalculatingBackupDirectory)
-    await pauseFiveSeconds()
+  const calculateactiveRootDirectory = async () => {
+    const backupHashList: Record<string, string> = {};
+    const activeHashList: Record<string, string> = {};
+
+    setStatus(Status.CalculatingactiveRootDirectory);
+    await walkDirectoryRecursivelyAndHash(backupRootDirectory, backupHashList);
+
+    setStatus(Status.CalculatingbackupRootDirectory);
+    await walkDirectoryRecursivelyAndHash(activeRootDirectory, activeHashList);
+
+    const missingFiles = await findMissingFiles({ backupHashList, activeHashList })
+    setMissingFileCount(missingFiles.length)
     setStatus(Status.Idle)
   }
 
-  useAsyncEffect(async () => await calculateActiveDirectory(), [])
+  useAsyncEffect(async () => await calculateactiveRootDirectory(), [])
 
   const statusDisplay = useMemo(() => {
     switch (status) {
-      case Status.CalculatingActiveDirectory:
+      case Status.CalculatingactiveRootDirectory:
         return (
           <Box>
             <Text color="green">
@@ -45,7 +52,7 @@ const PageComputeMissing = ({ }: PageProps & BasePageProps) => {
             <Text>Calculating Active Directory</Text>
           </Box>
         )
-      case Status.CalculatingBackupDirectory:
+      case Status.CalculatingbackupRootDirectory:
         return (
           <Box>
             <Text color="green">
@@ -58,6 +65,8 @@ const PageComputeMissing = ({ }: PageProps & BasePageProps) => {
         return (
           <Box>
             <Text>Idle</Text>
+            <Newline /><Newline />
+            <Text>Missing Files: {missingFileCount}</Text>
           </Box>
         )
     }
@@ -66,10 +75,10 @@ const PageComputeMissing = ({ }: PageProps & BasePageProps) => {
   return (
     <Box flexDirection="column">
       <Box>
-        <Text>Selected Active Directory: {activeDirectory}</Text>
+        <Text>Selected Active Directory: {activeRootDirectory}</Text>
       </Box>
       <Box>
-        <Text>Select Backup Directory: {backupDirectory}</Text>
+        <Text>Select Backup Directory: {backupRootDirectory}</Text>
       </Box>
       {statusDisplay}
     </Box>

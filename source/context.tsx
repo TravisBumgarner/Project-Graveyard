@@ -6,15 +6,15 @@ import { AppPage } from './types.js';
 import { readCache } from './utils.js';
 
 interface State {
-  activeDirectory: string | null,
-  backupDirectory: string | null,
+  activeRootDirectory: string,
+  backupRootDirectory: string,
   activePage: AppPage,
 
 }
 
 const EMPTY_STATE: State = {
-  activeDirectory: null,
-  backupDirectory: null,
+  activeRootDirectory: "",
+  backupRootDirectory: "",
   activePage: AppPage.MainMenu,
 }
 
@@ -28,8 +28,8 @@ interface SetPage {
 interface SetDirectories {
   type: 'SET_DIRECTORIES'
   payload: {
-    activeDirectory: string,
-    backupDirectory: string,
+    activeRootDirectory: string,
+    backupRootDirectory: string,
     page: AppPage
   }
 }
@@ -37,8 +37,8 @@ interface SetDirectories {
 interface HydrateFromCache {
   type: 'HYDRATE_FROM_CACHE'
   payload: {
-    activeDirectory: string | null,
-    backupDirectory: string | null,
+    activeRootDirectory: string,
+    backupRootDirectory: string,
   }
 }
 
@@ -52,8 +52,8 @@ const reducer = (state: State, action: Action): State => {
     case 'HYDRATE_FROM_CACHE': {
       return {
         ...state,
-        activeDirectory: action.payload.activeDirectory,
-        backupDirectory: action.payload.backupDirectory,
+        activeRootDirectory: action.payload.activeRootDirectory,
+        backupRootDirectory: action.payload.backupRootDirectory,
       }
     }
     case 'SET_PAGE': {
@@ -62,8 +62,8 @@ const reducer = (state: State, action: Action): State => {
     case 'SET_DIRECTORIES': {
       return {
         ...state,
-        activeDirectory: action.payload.activeDirectory,
-        backupDirectory: action.payload.backupDirectory,
+        activeRootDirectory: action.payload.activeRootDirectory,
+        backupRootDirectory: action.payload.backupRootDirectory,
         activePage: action.payload.page
       }
     }
@@ -85,12 +85,12 @@ const ResultsContext = ({ children }: { children: any }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useAsyncEffect(async () => {
-    const { backupDirectory, activeDirectory } = await readCache()
+    const { backupRootDirectory, activeRootDirectory } = await readCache()
     dispatch({
       type: 'HYDRATE_FROM_CACHE',
       payload: {
-        activeDirectory,
-        backupDirectory,
+        activeRootDirectory: activeRootDirectory || '',
+        backupRootDirectory: backupRootDirectory || '',
       }
     })
     setIsLoading(false)

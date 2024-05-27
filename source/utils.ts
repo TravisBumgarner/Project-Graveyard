@@ -14,8 +14,8 @@ export const cacheData = async (data: Cache) => {
 }
 
 const EMPTY_CACHE: Cache = {
-  activeDirectory: null,
-  backupDirectory: null,
+  activeRootDirectory: null,
+  backupRootDirectory: null,
 }
 
 export const readCache = async (): Promise<Cache> => {
